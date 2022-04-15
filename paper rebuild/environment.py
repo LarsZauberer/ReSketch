@@ -22,10 +22,20 @@ class ShapeDraw(object):
         #possible outputs
         self.actionspace = range(self.p*self.p*2)
 
-        self.agentPos = (random.randrange(0, self.s), random.randrange(0, self.s))
+        #initializes rest
         self.reference = referenceData[0]
         self.curRef = 0
+        self.agentPos
+        self.set_agentPos(random.randrange(0, self.s), random.randrange(0, self.s))
         
+
+        self.lastReward
+        self.reward
+        
+    def set_agentPos(self, x, y):
+        self.agentPos = (x, y)
+        self.update_distmap()
+
     def update_distmap(self):
         x0 = self.agentPos[1]
         y0 = self.agentPos[2]
@@ -50,6 +60,19 @@ class ShapeDraw(object):
     def reset(self):
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
+        self.canvas = np.full((self.s, self.s), 1)
+        self.update_colmap(0)
+        self.set_agentPos(random.randrange(0, self.s), random.randrange(0, self.s))
+
+    
+
+
+    
+
+        
+
+
+
 
 
 
