@@ -57,7 +57,6 @@ def drawline(setpos, pos, canvas):
     return canvas
 
 
-
 class ShapeDraw(object):
     def __init__(self, sidelength, patchsize, referenceData):
         self.s = sidelength
@@ -82,7 +81,6 @@ class ShapeDraw(object):
         self.agentPos = [0,0]
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.set_agentPos([random.randrange(0, self.s), random.randrange(0, self.s)])
-
          
     def set_agentPos(self, pos):
         if self.isDrawing:
@@ -114,7 +112,6 @@ class ShapeDraw(object):
                 self.canvas_patch[y][x] = self.canvas[patchY+y][patchX+x]
 
     
-    
     def step(self, agent_action):
         action = [0,0]
         self.isDrawing = 1
@@ -127,15 +124,23 @@ class ShapeDraw(object):
         
         action = [x,y]
         self.set_agentPos(action)
+        reward = 0
+        return self.reference, self.canvas, self.distmap, self.colmap, self.ref_patch, self.canvas_patch
+
+
+
+
     
     def reset(self):
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
         self.canvas = np.full((self.s, self.s), 1)
-        self.update_colmap(0)
         self.set_agentPos(random.randrange(0, self.s), random.randrange(0, self.s))
+        return self.reference, self.canvas, self.distmap, self.colmap, self.ref_patch, self.canvas_patch
 
-        
+
+
+
 
 
         
@@ -145,10 +150,10 @@ class ShapeDraw(object):
 
 
 
-env = ShapeDraw(84, 11, (5,5))
+""" env = ShapeDraw(84, 11, (5,5))
 
 print(len(env.canvas_patch))
-print(env.distmap)
+print(env.distmap) """
 
 
 
