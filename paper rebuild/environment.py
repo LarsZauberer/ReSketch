@@ -76,11 +76,14 @@ class ShapeDraw(object):
         self.actionspace = range(self.p*self.p*2)
 
         #initializes rest
+        self.lastSim = 0
         self.reference = referenceData[0]
         self.curRef = 0
         self.agentPos = [0,0]
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.set_agentPos([random.randrange(0, self.s), random.randrange(0, self.s)])
+
+
          
     def set_agentPos(self, pos):
         if self.isDrawing:
@@ -111,7 +114,18 @@ class ShapeDraw(object):
                 self.ref_patch[y][x] = reference[patchY+y][patchX+x]
                 self.canvas_patch[y][x] = self.canvas[patchY+y][patchX+x]
 
-    
+    def reward(self):
+        reward
+        similarity = 0
+        for i in range(self.s):
+            for j in range(self.s):
+                similarity += (self.canvas[i][j] - self.reference[i][j])**2
+        similarity = similarity/(self.s**2)
+        reward = similarity - self.lastSim
+        self.lastSim = similarity
+
+        return reward # Add on (from paper): Reward big steps
+
     def step(self, agent_action):
         action = [0,0]
         self.isDrawing = 1
@@ -124,13 +138,11 @@ class ShapeDraw(object):
         
         action = [x,y]
         self.set_agentPos(action)
-        reward = 0
-        return self.reference, self.canvas, self.distmap, self.colmap, self.ref_patch, self.canvas_patch
+        
+        reward = self.reward()
 
+        return self.reference, self.canvas, self.distmap, self.colmap, self.ref_patch, self.canvas_patch, reward
 
-
-
-    
     def reset(self):
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
