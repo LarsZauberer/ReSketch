@@ -143,8 +143,13 @@ class ShapeDraw(object):
 
         return reward # Add on (from paper): Reward big steps
 
-    def move_isLegal():
-        """Todo: Return False for all moves, that land over Canvas (maybe: within 1 Pixel aswell, if not too much wasted computing power)"""
+    def move_isLegal(self, action):
+        if action[0] >= len(self.canvas[0]) or action[0] < 0:
+            return False
+        if action[1] >= len(self.canvas) or action[1] < 0:
+            return False
+        return True
+
 
     
 
