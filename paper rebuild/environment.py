@@ -30,9 +30,9 @@ def drawline(setpos, pos, canvas):
             linePix[i][1] = setpos[1]+move
 
         for pix in linePix:
-            canvas[pix[1]][pix[0]-weight] = 1
-            canvas[pix[1]][pix[0]+weight] = 1
-            canvas[pix[1]][pix[0]] = 1
+            canvas[pix[1]][pix[0]-weight] = 0
+            canvas[pix[1]][pix[0]+weight] = 0
+            canvas[pix[1]][pix[0]] = 0
     else:
         inc = int(ma.copysign(1,dy))
         for i in range(0, dy+inc, inc):
@@ -50,12 +50,11 @@ def drawline(setpos, pos, canvas):
             linePix[i][0] = setpos[0]+move
 
         for pix in linePix:
-            canvas[pix[1]][pix[0]+weight] = 1
-            canvas[pix[1]][pix[0]-weight] = 1
-            canvas[pix[1]][pix[0]] = 1
+            canvas[pix[1]][pix[0]+weight] = 0
+            canvas[pix[1]][pix[0]-weight] = 0
+            canvas[pix[1]][pix[0]] = 0
     
     return canvas
-
 
 class ShapeDraw(object):
     def __init__(self, sidelength, patchsize, referenceData):
@@ -83,8 +82,26 @@ class ShapeDraw(object):
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.set_agentPos([random.randrange(0, self.s), random.randrange(0, self.s)])
 
+    def step(self, agent_action):
+        action = [0,0]
+        self.isDrawing = 1
+        
+        x = agent_action % 11
+        y = agent_action // 11
+        if y >= 11:
+            y -= 11
+            self.isDrawing = 0
+        
+        action = [x,y]
+        if self.move_isLegal(action):
+            self.set_agentPos(action)
+        else:
+            self.isDrawing = False
+        
+        reward = self.reward() if self.isDrawing else 0
 
-         
+        return self.reference, self.canvas, self.distmap, self.colmap, self.ref_patch, self.canvas_patch, reward
+
     def set_agentPos(self, pos):
         if self.isDrawing:
             self.canvas = drawline(self.agentPos, pos, self.canvas)
@@ -126,22 +143,10 @@ class ShapeDraw(object):
 
         return reward # Add on (from paper): Reward big steps
 
-    def step(self, agent_action):
-        action = [0,0]
-        self.isDrawing = 1
-        
-        x = agent_action % 11
-        y = agent_action // 11
-        if y >= 11:
-            y -= 11
-            self.isDrawing = 0
-        
-        action = [x,y]
-        self.set_agentPos(action)
-        
-        reward = self.reward()
+    def move_isLegal():
+        """Todo: Return False for all moves, that land over Canvas (maybe: within 1 Pixel aswell, if not too much wasted computing power)"""
 
-        return self.reference, self.canvas, self.distmap, self.colmap, self.ref_patch, self.canvas_patch, reward
+    
 
     def reset(self):
         self.curRef += 1
