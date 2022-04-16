@@ -3,59 +3,6 @@ import random
 import numpy as np
 import math as ma
 
-#draws Line directly on bitmap to save convert
-def drawline(setpos, pos, canvas):
-    weight = 1
-    dx = pos[0] - setpos[0] 
-    dy = pos[1] - setpos[1] 
-    linePix = []
-
-    if dx == 0 and dy == 0:
-        return
-
-    if abs(dx) > abs(dy):
-        inc = int(ma.copysign(1,dx))
-        for i in range(0, dx+inc, inc):
-            linePix.append([setpos[0]+i, 0])
-        
-        step = dy/(abs(dx)+1)
-        sign = int(ma.copysign(1,dy))
-        move = 0
-        res = 0
-        for i in range((abs(dx)+1)):
-            res += step
-            if sign*res >= 0.5:
-                move += sign
-                res -= sign
-            linePix[i][1] = setpos[1]+move
-
-        for pix in linePix:
-            canvas[pix[1]][pix[0]-weight] = 0
-            canvas[pix[1]][pix[0]+weight] = 0
-            canvas[pix[1]][pix[0]] = 0
-    else:
-        inc = int(ma.copysign(1,dy))
-        for i in range(0, dy+inc, inc):
-            linePix.append([0, setpos[1]+i])
-        
-        step = dx/(abs(dy)+1)
-        sign = int(ma.copysign(1,dx))
-        move = 0
-        res = 0
-        for i in range((abs(dy)+1)):
-            res += step
-            if sign*res >= 0.5:
-                move += sign
-                res -= sign
-            linePix[i][0] = setpos[0]+move
-
-        for pix in linePix:
-            canvas[pix[1]][pix[0]+weight] = 0
-            canvas[pix[1]][pix[0]-weight] = 0
-            canvas[pix[1]][pix[0]] = 0
-    
-    return canvas
-
 class ShapeDraw(object):
     def __init__(self, sidelength, patchsize, referenceData):
         self.s = sidelength
@@ -72,7 +19,7 @@ class ShapeDraw(object):
         self.canvas_patch = np.zeros((self.p, self.p))
 
         #possible outputs
-        self.actionspace = range(self.p*self.p*2)
+        self.n_actions= self.p*self.p*2
 
         #initializes rest
         self.lastSim = 0
@@ -86,10 +33,10 @@ class ShapeDraw(object):
         action = [0,0]
         self.isDrawing = 1
         
-        x = agent_action % 11
-        y = agent_action // 11
-        if y >= 11:
-            y -= 11
+        x = agent_action % self.p
+        y = agent_action // self.p
+        if y >= self.p:
+            y -= self.p
             self.isDrawing = 0
         
         action = [x,y]
@@ -150,58 +97,91 @@ class ShapeDraw(object):
             return False
         return True
 
-
-    
-
     def reset(self):
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
         self.canvas = np.full((self.s, self.s), 1)
         self.set_agentPos(random.randrange(0, self.s), random.randrange(0, self.s))
         return self.reference, self.canvas, self.distmap, self.colmap, self.ref_patch, self.canvas_patch
+    
 
+#draws Line directly on bitmap to save convert
+def drawline(setpos, pos, canvas):
+    weight = 1
+    dx = pos[0] - setpos[0] 
+    dy = pos[1] - setpos[1] 
+    linePix = []
 
+    if dx == 0 and dy == 0:
+        return
 
-
-
-
+    if abs(dx) > abs(dy):
+        inc = int(ma.copysign(1,dx))
+        for i in range(0, dx+inc, inc):
+            linePix.append([setpos[0]+i, 0])
         
+        step = dy/(abs(dx)+1)
+        sign = int(ma.copysign(1,dy))
+        move = 0
+        res = 0
+        for i in range((abs(dx)+1)):
+            res += step
+            if sign*res >= 0.5:
+                move += sign
+                res -= sign
+            linePix[i][1] = setpos[1]+move
+
+        for pix in linePix:
+            canvas[pix[1]][pix[0]-weight] = 0
+            canvas[pix[1]][pix[0]+weight] = 0
+            canvas[pix[1]][pix[0]] = 0
+    else:
+        inc = int(ma.copysign(1,dy))
+        for i in range(0, dy+inc, inc):
+            linePix.append([0, setpos[1]+i])
+        
+        step = dx/(abs(dy)+1)
+        sign = int(ma.copysign(1,dx))
+        move = 0
+        res = 0
+        for i in range((abs(dy)+1)):
+            res += step
+            if sign*res >= 0.5:
+                move += sign
+                res -= sign
+            linePix[i][0] = setpos[0]+move
+
+        for pix in linePix:
+            canvas[pix[1]][pix[0]+weight] = 0
+            canvas[pix[1]][pix[0]-weight] = 0
+            canvas[pix[1]][pix[0]] = 0
+    
+    return canvas
+
+
+
             
         
 
-
-
-
-""" env = ShapeDraw(84, 11, (5,5))
-
-print(len(env.canvas_patch))
-print(env.distmap) """
+        
 
 
 
 
-    
 
 
-    
 
 
-    
 
-    
+
+
+
+
+
+
+
 
     
-    
-
-if __name__ == "__main__":
-
-    """
-    ToDo:
-        - load training data
-        - convert to bitmap?
-        - shuffle training data
-        - 
-    """
 
 
         
