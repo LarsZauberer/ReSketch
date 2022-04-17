@@ -42,12 +42,10 @@ class DeepQNetwork(object):
             dense1 = tf.layers.dense(flat, units=self.fc1_dims, activation=tf.nn.relu,
                                     kernel_initializer=tf.variance_scaling_initializer(scale=2))
 
+
             #This Function runs NN. it is the output layer and recursively calls previous layers.
             self.Q_values = tf.layers.dense(dense1, units=self.n_actions,
                                     kernel_initializer=tf.variance_scaling_initializer(scale=2))
-
-
-
 
 
             # loss function: Optimizer tries to minimize value. 
@@ -133,7 +131,6 @@ class Agent(object):
         q_eval = self.q_eval.sess.run(self.q_eval.Q_values, feed_dict={self.q_eval.input: state_batch})
         #evaluation network
         q_next = self.q_next.sess.run(self.q_next.Q_values, feed_dict={self.q_next.input: new_state_batch})
-
 
         #Calculates optimal output for training. ( Bellman Equation !! )
         q_target = q_eval.copy()
