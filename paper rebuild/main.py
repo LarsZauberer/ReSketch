@@ -18,11 +18,10 @@ if __name__ == '__main__':
 
     env = ShapeDraw(84, 84, [5,5])
     load_checkpoint = False
-    agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.000025, input_dims=(180,160,4),
-                n_actions=3, mem_size=25000, batch_size=64)
+    agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.000025, global_input_dims=(4,84,84), local_input_dims=(2,11,11),
+                n_actions=11*11*2, mem_size=25000, batch_size=64)
     if load_checkpoint:
         agent.load_models()
-    filename = 'breakout-alpha0p000025-gamma0p9-only-one-fc-2.png'
     scores = []
     eps_history = []
     num_episodes = 50000
@@ -32,7 +31,6 @@ if __name__ == '__main__':
     
     #ToDo: Fill memory?
 
-    
     for i in range(num_episodes):
         global_obs, local_obs = env.reset()
         score = 0
