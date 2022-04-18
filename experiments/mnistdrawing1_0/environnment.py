@@ -11,7 +11,7 @@ class Canvas(py_environment.PyEnvironment):
         input_shape = (28*28)+(28*28)+2 # 28x28 image, 28x28 image, 2D Location
         
         self._action_spec = array_spec.BoundedArraySpec(
-        shape=(), dtype=np.int32, minimum=1, maximum=200, name='action')
+        shape=(), dtype=np.int32, minimum=0, maximum=4*4-1, name='action')
         self._observation_spec = array_spec.BoundedArraySpec(
             shape=(input_shape,), dtype=np.int32, name='observation')
         
@@ -68,6 +68,16 @@ class Canvas(py_environment.PyEnvironment):
                 self.pen_location[0] -= 1
             elif direction == 4:
                 self.pen_location[1] -= 1
+            
+            # Bordering
+            if self.pen_location[0] >= 28:
+                self.pen_location[0] = 27
+            if self.pen_location[0] < 0:
+                self.pen_location[0] = 0
+            if self.pen_location[1] >= 28:
+                self.pen_location[1] = 27
+            if self.pen_location[1] < 0:
+                self.pen_location[1] = 0
         
         
         for i, e in zip(self.currentCanvas, self.originalImage):
@@ -86,7 +96,7 @@ class Canvas(py_environment.PyEnvironment):
         else:
             return ts.transition(np.array(self.create_state(), dtype=np.int32), reward=reward, discount=1.0)
         
-    def render(self):
+    def render(self, mode='None'):
         plt.imshow(self.currentCanvas.reshape(28, 28), cmap='gray')
         plt.show()
 
@@ -109,11 +119,9 @@ class Canvas(py_environment.PyEnvironment):
     def _calc_dir_length(self, action):
         dir_count = 1
         length = 1
-        for i in range(1, 201):
-            if action == 0:
-                return 1, 0, False
+        for i in range(200):
             if abs(action) == i:
-                return dir_count, length, (action > 0)
+                return dir_count, length, True
 
             dir_count += 1
             if dir_count >= 5:
