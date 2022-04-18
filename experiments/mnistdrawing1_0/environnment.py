@@ -1,20 +1,31 @@
 from tf_agents.environments import py_environment
 from tf_agents.trajectories import time_step as ts
 from tf_agents.specs import array_spec
-import pygame as pg
+import matplotlib.pyplot as plt
 
 import numpy as np
 
 
 class Canvas(py_environment.PyEnvironment):
-    def __init__(self):
+    def __init__(self, img: np.ndarray, max_strokes: int=200):
+        input_shape = (28*28)+(28*28)+2 # 28x28 image, 28x28 image, 2D Location
+        
         self._action_spec = array_spec.BoundedArraySpec(
         shape=(), dtype=np.int32, minimum=1, maximum=200, name='action')
         self._observation_spec = array_spec.BoundedArraySpec(
-            shape=(9,), dtype=np.int32, name='observation')
-        self._state = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        self.status = np.array(self._state).reshape(3, 3)
+            shape=(input_shape,), dtype=np.int32, name='observation')
+        
+        # States
+        self.originalImage = self.preprocess_image(img)
+        self.currentCanvas = np.zeros(28*28, dtype=np.int32)
+        self.pen_location = np.array([5, 5], dtype=np.int32)
+        
+        self.max_strokes = max_strokes
+        self.strokes = 0
+        
         self._episode_ended = False
+        
+        self._state = self.create_state()
 
     def action_spec(self):
         return self._action_spec
@@ -23,29 +34,100 @@ class Canvas(py_environment.PyEnvironment):
         return self._observation_spec
 
     def _reset(self):
-        # TODO: Set the _state
-        self._state = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.currentCanvas = np.zeros(28*28, dtype=np.int32)
+        self.pen_location = np.array([5, 5], dtype=np.int32)
+        self.strokes = 0
         
         self._episode_ended = False
-        return ts.restart(np.array(self._state, dtype=np.int32))
+        
+        self._state = self.create_state()
+        
+        return ts.restart(np.array(self.create_state(), dtype=np.int32))
 
     def _step(self, action):
-        pass
-    
+        if self._episode_ended:
+            # The last action ended the episode. Ignore the current action and start
+            # a new episode.
+            return self.reset()
+        
+        reward = 0.0
+        
+        direction, length, drawing = self._calc_dir_length(action)
+        
+        canvasre = self.currentCanvas.reshape(28, 28)
+        
+        # Draw the line
+        for i in range(length):
+            if drawing:
+                canvasre[self.pen_location[1]][self.pen_location[0]] = 255
+            if direction == 1:
+                self.pen_location[0] += 1
+            elif direction == 2:
+                self.pen_location[1] += 1
+            elif direction == 3:
+                self.pen_location[0] -= 1
+            elif direction == 4:
+                self.pen_location[1] -= 1
+        
+        
+        for i, e in zip(self.currentCanvas, self.originalImage):
+            if i == e and i == 255:
+                reward += 1
+            else:
+                reward -= 0.1
+        
+        self.strokes += 1
+        
+        self._state = self.create_state()
+        
+        if self.strokes >= self.max_strokes:
+            self._episode_ended = True
+            return ts.termination(np.array(self.create_state(), dtype=np.int32), reward)
+        else:
+            return ts.transition(np.array(self.create_state(), dtype=np.int32), reward=reward, discount=1.0)
+        
     def render(self):
-        pass
+        plt.imshow(self.currentCanvas.reshape(28, 28), cmap='gray')
+        plt.show()
 
     def metrics(self, policy, num_episodes=10):
-        pass
+        total_return = 0.0
+        for _ in range(num_episodes):
+
+            time_step = self.reset()
+            episode_return = 0.0
+
+            while not time_step.is_last():
+                action_step = policy.action(time_step)
+                time_step = self.step(action_step.action)
+                episode_return += time_step.reward
+                total_return += episode_return
+
+        avg_return = total_return / num_episodes
+        return avg_return.numpy()[0]
     
     def _calc_dir_length(self, action):
         dir_count = 1
+        length = 1
         for i in range(1, 201):
-            if action == dir_count:
-                return dir_count, action // dir_count
-            
+            if action == 0:
+                return 1, 0, False
+            if abs(action) == i:
+                return dir_count, length, (action > 0)
+
             dir_count += 1
             if dir_count >= 5:
                 dir_count = 1
-        
-        raise ValueError('Invalid action: {}'.format(action))
+                length += 1
+
+        raise ValueError(f'Invalid action: {action}')
+
+    def create_state(self):
+        return list(self.originalImage) + list(self.currentCanvas) + list(self.pen_location)
+    
+    def preprocess_image(self, img):
+        a = img.reshape(28*28,)
+        for index, item in enumerate(a):
+            if item > 0:
+                a[index] = 255
+        return a
