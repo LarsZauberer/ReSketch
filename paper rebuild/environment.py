@@ -70,13 +70,15 @@ class ShapeDraw(object):
             for x in range(self.s):
                 self.colmap[y][x] = self.isDrawing
     
-    def update_patch(self, reference):
-        patchX = self.agentPos[0]-(self.p-1)/2
-        patchY = self.agentPos[1]-(self.p-1)/2
+    def update_patch(self):
+        patchX = int(self.agentPos[0]-(self.p-1)/2)
+        patchY = int(self.agentPos[1]-(self.p-1)/2)
         for y in range(self.p):
             for x in range(self.p):
-                self.ref_patch[y][x] = reference[patchY+y][patchX+x]
-                self.canvas_patch[y][x] = self.canvas[patchY+y][patchX+x]
+                yInd = 0 if patchY+y >= len(self.reference) else patchY+y
+                xInd = 0 if patchX+x >= len(self.reference[0]) else patchX+x
+                self.ref_patch[y][x] = self.reference[yInd][xInd]
+                self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
     def reward(self):
         reward
@@ -157,36 +159,3 @@ def drawline(setpos, pos, canvas):
             canvas[pix[1]][pix[0]] = 0
     
     return canvas
-
-
-
-            
-        
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-        
-    
-
-
-
-
