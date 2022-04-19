@@ -1,5 +1,4 @@
 import os
-from threading import local
 import tensorflow as tf
 import numpy as np
 
