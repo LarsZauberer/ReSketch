@@ -55,6 +55,7 @@ class Canvas(py_environment.PyEnvironment):
         direction, length, drawing = self._calc_dir_length(action)
         
         canvasre = self.currentCanvas.reshape(28, 28)
+        canvBefore = canvasre.copy().reshape(28*28,)
         
         # Draw the line
         for i in range(length):
@@ -80,11 +81,19 @@ class Canvas(py_environment.PyEnvironment):
                 self.pen_location[1] = 0
         
         
+        # Calculate the current reward
         for i, e in zip(self.currentCanvas, self.originalImage):
             if i == e and i == 255:
                 reward += 1
-            else:
-                reward -= 0.1
+        
+        # Calculate the reward before
+        rewardBefore = 0.0
+        for i, e in zip(canvBefore, self.originalImage):
+            if i == e and i == 255:
+                rewardBefore += 1
+        
+        # Don't get the same reward every time again
+        reward = reward - rewardBefore
         
         self.strokes += 1
         
@@ -94,7 +103,7 @@ class Canvas(py_environment.PyEnvironment):
             self._episode_ended = True
             return ts.termination(np.array(self.create_state(), dtype=np.int32), reward)
         else:
-            return ts.transition(np.array(self.create_state(), dtype=np.int32), reward=reward, discount=1.0)
+            return ts.transition(np.array(self.create_state(), dtype=np.int32), reward=reward, discount=0.5)
         
     def render(self, mode='None'):
         plt.imshow(self.currentCanvas.reshape(28, 28), cmap='gray')
