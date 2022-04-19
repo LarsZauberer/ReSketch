@@ -79,21 +79,15 @@ class Canvas(py_environment.PyEnvironment):
                 self.pen_location[1] = 27
             if self.pen_location[1] < 0:
                 self.pen_location[1] = 0
-        
-        
+                
+        self.currentCanvas = canvasre.reshape(28*28,)
+
+
         # Calculate the current reward
-        for i, e in zip(self.currentCanvas, self.originalImage):
+        for i, e, j in zip(self.currentCanvas, self.originalImage, canvBefore):
             if i == e and i == 255:
-                reward += 1
-        
-        # Calculate the reward before
-        rewardBefore = 0.0
-        for i, e in zip(canvBefore, self.originalImage):
-            if i == e and i == 255:
-                rewardBefore += 1
-        
-        # Don't get the same reward every time again
-        reward = reward - rewardBefore
+                if i != j:
+                    reward += 1
         
         self.strokes += 1
         
