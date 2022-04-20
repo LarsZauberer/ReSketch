@@ -12,7 +12,7 @@ class Canvas(py_environment.PyEnvironment):
         input_shape = (28*28)+(28*28)+2 # 28x28 image, 28x28 image, 2D Location
         
         self._action_spec = array_spec.BoundedArraySpec(
-        shape=(), dtype=np.int32, minimum=0, maximum=4*4-1, name='action')
+        shape=(), dtype=np.int32, minimum=0, maximum=1*4-1, name='action')
         self._observation_spec = array_spec.BoundedArraySpec(
             shape=(input_shape,), dtype=np.int32, name='observation')
         
@@ -89,6 +89,9 @@ class Canvas(py_environment.PyEnvironment):
             if i == e and i == 255:
                 if i != j:
                     reward += 1
+            elif i == 255 and e == 0:
+                if i != j:
+                    reward -= 0.1
         
         self.strokes += 1
         
