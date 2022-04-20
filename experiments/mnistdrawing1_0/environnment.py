@@ -1,3 +1,4 @@
+import enum
 from tf_agents.environments import py_environment
 from tf_agents.trajectories import time_step as ts
 from tf_agents.specs import array_spec
@@ -100,8 +101,38 @@ class Canvas(py_environment.PyEnvironment):
             return ts.transition(np.array(self.create_state(), dtype=np.int32), reward=reward, discount=0.5)
         
     def render(self, mode='None'):
-        plt.imshow(self.currentCanvas.reshape(28, 28), cmap='gray')
-        plt.show()
+        if mode == "compare":
+            # Calculate same pixels
+            currentCanvasRender = self.currentCanvas.copy()
+            originalImageRender = self.originalImage.copy()
+            for index, item in enumerate(zip(self.currentCanvas, self.originalImage)):
+                i, e = item
+                if i == e and i == 255:
+                    currentCanvasRender[index] = 255
+                    originalImageRender[index] = 255
+                elif i == 255:
+                    currentCanvasRender[index] = 50
+                elif e == 255:
+                    originalImageRender[index] = 50
+            
+            fig = plt.figure(figsize=(10, 7))
+            
+            # Original image
+            fig.add_subplot(2, 2, 1)
+            plt.imshow(originalImageRender.reshape(28, 28), cmap='gray', label='Original', vmin=0, vmax=255)
+            plt.axis("off")
+            plt.title("Original")
+            
+            # AI Generated Image
+            fig.add_subplot(2, 2, 2)
+            plt.imshow(currentCanvasRender.reshape(28, 28), cmap='gray', label='AI Canvas', vmin=0, vmax=255)
+            plt.axis("off")
+            plt.title("AI Canvas")
+            
+            fig.show()
+        else:
+            plt.imshow(self.currentCanvas.reshape(28, 28), cmap='gray')
+            plt.show()
 
     def metrics(self, policy, num_episodes=10):
         total_return = 0.0
