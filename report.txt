@@ -1,0 +1,56 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 1 files
+Detected 1 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: nn_agent.py
+--------------------------------------------------------------------------------
+nn_agent.py:73:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+================================================================================
+Detailed log follows:
+
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'nn_agent.py'
+ outputting to 'nn_agent2.py'
+--------------------------------------------------------------------------------
+
+16:20: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+18:22: INFO: Renamed 'tf.global_variables_initializer' to 'tf.compat.v1.global_variables_initializer'
+21:21: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+23:22: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+23:40: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+26:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+27:32: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+28:31: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+29:28: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+32:25: INFO: Renamed 'tf.layers.conv2d' to 'tf.compat.v1.layers.conv2d'
+33:55: INFO: tf.variance_scaling_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+33:55: INFO: Renamed 'tf.variance_scaling_initializer' to 'tf.compat.v1.variance_scaling_initializer'
+36:25: INFO: Renamed 'tf.layers.conv2d' to 'tf.compat.v1.layers.conv2d'
+37:55: INFO: tf.variance_scaling_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+37:55: INFO: Renamed 'tf.variance_scaling_initializer' to 'tf.compat.v1.variance_scaling_initializer'
+40:25: INFO: Renamed 'tf.layers.conv2d' to 'tf.compat.v1.layers.conv2d'
+41:55: INFO: tf.variance_scaling_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+41:55: INFO: Renamed 'tf.variance_scaling_initializer' to 'tf.compat.v1.variance_scaling_initializer'
+46:55: INFO: tf.variance_scaling_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+46:55: INFO: Renamed 'tf.variance_scaling_initializer' to 'tf.compat.v1.variance_scaling_initializer'
+52:21: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+53:55: INFO: tf.variance_scaling_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+53:55: INFO: Renamed 'tf.variance_scaling_initializer' to 'tf.compat.v1.variance_scaling_initializer'
+56:28: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+57:55: INFO: tf.variance_scaling_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+57:55: INFO: Renamed 'tf.variance_scaling_initializer' to 'tf.compat.v1.variance_scaling_initializer'
+62:24: INFO: Added keywords to args of function 'tf.reduce_mean'
+65:28: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+73:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+196:33: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+--------------------------------------------------------------------------------
+
