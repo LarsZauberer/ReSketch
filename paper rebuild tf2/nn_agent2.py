@@ -6,7 +6,6 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.models import load_model, clone_model
 import numpy as np
 
-#Problem mit Keras: Batch size ist für Training und Predictions gleich. Schlecht weil Batch sollte für training gross sein (replay buffer), aber bei predictions sollte batch = 1
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions, batch_size, name, 
@@ -53,14 +52,20 @@ class DeepQNetwork(object):
         # loss function: Optimizer tries to minimize value. 
         # Q_value is output by network, q_target is optimal Q_value 
         # Means output of NN should approach q_target
-        loss = tf.reduce_mean(input_tensor=tf.square(self.Q_values - self.q_target))
         
         #Network is ready for calling / Training
-        self.dqn.compile(loss=loss, optimizer="adam", metrics=["accuracy"])
+        self.dqn.compile(loss=self.q_loss, optimizer="adam", metrics=["accuracy"])
 
         #training: dqn.fit(x=[global_input, local_input], y=[q_target], batch_size=self.batch_size, epochs=self.n_epochs, callbacks=[early_stopping, checkpoint])
-        #calling: dqn.predict([global_input, local_input]) or dqn([global_input, local_input])
-        
+        #calling: dqn.predict([global_input_batch, local_input_batch]) or dqn([global_input_batch, local_input_batch])
+    
+    def q_loss(self):
+        def loss(y_true, y_pred):
+            squared_difference = tf.square(y_true - y_pred)
+            return tf.reduce_mean(squared_difference, axis=-1)
+        return loss
+
+    
         
     def load_checkpoint(self):
         print("...Loading checkpoint...")
@@ -85,6 +90,8 @@ class Agent(object):
         self.epsilon = epsilon
         self.batch_size = batch_size
         self.replace_target = replace_target
+        self.global_input_dims = global_input_dims
+        self.local_input_dims = local_input_dims
 
         self.q_next = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
                                     local_input_dims=local_input_dims, name='q_next', chkpt_dir=q_next_dir)
@@ -112,11 +119,18 @@ class Agent(object):
         self.mem_cntr += 1
 
     def choose_action(self, global_state, local_state):
+        #create batch of state (prediciton must be in batches)
+        glob_batch = global_state
+        loc_batch = local_state
+        for _ in range(self.batch_size-1):
+            np.append(glob_batch, np.zeros((self.global_input_dims)), axis=0)
+            np.append(loc_batch, np.zeros((self.local_input_dims)), axis=0)
+            
         rand = np.random.random()
         if rand < self.epsilon:
             action = np.random.choice(self.action_space)
         else:
-            actions = self.q_eval.dqn([global_state, local_state])
+            actions = self.q_eval.dqn.predict([glob_batch, loc_batch])[0]
             action = np.argmax(actions)
         return action
 
@@ -137,41 +151,22 @@ class Agent(object):
         reward_batch = self.reward_memory[batch]
         new_global_state_batch = self.new_global_state_memory[batch]
         new_local_state_batch = self.new_local_state_memory[batch]
-        
 
         #runs network. also delivers output for training
-        #target network
-    
-        #q_eval = self.q_eval.dqn(
-            
-        self.q_eval.sess.run(self.q_eval.Q_values, 
-        feed_dict={
-            self.q_eval.global_input: global_state_batch, 
-            self.q_eval.local_input: local_state_batch
-        })
-        #evaluation network
-        q_next = self.q_next.sess.run(self.q_next.Q_values,
-            feed_dict={
-                self.q_next.global_input: new_global_state_batch, 
-                self.q_next.local_input: new_local_state_batch 
-            })
-
+        q_eval = self.q_eval.dqn.predict([global_state_batch, local_state_batch])  #target network
+        q_next = self.q_next.dqn.predict([new_global_state_batch, new_local_state_batch]) #evaluation network
+        
         #Calculates optimal output for training. ( Bellman Equation !! )
-        q_target = q_eval.copy()
+        q_target = np.copy(q_eval)
         idx = np.arange(self.batch_size)
         q_target[idx, action_batch] = reward_batch + self.gamma*np.max(q_next, axis=1)
 
-        #q_target = np.zeros(self.batch_size)
-        #q_target = reward_batch + self.gamma*np.max(q_next, axis=1)*terminal_batch
+
 
         #Calls training
         #Basic Training: gives input and desired output.
-        _ = self.q_eval.sess.run(self.q_eval.train_op,
-            feed_dict={
-                self.q_eval.local_input: local_state_batch, 
-                self.q_eval.global_input: global_state_batch,
-                self.q_eval.q_target: q_target
-            })
+        self.q_eval.dqn.fit(x=[global_state_batch, local_state_batch], y=q_target, batch_size=self.batch_size, epochs=50)
+
 
         #reduces Epsilon: Network relies less on exploration over time
         if self.mem_cntr > 25000:#200000:
