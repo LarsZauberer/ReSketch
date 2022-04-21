@@ -8,7 +8,7 @@ import random
 
 if __name__ == '__main__': 
     load_checkpoint = False
-    
+
     ref_Data = pd.read_csv("C:/Users/robin/OneDrive/Desktop/Maturarbeit/Nachzeichner-KI/paper rebuild/ref_Data.csv")
     ref_Data = ref_Data.drop('Unnamed: 0', axis=1)
     reference = []

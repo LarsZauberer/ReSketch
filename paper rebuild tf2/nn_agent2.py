@@ -31,13 +31,13 @@ class DeepQNetwork(object):
     def build_network(self):
         #global convolution
         glob_in = Input(shape=self.global_input_dims, batch_size=self.batch_size, name="global input")
-        glob_conv1 = Conv2D(32, (8,8), strides=4,  activation="relu", input_shape=self.global_input_dims, name="glob_conv1")(glob_in)
-        glob_conv2 = Conv2D(64, (4,4), strides=2, activation="relu", name="glob_conv2")(glob_conv1)
-        glob_conv3 = Conv2D(64, (3,3), strides=1, activation="relu", name="glob_conv3")(glob_conv2)
+        glob_conv1 = Conv2D(32, (8,8), strides=4,  activation="relu", input_shape=self.global_input_dims, padding="same", name="glob_conv1")(glob_in)
+        glob_conv2 = Conv2D(64, (4,4), strides=2, activation="relu", name="glob_conv2", padding="same")(glob_conv1)
+        glob_conv3 = Conv2D(64, (3,3), strides=1, activation="relu", name="glob_conv3", padding="same")(glob_conv2)
 
         #local convolution
         loc_in = Input(shape=self.local_input_dims, name="local input", batch_size=self.batch_size) 
-        loc_conv1 = Conv2D(128, (11,11), strides=1, activation="relu", name="loc_conv1")(loc_in)
+        loc_conv1 = Conv2D(128, (11,11), strides=1, activation="relu", name="loc_conv1", padding="same")(loc_in)
 
         #concat
         concat_model = concatenate([glob_conv3, loc_conv1], axis=2)
