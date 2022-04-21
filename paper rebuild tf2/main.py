@@ -4,32 +4,44 @@ from nn_agent2 import DeepQNetwork, Agent
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import random
 
 if __name__ == '__main__': 
     load_checkpoint = False
     
     ref_Data = pd.read_csv("C:/Users/robin/OneDrive/Desktop/Maturarbeit/Nachzeichner-KI/paper rebuild/ref_Data.csv")
-    
     ref_Data = ref_Data.drop('Unnamed: 0', axis=1)
     reference = []
     for i in range(ref_Data.shape[1]):
         reference.append(ref_Data.iloc[i].to_numpy().reshape(28,28))
 
 
-    env = ShapeDraw(28, 7, reference)
-    agent = Agent(gamma=0.99, epsilon=0, alpha=0.000025, global_input_dims=(4, 28, 28), local_input_dims=(2, 7, 7),
-                n_actions=7*7*2, mem_size=20000, batch_size=64)
+    canvas_size = 28
+    patch_size = 7
+    n_actions = 2*(patch_size**2)
+
+
+    env = ShapeDraw(canvas_size, patch_size, reference)
+    agent = Agent(gamma=0.99, epsilon=0, alpha=0.000025, global_input_dims=(4, canvas_size, canvas_size), 
+                    local_input_dims=(2, patch_size, patch_size), mem_size=20000, batch_size=64)
     if load_checkpoint:
         agent.load_models()
     scores = []
     eps_history = []
-    num_episodes = 50000
-    num_steps = 150
+    num_episodes = 6000
+    num_steps = 100
     
     score = 0
     
-    #ToDo: Fill memory?
+    #Fill replay buffer
+    g_obs, l_obs = env.reset()
+    for j in range(num_steps):
+            action = random.randint(0, n_actions-1)
+            next_g_obs, next_l_obs, reward = env.step(action)
+            agent.store_transition(g_obs, l_obs, next_g_obs, next_l_obs, action, reward)
+            g_obs = next_g_obs
+            l_obs = next_l_obs
+    
 
     for i in range(num_episodes):
         global_obs, local_obs = env.reset()

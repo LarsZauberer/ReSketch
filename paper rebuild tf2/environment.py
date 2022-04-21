@@ -47,7 +47,7 @@ class ShapeDraw(object):
         
         reward = self.reward() if self.isDrawing else 0
 
-        return [self.reference, self.canvas, self.distmap, self.colmap], [self.ref_patch, self.canvas_patch], reward
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
 
     def set_agentPos(self, pos):
         if self.isDrawing:
@@ -104,7 +104,7 @@ class ShapeDraw(object):
         self.reference = self.referenceData[self.curRef]
         self.canvas = np.full((self.s, self.s), 1)
         self.set_agentPos(random.randrange(0, self.s), random.randrange(0, self.s))
-        return [self.reference, self.canvas, self.distmap, self.colmap], [self.ref_patch, self.canvas_patch]
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
     
 
 #draws Line directly on bitmap to save convert
