@@ -10,7 +10,7 @@ class ShapeDraw(object):
         
         #Input gloabal stream
         self.referenceData = referenceData
-        self.canvas = np.full((self.s, self.s), 1)
+        self.canvas = np.zeros((self.s, self.s))
         self.distmap = np.zeros((self.s, self.s))
         self.colmap = np.zeros((self.s, self.s))
         
@@ -81,7 +81,7 @@ class ShapeDraw(object):
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
     def reward(self):
-        reward
+        reward = 0
         similarity = 0
         for i in range(self.s):
             for j in range(self.s):
@@ -103,7 +103,7 @@ class ShapeDraw(object):
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
         self.canvas = np.full((self.s, self.s), 1)
-        self.set_agentPos(random.randrange(0, self.s), random.randrange(0, self.s))
+        self.set_agentPos((random.randrange(0, self.s), random.randrange(0, self.s)))
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
     
 
@@ -134,9 +134,9 @@ def drawline(setpos, pos, canvas):
             linePix[i][1] = setpos[1]+move
 
         for pix in linePix:
-            canvas[pix[1]][pix[0]-weight] = 0
-            canvas[pix[1]][pix[0]+weight] = 0
-            canvas[pix[1]][pix[0]] = 0
+            canvas[pix[1]][pix[0]-weight] = 1
+            canvas[pix[1]][pix[0]+weight] = 1
+            canvas[pix[1]][pix[0]] = 1
     else:
         inc = int(ma.copysign(1,dy))
         for i in range(0, dy+inc, inc):
@@ -154,8 +154,8 @@ def drawline(setpos, pos, canvas):
             linePix[i][0] = setpos[0]+move
 
         for pix in linePix:
-            canvas[pix[1]][pix[0]+weight] = 0
-            canvas[pix[1]][pix[0]-weight] = 0
-            canvas[pix[1]][pix[0]] = 0
+            canvas[pix[1]][pix[0]+weight] = 1
+            canvas[pix[1]][pix[0]-weight] = 1
+            canvas[pix[1]][pix[0]] = 1
     
     return canvas

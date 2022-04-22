@@ -30,28 +30,24 @@ class DeepQNetwork(object):
         
     def build_network(self):
         #global convolution
-        glob_in = Input(shape=self.global_input_dims, batch_size=self.batch_size, name="global input")
-        glob_conv1 = Conv2D(32, (8,8), strides=4,  activation="relu", input_shape=self.global_input_dims, padding="same", name="glob_conv1")(glob_in)
-        glob_conv2 = Conv2D(64, (4,4), strides=2, activation="relu", name="glob_conv2", padding="same")(glob_conv1)
-        glob_conv3 = Conv2D(64, (3,3), strides=1, activation="relu", name="glob_conv3", padding="same")(glob_conv2)
-
+        glob_in = Input(shape=self.global_input_dims, batch_size=self.batch_size, name="global_input")
+        glob_conv1 = Conv2D(32, (8,8), strides=2,  activation="relu", input_shape=self.global_input_dims, padding="same", name="glob_conv1", data_format='channels_first')(glob_in)
+        glob_conv2 = Conv2D(64, (4,4), strides=2, activation="relu", name="glob_conv2", padding="same", data_format='channels_first')(glob_conv1)
+        glob_conv3 = Conv2D(64, (3,3), strides=1, activation="relu", name="glob_conv3", padding="same", data_format='channels_first')(glob_conv2)
+        
         #local convolution
-        loc_in = Input(shape=self.local_input_dims, name="local input", batch_size=self.batch_size) 
-        loc_conv1 = Conv2D(128, (11,11), strides=1, activation="relu", name="loc_conv1", padding="same")(loc_in)
-
+        loc_in = Input(shape=self.local_input_dims, name="local_input", batch_size=self.batch_size) 
+        loc_conv1 = Conv2D(128, (11,11), strides=1, activation="relu", name="loc_conv1", padding="same", data_format='channels_first')(loc_in)
+        
         #concat
-        concat_model = concatenate([glob_conv3, loc_conv1], axis=2)
+        concat_model = concatenate([glob_conv3, loc_conv1], axis=1)
 
         #Fully connected Layers
         concat_model = Flatten(name="Flatten")(concat_model)
         dense1 = Dense(self.fc1_dims, name="dense1")(concat_model)
-        out = Dense(self.n_actions, name="output layer")(dense1)
+        out = Dense(self.n_actions, name="output")(dense1)
 
         self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
-        
-        # loss function: Optimizer tries to minimize value. 
-        # Q_value is output by network, q_target is optimal Q_value 
-        # Means output of NN should approach q_target
         
         #Network is ready for calling / Training
         self.dqn.compile(loss=self.q_loss, optimizer="adam", metrics=["accuracy"])
@@ -59,6 +55,11 @@ class DeepQNetwork(object):
         #training: dqn.fit(x=[global_input, local_input], y=[q_target], batch_size=self.batch_size, epochs=self.n_epochs, callbacks=[early_stopping, checkpoint])
         #calling: dqn.predict([global_input_batch, local_input_batch]) or dqn([global_input_batch, local_input_batch])
     
+
+
+    # loss function: Optimizer tries to minimize value. 
+    # Q_value is output by network, q_target is optimal Q_value 
+    # Means output of NN should approach q_target
     def q_loss(self):
         def loss(y_true, y_pred):
             squared_difference = tf.square(y_true - y_pred)
@@ -98,12 +99,14 @@ class Agent(object):
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
                                     local_input_dims=local_input_dims, name='q_eval', chkpt_dir=q_eval_dir)
 
-        self.global_state_memory = np.zeros((self.mem_size, global_input_dims))
-        self.local_state_memory = np.zeros((self.mem_size, local_input_dims))
-        self.new_global_state_memory = np.zeros((self.mem_size, global_input_dims))
-        self.new_local_state_memory = np.zeros((self.mem_size, local_input_dims))
+        glob_mem_shape = (self.mem_size, global_input_dims[0], global_input_dims[1], global_input_dims[2])
+        loc_mem_shape = (self.mem_size, local_input_dims[0], local_input_dims[1], local_input_dims[2])
+        self.global_state_memory = np.zeros(glob_mem_shape)
+        self.local_state_memory = np.zeros(loc_mem_shape)
+        self.new_global_state_memory = np.zeros(glob_mem_shape)
+        self.new_local_state_memory = np.zeros(loc_mem_shape)
 
-        self.action_memory = np.zeros((self.mem_size, self.n_actions), dtype=np.int8)
+        self.action_memory = np.zeros(self.mem_size, dtype=np.int8)
         self.reward_memory = np.zeros(self.mem_size)
 
     def store_transition(self, global_state, local_state, next_gloabal_state, next_local_state, action, reward):
@@ -161,12 +164,9 @@ class Agent(object):
         idx = np.arange(self.batch_size)
         q_target[idx, action_batch] = reward_batch + self.gamma*np.max(q_next, axis=1)
 
-
-
         #Calls training
         #Basic Training: gives input and desired output.
         self.q_eval.dqn.fit(x=[global_state_batch, local_state_batch], y=q_target, batch_size=self.batch_size, epochs=50)
-
 
         #reduces Epsilon: Network relies less on exploration over time
         if self.mem_cntr > 25000:#200000:
