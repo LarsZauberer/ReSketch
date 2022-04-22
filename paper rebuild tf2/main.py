@@ -14,16 +14,20 @@ if __name__ == '__main__':
     reference = []
     for i in range(ref_Data.shape[1]):
         reference.append(ref_Data.iloc[i].to_numpy().reshape(28,28))
-
+   
 
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
+    mem_size = 20000
+    batch_size = 64
+
+  
 
 
     env = ShapeDraw(canvas_size, patch_size, reference)
     agent = Agent(gamma=0.99, epsilon=0, alpha=0.000025, global_input_dims=(4, canvas_size, canvas_size), 
-                    local_input_dims=(2, patch_size, patch_size), mem_size=20000, batch_size=64)
+                    local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size)
     if load_checkpoint:
         agent.load_models()
     scores = []
@@ -35,13 +39,14 @@ if __name__ == '__main__':
     
     #Fill replay buffer
     g_obs, l_obs = env.reset()
-    for j in range(num_steps):
+    for j in range(mem_size):
             action = random.randint(0, n_actions-1)
             next_g_obs, next_l_obs, reward = env.step(action)
             agent.store_transition(g_obs, l_obs, next_g_obs, next_l_obs, action, reward)
             g_obs = next_g_obs
             l_obs = next_l_obs
     
+    print(agent.global_state_memory)
 
     for i in range(num_episodes):
         global_obs, local_obs = env.reset()
@@ -60,8 +65,7 @@ if __name__ == '__main__':
 
             if j % 4 == 0:
                 agent.learn()
-            
-
+    
         # Learn Process visualization
         if i % 12 == 0 and i > 0:
             avg_score = np.mean(scores[max(0, i-12):(i+1)])
