@@ -9,7 +9,7 @@ import numpy as np
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions, batch_size, name, 
-                 global_input_dims, local_input_dims, fc1_dims=1024, chkpt_dir='tmp/dqn'):
+                 global_input_dims, local_input_dims, fc1_dims=512, chkpt_dir='tmp/dqn'):
         self.lr = lr
         self.n_actions = n_actions
         self.name = name
@@ -43,28 +43,24 @@ class DeepQNetwork(object):
         concat_model = concatenate([glob_conv3, loc_conv1], axis=1)
 
         #Fully connected Layers
-        concat_model = Flatten(name="Flatten")(concat_model)
-        dense1 = Dense(self.fc1_dims, name="dense1")(concat_model)
-        out = Dense(self.n_actions, name="output")(dense1)
+        concat_model = Flatten(name="Flatten", data_format="channels_first")(concat_model)
+        dense1 = Dense(self.fc1_dims, activation="relu", name="dense1")(concat_model)
+        out = Dense(self.n_actions, activation="relu", name="output")(dense1)
 
         self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
         
-        #Network is ready for calling / Training
-        self.dqn.compile(loss=self.q_loss, optimizer="adam", metrics=["accuracy"])
-
-        #training: dqn.fit(x=[global_input, local_input], y=[q_target], batch_size=self.batch_size, epochs=self.n_epochs, callbacks=[early_stopping, checkpoint])
-        #calling: dqn.predict([global_input_batch, local_input_batch]) or dqn([global_input_batch, local_input_batch])
-    
-
-
-    # loss function: Optimizer tries to minimize value. 
-    # Q_value is output by network, q_target is optimal Q_value 
-    # Means output of NN should approach q_target
-    def q_loss(self):
+        # loss function: Optimizer tries to minimize value. 
+        # Q_value is output by network, q_target is optimal Q_value 
+        # Means output of NN should approach q_target
         def loss(y_true, y_pred):
             squared_difference = tf.square(y_true - y_pred)
             return tf.reduce_mean(squared_difference, axis=-1)
-        return loss
+
+        #Network is ready for calling / Training
+        self.dqn.compile(loss=loss, optimizer="adam", metrics=["accuracy"])
+
+        #training: dqn.fit(x=[global_input, local_input], y=[q_target], batch_size=self.batch_size, epochs=self.n_epochs, callbacks=[early_stopping, checkpoint])
+        #calling: dqn.predict([global_input_batch, local_input_batch]) or dqn([global_input_batch, local_input_batch])
 
     
         
@@ -81,7 +77,7 @@ class DeepQNetwork(object):
 class Agent(object):
     def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size,
                  replace_target=10000, 
-                 q_next_dir='nn_memory/q_next', q_eval_dir='nn_memory/q_eval'):
+                 q_next_dir='paper rebuild tf2/nn_memory/q_next', q_eval_dir='paper rebuild tf2/nn_memory/q_eval'):
 
         self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)
         self.action_space = [i for i in range(self.n_actions)]
@@ -109,6 +105,8 @@ class Agent(object):
         self.action_memory = np.zeros(self.mem_size, dtype=np.int8)
         self.reward_memory = np.zeros(self.mem_size)
 
+        self.end = 0
+
     def store_transition(self, global_state, local_state, next_gloabal_state, next_local_state, action, reward):
         index = self.mem_cntr % self.mem_size
         
@@ -122,19 +120,21 @@ class Agent(object):
         self.mem_cntr += 1
 
     def choose_action(self, global_state, local_state):
-        #create batch of state (prediciton must be in batches)
-        glob_batch = global_state
-        loc_batch = local_state
-        for _ in range(self.batch_size-1):
-            np.append(glob_batch, np.zeros((self.global_input_dims)), axis=0)
-            np.append(loc_batch, np.zeros((self.local_input_dims)), axis=0)
-            
         rand = np.random.random()
         if rand < self.epsilon:
             action = np.random.choice(self.action_space)
         else:
-            actions = self.q_eval.dqn.predict([glob_batch, loc_batch])[0]
+            #create batch of state (prediciton must be in batches)
+            glob_batch = np.array([global_state])
+            loc_batch = np.array([local_state])
+
+            for _ in range(self.batch_size-1):
+                glob_batch = np.append(glob_batch, np.array([np.zeros(self.global_input_dims)]), axis=0)
+                loc_batch = np.append(loc_batch, np.array([np.zeros(self.local_input_dims)]), axis=0)
+
+            actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
             action = np.argmax(actions)
+        
         return action
 
     def learn(self):
@@ -156,8 +156,8 @@ class Agent(object):
         new_local_state_batch = self.new_local_state_memory[batch]
 
         #runs network. also delivers output for training
-        q_eval = self.q_eval.dqn.predict([global_state_batch, local_state_batch])  #target network
-        q_next = self.q_next.dqn.predict([new_global_state_batch, new_local_state_batch]) #evaluation network
+        q_eval = self.q_eval.dqn.predict([global_state_batch, local_state_batch], batch_size=self.batch_size)  #target network
+        q_next = self.q_next.dqn.predict([new_global_state_batch, new_local_state_batch], batch_size=self.batch_size) #evaluation network
         
         #Calculates optimal output for training. ( Bellman Equation !! )
         q_target = np.copy(q_eval)
@@ -166,14 +166,15 @@ class Agent(object):
 
         #Calls training
         #Basic Training: gives input and desired output.
-        self.q_eval.dqn.fit(x=[global_state_batch, local_state_batch], y=q_target, batch_size=self.batch_size, epochs=50)
+        self.q_eval.dqn.fit(x=[global_state_batch, local_state_batch], y=q_target, batch_size=self.batch_size, epochs=10, verbose=0)
 
         #reduces Epsilon: Network relies less on exploration over time
-        if self.mem_cntr > 25000:#200000:
+        if self.mem_cntr > self.mem_size:
             if self.epsilon > 0.05:
-                self.epsilon -= 4e-7
-            elif self.epsilon <= 0.05:
+                self.epsilon -= 8e-5 #go constant at 50000 frames
+            elif self.epsilon <= 0.1:
                 self.epsilon = 0.05
+        
 
 
     def save_models(self):
