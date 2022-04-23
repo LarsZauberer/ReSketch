@@ -11,29 +11,28 @@ if __name__ == '__main__':
 
     ref_Data = pd.read_csv("C:/Users/robin/OneDrive/Desktop/Maturarbeit/Nachzeichner-KI/paper rebuild/ref_Data.csv")
     ref_Data = ref_Data.drop('Unnamed: 0', axis=1)
+    train_ind = np.random.choice(ref_Data.shape[1], 3000)
     reference = []
-    for i in range(ref_Data.shape[1]):
+    for i in train_ind:
         reference.append(ref_Data.iloc[i].to_numpy().reshape(28,28))
    
 
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    mem_size = 20000
+    mem_size = 10000
     batch_size = 64
 
   
-
-
     env = ShapeDraw(canvas_size, patch_size, reference)
-    agent = Agent(gamma=0.99, epsilon=0, alpha=0.000025, global_input_dims=(4, canvas_size, canvas_size), 
+    agent = Agent(gamma=0.99, epsilon=0.5, alpha=0.001, global_input_dims=(4, canvas_size, canvas_size), 
                     local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size)
     if load_checkpoint:
         agent.load_models()
     scores = []
     eps_history = []
     num_episodes = 6000
-    num_steps = 100
+    num_steps = 50
     
     score = 0
     
@@ -46,7 +45,7 @@ if __name__ == '__main__':
             g_obs = next_g_obs
             l_obs = next_l_obs
     
-    print(agent.global_state_memory)
+    #print(agent.global_state_memory)
 
     for i in range(num_episodes):
         global_obs, local_obs = env.reset()
@@ -55,8 +54,7 @@ if __name__ == '__main__':
         for j in range(num_steps):
             action = agent.choose_action(global_obs, local_obs)
             next_gloabal_obs, next_local_obs, reward = env.step(action)
-    
-            
+
             agent.store_transition(global_obs, local_obs, next_gloabal_obs, next_local_obs, action, reward)
             global_obs = next_gloabal_obs
             local_obs = next_local_obs
@@ -64,7 +62,10 @@ if __name__ == '__main__':
             score += reward
 
             if j % 4 == 0:
+                print(action, reward)
                 agent.learn()
+
+            
     
         # Learn Process visualization
         if i % 12 == 0 and i > 0:
