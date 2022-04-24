@@ -5,6 +5,7 @@ from keras.layers import Conv2D, Dense, Flatten, Input, concatenate
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.models import load_model, clone_model
 import numpy as np
+import time
 
 # loss function: Optimizer tries to minimize value. 
 # Q_value is output by network, q_target is optimal Q_value. Means output of NN should approach q_target
@@ -132,7 +133,8 @@ class Agent(object):
                 glob_batch = np.append(glob_batch, np.array([np.zeros(self.global_input_dims)]), axis=0)
                 loc_batch = np.append(loc_batch, np.array([np.zeros(self.local_input_dims)]), axis=0)
 
-            actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
+            actions = self.q_eval.dqn([glob_batch, loc_batch])[0]
+            #actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
             action = int(np.argmax(actions))
         
         return action
@@ -156,8 +158,11 @@ class Agent(object):
         new_local_state_batch = self.new_local_state_memory[batch]
 
         #runs network. also delivers output for training
-        q_eval = self.q_eval.dqn.predict([global_state_batch, local_state_batch], batch_size=self.batch_size)  #target network
-        q_next = self.q_next.dqn.predict([new_global_state_batch, new_local_state_batch], batch_size=self.batch_size) #evaluation network
+        q_eval = self.q_eval.dqn([global_state_batch, local_state_batch])
+        q_next = self.q_next.dqn([new_global_state_batch, new_local_state_batch])
+        
+        #q_eval = self.q_eval.dqn.predict([global_state_batch, local_state_batch], batch_size=self.batch_size)  #target network
+        #q_next = self.q_next.dqn.predict([new_global_state_batch, new_local_state_batch], batch_size=self.batch_size) #evaluation network
         
         #Calculates optimal output for training. ( Bellman Equation !! )
         q_target = np.copy(q_eval)
@@ -166,12 +171,13 @@ class Agent(object):
 
         #Calls training
         #Basic Training: gives input and desired output.
-        self.q_eval.dqn.fit(x=[global_state_batch, local_state_batch], y=q_target, batch_size=self.batch_size, epochs=10, verbose=0)
+        self.q_eval.dqn.train_on_batch(x=[global_state_batch, local_state_batch], y=q_target)
+        #self.q_eval.dqn.fit(x=[global_state_batch, local_state_batch], y=q_target, batch_size=self.batch_size, epochs=10, verbose=0)
 
         #reduces Epsilon: Network relies less on exploration over time
         if self.mem_cntr > self.mem_size:
             if self.epsilon > 0.05:
-                self.epsilon -= 8e-5 #go constant at 50000 frames
+                self.epsilon -= 8e-5 #go constant at 25000 steps
             elif self.epsilon <= 0.1:
                 self.epsilon = 0.05
         
