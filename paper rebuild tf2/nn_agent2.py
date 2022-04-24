@@ -6,6 +6,12 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.models import load_model, clone_model
 import numpy as np
 
+# loss function: Optimizer tries to minimize value. 
+# Q_value is output by network, q_target is optimal Q_value. Means output of NN should approach q_target
+#outside of class to avoid "self" argument
+def loss(y_true, y_pred):
+            squared_difference = tf.square(y_true - y_pred)
+            return tf.reduce_mean(squared_difference, axis=-1)
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions, batch_size, name, 
@@ -20,8 +26,6 @@ class DeepQNetwork(object):
         self.fc1_dims = fc1_dims
         self.batch_size = batch_size
         #saving / memory
-        
-        #memory
         self.checkpoint_file = os.path.join(chkpt_dir,'deepqnet.ckpt')
         self.params = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope=self.name)
         
@@ -49,12 +53,8 @@ class DeepQNetwork(object):
 
         self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
         
-        # loss function: Optimizer tries to minimize value. 
-        # Q_value is output by network, q_target is optimal Q_value 
-        # Means output of NN should approach q_target
-        def loss(y_true, y_pred):
-            squared_difference = tf.square(y_true - y_pred)
-            return tf.reduce_mean(squared_difference, axis=-1)
+        
+        
 
         #Network is ready for calling / Training
         self.dqn.compile(loss=loss, optimizer="adam", metrics=["accuracy"])
@@ -66,7 +66,7 @@ class DeepQNetwork(object):
         
     def load_checkpoint(self):
         print("...Loading checkpoint...")
-        self.dqn = load_model(self.checkpoint_file)
+        self.dqn = load_model(self.checkpoint_file, custom_objects={"loss": loss})
         
     def save_checkpoint(self):
         print("...Saving checkpoint...")
@@ -133,7 +133,7 @@ class Agent(object):
                 loc_batch = np.append(loc_batch, np.array([np.zeros(self.local_input_dims)]), axis=0)
 
             actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
-            action = np.argmax(actions)
+            action = int(np.argmax(actions))
         
         return action
 

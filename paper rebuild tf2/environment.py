@@ -29,7 +29,7 @@ class ShapeDraw(object):
         self.curRef = 0
         self.agentPos = [0,0]
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
-        self.set_agentPos([random.randint(1, self.s-1), random.randrange(1, self.s-1)])
+        self.set_agentPos([random.randint(1, self.s-2), random.randrange(1, self.s-2)])
 
     def step(self, agent_action):
         action = [0,0]
@@ -43,23 +43,19 @@ class ShapeDraw(object):
         
         ownpos = (self.p-1)/2
         action = [int(self.agentPos[0]+x-ownpos) , int(self.agentPos[1]+y-ownpos)]
-        
-        print(self.agentPos)
-        print(action)
 
-
-        penalty = False
+        penalty = 0
         if abs(x) < (self.p-1)/2 or abs(y) < (self.p-1)/2:
-            penalty = True
-
+            penalty = -0.05
 
         if self.move_isLegal(action):
             self.set_agentPos(action)
         else:
-            self.isDrawing = False
-            penalty = True
+            self.isDrawing = 0
+            penalty = -0.01
         
-        reward = self.reward(penalty) if self.isDrawing else 0
+        reward = self.reward() if self.isDrawing else 0.0
+        reward += penalty
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
 
@@ -96,7 +92,7 @@ class ShapeDraw(object):
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
-    def reward(self, penalty):
+    def reward(self):
         #calculates reward of action based on gained similarity and length of step
         reward = 0
         similarity = 0
@@ -105,27 +101,24 @@ class ShapeDraw(object):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
         similarity = similarity/(self.s**2)
         
-        #Penalize steps smaller than maximum (reward speed)
-        small_step_penalty = 0
-        if penalty: small_step_penalty = -0.0005
-        reward = self.lastSim - similarity + small_step_penalty
+        reward = self.lastSim - similarity
         self.lastSim = similarity
 
         return reward
 
     def move_isLegal(self, action):
-        if action[0] >= len(self.canvas[0])-1 or action[0] < 1:
+        if action[0] > len(self.canvas[0])-2 or action[0] < 1:
             return False
-        if action[1] >= len(self.canvas)-1 or action[1] < 1:
+        if action[1] > len(self.canvas)-2 or action[1] < 1:
             return False
         return True
 
     def reset(self):
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
-        self.canvas = np.full((self.s, self.s), 1)
-        self.set_agentPos((random.randint(0, self.s), random.randint(1, self.s-1)))
-        self.reward(False)
+        self.canvas = np.zeros((self.s, self.s))
+        self.set_agentPos((random.randint(1, self.s-2), random.randint(1, self.s-2)))
+        self.reward()
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
     
 
