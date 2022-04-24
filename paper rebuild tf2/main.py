@@ -20,7 +20,7 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    mem_size = 10000
+    mem_size = 3000
     batch_size = 64
 
   
@@ -45,7 +45,6 @@ if __name__ == '__main__':
             g_obs = next_g_obs
             l_obs = next_l_obs
     
-    #print(agent.global_state_memory)
 
     for i in range(num_episodes):
         global_obs, local_obs = env.reset()
@@ -62,7 +61,6 @@ if __name__ == '__main__':
             score += reward
 
             if j % 4 == 0:
-                print(action, reward)
                 agent.learn()
 
             
