@@ -33,6 +33,9 @@ class ShapeDraw(object):
         self.isDrawing = 0 #! 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.set_agentPos([random.randint(1, self.s-2), random.randrange(1, self.s-2)]) # Set a random start location for the agent (but with one pixel margin)
 
+        #rendering / visualization
+        self.fig = plt.figure(figsize=(10, 7))
+
     def step(self, agent_action):
         action = [0, 0]
         self.isDrawing = 1
@@ -137,16 +140,14 @@ class ShapeDraw(object):
                 elif e == 1:
                     rendRef[index] = 50
             
-            fig = plt.figure(figsize=(10, 7))
-            
             # Original image
-            fig.add_subplot(2, 2, 1)
+            self.fig.add_subplot(2, 2, 1)
             plt.imshow(rendRef.reshape(28, 28), cmap='gray', label='Original', vmin=0, vmax=255)
             plt.axis("off")
             plt.title("Original")
             
             # AI Generated Image
-            fig.add_subplot(2, 2, 2)
+            self.fig.add_subplot(2, 2, 2) 
             plt.imshow(rendCanv.reshape(28, 28), cmap='gray', label='AI Canvas', vmin=0, vmax=255)
             plt.axis("off")
             plt.title("AI Canvas")

@@ -42,7 +42,6 @@ if __name__ == '__main__':
             g_obs = next_g_obs
             l_obs = next_l_obs
     
-    plt.figure(figsize=(7,7))
     score = 0
     scores = []
     eps_history = []
