@@ -123,6 +123,40 @@ class ShapeDraw(object):
         self.reward()
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
     
+    def render(self, mode="None"):
+        if mode == "Compare":
+            rendCanv = self.canvas.copy().reshape(self.s**2,)
+            rendRef = self.reference.copy().reshape(self.s**2,)
+            for index, item in enumerate(zip(rendCanv, rendRef)):
+                i, e = item
+                if i == e and i == 1:
+                    rendCanv[index] = 255
+                    rendRef[index] = 255
+                elif i == 1:
+                    rendCanv[index] = 50
+                elif e == 1:
+                    rendRef[index] = 50
+            
+            fig = plt.figure(figsize=(10, 7))
+            
+            # Original image
+            fig.add_subplot(2, 2, 1)
+            plt.imshow(rendRef.reshape(28, 28), cmap='gray', label='Original', vmin=0, vmax=255)
+            plt.axis("off")
+            plt.title("Original")
+            
+            # AI Generated Image
+            fig.add_subplot(2, 2, 2)
+            plt.imshow(rendCanv.reshape(28, 28), cmap='gray', label='AI Canvas', vmin=0, vmax=255)
+            plt.axis("off")
+            plt.title("AI Canvas")
+            
+            plt.pause(0.01)
+
+        else:
+            plt.imshow(self.canvas, interpolation='none', cmap='gray')
+            plt.pause(0.01)
+    
 
 #draws Line directly on bitmap to save convert
 def drawline(setpos, pos, canvas):
