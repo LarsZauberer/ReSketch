@@ -4,6 +4,8 @@ from types import NoneType
 import numpy as np
 import math as ma
 import time
+import matplotlib.pyplot as plt
+
 
 class ShapeDraw(object):
     def __init__(self, sidelength, patchsize, referenceData):
@@ -21,18 +23,18 @@ class ShapeDraw(object):
         self.canvas_patch = np.zeros((self.p, self.p))
 
         #possible outputs
-        self.n_actions= self.p*self.p*2
+        self.n_actions= self.p*self.p*2 # For each pixel, is an action option (location of that pixel)
 
         #initializes rest
-        self.lastSim = 0
-        self.reference = referenceData[0]
+        self.lastSim = 0 # Last similarity between reference and canvas
+        self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
         self.curRef = 0
         self.agentPos = [0,0]
-        self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
-        self.set_agentPos([random.randint(1, self.s-2), random.randrange(1, self.s-2)])
+        self.isDrawing = 0 #! 0 = not Drawing, 1 = Drawing (not bool because NN)
+        self.set_agentPos([random.randint(1, self.s-2), random.randrange(1, self.s-2)]) # Set a random start location for the agent (but with one pixel margin)
 
     def step(self, agent_action):
-        action = [0,0]
+        action = [0, 0]
         self.isDrawing = 1
         
         x = agent_action % self.p

@@ -9,7 +9,7 @@ import random
 if __name__ == '__main__': 
     load_checkpoint = False
 
-    #parameters
+    # Hyper parameters
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
