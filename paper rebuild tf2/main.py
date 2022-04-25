@@ -70,8 +70,7 @@ if __name__ == '__main__':
             print('episode: ', i,'score: ', score,
                  ' average score %.3f' % avg_score,
                 'epsilon %.3f' % agent.epsilon)
-            plt.imshow(env.canvas, interpolation='none', cmap='gray')
-            plt.pause(0.01)
+            env.render("Compare")
             agent.save_models()
         else:
             print('episode: ', i,'score: ', score)
