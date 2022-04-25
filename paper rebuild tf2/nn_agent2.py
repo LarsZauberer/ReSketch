@@ -28,7 +28,6 @@ class DeepQNetwork(object):
         self.batch_size = batch_size
         #saving / memory
         self.checkpoint_file = os.path.join(chkpt_dir,'deepqnet.ckpt')
-        self.params = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope=self.name)
         
         self.build_network()
 
@@ -54,11 +53,8 @@ class DeepQNetwork(object):
 
         self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
         
-        
-        
-
         #Network is ready for calling / Training
-        self.dqn.compile(loss=loss, optimizer="adam", metrics=["accuracy"])
+        self.dqn.compile(loss="mean_squared_error", optimizer=tf.keras.optimizers.Adam(learning_rate=self.lr), metrics=["accuracy"])
 
         #training: dqn.fit(x=[global_input, local_input], y=[q_target], batch_size=self.batch_size, epochs=self.n_epochs, callbacks=[early_stopping, checkpoint])
         #calling: dqn.predict([global_input_batch, local_input_batch]) or dqn([global_input_batch, local_input_batch])
@@ -128,7 +124,6 @@ class Agent(object):
             #create batch of state (prediciton must be in batches)
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
-
             for _ in range(self.batch_size-1):
                 glob_batch = np.append(glob_batch, np.array([np.zeros(self.global_input_dims)]), axis=0)
                 loc_batch = np.append(loc_batch, np.array([np.zeros(self.local_input_dims)]), axis=0)
@@ -192,5 +187,5 @@ class Agent(object):
         self.q_next.load_checkpoint()
 
     def update_graph(self):
-        del self.q_next
-        self.q_next = clone_model(self.q_eval) 
+        self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
+        
