@@ -5,9 +5,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import random
+import keyboard
+
 
 if __name__ == '__main__': 
+    #memory parameters
     load_checkpoint = False
+    isSaved = False
+    lastsave = 0
 
     # Hyper parameters
     canvas_size = 28
@@ -77,7 +82,15 @@ if __name__ == '__main__':
         eps_history.append(agent.epsilon)
         scores.append(score)
 
-        if i % 100 == 0 and i > 0: 
-            agent.save_models()
+        #bad memory fix: save manually once
+        if not isSaved:
+            if keyboard.is_pressed("s"):
+                lastsave = i
+                isSaved = True
+                agent.save_models()
+        elif i > lastsave+2:
+            isSaved = False
+
+    agent.save_models()
     
     
