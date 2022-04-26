@@ -21,7 +21,7 @@ if __name__ == '__main__':
     mem_size = 20000
     batch_size = 64
     num_episodes = 12000
-    num_steps = 50
+    num_steps = 64
 
     #loading reference Data
     ref_Data = pd.read_csv("paper rebuild tf2/ref_Data.csv")
@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     #Initializing architecture
     env = ShapeDraw(canvas_size, patch_size, reference)
-    agent = Agent(gamma=0.99, epsilon=0.5, alpha=0.001, global_input_dims=(4, canvas_size, canvas_size), 
+    agent = Agent(gamma=0.99, epsilon=0, alpha=0.001, global_input_dims=(4, canvas_size, canvas_size), 
                     local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size)
     if load_checkpoint:
         agent.load_models()
@@ -44,6 +44,7 @@ if __name__ == '__main__':
             action = random.randint(0, n_actions-1)
             next_g_obs, next_l_obs, reward = env.step(action)
             agent.store_transition(g_obs, l_obs, next_g_obs, next_l_obs, action, reward)
+            agent.counter += 1
             g_obs = next_g_obs
             l_obs = next_l_obs
     
@@ -58,25 +59,27 @@ if __name__ == '__main__':
         for j in range(num_steps):
             action = agent.choose_action(global_obs, local_obs)
             next_gloabal_obs, next_local_obs, reward = env.step(action)
-
+            #env.render("Compare", realtime=True)
+            
             agent.store_transition(global_obs, local_obs, next_gloabal_obs, next_local_obs, action, reward)
             global_obs = next_gloabal_obs
             local_obs = next_local_obs
             
+            agent.counter += 1
             score += reward
 
-            if j % 4 == 0:
+            if j+1 % 4 == 0:
                 agent.learn()
 
         # Learn Process visualization
         if i % 12 == 0 and i > 0:
-            ind = agent.mem_cntr % agent.mem_size
+            ind = agent.counter % agent.mem_size
             print(agent.action_memory[ind-20:ind])
             avg_score = np.mean(scores[max(0, i-12):(i+1)])
             print('episode: ', i,'score: ', score,
                  ' average score %.3f' % avg_score,
                 'epsilon %.3f' % agent.epsilon)
-            env.render("Compare")
+            #env.render("Compare")
         else:
             print('episode: ', i,'score: ', score)
         eps_history.append(agent.epsilon)
