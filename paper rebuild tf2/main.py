@@ -68,18 +68,18 @@ if __name__ == '__main__':
             agent.counter += 1
             score += reward
 
-            if j+1 % 4 == 0:
+            if (j+1) % 4 == 0:
                 agent.learn()
 
         # Learn Process visualization
-        if i % 12 == 0 and i > 0:
+        if i % 64 == 0 and i > 0:
             ind = agent.counter % agent.mem_size
             print(agent.action_memory[ind-20:ind])
             avg_score = np.mean(scores[max(0, i-12):(i+1)])
             print('episode: ', i,'score: ', score,
                  ' average score %.3f' % avg_score,
                 'epsilon %.3f' % agent.epsilon)
-            #env.render("Compare")
+            env.render("Compare")
         else:
             print('episode: ', i,'score: ', score)
         eps_history.append(agent.epsilon)
