@@ -51,13 +51,13 @@ class ShapeDraw(object):
 
         penalty = 0
         if abs(x) < (self.p-1)/2 or abs(y) < (self.p-1)/2:
-            penalty = -0.05
+            penalty = -0.0005
 
         if self.move_isLegal(action):
             self.set_agentPos(action)
         else:
             self.isDrawing = 0
-            penalty = -0.01
+            penalty = -0.001
         
         reward = self.reward() if self.isDrawing else 0.0
         reward += penalty
@@ -146,6 +146,7 @@ class ShapeDraw(object):
             plt.axis("off")
             plt.title("Original")
             
+
             # AI Generated Image
             self.fig.add_subplot(2, 2, 2) 
             plt.imshow(rendCanv.reshape(28, 28), cmap='gray', label='AI Canvas', vmin=0, vmax=255)

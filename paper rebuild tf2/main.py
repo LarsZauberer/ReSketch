@@ -13,9 +13,9 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    mem_size = 10000
+    mem_size = 20000
     batch_size = 64
-    num_episodes = 6000
+    num_episodes = 12000
     num_steps = 50
 
     #loading reference Data
@@ -63,17 +63,21 @@ if __name__ == '__main__':
             if j % 4 == 0:
                 agent.learn()
 
-        # Learn Process visualization  
+        # Learn Process visualization
         if i % 12 == 0 and i > 0:
+            ind = agent.mem_cntr % agent.mem_size
+            print(agent.action_memory[ind-20:ind])
             avg_score = np.mean(scores[max(0, i-12):(i+1)])
             print('episode: ', i,'score: ', score,
                  ' average score %.3f' % avg_score,
                 'epsilon %.3f' % agent.epsilon)
             env.render("Compare")
-            agent.save_models()
         else:
             print('episode: ', i,'score: ', score)
         eps_history.append(agent.epsilon)
         scores.append(score)
+
+        if i % 100 == 0 and i > 0: 
+            agent.save_models()
     
     
