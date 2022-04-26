@@ -99,7 +99,7 @@ class Agent(object):
         self.action_memory = np.zeros(self.mem_size, dtype=np.int8)
         self.reward_memory = np.zeros(self.mem_size)
 
-        self.recent_mem = 3
+        self.recent_mem = 4
         self.recent_actions = np.zeros(self.recent_mem)
 
     def store_transition(self, global_state, local_state, next_gloabal_state, next_local_state, action, reward):
