@@ -10,9 +10,6 @@ import time
 # loss function: Optimizer tries to minimize value. 
 # Q_value is output by network, q_target is optimal Q_value. Means output of NN should approach q_target
 #outside of class to avoid "self" argument
-def loss(y_true, y_pred):
-            squared_difference = tf.square(y_true - y_pred)
-            return tf.reduce_mean(squared_difference, axis=-1)
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions, batch_size, name, 
@@ -63,7 +60,7 @@ class DeepQNetwork(object):
         
     def load_checkpoint(self):
         print("...Loading checkpoint...")
-        self.dqn = load_model(self.checkpoint_file, custom_objects={"loss": loss})
+        self.dqn = load_model(self.checkpoint_file)
         
     def save_checkpoint(self):
         print("...Saving checkpoint...")
@@ -131,7 +128,7 @@ class Agent(object):
             actions = self.q_eval.dqn([glob_batch, loc_batch])[0]
             #actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
             action = int(np.argmax(actions))
-        
+    
         return action
 
     def learn(self):
@@ -172,7 +169,7 @@ class Agent(object):
         #reduces Epsilon: Network relies less on exploration over time
         if self.mem_cntr > self.mem_size:
             if self.epsilon > 0.05:
-                self.epsilon -= 8e-5 #go constant at 25000 steps
+                self.epsilon -= 1e-5 #go constant at 25000 steps
             elif self.epsilon <= 0.1:
                 self.epsilon = 0.05
         
