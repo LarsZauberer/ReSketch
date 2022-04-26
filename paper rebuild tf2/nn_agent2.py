@@ -77,7 +77,7 @@ class Agent(object):
         self.action_space = [i for i in range(self.n_actions)]
         self.gamma = gamma
         self.mem_size = mem_size
-        self.mem_cntr = 0
+        self.counter = 0
         self.epsilon = epsilon
         self.batch_size = batch_size
         self.replace_target = replace_target
@@ -99,10 +99,11 @@ class Agent(object):
         self.action_memory = np.zeros(self.mem_size, dtype=np.int8)
         self.reward_memory = np.zeros(self.mem_size)
 
-        self.end = 0
+        self.recent_mem = 3
+        self.recent_actions = np.zeros(self.recent_mem)
 
     def store_transition(self, global_state, local_state, next_gloabal_state, next_local_state, action, reward):
-        index = self.mem_cntr % self.mem_size
+        index = self.counter % self.mem_size
         
         self.global_state_memory[index] = global_state
         self.local_state_memory[index] = local_state
@@ -111,11 +112,9 @@ class Agent(object):
         self.new_global_state_memory[index] = next_gloabal_state
         self.new_local_state_memory[index] = next_local_state
 
-        self.mem_cntr += 1
-
     def choose_action(self, global_state, local_state):
         rand = np.random.random()
-        if rand < self.epsilon:
+        if rand < self.epsilon or self.rare_Exploration():
             action = np.random.choice(self.action_space)
         else:
             #create batch of state (prediciton must be in batches)
@@ -128,17 +127,20 @@ class Agent(object):
             actions = self.q_eval.dqn([glob_batch, loc_batch])[0]
             #actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
             action = int(np.argmax(actions))
-    
+        
+        action_ind = self.counter % self.recent_mem 
+        self.recent_actions[action_ind] = action
+
         return action
 
     def learn(self):
         #update q_next after certain step
-        if self.mem_cntr % self.replace_target == 0:
+        if self.counter % self.replace_target == 0:
             self.update_graph()
 
         #randomly samples Memory.
         #chooses as many states from Memory as batch_size requires 
-        max_mem = self.mem_cntr if self.mem_cntr < self.mem_size else self.mem_size
+        max_mem = self.counter if self.counter < self.mem_size else self.mem_size
         batch = np.random.choice(max_mem, self.batch_size)
         
         #load sampled memory
@@ -167,14 +169,19 @@ class Agent(object):
         #self.q_eval.dqn.fit(x=[global_state_batch, local_state_batch], y=q_target, batch_size=self.batch_size, epochs=10, verbose=0)
 
         #reduces Epsilon: Network relies less on exploration over time
-        if self.mem_cntr > self.mem_size:
+        if self.counter > self.mem_size and self.epsilon != 0:
             if self.epsilon > 0.05:
                 self.epsilon -= 1e-5 #go constant at 25000 steps
-            elif self.epsilon <= 0.1:
+            elif self.epsilon <= 0.05:
                 self.epsilon = 0.05
         
-
-
+    def rare_Exploration(self):
+        mustval = self.recent_actions[0]
+        for i in range(1, self.recent_mem):
+            if self.recent_actions[i] != mustval:
+                return True
+        return False
+            
     def save_models(self):
         self.q_eval.save_checkpoint()
         self.q_next.save_checkpoint()
