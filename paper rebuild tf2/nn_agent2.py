@@ -99,7 +99,7 @@ class Agent(object):
         self.action_memory = np.zeros(self.mem_size, dtype=np.int8)
         self.reward_memory = np.zeros(self.mem_size)
 
-        self.recent_mem = 4
+        self.recent_mem = 6
         self.recent_actions = np.zeros(self.recent_mem)
 
     def store_transition(self, global_state, local_state, next_gloabal_state, next_local_state, action, reward):
@@ -176,10 +176,14 @@ class Agent(object):
                 self.epsilon = 0.05
         
     def rare_Exploration(self):
-        mustval = self.recent_actions[0]
-        for i in range(1, self.recent_mem):
-            if self.recent_actions[i] != mustval:
-                return True
+        variance = 0
+        container = []
+        for i in range(0, self.recent_mem):
+            if self.recent_actions[i] not in container:
+                container.append(self.recent_actions[i])
+                variance += 1
+        if variance < self.recent_mem/2:
+            return True
         return False
             
     def save_models(self):
