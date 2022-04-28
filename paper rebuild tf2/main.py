@@ -10,7 +10,7 @@ import keyboard
 
 if __name__ == '__main__': 
     #memory parameters
-    load_checkpoint = False
+    load_checkpoint = True
     isSaved = False
     lastsave = 0
 
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     #Initializing architecture
     env = ShapeDraw(canvas_size, patch_size, reference)
     agent = Agent(gamma=0.99, epsilon=0, alpha=0.001, global_input_dims=(4, canvas_size, canvas_size), 
-                    local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size, replace_target=100)
+                    local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size, replace_target=1000)
     if load_checkpoint:
         agent.load_models()
     
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                 agent.learn()
 
         # Learn Process visualization
-        if i % 64 == 0 and i > 0:
+        if i % 12 == 0 and i > 0:
             ind = agent.counter % agent.mem_size
             print(agent.action_memory[ind-20:ind])
             avg_score = np.mean(scores[max(0, i-12):(i+1)])

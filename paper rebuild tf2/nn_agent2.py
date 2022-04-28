@@ -195,5 +195,6 @@ class Agent(object):
         self.q_next.load_checkpoint()
 
     def update_graph(self):
+        print("...Updating Network...")
         self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
         
