@@ -1,0 +1,140 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\input{preamble}
+\graphicspath{{./}}
+
+\title{\textbf{Nachzeichner KI}}
+\author{\textbf{Ian Wasser, Robin Steiner}}
+\date{April 2022}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\pagebreak
+
+\section{Thematische Beschreibung}
+\label{chap:thematische-beschreibung}
+In unserem Projekt versuchen wir folgende Fragestellung zu beantworten: `Kann
+eine künstliche Intelligenz in einer Simulation Symbole auf menschliche Weise
+nachzeichnen'
+
+Das Projekt fällt in den Bereich der Künstlichen Intelligenz, weil menschliche
+Bewegungen nicht algorithmisch aufgefasst werden können. Ausserdem beschäftigen
+wir uns mit Reinforcement learning, einer Untergruppe der künstlichen
+Intelligenz
+
+Folgende Unterfragen sollen mit dem Projekt beantwortet werden.
+
+\begin{itemize}
+    \item Wie wird eine KI allgemein aufgebaut, die das Nachzeichnen erlernt
+    \item Was bedeutet es, auf menschliche Weise zu zeichnen
+    \item Welche physikalischen Faktoren sind für das Zeichnen relevant.
+    \item Wie muss eine Simulation aufgebaut sein, um realistische Bewegungen zu ermöglichen
+    \item Wie lernt die KI im Zusammenhang mit diesen physikalischen Faktoren
+    \item Welche Faktoren wirken positiv, welche negativ auf die Leistung der KI
+\end{itemize}
+
+\section{Wissensstand, mögliche Quellen}
+\label{chap:wissensstand}
+
+Unser Wissenstand ist begrenzt auf die Grundlagen des maschinellen
+Lernens. Um unser Wissen in die richtige Richtung weiter zu entwickeln, haben
+wir ein Vorprojekt gemacht.
+
+\subsection{Vorprojekt}
+Das Vorprojekt stützt besonders auf einer wissenschaftlichen Arbeit aus China.
+\url{https://arxiv.org/abs/1810.05977}. Diese Arbeit beschreibt genau die
+Architektur einer KI, die das Nachzeichnen erlernt. Unser erstes Unterziel wird
+dadurch grösstenteils beantwortet, wodurch wir eine gute Grundlage erarbeiten
+konnten, um den Rest des Projekts anzugehen.
+
+Wir haben die Arbeit selbst repliziert und so Erfahrung mit der Technologie und
+Hilfsmitteln wie Tensorflow gesammelt.
+
+Die Replikation erzielt zum Zeitpunkt der Projektvereinbarung ansatzweise
+ähnliche Ergebnisse wie das Original. 
+
+
+\section{Methode}
+\label{chap:methode}
+
+Wir werden unser Vorprojekt ausarbeiten und die Leistung davon maximieren. Wir
+orientieren uns dabei weiterhin auf die bereits genannte wissenschaftliche
+Arbeit. Wenn die KI stabile Ergebnisse erzielt, dient diese als Grundlage für
+Experimente und Erweiterungen, die unsere restlichen Unterfragen beantworten
+sollen. 
+
+
+\subsection{Dokumentation}
+\label{chap:m_dokumentation}
+Die Dokumentation wird nebenbei entwickelt, damit dort die volle Theorie
+und unser Vorgehen beschrieben ist. Diese Dokumentation wird auch auf GitHub
+verfügbar sein. 
+
+
+\section{Ressourcen}
+\label{chap:ressourcen}
+
+\begin{itemize}
+    \item Gute Grafikkarten (GPU accelerated computing) (besitzen wir)
+\end{itemize}
+
+
+\section{Ergebnis}
+\label{chap:ergebnis}
+Das Ergebnis unseres Projektes soll ein trainiertes Tensorflow-Modell sein,
+welches Symbole auf menschliche Weise nachzeichnen kann.
+
+
+\section{Zeitplan}
+\label{chap:zeitplan}
+\begin{table}[H]
+    \begin{tabular}{ll}
+    \textbf{Datum} & \textbf{Beschreibung}                                                                         \\
+    03.06.2022     & PV unterschrieben                                                                             \\
+    24.06.2022     & Eine KI erschaffen, welche möglichst gut ein Symbol nachzeichnen kann                         \\
+    10.07.2022     & Geklärt was menschenähnlich heisst                                                            \\
+    07.08.2022     & Optimierung der KI auf menschenähnliches zeichnen                                             \\
+    07.08.2022     & Dokumentation, bis auf noch hinzuzufügendene Teile fertig                                     \\
+    21.08.2021     & Klärung der physikalischen modellierung der Simulation                                        \\
+    25.09.2021     & Optimierung der KI auf physikalische Gegebenheiten                                            \\
+    \end{tabular}
+\end{table}
+
+\section{Bewertungskriterien}
+\subsection{Verwendung von Git und GitHub}
+\label{chap:git_github}
+Wir möchten Git und GitHub verwenden um unser Projekt zu organisieren und zu verwalten. 
+Dabei soll bewertet werden, wie konsequent und umfangreich mit diesen Hilfsmitteln gearbeitet wurde.
+
+\subsection{Optimierung der KI}
+\label{chap:optimierung}
+Wie gross waren die Bemühungen/Erfolge, die Leistung der KI zu verbessern.
+
+\subsection{Erklärung der KI}
+\label{chap:erklaerung}
+Wie gut wurde erklärt, warum gewisse Versionen der KI nicht/schwächer als andere funktionieren
+
+
+
+
+\section{Unterschrift}
+\label{chap:unterschrift}
+
+Hiermit wird genehmigt, dieses Projekt im Rahmen der Maturarbeit
+durchzuführen.
+
+\vspace*{1cm}
+
+Unterschrift: \hrulefill Nicolas Ruh \vspace*{2cm}
+
+Unterschrift: \hrulefill Ian Wasser \vspace*{2cm}
+
+Unterschrift: \hrulefill Robin Steiner \vspace*{2cm}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}
