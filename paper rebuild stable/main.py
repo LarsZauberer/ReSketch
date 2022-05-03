@@ -11,7 +11,7 @@ import json
 
 if __name__ == '__main__': 
     #memory parameters
-    load_checkpoint = True
+    load_checkpoint = False
     isSaved = False
     lastsave = 0
 
