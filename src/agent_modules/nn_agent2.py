@@ -10,9 +10,6 @@ import time
 # loss function: Optimizer tries to minimize value. 
 # Q_value is output by network, q_target is optimal Q_value. Means output of NN should approach q_target
 #outside of class to avoid "self" argument
-def loss(y_true, y_pred):
-            squared_difference = tf.square(y_true - y_pred)
-            return tf.reduce_mean(squared_difference, axis=-1)
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions, batch_size, name, 
@@ -28,7 +25,6 @@ class DeepQNetwork(object):
         self.batch_size = batch_size
         #saving / memory
         self.checkpoint_file = os.path.join(chkpt_dir,'deepqnet.ckpt')
-        self.params = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope=self.name)
         
         self.build_network()
 
@@ -54,11 +50,8 @@ class DeepQNetwork(object):
 
         self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
         
-        
-        
-
         #Network is ready for calling / Training
-        self.dqn.compile(loss=loss, optimizer="adam", metrics=["accuracy"])
+        self.dqn.compile(loss="mean_squared_error", optimizer=tf.keras.optimizers.Adam(learning_rate=self.lr), metrics=["accuracy"])
 
         #training: dqn.fit(x=[global_input, local_input], y=[q_target], batch_size=self.batch_size, epochs=self.n_epochs, callbacks=[early_stopping, checkpoint])
         #calling: dqn.predict([global_input_batch, local_input_batch]) or dqn([global_input_batch, local_input_batch])
@@ -67,7 +60,7 @@ class DeepQNetwork(object):
         
     def load_checkpoint(self):
         print("...Loading checkpoint...")
-        self.dqn = load_model(self.checkpoint_file, custom_objects={"loss": loss})
+        self.dqn = load_model(self.checkpoint_file)
         
     def save_checkpoint(self):
         print("...Saving checkpoint...")
@@ -78,13 +71,13 @@ class DeepQNetwork(object):
 class Agent(object):
     def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size,
                  replace_target=10000, 
-                 q_next_dir='paper rebuild tf2/nn_memory/q_next', q_eval_dir='paper rebuild tf2/nn_memory/q_eval'):
+                 q_next_dir='paper rebuild stable/nn_memory/q_next', q_eval_dir='paper rebuild stable/nn_memory/q_eval'):
 
         self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)
         self.action_space = [i for i in range(self.n_actions)]
         self.gamma = gamma
         self.mem_size = mem_size
-        self.mem_cntr = 0
+        self.counter = 0
         self.epsilon = epsilon
         self.batch_size = batch_size
         self.replace_target = replace_target
@@ -106,10 +99,11 @@ class Agent(object):
         self.action_memory = np.zeros(self.mem_size, dtype=np.int8)
         self.reward_memory = np.zeros(self.mem_size)
 
-        self.end = 0
+        self.recent_mem = 6
+        self.recent_actions = np.zeros(self.recent_mem)
 
     def store_transition(self, global_state, local_state, next_gloabal_state, next_local_state, action, reward):
-        index = self.mem_cntr % self.mem_size
+        index = self.counter % self.mem_size
         
         self.global_state_memory[index] = global_state
         self.local_state_memory[index] = local_state
@@ -118,17 +112,14 @@ class Agent(object):
         self.new_global_state_memory[index] = next_gloabal_state
         self.new_local_state_memory[index] = next_local_state
 
-        self.mem_cntr += 1
-
     def choose_action(self, global_state, local_state):
         rand = np.random.random()
-        if rand < self.epsilon:
+        if rand < self.epsilon or self.rare_Exploration():
             action = np.random.choice(self.action_space)
         else:
             #create batch of state (prediciton must be in batches)
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
-
             for _ in range(self.batch_size-1):
                 glob_batch = np.append(glob_batch, np.array([np.zeros(self.global_input_dims)]), axis=0)
                 loc_batch = np.append(loc_batch, np.array([np.zeros(self.local_input_dims)]), axis=0)
@@ -137,16 +128,19 @@ class Agent(object):
             #actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
             action = int(np.argmax(actions))
         
+        action_ind = self.counter % self.recent_mem 
+        self.recent_actions[action_ind] = action
+
         return action
 
     def learn(self):
         #update q_next after certain step
-        if self.mem_cntr % self.replace_target == 0:
+        if self.counter % self.replace_target == 0:
             self.update_graph()
 
         #randomly samples Memory.
         #chooses as many states from Memory as batch_size requires 
-        max_mem = self.mem_cntr if self.mem_cntr < self.mem_size else self.mem_size
+        max_mem = self.counter if self.counter < self.mem_size else self.mem_size
         batch = np.random.choice(max_mem, self.batch_size)
         
         #load sampled memory
@@ -175,14 +169,23 @@ class Agent(object):
         #self.q_eval.dqn.fit(x=[global_state_batch, local_state_batch], y=q_target, batch_size=self.batch_size, epochs=10, verbose=0)
 
         #reduces Epsilon: Network relies less on exploration over time
-        if self.mem_cntr > self.mem_size:
+        if self.counter > self.mem_size and self.epsilon != 0:
             if self.epsilon > 0.05:
-                self.epsilon -= 8e-5 #go constant at 25000 steps
-            elif self.epsilon <= 0.1:
+                self.epsilon -= 1e-5 #go constant at 25000 steps
+            elif self.epsilon <= 0.05:
                 self.epsilon = 0.05
         
-
-
+    def rare_Exploration(self):
+        variance = 0
+        container = []
+        for i in range(0, self.recent_mem):
+            if self.recent_actions[i] not in container:
+                container.append(self.recent_actions[i])
+                variance += 1
+        if variance < self.recent_mem/2:
+            return True
+        return False
+            
     def save_models(self):
         self.q_eval.save_checkpoint()
         self.q_next.save_checkpoint()
@@ -192,5 +195,6 @@ class Agent(object):
         self.q_next.load_checkpoint()
 
     def update_graph(self):
-        del self.q_next
-        self.q_next = clone_model(self.q_eval) 
+        print("...Updating Network...")
+        self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
+        
