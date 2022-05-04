@@ -25,7 +25,7 @@ if __name__ == '__main__':
     num_steps = 64
 
     #loading reference Data
-    ref_Data = pd.read_csv("paper rebuild stable/ref_Data.csv")
+    ref_Data = pd.read_csv("src/data/ref_Data.csv")
     ref_Data = ref_Data.drop('Unnamed: 0', axis=1)
     train_ind = np.random.choice(ref_Data.shape[1], num_episodes+100)
     reference = []
@@ -91,7 +91,7 @@ if __name__ == '__main__':
                 lastsave = i
                 isSaved = True
                 agent.save_models()
-                with open("paper rebuild stable/plotlearn_data.json", "w") as f:
+                with open("src/plotlearn_data.json", "w") as f:
                     json.dump(learning_history, f)
         elif i > lastsave+2:
             isSaved = False
