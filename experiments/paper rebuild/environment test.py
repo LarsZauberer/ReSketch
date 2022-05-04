@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from environment import ShapeDraw, drawline
+from agent_modules.environment import ShapeDraw, drawline
 
 ref_Data = pd.read_csv("C:/Users/robin/OneDrive/Desktop/Maturarbeit/Nachzeichner-KI/paper rebuild/ref_Data.csv")
 ref_Data = ref_Data.drop('Unnamed: 0', axis=1)
