@@ -1,9 +1,7 @@
 import os
 import random
-from types import NoneType
 import numpy as np
 import math as ma
-import time
 import matplotlib.pyplot as plt
 
 
@@ -33,6 +31,9 @@ class ShapeDraw(object):
         self.isDrawing = 0 #! 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.set_agentPos([random.randint(1, self.s-2), random.randrange(1, self.s-2)]) # Set a random start location for the agent (but with one pixel margin)
 
+        #rendering / visualization
+        self.fig = plt.figure(figsize=(10, 7))
+
     def step(self, agent_action):
         action = [0, 0]
         self.isDrawing = 1
@@ -47,14 +48,14 @@ class ShapeDraw(object):
         action = [int(self.agentPos[0]+x-ownpos) , int(self.agentPos[1]+y-ownpos)]
 
         penalty = 0
-        if abs(x) < (self.p-1)/2 or abs(y) < (self.p-1)/2:
-            penalty = -0.05
+        if abs(x) < ownpos or abs(y) < ownpos:
+            penalty = -0.0005
 
         if self.move_isLegal(action):
             self.set_agentPos(action)
         else:
             self.isDrawing = 0
-            penalty = -0.01
+            penalty = -0.001
         
         reward = self.reward() if self.isDrawing else 0.0
         reward += penalty
@@ -123,7 +124,10 @@ class ShapeDraw(object):
         self.reward()
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
     
-    def render(self, mode="None"):
+    def render(self, mode="None", realtime=False):
+        
+            
+        
         if mode == "Compare":
             rendCanv = self.canvas.copy().reshape(self.s**2,)
             rendRef = self.reference.copy().reshape(self.s**2,)
@@ -137,22 +141,26 @@ class ShapeDraw(object):
                 elif e == 1:
                     rendRef[index] = 50
             
-            fig = plt.figure(figsize=(10, 7))
+            
+
             
             # Original image
-            fig.add_subplot(2, 2, 1)
+            self.fig.add_subplot(2, 2, 1)
             plt.imshow(rendRef.reshape(28, 28), cmap='gray', label='Original', vmin=0, vmax=255)
             plt.axis("off")
             plt.title("Original")
             
+            rendCanv = rendCanv.reshape(28, 28)
+
+            if realtime:
+                rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
             # AI Generated Image
-            fig.add_subplot(2, 2, 2)
-            plt.imshow(rendCanv.reshape(28, 28), cmap='gray', label='AI Canvas', vmin=0, vmax=255)
+            self.fig.add_subplot(2, 2, 2) 
+            plt.imshow(rendCanv, cmap='gray', label='AI Canvas', vmin=0, vmax=255)
             plt.axis("off")
             plt.title("AI Canvas")
             
             plt.pause(0.01)
-
         else:
             plt.imshow(self.canvas, interpolation='none', cmap='gray')
             plt.pause(0.01)
