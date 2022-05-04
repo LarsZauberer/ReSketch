@@ -1,6 +1,6 @@
 import os
-from environment import ShapeDraw
-from nn_agent2 import DeepQNetwork, Agent
+from agent_modules.environment import ShapeDraw
+from agent_modules.nn_agent2 import DeepQNetwork, Agent
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
