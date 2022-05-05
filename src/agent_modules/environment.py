@@ -40,6 +40,17 @@ class ShapeDraw(object):
         self.fig = plt.figure(figsize=(10, 7))
 
     def step(self, agent_action: int):
+        """
+        step Step to a new timestep. Creates a new canvas state with the action
+        index input
+
+        :param agent_action: the index of the action which should be moved
+        :type agent_action: int
+        :return: the next timestemp containing. It is containing a np array with
+            `reference`, `canvas`, `distmap` and `colmap` another np array with
+            `ref_patch` and `canvas_patch` and an int with the `reward`
+        :rtype: tuple
+        """
         action = [0, 0]
         self.isDrawing = 1
 
@@ -55,7 +66,7 @@ class ShapeDraw(object):
         action = [int(self.agentPos[0]+x-ownpos),
                   int(self.agentPos[1]+y-ownpos)]
 
-        # ? What does this code do?
+        # Penalty for being to slow
         penalty = 0
         if abs(x) < ownpos or abs(y) < ownpos:
             penalty = -0.0005
