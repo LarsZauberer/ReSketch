@@ -18,25 +18,22 @@
 \section{Thematische Beschreibung}
 \label{chap:thematische-beschreibung}
 In unserem Projekt versuchen wir folgende Fragestellung zu beantworten: `Kann
-eine künstliche Intelligenz in einer Simulation Strichbilder (Bspw. Zahlen,
-Buchstaben) nachzeichnen, welche als das gezeichnete Strichbild erkannt werden können?'
+eine künstliche Intelligenz lernen, Strichbilder (Bspw. Zahlen, Buchstaben)
+nachzuzeichnen, sodass sie durch ein automatisches System erkannt werden
+können?'
 
-Das Projekt fällt in den Bereich der Künstlichen Intelligenz, weil menschliche
-Bewegungen nicht algorithmisch aufgefasst werden können. Ausserdem beschäftigen
-wir uns mit Reinforcement learning, einer Untergruppe der künstlichen
-Intelligenz
+Das Projekt fällt in den Bereich der Künstlichen Intelligenz, unteranderem weil
+menschliche Bewegungen nur schwer algorithmisch aufgefasst werden können.
+Deswegen verwenden wir Reinforcement und Deep Learning Ansätze.
 
 Folgende Unterfragen sollen mit dem Projekt beantwortet werden.
 
 \begin{itemize}
-    \item Wie können die Architektur und die Einstellungen einer KI aussehen, die das Nachzeichnen erlernt?
-    \item Wie lässt sich die Genauigkeit der KI beurteilen?
-    \item Wie lässt sich die Genauigkeit von dem Ergebnis verbessern?
-    \item Nach welchen Kriterien kann beurteilt werden, wie menschlich die KI zeichnet?
-    \item Lässt sich die Genauigkeit der KI durch eine Gegenüberprüfung von einem trainierten Mnist Netz verbessern?
-    \item welche Einflüsse haben eifachen Physiksimulationen auf die Genauigkeit und die `Menschlichkeit' der KI?
-    
-
+    \item Wie kann die Architektur einer KI aussehen, die das Nachzeichnen erlernt?
+    \item Wie lässt sich die Leistung der KI in dieser Aufgabe beurteilen?
+    \item Wie lässt sich die Leistung von dem Ergebnis verbessern?
+    \item Welche Einflüsse haben die Integration von einfachen physischen Rahmenbedingungen auf die Leistungs der KI?
+    \item Wie und in wiefern lässt sich die Leistung der KI mit menschlichem Zeichnen vergleichen?
 \end{itemize}
 
 \section{Wissensstand, mögliche Quellen}
@@ -44,9 +41,8 @@ Folgende Unterfragen sollen mit dem Projekt beantwortet werden.
 
 Zurzeit kennen wir uns mit den Grundlagen von Machine Learning aus. Wir
 verstehen, wie ein Neuronales Netz funktioniert. Allerdings haben wir noch nicht
-so viel Erfahrung auf dem Gebiet von Reinforcement. Aus diesem Grund haben wir
-uns entschieden ein Vorprojekt zu machen, um uns in dieses Gebiet
-hineinzuarbeiten.
+so viel Erfahrung auf dem Gebiet von Reinforcement. Aus diesem Grund wurde ein
+Vorprojekt gemacht, um uns in dieses Gebiet hineinzuarbeiten.
 
 \subsection{Vorprojekt}
 Das Vorprojekt stützt besonders auf einer wissenschaftlichen Arbeit aus China.
@@ -62,19 +58,23 @@ Die Replikation erzielt zum Zeitpunkt der Projektvereinbarung ansatzweise
 ähnliche Ergebnisse wie das Original.
 
 
-\section{Methode}
+\section{Methodik}
 \label{chap:methode}
 
-Als nächsten Schritt werden wir unser Vorprojekt ausarbeiten und die Leistung
-davon maximieren. Wir orientieren uns dabei weiterhin auf die bereits genannte
-wissenschaftliche Arbeit. Wenn die KI stabile Ergebnisse erzielt, dient diese
-als Grundlage für Experimente und Erweiterungen, die unsere restlichen
-Unterfragen beantworten sollen. 
+% Als nächsten Schritt werden wir unser Vorprojekt ausarbeiten und die Leistung
+% davon maximieren. Wir orientieren uns dabei weiterhin auf die bereits genannte
+% wissenschaftliche Arbeit. Wenn die KI stabile Ergebnisse erzielt, dient diese
+% als Grundlage für Experimente und Erweiterungen, die unsere restlichen
+% Unterfragen beantworten sollen.
+
+Die Methodik unserer Arbeit ist die iterative Weiterenticklung einer
+Computersimulation mit Tensorflow. Recherche wird beigezogen zur Erarbeitung von
+Verständnis, als auch für die Lösung von konkreter technischer Probleme.
 
 
 \subsection{Dokumentation}
 \label{chap:m_dokumentation}
-Die Dokumentation wird nebenbei entwickelt, damit dort die volle Theorie
+Die Dokumentation wird begleitend entwickelt, damit dort die volle Theorie
 und unser Vorgehen beschrieben ist. Diese Dokumentation wird auch auf GitHub
 verfügbar sein. 
 
@@ -90,7 +90,7 @@ verfügbar sein.
 \section{Ergebnis}
 \label{chap:ergebnis}
 Das Ergebnis unseres Projektes soll ein trainiertes Tensorflow-Modell sein,
-welches Symbole auf menschliche Weise nachzeichnen kann.
+welches Stichzeichnungen auf möglichst menschliche Weise nachzeichnen kann.
 
 
 \section{Zeitplan}
@@ -101,7 +101,7 @@ welches Symbole auf menschliche Weise nachzeichnen kann.
     03.06.2022     & PV unterschrieben                                                                             \\
     24.06.2022     & Eine KI erschaffen, welche möglichst gut ein Symbol nachzeichnen kann                         \\
     03.07.2022     & Implementierung des Mnist Netzes in die KI                                                    \\
-    03.07.2022     & Klärung der physikalischen modellierung der Simulation                                        \\
+    03.07.2022     & Implementierung der physikalischen Rahmenbedingungen der Simulation                           \\
     07.08.2022     & Optimierung der KI auf physikalische Gegebenheiten                                            \\
     07.08.2022     & Dokumentation, bis auf noch hinzuzufügendene Teile fertig                                     \\
     25.08.2022     & Optimierung der KI auf menschenähnliches zeichnen                                             \\
@@ -117,13 +117,11 @@ Dabei soll bewertet werden, wie konsequent und umfangreich mit diesen Hilfsmitte
 \subsection{Optimierung der KI}
 \label{chap:optimierung}
 Wie gross waren die Bemühungen/Erfolge, die Leistung der KI zu verbessern?
-Konnte die Genauigkeit der KI verbessert werden?
+Konnte die Leistung der KI verbessert werden?
 
 \subsection{Analyse der KI}
 \label{chap:erklaerung}
-Wie gut wurde erklärt, warum gewisse Versionen der KI nicht/schwächer als andere funktionieren
-oder:
-Wie gut wurden Leistungsunterschiede zwischen einzelnen Versionen der KI evaluiert und analysiert
+Wie gut wurden Leistungsunterschiede zwischen einzelnen Versionen der KI evaluiert und analysiert.
 
 
 
