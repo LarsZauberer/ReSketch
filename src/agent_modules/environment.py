@@ -87,7 +87,13 @@ class ShapeDraw(object):
         # Ending the timestep
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
 
-    def set_agentPos(self, pos):
+    def set_agentPos(self, pos: list):
+        """
+        set_agentPos Sets the agent to a new position.
+
+        :param pos: Koordinates of the new position
+        :type pos: list
+        """
         if self.isDrawing:
             # print(type(self.canvas), type(drawline(self.agentPos, pos, self.canvas)))
             self.canvas = drawline(self.agentPos, pos, self.canvas)
@@ -123,6 +129,12 @@ class ShapeDraw(object):
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
     def reward(self):
+        """
+        reward Calculate the reward based on gained similarity and length of step
+
+        :return: The reward value
+        :rtype: float
+        """
         # calculates reward of action based on gained similarity and length of step
         reward = 0
         similarity = 0
@@ -131,12 +143,21 @@ class ShapeDraw(object):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
         similarity = similarity/(self.s**2)
 
+        # Only use the newly found similar pixels for the reward
         reward = self.lastSim - similarity
         self.lastSim = similarity
 
         return reward
 
     def move_isLegal(self, action):
+        """
+        move_isLegal Check if an action is legel.
+
+        :param action: The action to validate
+        :type action: list
+        :return: Wether it is legal or not
+        :rtype: bool
+        """
         if action[0] > len(self.canvas[0])-2 or action[0] < 1:
             return False
         if action[1] > len(self.canvas)-2 or action[1] < 1:
@@ -144,6 +165,12 @@ class ShapeDraw(object):
         return True
 
     def reset(self):
+        """
+        reset Reset the canvas to the initial state.
+
+        :return: Returns an array with the inital state maps
+        :rtype: np.array
+        """
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
         self.canvas = np.zeros((self.s, self.s))
@@ -153,7 +180,19 @@ class ShapeDraw(object):
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
     def render(self, mode="None", realtime=False):
+        """
+        render Renders the current canvas state in matplotlib to visualize the
+        state. It has two modes. Compare (value=Compare) and default
+        (value=None). In the compare mode it shows the reference and the
+        rendered image and visualizes which pixels are the same. In the default
+        option it renders only the canvas state without any comparements to the
+        reference image.
 
+        :param mode: The mode how to render the canvas, defaults to "None"
+        :type mode: str, optional
+        :param realtime: If the canvas should render in realtime, defaults to False
+        :type realtime: bool, optional
+        """
         if mode == "Compare":
             rendCanv = self.canvas.copy().reshape(self.s**2,)
             rendRef = self.reference.copy().reshape(self.s**2,)
@@ -176,6 +215,7 @@ class ShapeDraw(object):
 
             rendCanv = rendCanv.reshape(28, 28)
 
+            # ? What does the realtime parameter do?
             if realtime:
                 rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
             # AI Generated Image
@@ -191,8 +231,27 @@ class ShapeDraw(object):
             plt.pause(0.01)
 
 
+###############################################################################
+
+# Utility Functions
+
+###############################################################################
+
+
 # draws Line directly on bitmap to save convert
 def drawline(setpos, pos, canvas):
+    """
+    drawline Draw a line on a specified canvas.
+
+    :param setpos: The starting position of the line
+    :type setpos: list
+    :param pos: The ending position of the line
+    :type pos: list
+    :param canvas: The canvas on which the line should be drawn
+    :type canvas: np.array
+    :return: The canvas with the line drawn
+    :rtype: np.array
+    """
     weight = 1
     dx = pos[0] - setpos[0]
     dy = pos[1] - setpos[1]
