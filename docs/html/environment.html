@@ -73,27 +73,77 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="environment.ShapeDraw.move_isLegal">
 <span class="sig-name descname"><span class="pre">move_isLegal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.ShapeDraw.move_isLegal" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>move_isLegal Check if an action is legel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>action</strong> (<em>list</em>) – The action to validate</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Wether it is legal or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="environment.ShapeDraw.render">
 <span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'None'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">realtime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.ShapeDraw.render" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>render Renders the current canvas state in matplotlib to visualize the
+state. It has two modes. Compare (value=Compare) and default
+(value=None). In the compare mode it shows the reference and the
+rendered image and visualizes which pixels are the same. In the default
+option it renders only the canvas state without any comparements to the
+reference image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – The mode how to render the canvas, defaults to “None”</p></li>
+<li><p><strong>realtime</strong> (<em>bool</em><em>, </em><em>optional</em>) – If the canvas should render in realtime, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="environment.ShapeDraw.reset">
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.ShapeDraw.reset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>reset Reset the canvas to the initial state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns an array with the inital state maps</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="environment.ShapeDraw.reward">
 <span class="sig-name descname"><span class="pre">reward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.ShapeDraw.reward" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>reward Calculate the reward based on gained similarity and length of step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The reward value</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="environment.ShapeDraw.set_agentPos">
-<span class="sig-name descname"><span class="pre">set_agentPos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.ShapeDraw.set_agentPos" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">set_agentPos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.ShapeDraw.set_agentPos" title="Permalink to this definition"></a></dt>
+<dd><p>set_agentPos Sets the agent to a new position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pos</strong> (<em>list</em>) – Koordinates of the new position</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="environment.ShapeDraw.step">
@@ -135,7 +185,23 @@ index input</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="environment.drawline">
 <span class="sig-prename descclassname"><span class="pre">environment.</span></span><span class="sig-name descname"><span class="pre">drawline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setpos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.drawline" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>drawline Draw a line on a specified canvas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>setpos</strong> (<em>list</em>) – The starting position of the line</p></li>
+<li><p><strong>pos</strong> (<em>list</em>) – The ending position of the line</p></li>
+<li><p><strong>canvas</strong> (<em>np.array</em>) – The canvas on which the line should be drawn</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The canvas with the line drawn</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
