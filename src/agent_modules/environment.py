@@ -103,23 +103,37 @@ class ShapeDraw(object):
         self.update_colmap()
 
     def update_distmap(self):
+        """
+        update_distmap Calculate a new distmap
+        The distmap tells the agent as a heatmap where he is.
+        """
         x0 = self.agentPos[0]
         y0 = self.agentPos[1]
         for y in range(self.s):
             for x in range(self.s):
-                dist = ma.sqrt((x-x0)**2 + (y-y0)**2)/self.s
-                self.distmap[y][x] = dist
+                dist = ma.sqrt((x-x0)**2 + (y-y0)**2)/self.s  # Calculate the distance to that pixel
+                self.distmap[y][x] = dist  # Save the distance to the distmap
 
     def update_colmap(self):
+        """
+        update_colmap Calculate a new colmap
+        The colmap tells the agent if he is drawing or not
+        """
         for y in range(self.s):
             for x in range(self.s):
                 self.colmap[y][x] = self.isDrawing
 
     def update_patch(self):
+        """
+        update_patch Calculate a local input patch of the agent
+        The local patch is a concentrated smaller part of the canvas
+        """
+        # Get start locations of the patch
         patchX = int(self.agentPos[0]-(self.p-1)/2)
         patchY = int(self.agentPos[1]-(self.p-1)/2)
         for y in range(self.p):
             for x in range(self.p):
+                # Check for bounds
                 yInd = 0 if patchY + \
                     y >= len(self.reference) or patchY+y < 0 else patchY+y
                 xInd = 0 if patchX + \
@@ -171,11 +185,17 @@ class ShapeDraw(object):
         :return: Returns an array with the inital state maps
         :rtype: np.array
         """
+        # Get another reference image
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
+        
+        # Reset canvas and agent position
         self.canvas = np.zeros((self.s, self.s))
         self.set_agentPos((random.randint(1, self.s-2),
                           random.randint(1, self.s-2)))
+        
+        # Reset the reward by rerunning it on an empty canvas
+        # This should clear the last similarity variable
         self.reward()
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
