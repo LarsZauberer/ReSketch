@@ -2,30 +2,64 @@
 
 \section{Machine Learning}
 \label{chap:t_ml}
-Teilbereich künstliche Intelligenz (Künstliche Intelligenz ist Maschine, die menschliche Tätigkeiten nachmacht) Maschine = Computer -> Computerprogramm
-Machine Learning ist Überbegriff -> Computerprogramme, die eine Mustererkennung entwickeln. Durch Analysieren von Daten. KI lernt Vorhersagen
+Teilbereich künstliche Intelligenz (Künstliche Intelligenz ist Maschine, die
+menschliche Tätigkeiten nachmacht) Maschine = Computer -> Computerprogramm
+Machine Learning ist Überbegriff -> Computerprogramme, die eine Mustererkennung
+entwickeln. Durch Analysieren von Daten. KI lernt Vorhersagen
 
-Beispiel Zahlenerkennung:
-Beispiel für Künstliche Intelligenz
-Bild einer handschriftlichen Zahl wird Programm übergeben (Input)
-Das Programm bestimmt, um welche Zahl es sich handelt.
-Programm gibt Zahl aus
+Beispiel Zahlenerkennung: Beispiel für Künstliche Intelligenz Bild einer
+handschriftlichen Zahl wird Programm übergeben (Input) Das Programm bestimmt, um
+welche Zahl es sich handelt. Programm gibt Zahl aus
 
 Künstliche Intelligenz weil das Erkennen von Zahlen menschlich ist.
 
-Unterschied machine Learning: KI lernt von Grund auf, Zahlen zu Erkennen
-Anfang wird allermeistens Falsch sein
+Unterschied machine Learning: KI lernt von Grund auf, Zahlen zu Erkennen Anfang
+wird allermeistens Falsch sein
 
-KI lernt durch die Analyse von Daten. -> Trainingsdaten. Dabei ist bekannt, was die richtige Lösung zu den gegebenen Daten ist.
-So erfährt die KI, wenn sie falsch liegt. 
-Programm kann sich bezogen auf Erfahrung selbst anpassen. Anpassungen möglichst so, dass Vorhersagen in Zukunft besser sind.
+KI lernt durch die Analyse von Daten. -> Trainingsdaten. Dabei ist bekannt, was
+die richtige Lösung zu den gegebenen Daten ist. So erfährt die KI, wenn sie
+falsch liegt. Programm kann sich bezogen auf Erfahrung selbst anpassen.
+Anpassungen möglichst so, dass Vorhersagen in Zukunft besser sind.
 
-Nachdem KI mit Trainingsdaten verbessert wurde, sollte diese auch für neue Daten möglichst genaue Vorhersagen machen.
+Nachdem KI mit Trainingsdaten verbessert wurde, sollte diese auch für neue Daten
+möglichst genaue Vorhersagen machen.
 
-Nächste Frage: Wie trifft KI entscheidungen, und wie kann sie sich selbst Anpassen? -> Antwort Neuronale Netze
+Nächste Frage: Wie trifft KI entscheidungen, und wie kann sie sich selbst
+Anpassen? -> Antwort Neuronale Netze
 
 
-\subsection*{Neuronale Netze}
+\subsection*{künstliche neuronale Netze}
+
+Grundbaustein eines neuronalen Netzes sind  Neuronen, die mehrere Eingaben
+erhalten. Jede Eingabe wird verschieden gewichtet, wobei das Gewicht mit der
+Eingabe (0 oder 1) multipliziert wird. (vereinfachte Erklärung eines
+Sigmoid-Neuron)
+
+Wenn Alle Eingaben + Gewichte Addiert werden und den Threshold, einen
+vorgegebenen Grenzwert, überschreiten, ist der Output dieses Neurons = 1. -> Das
+Neuron feuert
+
+Neuronales Netz = verbindung von künstlichen Neuronen. Künstliche Neuronen
+werden von mehreren Eingaben beeinflusst. Die Eingaben haben dabei eine
+Unterschiedliche Gewichtung. Das künstliche Neuron hat nur eine Ausgabe zwischen
+0 und 1.
+
+In einem neuronalen Netz werden viele Neuronen miteinander verbunden. Der
+Eingabe entsprechen dabei die Daten, die dem neuronalen Netz übergeben werden.
+Danach dient die Ausgabe von Neuronen als die Eingabe von weiteren Neuronen.
+Umso grösser die Ausgabe eines Neurons ist, desto stärker beeinflusst dieses die
+Ausgabe der Neuronen, an deren Eingaben es beteiligt ist.
+
+Die Entscheidung des Programms wird auch in verschiedenen Neuronen dargestellt.
+Im Beispiel sind es 10 Neuronen, wobei jedes Neuron eine andere Zahl von 0-9
+darstellt. Diese Neuronen haben keine Ausgabe mehr, die für das neuronale Netz
+relevant ist. Die Entscheidung basiert in diesem Fall lediglich darauf, welches
+der 10 Ausgabeneurenen den höchsten Wert enthält. Die Zahl, die dieses Neuron
+repräsentiert, wird dann als die Entscheidung des Neuronalen Netzes angesehen
+
+Der Lernprozess findet durch eine anpassung von Einzelnen Gewichten der
+Eingaben, wenn die KI eine falsche Entscheidung trifft. Dadurch soll die
+Entscheidung so angepasst werden, dass sie im nächsten Fall besser ausfällt
 
 
 
@@ -62,8 +96,9 @@ Doodle-SDQ. Das Computerprogramm dieser Arbeit basiert auf dem Programm von
 Doodle-SDQ 
 
 \subsection*{Doodle-SDQ}
-Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt hat, Strichbilder aus dem Google Quick-Draw Datenset nachzuzeichnen. 
-Ist in der Freiheit des Zeichnens eingeschränk\indent 
+Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt hat, Strichbilder
+aus dem Google Quick-Draw Datenset nachzuzeichnen. Ist in der Freiheit des
+Zeichnens eingeschränk\indent 
 
 Architektur: Agent = Stift. Umgebung = Zeichenfläche. Speichert Position von
 Agent, das zu Nachzeichnende Bild, das was bis jezt gezeichnet wurde und ob
@@ -72,9 +107,10 @@ Stift gerade vom Blatt gehoben ist. Die Belohnung/Bestrafung ist der Grad der
 sich in einem Schritt bewegen kann, wird in das neuronale Netz noch ein weiteres
 Mal eingegeben, wodurch darauf ein Fokus gelegt wird. Ausgabe des neuronalen
 Netz ist eine der Aktionen die der Agent ausführen kann
-
-
-
+R
 
 \section{Git und GitHub}
 \label{chap:t_git}
+
+
+
