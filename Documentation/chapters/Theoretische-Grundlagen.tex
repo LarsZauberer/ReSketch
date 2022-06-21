@@ -1,16 +1,80 @@
 \chapter{Theoretische Grundlagen}
 
-\section{Maschinelles Lernen}
+\section{Machine Learning}
 \label{chap:t_ml}
+Teilbereich künstliche Intelligenz (Künstliche Intelligenz ist Maschine, die menschliche Tätigkeiten nachmacht) Maschine = Computer -> Computerprogramm
+Machine Learning ist Überbegriff -> Computerprogramme, die eine Mustererkennung entwickeln. Durch Analysieren von Daten. KI lernt Vorhersagen
+
+Beispiel Zahlenerkennung:
+Beispiel für Künstliche Intelligenz
+Bild einer handschriftlichen Zahl wird Programm übergeben (Input)
+Das Programm bestimmt, um welche Zahl es sich handelt.
+Programm gibt Zahl aus
+
+Künstliche Intelligenz weil das Erkennen von Zahlen menschlich ist.
+
+Unterschied machine Learning: KI lernt von Grund auf, Zahlen zu Erkennen
+Anfang wird allermeistens Falsch sein
+
+KI lernt durch die Analyse von Daten. -> Trainingsdaten. Dabei ist bekannt, was die richtige Lösung zu den gegebenen Daten ist.
+So erfährt die KI, wenn sie falsch liegt. 
+Programm kann sich bezogen auf Erfahrung selbst anpassen. Anpassungen möglichst so, dass Vorhersagen in Zukunft besser sind.
+
+Nachdem KI mit Trainingsdaten verbessert wurde, sollte diese auch für neue Daten möglichst genaue Vorhersagen machen.
+
+Nächste Frage: Wie trifft KI entscheidungen, und wie kann sie sich selbst Anpassen? -> Antwort Neuronale Netze
+
+
+\subsection*{Neuronale Netze}
+
+
+
 
 \section{Reinforcement Learning}
 \label{chap:t_rl}
+Verschiedene Arten
 
-\section{Computer Simulationen}
-\label{chap:t_simu}
 
-\section{Chirographie}
-\label{chap:t_chiro}
+\section{Verwandte Arbeiten und Themen}
+\label{chap:t_verwandt}
+
+Ein verwandtes Thema dieser Arbeit ist die Robotik. Ein Roboter ist laut der
+Definition eine `Apparatur, die bestimmte Funktionen eines Menschen ausführen
+kann' (Duden). Das Nachzeichnen von Strichbildern ist ebenfalls eine menschliche
+Tätigkeit. Diese Arbeit untersucht allerdings nur das Computerprogramm, welches
+diese Tätigkeit verrichten kann. Die Apparatur, die von diesem Programm
+gesteuert werden könnte, wird also nicht erbaut.
+
+Es gibt verschiedene Ansätze, um ein Computerprogramm die menschliche Tätigkeit
+des Nachzeichnens verrichten zu lassen. Ein häufiger Ansatz ist "Stroke-Based
+Rendering", wobei Bilder durch das Platzieren von Elementen wie Strichen
+gezeichnet werden. Beispiele für Arbeiten, die diesen Ansatz verwenden sind\dots
+Stroke-Based Rendering unterscheidet sich von menschlichem Zeichnen dadurch,
+dass kein Stift geführt wird. Stattdessen können die Elemente zu jedem Zeitpunkt
+an einer willkürlichen Position auf der Zeichenfläche platziert werden.
+
+Andere Ansätze simulieren die Führung eines Stiftes. Damit ist gemeint, dass das
+Computerprogramm nicht zu jedem Zeitpunkt an jedem Ort Zeichnen kann.
+Stattdessen muss das Programm einen virtuellen Stift bewegen und kann nur gerade
+dort zeichnen, wo sich der Stift befindet. Das ist eine Einschränkung, die auch
+auf menschliches Zeichnen zutrifft. Ein Beipiel für diese Art des Zeichnens ist
+Doodle-SDQ. Das Computerprogramm dieser Arbeit basiert auf dem Programm von
+Doodle-SDQ 
+
+\subsection*{Doodle-SDQ}
+Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt hat, Strichbilder aus dem Google Quick-Draw Datenset nachzuzeichnen. 
+Ist in der Freiheit des Zeichnens eingeschränk\indent 
+
+Architektur: Agent = Stift. Umgebung = Zeichenfläche. Speichert Position von
+Agent, das zu Nachzeichnende Bild, das was bis jezt gezeichnet wurde und ob
+Stift gerade vom Blatt gehoben ist. Die Belohnung/Bestrafung ist der Grad der
+Ähnlichkeit zwischen Bildern. Die Unmittelbare Umgebung des Agenten, in dem er
+sich in einem Schritt bewegen kann, wird in das neuronale Netz noch ein weiteres
+Mal eingegeben, wodurch darauf ein Fokus gelegt wird. Ausgabe des neuronalen
+Netz ist eine der Aktionen die der Agent ausführen kann
+
+
+
 
 \section{Git und GitHub}
 \label{chap:t_git}
