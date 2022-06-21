@@ -252,34 +252,51 @@ def drawline(setpos, pos, canvas):
     :return: The canvas with the line drawn
     :rtype: np.array
     """
-    weight = 1
-    dx = pos[0] - setpos[0]
-    dy = pos[1] - setpos[1]
-    linePix = []
+    weight = 1  # The weight of the painting
+    dx = pos[0] - setpos[0]  # delta x
+    dy = pos[1] - setpos[1]  # delta y
+    linePix = []  # Pixels of the line
 
+    # Check if the agent is currently drawing
     if dx == 0 and dy == 0:
         return canvas
 
+    # It is going more on the x-axis
+    # Difference important for the diagonal pixel painting.
     if abs(dx) > abs(dy):
+        # Get the counting direction for the x-coordinate
         inc = int(ma.copysign(1, dx))
         for i in range(0, dx+inc, inc):
+            # Append the x-coordinates
             linePix.append([setpos[0]+i, 0])
 
+        # After how many steps go one up/down
         step = dy/(abs(dx)+1)
         sign = int(ma.copysign(1, dy))
         move = 0
         res = 0
+        
+        # Move amount to the right
         for i in range((abs(dx)+1)):
             res += step
+            
+            # Should move upwards
             if sign*res >= 0.5:
                 move += sign
                 res -= sign
+            
+            # change the y-position on the drawing pixel
             linePix[i][1] = setpos[1]+move
 
+        # Paint onto the real canvas
         for pix in linePix:
+            # Add a weight to the y-position
+            # TODO: No real weight function for a variable weight.
             canvas[pix[1]-weight][pix[0]] = 1
             canvas[pix[1]+weight][pix[0]] = 1
             canvas[pix[1]][pix[0]] = 1
+    
+    # The same procedure for the y-position
     else:
         inc = int(ma.copysign(1, dy))
         for i in range(0, dy+inc, inc):
@@ -297,8 +314,15 @@ def drawline(setpos, pos, canvas):
             linePix[i][0] = setpos[0]+move
 
         for pix in linePix:
+            # TODO: Change to a real weight function
             canvas[pix[1]][pix[0]+weight] = 1
             canvas[pix[1]][pix[0]-weight] = 1
             canvas[pix[1]][pix[0]] = 1
 
     return canvas
+
+
+if __name__ == '__main__':
+    # Debugging drawline
+    canv = np.zeros((28, 28))
+    drawline([0, 0], [5, 1], canv)
