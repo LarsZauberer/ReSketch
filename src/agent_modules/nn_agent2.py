@@ -13,25 +13,29 @@ import time
 
 
 class DeepQNetwork(object):
-    def __init__(self, lr, n_actions, batch_size, name,
-                 global_input_dims, local_input_dims, fc1_dims=512, chkpt_dir='tmp/dqn'):
-        self.lr = lr
-        self.n_actions = n_actions
-        self.name = name
+    def __init__(self, lr, n_actions: int, batch_size: int, name: str,
+                 global_input_dims: int, local_input_dims: int, fc1_dims: int = 512, chkpt_dir='tmp/dqn'):
+        self.lr = lr  # The optimization learning rate of the network model
+        self.n_actions = n_actions  # How many actions the agent has available -> Index of the action to execute
+        self.name = name  # The identification name of the agent
 
         # Inputs
-        self.global_input_dims = global_input_dims
-        self.local_input_dims = local_input_dims
-        self.q_target = np.zeros(self.n_actions)
-        self.fc1_dims = fc1_dims
-        self.batch_size = batch_size
+        self.global_input_dims = global_input_dims  # The dimensions of the global input. So the dimensions of the full drawing canvas.
+        self.local_input_dims = local_input_dims  # The dimensions of the concentrated input. The local patch of the canvas.
+        self.q_target = np.zeros(self.n_actions)  # ? I don't know
+        self.fc1_dims = fc1_dims  # Dimensions of the last dense layer
+        self.batch_size = batch_size  # ? I don't know -> Something with the agent training
 
         # saving / memory
-        self.checkpoint_file = os.path.join(chkpt_dir, 'deepqnet.ckpt')
+        self.checkpoint_file = os.path.join(chkpt_dir, 'deepqnet.ckpt')  # Where the model should be saved
 
+        # Generate the network
         self.build_network()
 
     def build_network(self):
+        """
+        build_network Generate a keras DeepQNetwork. The model will be saved in the self.dqn variable.
+        """
         # global convolution
         glob_in = Input(shape=self.global_input_dims,
                         batch_size=self.batch_size, name="global_input")
@@ -68,10 +72,16 @@ class DeepQNetwork(object):
         # calling: dqn.predict([global_input_batch, local_input_batch]) or dqn([global_input_batch, local_input_batch])
 
     def load_checkpoint(self):
+        """
+        load_checkpoint Load a network checkpoint from the file
+        """
         print("...Loading checkpoint...")
         self.dqn = load_model(self.checkpoint_file)
 
     def save_checkpoint(self):
+        """
+        save_checkpoint Save a network checkpoint to the file
+        """
         print("...Saving checkpoint...")
         self.dqn.save(self.checkpoint_file)
 
