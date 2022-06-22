@@ -91,26 +91,32 @@ class Agent(object):
                  replace_target=10000,
                  q_next_dir='paper rebuild stable/nn_memory/q_next', q_eval_dir='paper rebuild stable/nn_memory/q_eval'):
 
-        self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)
-        self.action_space = [i for i in range(self.n_actions)]
-        self.gamma = gamma
-        self.mem_size = mem_size
-        self.counter = 0
-        self.epsilon = epsilon
-        self.batch_size = batch_size
-        self.replace_target = replace_target
-        self.global_input_dims = global_input_dims
-        self.local_input_dims = local_input_dims
+        self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
+        self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
+        self.gamma = gamma  # ? I don't know
+        self.mem_size = mem_size  # The allocated memory size
+        self.counter = 0  # ? The episode counter?
+        self.epsilon = epsilon  # The epsilon value of the agent. The exploration value
+        self.batch_size = batch_size  # ? I don't know
+        self.replace_target = replace_target  # ? I don't know
+        self.global_input_dims = global_input_dims  # The input dimensions of the whole canvas.
+        self.local_input_dims = local_input_dims  # The dimensions of the concentrated patch of the canvas
 
+        # ? Why does this seperation exist
+        # ? The definitions are maybe not correct
         self.q_next = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_next', chkpt_dir=q_next_dir)
+                                   local_input_dims=local_input_dims, name='q_next', chkpt_dir=q_next_dir)  # The QNetwork to calculate the next value to choose the ai
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_eval', chkpt_dir=q_eval_dir)
+                                   local_input_dims=local_input_dims, name='q_eval', chkpt_dir=q_eval_dir) # The QNetwork to evaluate the action of the agent.
 
+        # Constant helper variables
         glob_mem_shape = (
             self.mem_size, global_input_dims[0], global_input_dims[1], global_input_dims[2])
         loc_mem_shape = (
             self.mem_size, local_input_dims[0], local_input_dims[1], local_input_dims[2])
+        
+        # Replay buffer
+        # ? Maybe some explanation on how the matrizes work
         self.global_state_memory = np.zeros(glob_mem_shape)
         self.local_state_memory = np.zeros(loc_mem_shape)
         self.new_global_state_memory = np.zeros(glob_mem_shape)
@@ -122,7 +128,24 @@ class Agent(object):
         self.recent_mem = 6
         self.recent_actions = np.zeros(self.recent_mem)
 
-    def store_transition(self, global_state, local_state, next_gloabal_state, next_local_state, action, reward):
+    def store_transition(self, global_state: np.array, local_state: np.array, next_gloabal_state: np.array, next_local_state: np.array, action: np.array, reward: np.array):
+        """
+        store_transition Save the next step to the replay buffer
+
+        :param global_state: The global state of the canvas
+        :type global_state: np.array
+        :param local_state: The small patch of the canvas
+        :type local_state: np.array
+        :param next_gloabal_state: The next state of the whole canvas
+        :type next_gloabal_state: np.array
+        :param next_local_state: The next state of the small patch of the canvas
+        :type next_local_state: np.array
+        :param action: The actions the agent is allowed to take
+        :type action: np.array
+        :param reward: The reward the agent got
+        :type reward: np.array
+        """
+        # ? action i'm not sure
         index = self.counter % self.mem_size
 
         self.global_state_memory[index] = global_state
@@ -133,11 +156,23 @@ class Agent(object):
         self.new_local_state_memory[index] = next_local_state
 
     def choose_action(self, global_state, local_state):
+        """
+        choose_action Agent should choose an action from the action_space
+
+        :param global_state: The whole canvas
+        :type global_state: np.array
+        :param local_state: The small patch of the canvas
+        :type local_state: np.array
+        :return: Index of the action the agent want's to take
+        :rtype: int
+        """
+        # Check if the agent should explore
         rand = np.random.random()
         if rand < self.epsilon or self.rare_Exploration():
             action = np.random.choice(self.action_space)
         else:
             # create batch of state (prediciton must be in batches)
+            # ? What?
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
             for _ in range(self.batch_size-1):
@@ -146,16 +181,24 @@ class Agent(object):
                 loc_batch = np.append(loc_batch, np.array(
                     [np.zeros(self.local_input_dims)]), axis=0)
 
+            # Ask the QNetwork for an action
             actions = self.q_eval.dqn([glob_batch, loc_batch])[0]
             # actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
+            # ? What?
             action = int(np.argmax(actions))
 
+        # Save the action to the replay buffer
+        # ? Why save it again in the recent_actions
+        # ? Wird es nicht nachher noch durch die store_transition function schon gespeichert
         action_ind = self.counter % self.recent_mem
         self.recent_actions[action_ind] = action
 
         return action
 
     def learn(self):
+        """
+        learn The agent/network should learn from the episode
+        """
         # update q_next after certain step
         if self.counter % self.replace_target == 0:
             self.update_graph()
@@ -201,6 +244,7 @@ class Agent(object):
                 self.epsilon = 0.05
 
     def rare_Exploration(self):
+        # ? Not sure
         variance = 0
         container = []
         for i in range(0, self.recent_mem):
@@ -212,13 +256,22 @@ class Agent(object):
         return False
 
     def save_models(self):
+        """
+        save_models Save the Networks
+        """
         self.q_eval.save_checkpoint()
         self.q_next.save_checkpoint()
 
     def load_models(self):
+        """
+        load_models Load the Networks
+        """
         self.q_eval.load_checkpoint()
         self.q_next.load_checkpoint()
 
     def update_graph(self):
+        """
+        update_graph Update the q_next Network. Set it to the weights of the q_eval network.
+        """
         print("...Updating Network...")
         self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
