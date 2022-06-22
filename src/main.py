@@ -40,6 +40,7 @@ if __name__ == '__main__':
         agent.load_models()
 
     # Fill replay buffer
+    # ? Why necessary
     g_obs, l_obs = env.reset()
     for j in range(mem_size):
         action = random.randint(0, n_actions-1)
@@ -50,7 +51,6 @@ if __name__ == '__main__':
         g_obs = next_g_obs
         l_obs = next_l_obs
 
-    score = 0
     scores = []
     learning_history = [[], []]
     # Main process
@@ -59,10 +59,12 @@ if __name__ == '__main__':
         score = 0
 
         for j in range(num_steps):
+            # Run the timestep
             action = agent.choose_action(global_obs, local_obs)
             next_gloabal_obs, next_local_obs, reward = env.step(action)
             #env.render("Compare", realtime=True)
 
+            # Save new information
             agent.store_transition(
                 global_obs, local_obs, next_gloabal_obs, next_local_obs, action, reward)
             global_obs = next_gloabal_obs
@@ -89,6 +91,7 @@ if __name__ == '__main__':
         scores.append(score)
 
         # bad memory fix: save manually
+        # Save the learn data manually by pressing 's'
         if not isSaved:
             if keyboard.is_pressed("s"):
                 lastsave = i
