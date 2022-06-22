@@ -272,7 +272,7 @@ def drawline(setpos, pos, canvas):
     :return: The canvas with the line drawn
     :rtype: np.array
     """
-    weight = 1  # The weight of the painting
+    weight = 2  # The weight of the painting
     dx = pos[0] - setpos[0]  # delta x
     dy = pos[1] - setpos[1]  # delta y
     linePix = []  # Pixels of the line
@@ -311,10 +311,12 @@ def drawline(setpos, pos, canvas):
         # Paint onto the real canvas
         for pix in linePix:
             # Add a weight to the y-position
-            # TODO: No real weight function for a variable weight.
-            canvas[pix[1]-weight][pix[0]] = 1
-            canvas[pix[1]+weight][pix[0]] = 1
-            canvas[pix[1]][pix[0]] = 1
+            # Iterate through the y-axis and add weight
+            for y in range(weight*2+1):
+                # Check out of bounds
+                if pix[1]+weight-y >= len(canvas) or pix[1]+weight-y < 0:
+                    continue
+                canvas[pix[1]+weight-y][pix[0]] = 1
     
     # The same procedure for the y-position
     else:
@@ -334,10 +336,12 @@ def drawline(setpos, pos, canvas):
             linePix[i][0] = setpos[0]+move
 
         for pix in linePix:
-            # TODO: Change to a real weight function
-            canvas[pix[1]][pix[0]+weight] = 1
-            canvas[pix[1]][pix[0]-weight] = 1
-            canvas[pix[1]][pix[0]] = 1
+            # Iterate through the y-axis and add weight
+            for x in range(weight*2+1):
+                # Check out of bounds
+                if pix[0]+weight-x >= len(canvas) or pix[0]+weight-x < 0:
+                    continue
+                canvas[pix[1]][pix[0]+weight-x] = 1
 
     return canvas
 
@@ -345,4 +349,4 @@ def drawline(setpos, pos, canvas):
 if __name__ == '__main__':
     # Debugging drawline
     canv = np.zeros((28, 28))
-    drawline([0, 0], [5, 1], canv)
+    drawline([0, 0], [5, 10], canv)
