@@ -235,7 +235,6 @@ class ShapeDraw(object):
 
             rendCanv = rendCanv.reshape(28, 28)
 
-            # ? What does the realtime parameter do?
             if realtime:
                 rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
             # AI Generated Image
