@@ -40,7 +40,7 @@ if __name__ == '__main__':
         agent.load_models()
 
     # Fill replay buffer
-    # ? Why necessary
+    # Fill the replay buffer to have something to learn in the first episode
     g_obs, l_obs = env.reset()
     for j in range(mem_size):
         action = random.randint(0, n_actions-1)

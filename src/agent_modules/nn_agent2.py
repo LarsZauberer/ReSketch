@@ -22,9 +22,9 @@ class DeepQNetwork(object):
         # Inputs
         self.global_input_dims = global_input_dims  # The dimensions of the global input. So the dimensions of the full drawing canvas.
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated input. The local patch of the canvas.
-        self.q_target = np.zeros(self.n_actions)  # ? I don't know
+        self.q_target = np.zeros(self.n_actions)  # -> Complicated -> The target network
         self.fc1_dims = fc1_dims  # Dimensions of the last dense layer
-        self.batch_size = batch_size  # ? I don't know -> Something with the agent training
+        self.batch_size = batch_size  # How many inputs sending into the network
 
         # saving / memory
         self.checkpoint_file = os.path.join(chkpt_dir, 'deepqnet.ckpt')  # Where the model should be saved
@@ -93,21 +93,19 @@ class Agent(object):
 
         self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
         self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
-        self.gamma = gamma  # ? I don't know
+        self.gamma = gamma  # Is the learnrate
         self.mem_size = mem_size  # The allocated memory size
-        self.counter = 0  # ? The episode counter?
+        self.counter = 0  # Counter of all the steps
         self.epsilon = epsilon  # The epsilon value of the agent. The exploration value
-        self.batch_size = batch_size  # ? I don't know
-        self.replace_target = replace_target  # ? I don't know
+        self.batch_size = batch_size  # How big each batch of inputs is
+        self.replace_target = replace_target  # When to update the q_next network
         self.global_input_dims = global_input_dims  # The input dimensions of the whole canvas.
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated patch of the canvas
 
-        # ? Why does this seperation exist
-        # ? The definitions are maybe not correct
         self.q_next = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_next', chkpt_dir=q_next_dir)  # The QNetwork to calculate the next value to choose the ai
+                                   local_input_dims=local_input_dims, name='q_next', chkpt_dir=q_next_dir)  # The QNetwork to compute the q-values on the next state of the canvas
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_eval', chkpt_dir=q_eval_dir) # The QNetwork to evaluate the action of the agent.
+                                   local_input_dims=local_input_dims, name='q_eval', chkpt_dir=q_eval_dir) # The QNetwork to compute the q-values on the current state of the canvas
 
         # Constant helper variables
         glob_mem_shape = (
@@ -116,7 +114,6 @@ class Agent(object):
             self.mem_size, local_input_dims[0], local_input_dims[1], local_input_dims[2])
         
         # Replay buffer
-        # ? Maybe some explanation on how the matrizes work
         self.global_state_memory = np.zeros(glob_mem_shape)
         self.local_state_memory = np.zeros(loc_mem_shape)
         self.new_global_state_memory = np.zeros(glob_mem_shape)
@@ -140,12 +137,11 @@ class Agent(object):
         :type next_gloabal_state: np.array
         :param next_local_state: The next state of the small patch of the canvas
         :type next_local_state: np.array
-        :param action: The actions the agent is allowed to take
+        :param action: The actions the agent took with the according action
         :type action: np.array
         :param reward: The reward the agent got
         :type reward: np.array
         """
-        # ? action i'm not sure
         index = self.counter % self.mem_size
 
         self.global_state_memory[index] = global_state
@@ -172,7 +168,7 @@ class Agent(object):
             action = np.random.choice(self.action_space)
         else:
             # create batch of state (prediciton must be in batches)
-            # ? What?
+            # Create a batch containing only one
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
             for _ in range(self.batch_size-1):
@@ -184,12 +180,11 @@ class Agent(object):
             # Ask the QNetwork for an action
             actions = self.q_eval.dqn([glob_batch, loc_batch])[0]
             # actions = self.q_eval.dqn.predict([glob_batch, loc_batch], batch_size=self.batch_size)[0]
-            # ? What?
+            # Take the index of the maximal value
             action = int(np.argmax(actions))
 
         # Save the action to the replay buffer
-        # ? Why save it again in the recent_actions
-        # ? Wird es nicht nachher noch durch die store_transition function schon gespeichert
+        # Only important for the rare_exploration
         action_ind = self.counter % self.recent_mem
         self.recent_actions[action_ind] = action
 
@@ -201,12 +196,15 @@ class Agent(object):
         """
         # update q_next after certain step
         if self.counter % self.replace_target == 0:
+            # Updates the q_next network so that it learns too.
             self.update_graph()
 
         # randomly samples Memory.
         # chooses as many states from Memory as batch_size requires
         max_mem = self.counter if self.counter < self.mem_size else self.mem_size
+        # Get random state inputs from the replay buffer
         batch = np.random.choice(max_mem, self.batch_size)
+        # batch = [0,5,11, ..., batch_size]
 
         # load sampled memory
         global_state_batch = self.global_state_memory[batch]
@@ -217,6 +215,8 @@ class Agent(object):
         new_local_state_batch = self.new_local_state_memory[batch]
 
         # runs network. also delivers output for training
+        # predicting
+        # Output is a list for each action another value. Like a histogram. It chooses in the chose action function the one with the highest value.
         q_eval = self.q_eval.dqn([global_state_batch, local_state_batch])
         q_next = self.q_next.dqn(
             [new_global_state_batch, new_local_state_batch])
@@ -227,6 +227,7 @@ class Agent(object):
         # Calculates optimal output for training. ( Bellman Equation !! )
         q_target = np.copy(q_eval)
         idx = np.arange(self.batch_size)
+        # Recalculate the q-value of an action
         q_target[idx, action_batch] = reward_batch + \
             self.gamma*np.max(q_next, axis=1)
 
@@ -244,7 +245,14 @@ class Agent(object):
                 self.epsilon = 0.05
 
     def rare_Exploration(self):
-        # ? Not sure
+        """
+        rare_Exploration Forced exploration if the ai is exploiting. Is an experiment
+
+        :return: If the ai should explore
+        :rtype: bool
+        """
+        # Is used when exploration is zero
+        # If the ai is too much exploiting -> Force an exploration
         variance = 0
         container = []
         for i in range(0, self.recent_mem):
