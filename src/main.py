@@ -79,7 +79,6 @@ if __name__ == '__main__':
         # Learn Process visualization
         if i % 12 == 0 and i > 0:
             ind = agent.counter % agent.mem_size
-            print(agent.action_memory[ind-20:ind])
             avg_score = np.mean(scores[max(0, i-12):(i+1)])
             print('episode: ', i, 'score: ', score, ' average score %.3f' %
                   avg_score, 'epsilon %.3f' % agent.epsilon)
