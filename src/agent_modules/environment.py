@@ -26,27 +26,24 @@ class ShapeDraw(object):
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
-        # Pick just the first image of the reference data in the first initialization
-        self.reference = referenceData[0]
-        self.curRef = 0
-        self.agentPos = [0, 0]
-        # ! 0 = not Drawing, 1 = Drawing (not bool because NN)
-        self.isDrawing = 0
-        # Set a random start location for the agent (but with one pixel margin)
+        self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
+        self.curRef = 0 #current reference image, counter that increments with every episode
+        self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
+        self.agentPos = [0, 0] # initialize agent position to top left corner of the image
         self.set_agentPos([random.randint(1, self.s-2),
-                          random.randrange(1, self.s-2)])
+                          random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
 
         # rendering / visualization
         self.fig = plt.figure(figsize=(10, 7))
 
     def step(self, agent_action: int):
         """
-        step Step to a new timestep. Creates a new canvas state with the action
+        step execute a timestep. Creates a new canvas state in account of the action
         index input
 
-        :param agent_action: the index of the action which should be moved
+        :param agent_action: the index of the action to be executed
         :type agent_action: int
-        :return: the next timestemp containing. It is containing a np array with
+        :return: the data of the environment after the timestep (observation for the agent). It is containing an np array with
             `reference`, `canvas`, `distmap` and `colmap` another np array with
             `ref_patch` and `canvas_patch` and an int with the `reward`
         :rtype: tuple
@@ -95,7 +92,6 @@ class ShapeDraw(object):
         :type pos: list
         """
         if self.isDrawing:
-            # print(type(self.canvas), type(drawline(self.agentPos, pos, self.canvas)))
             self.canvas = drawline(self.agentPos, pos, self.canvas)
         self.agentPos = pos
         self.update_distmap()
@@ -271,12 +267,12 @@ def drawline(setpos, pos, canvas):
     :return: The canvas with the line drawn
     :rtype: np.array
     """
-    weight = 2  # The weight of the painting
+    weight = 1  # The weight of a stroke
     dx = pos[0] - setpos[0]  # delta x
     dy = pos[1] - setpos[1]  # delta y
     linePix = []  # Pixels of the line
 
-    # Check if the agent is currently drawing
+    #do not draw if pos == setpos (avoids division by 0)
     if dx == 0 and dy == 0:
         return canvas
 
