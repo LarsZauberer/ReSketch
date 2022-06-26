@@ -12,6 +12,16 @@ class Physic_Engine:
         self.velocity = [.0, .0]
     
     def calc_position_step(self, pos: list, force: list):
+        """
+        calc_position_step Calculate the next position on the canvas with the velocity and acceleration. Input is the force
+
+        :param pos: The position where the agent currently is
+        :type pos: list
+        :param force: The force of the movement
+        :type force: list
+        :return: a new position (already rounded to integers)
+        :rtype: list
+        """
         a = self.calc_acceleration(force)
         self.velocity[0] += a[0]*self.time_scale
         self.velocity[1] += a[1]*self.time_scale
@@ -30,6 +40,14 @@ class Physic_Engine:
         return pos
 
     def calc_acceleration(self, force: list):
+        """
+        calc_acceleration Calculate the acceleration of the force
+
+        :param force: The force of the movement
+        :type force: list
+        :return: The acceleration of the move in the direction of the force
+        :rtype: _type_
+        """
         # Pure acceleration
         vel = [None, None]
         vel[0] = force[0]/self.mass
@@ -38,6 +56,12 @@ class Physic_Engine:
         return vel
     
     def calc_friction(self):
+        """
+        calc_friction Calculate the friction of the move. If the pen is already in motion. It will get slower
+
+        :return: The amount of friction for the velocity
+        :rtype: list
+        """
         vel = self.velocity.copy()
         # Calc friction and subtract it
         n = self.mass * self.g
@@ -45,19 +69,30 @@ class Physic_Engine:
         
         fricVel = [None, None]
         
+        # Make the friction go in the correct direction
         fricVel[0] = math.copysign(fric, vel[0])
         fricVel[1] = math.copysign(fric, vel[1])
         
         print(vel)
         print(fricVel)
         
-        # The friction cannot go over 0
-        fricVel[0] = 0 if self.check_too_much_friction(vel[0], fricVel[0]) else fricVel[0]
-        fricVel[1] = 0 if self.check_too_much_friction(vel[1], fricVel[1]) else fricVel[1]
+        # The friction cannot go over 0 barrier
+        fricVel[0] = vel[0] if self.check_too_much_friction(vel[0], fricVel[0]) else fricVel[0]
+        fricVel[1] = vel[0] if self.check_too_much_friction(vel[1], fricVel[1]) else fricVel[1]
         
         return fricVel
     
     def check_too_much_friction(self, vel: float, fricVel: float):
+        """
+        check_too_much_friction Check if the friction wouldn't accelerate in the reversed direction
+
+        :param vel: Current velocity on only one dimension
+        :type vel: float
+        :param fricVel: The calculated friction
+        :type fricVel: float
+        :return: True if the friction would accelerate in the wrong direction. Then the velocity should be 0
+        :rtype: bool
+        """
         positiv_and_negative = vel >= 0 and vel-fricVel <= 0
         negative_and_positive = vel <= 0 and vel-fricVel >= 0
         
