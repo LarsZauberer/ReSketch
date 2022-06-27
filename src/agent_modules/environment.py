@@ -3,6 +3,7 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
+from agent_modules.physics import Physic_Engine
 
 
 class ShapeDraw(object):
@@ -15,6 +16,8 @@ class ShapeDraw(object):
         self.canvas = np.zeros((self.s, self.s))
         self.distmap = np.zeros((self.s, self.s))
         self.colmap = np.zeros((self.s, self.s))
+        self.velocitymap_x = np.zeros((self.s, self.s))
+        self.velocitymap_y = np.zeros((self.s, self.s))
 
         # Input local stream
         self.ref_patch = np.zeros((self.p, self.p))
@@ -23,6 +26,10 @@ class ShapeDraw(object):
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
         self.n_actions = self.p*self.p*2
+        
+        # Physics
+        self.phy_settings = {"mass": 1.0, "friction": 0.5, "time_scale": 1.0, "g": 10, "action_scale": 0.2}
+        self.phy = Physic_Engine(**self.phy_settings)
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
@@ -62,6 +69,11 @@ class ShapeDraw(object):
         ownpos = (self.p-1)/2
         action = [int(self.agentPos[0]+x-ownpos),
                   int(self.agentPos[1]+y-ownpos)]
+        
+        # Physics calculation
+        print(f"action: {action}")
+        action = self.phy.calc_position_step(self.agentPos, action)
+        print(f"out action: {action}")
 
         # Penalty for being to slow
         penalty = 0
@@ -74,7 +86,8 @@ class ShapeDraw(object):
         else:
             # Give a penalty for an illegal move
             self.isDrawing = 0
-            penalty = -0.001
+            penalty = -0.1
+            self.phy.velocity = [0, 0]
 
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
@@ -82,7 +95,7 @@ class ShapeDraw(object):
         reward += penalty
 
         # Ending the timestep
-        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch]), reward
 
     def set_agentPos(self, pos: list):
         """
@@ -97,6 +110,7 @@ class ShapeDraw(object):
         self.update_distmap()
         self.update_patch()
         self.update_colmap()
+        self.update_velocity_map()
 
     def update_distmap(self):
         """
@@ -137,6 +151,16 @@ class ShapeDraw(object):
 
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
+                
+    def update_velocity_map(self):
+        # Updtae velocity maps
+        for y in range(self.s):
+            for x in range(self.s):
+                self.velocitymap_x[y][x] = self.phy.velocity[0]
+        
+        for y in range(self.s):
+            for x in range(self.s):
+                self.velocitymap_y[y][x] = self.phy.velocity[1]
 
     def reward(self):
         """
@@ -190,10 +214,13 @@ class ShapeDraw(object):
         self.set_agentPos((random.randint(1, self.s-2),
                           random.randint(1, self.s-2)))
         
+        # Reset physic engine
+        self.phy = Physic_Engine(**self.phy_settings)
+        
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.reward()
-        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch])
 
     def render(self, mode="None", realtime=False):
         """

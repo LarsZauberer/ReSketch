@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     # Initializing architecture
     env = ShapeDraw(canvas_size, patch_size, reference)
-    agent = Agent(gamma=0.99, epsilon=0, alpha=0.001, global_input_dims=(4, canvas_size, canvas_size),
+    agent = Agent(gamma=0.99, epsilon=0, alpha=0.001, global_input_dims=(6, canvas_size, canvas_size),
                   local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size, replace_target=1000)
     if load_checkpoint:
         agent.load_models()

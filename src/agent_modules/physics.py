@@ -2,11 +2,12 @@ import math
 
 
 class Physic_Engine:
-    def __init__(self, mass: float, friction: float, time_scale: float=1.0, g: float = 9.81):
+    def __init__(self, mass: float, friction: float, time_scale: float=1.0, g: float = 9.81, action_scale: float=1.0):
         self.mass = mass  # The mass of the pen
         self.g = g  # The gravity constant
         self.friction = friction  # The friction koefficient of the pen on the paper
         self.time_scale = time_scale  # How fast the t variable is moving forward
+        self.action_scale = action_scale
         
         # State data
         self.velocity = [.0, .0]
@@ -22,6 +23,9 @@ class Physic_Engine:
         :return: a new position (already rounded to integers)
         :rtype: list
         """
+        pos = list(pos)
+        force[0] *= self.action_scale
+        force[1] *= self.action_scale
         a = self.calc_acceleration(force)
         self.velocity[0] += a[0]*self.time_scale
         self.velocity[1] += a[1]*self.time_scale
@@ -72,9 +76,6 @@ class Physic_Engine:
         # Make the friction go in the correct direction
         fricVel[0] = math.copysign(fric, vel[0])
         fricVel[1] = math.copysign(fric, vel[1])
-        
-        print(vel)
-        print(fricVel)
         
         # The friction cannot go over 0 barrier
         fricVel[0] = vel[0] if self.check_too_much_friction(vel[0], fricVel[0]) else fricVel[0]
