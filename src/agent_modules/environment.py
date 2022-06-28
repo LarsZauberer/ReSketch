@@ -95,7 +95,7 @@ class ShapeDraw(object):
         else:
             # Give a penalty for an illegal move
             self.isDrawing = 0
-            penalty = -0.05
+            penalty = -0.001
             self.phy.velocity = [0, 0]
 
         # Calculate the reward for the action in this turn
