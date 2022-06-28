@@ -94,7 +94,6 @@ werden könnten. Der Machine Learning Algorithmus kann trotzdem aus der Umgebung
 lernen, indem dieser selbt als Element der Umgebung angesehen wird und so mit
 ihr interagieren kann.
 
-
 Die echte Welt kann ebenfalls als eine Umgebung angesehen werden. Der Mensch
 wäre in diesem Fall der Machine learning Algorithmus. Der Mensch erlernt zum
 Beispiel das Laufen, indem er mit der Welt interagiert. Eine Interaktion wäre
@@ -195,8 +194,163 @@ der nächsten Aktion sehr relevant ist. Der Reward wird durch die Anzahl der neu
 übereinstimmenden Pixeln zwischen der Vorlage und dem bis anhin
 gezeichneten Bild bestimmt. 
 
+
+
+
+
+
+
+
+
+
+
 \section{Git und GitHub}
 \label{chap:t_git}
+
+\section{Git und GitHub}
+\label{chap:git_github}
+Git und Github sind weit verbreitete Hilfsmittel für Entwickler. Bei Git handelt
+es sich um ein Programm, während Github ein Service ist, um Projekte, welche mit
+Git verwaltet werden, öffentlich zugänglich zu machen. GitHub bringt zusätzlich
+viele weitere nützliche Features, welche die Zusam\hyp{}menarbeit erleichtern. Die
+genaue Funktion und das Zusammenspiel dieser beiden Hilfsmittel wird nachfolgend
+erläutert.
+
+\subsection*{Git}
+Git ist ein Programm, welches Veränderungen im Code eines Projektes erkennt und
+zwischen Versionen speichert. Dieses Konzept nennt sich Version Control. Es
+wurde 2005 von Linus Torvald für die Entwicklung des Linux Kernels entwickelt.
+Der Unterschied zwischen Git und anderer Version Control Software ist, dass
+jeder, der am Code arbeiten will, den gesamten Code, auch Source Code genannt,
+braucht. Dadurch ist das System dezen\hyp{}tralisierter.
+\cite{noauthor_git_2021}
+
+Wer Git benutzen will, erstellt ein Git Projekt (Repository) in einem Ordner
+seiner Wahl. Sobald der Code verändert wird, sei es auch nur ein Buchstabe in
+einer Zeile mehr, wird Git diese Veränderung finden und anzeigen. Diese
+Veränderung kann man speichern, in dem man einen Commit macht. Falls ein Problem
+entsteht, welches nicht mehr so einfach rückgängig zu machen ist, oder nicht
+klar ist, was einen Bug auslöst, kann zu einem früheren Commit zurückgesprungen
+werden. Man kann sich dann den Unterschied zwischen den Commits anschauen oder
+vom alten weiterarbeiten. Wenn man an einem früheren Commit weiterarbeiten will
+oder man sich wünscht, weiterzuarbeiten, ohne die Funktionstüchtigkeit des
+Projektes zu gefährden, kann ein Branch erstellt werden. In einem Branch können
+Veränderungen vorgenommen werden, ohne den Main (auch genannt Master, siehe
+\autoref{fig:githist}), also das ursprüngliche Projekt zu verändern. Wenn die
+Arbeit an einem Branch fertig und funktionstüchtig ist, kann dieser wieder mit dem
+Main Branch zusammengefügt werden, wodurch alle Änderungen übernommen werden. 
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=10cm]{img/GitBranches.png}
+    \caption{Git History mit einem Branch \cite{fireship_git_2020}}
+    \label{fig:githist}
+\end{figure}
+
+Die folgende Branch-Struktur (siehe \autoref{fig:branch}) hat sich bei Entwicklern bewährt und wird heute
+empfohlen: Zuoberst ist der Main Branch. Auf diesem Branch sollte das fertige Projekt
+sein, welches möglichst stabil ist, also ohne Bugs läuft. Davon weggehend hat man
+einen Develop Branch. Auf diesem ist eine noch instabilere Version des
+Projektes, die aber weiter fortgeschritten in der Entwicklung ist. Von diesem
+weggehend gibt es die Feature Branches. Dort wird gesondert an einem Feature für
+das Projekt gearbeitet. Wenn das Feature fertig entwickelt wurde, wird es mit
+dem develop branch zusammengeführt. Ist das Projekt bereit für eine neue
+Release Version, kann es in den Main Branch zurückgeführt werden. Oft gibt
+es weiter Stadien zwischen dem Develop und Main Branch. Zum Teil sind
+gewisse Änderungen für die Vorbereitung vom Release nötig. Diese werden im
+Release Branch gemacht. Wenn ein Bug erst im Release gefunden wird, löst man
+diesen häufig in einem neuen, so genannten Hotfix Branch.
+\cite{noauthor_successful_nodate}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=10cm]{img/Branching Modell.png}
+    \caption{Das Branching Modell \cite{noauthor_successful_nodate}}
+    \label{fig:branch}
+\end{figure}
+
+Git wird vor allem als Console Interface, also mit Befehlen, verwendet, die in
+eine Konsole eingegeben werden. Es gibt auch grafische Programme, die die
+Bedienung von Git veranschaulichen. Häufig geben diese Programme
+zusätzlich eine Visualisierung der gesamten Source Code History, wodurch man
+sich einen Überblick über die Versionen verschaffen kann. 
+
+Git ist nicht die einzige Version Control Software. Andere Beispiele wären:
+Azure DevOps Server, Helix Core, AWS CodeCommit, Subversion, Plastic SCM, etc. 
+\cite{noauthor_git_nodate-1}
+
+\subsection*{GitHub}
+Es wird häufig gedacht, dass Git und GitHub dasselbe sei, was allerdings nicht
+richtig ist. Git ist die Version Control Software, die das Verwalten der
+verschiedenen Versionen ermöglicht. GitHub ist ein Service, der es ermöglicht,
+die von Git erstellten Repositories als Cloud Lösung bereit zu stellen. Durch
+diesen Cloud Service von GitHub ist es möglich, gemeinsam an den verschiedenen
+Versionen des Source Codes zu arbeiten. GitHub stellt dafür auch eine Webseite
+zur Verfügung, um die Projekte zu verwalten. Dabei ist Git für die Bearbeitung
+der Repositiories zuständig, während GitHub die Repositories den anderen
+Entwicklern bereitstellt.
+\cite{noauthor_github_2021} 
+
+``GitHub wurde von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom Preston-Werner
+[...] entwickelt und im Februar 2008 gestartet'' \cite{noauthor_github_2021}.
+2018 wurde das Unternehmen von Microsoft gekauft. GitHub ist heute eine der
+grössten Plattformen für Open Source Projekte und das Zusammenarbeiten an
+Software. Projekte können ohne Umstände für Leute auf der ganzen Welt zugänglich
+gemacht werden. Wenn Entwickler an einem öffentlichen Projekt auf Github
+Interesse finden, können sie selbst daran weiterarbeiten. 
+\cite{noauthor_github_2021}
+
+Um die Codequalität trotz einer grossen Menge an alleinstehenden Ent\hyp{}wicklern zu
+gewährleisten, gibt es auf GitHub einige Tools, die das Zusamm\hyp{}enarbeiten, das
+Kommunizieren und das Bewerten von Code vereinfachen. Einige dieser Tools werden
+nachfolgend vorgestellt.
+
+Jedes Repository hat einen eigenen Issue Tracker. Damit kann man Probleme am
+Projekt äussern. Diese werden entweder im dazugehörigen Chat gelöst, oder können
+von einem Entwickler übernommen werden. Das Problem wird in letzterem Fall in
+einem separaten Branch gelöst. Sobald der Entwickler das Problem gelöst hat,
+kann er eine Pull Request stellen. Damit fragt er den Rest der Entwickler an, ob
+seine gelöste Version in den nächsthöheren Branch geführt werden darf. Auch
+diese Pull Requests können von jeder Person angeschaut werden, aber eine
+Beurteilung kann nur ein Teammitglied von dem Repository durchführen. GitHub
+zeigt, durch die Zusammenarbeit mit Git, alle gespeicherten Veränderungen
+zwischen den beiden Branches, die zusammengeführt werden sollen. So kann der
+Beurteiler jede Zeile anschauen und Änderungen anfragen. Auch GitHub kann den
+Code automatisch be\hyp{}urteilen, sofern die GitHub Actions eingerichtet wurden. Das
+sind Test Runner, welche Tests aus dem Konzept des Test Driven Developments
+automatisch ausführen. Dadurch kann überprüft werden, ob die Integrität der
+Software mit diesen Änderungen beschädigt wurde. Ausserdem gibt es Add-Ons, die
+automatisch überprüfen, ob in den Veränderungen die Konventionen der jeweiligen
+Sprache eingehalten wurde.
+
+Ein weiteres Feature von GitHub ist das integrierte Task Board, welches nach dem
+Kanban Prinzip benutzt werden kann. Ausserdem gibt es ein Wiki, wo
+ausführlichere Dokumentationen zum Projekt beinhaltet sind. Eine Kurzfassung,
+wie die Software genutzt wird, findet sich meist auf der Startseite vom
+Repository in der sogenannten `README.md' Datei. Wenn das Wiki nicht für die
+Dokumentation ausreicht, gibt es auch die Möglichkeit, GitHub Pages zu
+verwenden. Dadurch werden Webseiten für die Repositories zur Verfügung gestellt.
+Weitere kleine Features von Github, wie ein Forum, eine AI, welche beim
+Programmieren hilft, und einen Onlinewebeditor, befinden sich noch in der
+Testphase.
+
+GitHub ist grundsätzlich mit vielen Features kostenlos zugänglich. Das gilt vor
+allem für die öffentlich Repositories. Man kann auch Repositories erstellen,
+welche nicht öffentlich zugänglich sind, aber solange man keine GitHub Pro hat,
+sind diese eingeschränkt. Ausserdem ist die Grösse der Dateien auf 100MB
+limitiert. Wenn die eigenen Dateien grösser werden, muss man den Git Large File
+Storage (LFS) aktivieren, welcher 1GB Speicher erlaubt zusätzlich ist die Anzahl
+Minuten des Test Runners bei den GitHub Actions nur zu einem gewissen Grad
+gratis. Mit GitHub Pro werden diese Limits etwas erhöht. Wird dieses Limit auch
+überschritten, können zusätzliche Minuten oder Speicher erworben werden.
+
+Für Schüler und Studenten hat GitHub ein eigenes GitHub Students Pack, bei dem
+man sich verifizieren kann und einige Software oder Abos auf eine gewisse Zeit
+gratis bekommt. Dazu zählt auch GitHub Pro.
+
+GitHub ist nicht die einzige Plattform, welche das Hosten von Git Repositories
+erlaubt. Es gibt weitere Konkurrenten, wie: GitLab, Bitbucket, GitBucket, etc.
+\cite{noauthor_top_2021}
 
 
 
