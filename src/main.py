@@ -18,12 +18,12 @@ if __name__ == '__main__':
     # Hyper parameters
     canvas_size = 28
     patch_size = 7
-    n_actions = 2*(patch_size**2)
-    mem_size = 20000
+    mem_size = 10000
     batch_size = 64
     num_episodes = 12000
     num_steps = 64
     max_action_strength = 1
+    n_actions = 2*4*max_action_strength
 
     # loading reference Data
     ref_Data = pd.read_csv("src/data/ref_Data.csv")
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     # Initializing architecture
     env = ShapeDraw(canvas_size, patch_size, reference, max_action_strength=max_action_strength)
-    agent = Agent(gamma=0.99, epsilon=0, alpha=0.001, global_input_dims=(6, canvas_size, canvas_size),
+    agent = Agent(gamma=0.99, epsilon=0.15, alpha=0.001, global_input_dims=(6, canvas_size, canvas_size),
                   local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size, replace_target=1000, max_action_strength=max_action_strength)
     if load_checkpoint:
         agent.load_models()

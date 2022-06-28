@@ -29,7 +29,7 @@ class ShapeDraw(object):
         self.n_actions = self.p*self.p*2
         
         # Physics
-        self.phy_settings = {"mass": 1.0, "friction": 0.5, "time_scale": 1.0, "g": 10, "action_scale": 1.0}
+        self.phy_settings = {"mass": 1.0, "friction": 0.1, "time_scale": 1.0, "g": 1, "action_scale": 1.0}
         self.phy = Physic_Engine(**self.phy_settings)
 
         # initializes rest
@@ -60,7 +60,6 @@ class ShapeDraw(object):
         self.isDrawing = 1
 
         # Calculate the x and y position coordinates of action in the current patch
-        print(f"Input Action: {agent_action}")
         x, y = self.action_to_direction(agent_action)
             
         ''' x = agent_action % self.p
@@ -70,21 +69,24 @@ class ShapeDraw(object):
             self.isDrawing = 0 '''
 
         # Calculate the global aim location of the action
-        ownpos = (self.p-1)/2
+        ''' ownpos = (self.p-1)/2 '''
         ''' action = [int(self.agentPos[0]+x),
                   int(self.agentPos[1]+y)] '''
         
         # Physics calculation
         # print(f"action: {x, y}")
         action = self.phy.calc_position_step(self.agentPos, [x, y])
-        ''' print(f"out action: {action}")
-        print(f"Friction: {self.phy.calc_friction()}")
+        '''print(f"in action: {agent_action} out action: {action}")'''
+
+
+        '''print(f"Friction: {self.phy.calc_friction()}")
         print(f"Velocity: {self.phy.velocity}") '''
 
         # Penalty for being to slow
         penalty = 0
+        '''
         if abs(x) < ownpos or abs(y) < ownpos:
-            penalty = -0.0005
+            penalty = -0.0005 '''
 
         # Draw if the move is legal
         if self.move_isLegal(action):
@@ -92,7 +94,7 @@ class ShapeDraw(object):
         else:
             # Give a penalty for an illegal move
             self.isDrawing = 0
-            penalty = -0.1
+            penalty = -0.05
             self.phy.velocity = [0, 0]
 
         # Calculate the reward for the action in this turn
