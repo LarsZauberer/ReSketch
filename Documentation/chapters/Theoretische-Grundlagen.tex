@@ -57,16 +57,17 @@ versteckten Ebene gibt, nennt man es Deep learning.
 
 \subsection*{Arten von Machine Learning}
 
-Es gibt 3 Arten von Machine Learning Algorithmen: supervised, unsupervised, reinforcement
-learning. Nachfolgend werden supervised und unsupervised learning kurz erklärt.
-Reinforcement learning im nächsten Kapitel, weil für Methode hinter Arbeit
-wichtig
+Es gibt 3 Arten von Machine Learning Algorithmen: supervised, unsupervised,
+reinforcement learning. Nachfolgend werden supervised und unsupervised learqing
+kurz erklärt. Reinforcement learning im nächsten Kapitel, weil für Methode
+hinter Arbeit wichtig
 
-Erkennung von Handschriftlichen Daten ist supervised learning ->
-Typisch sind Trainingsdaten, bei denen die richtige Lösung bekannt ist.
-Algorithmus wird also auf Vorhersagen trainiert, die vorher als richtig
-angesehen wurden. Gewissermassen also Algorithmus in Freiheit seiner Lösung
-eingeschränkt und passt sich den Vorstellungen von demjenigen an, der die Daten präpariert hat (Also die seiner Meinung nach richtigen Lösungen) an. Wird also überwacht.
+Erkennung von Handschriftlichen Daten ist supervised learning -> Typisch sind
+Trainingsdaten, bei denen die richtige Lösung bekannt ist. Algorithmus wird also
+auf Vorhersagen trainiert, die vorher als richtig angesehen wurden.
+Gewissermassen also Algorithmus in Freiheit seiner Lösung eingeschränkt und
+passt sich den Vorstellungen von demjenigen an, der die Daten präpariert hat
+(Also die seiner Meinung nach richtigen Lösungen) an. Wird also überwacht.
 
 unsupervised learning ist das Gegenteil. Wird nicht auf vorgegebene Lösungen
 trainiert. Stattdessen soll Algorithmus selbstständig Muster in Daten erkennen.
@@ -90,7 +91,8 @@ Machine Learning Algorithmus "lernt". Bei einer Umgebung sind diese Daten
 allerdings im Voraus nicht bekannt. Das kommt daher, dass eine Umgebung häufig
 zu viele verschiedene Zustände einnehmen kann, als dass diese im Vorraus erfasst
 werden könnten. Der Machine Learning Algorithmus kann trotzdem aus der Umgebung
-lernen, indem dieser selbt als Element der Umgebung angesehen wird und so mit ihr interagieren kann.
+lernen, indem dieser selbt als Element der Umgebung angesehen wird und so mit
+ihr interagieren kann.
 
 
 Die echte Welt kann ebenfalls als eine Umgebung angesehen werden. Der Mensch
@@ -141,10 +143,6 @@ das Neuronale Netz auf diese neue Ausgabe trainiert. Die Gewichte im Neuronalen
 Netz werden also so angepasst, dass die Ausgabe einer ähnliche Eingabe in
 Zukunft näher an den neu angepassten Q-Werten ist als an den alten.
 
-
-
-
-
 \section{Verwandte Arbeiten und Themen}
 \label{chap:t_verwandt}
 Es gibt verschiedene Ansätze, um ein Computerprogramm die menschliche Tätigkeit
@@ -160,8 +158,8 @@ Andere Ansätze simulieren die Führung eines Stiftes. Das Computerprogramm kann
 also nicht zu jedem Zeitpunkt an jedem Ort Zeichnen. Stattdessen ist es an eine
 Position (einen Stift) gebunden, welche mit einer gewissen Geschwindigkeit
 bewegt werden kann. Das ist eine Einschränkung, die auch auf menschliches
-Zeichnen mit einem Stift zutrifft. Ein Beipiel für ein Computerprogramm, das diese Art des Zeichnens Nachahmt ist
-Doodle-SDQ von ...
+Zeichnen mit einem Stift zutrifft. Ein Beipiel für ein Computerprogramm, das
+diese Art des Zeichnens Nachahmt ist Doodle-SDQ von ...
 
 
 \subsection*{Doodle-SDQ}
@@ -193,20 +191,9 @@ Agent gerade am Zeichnen ist oder nicht. Der Lokale Teil umfasst nur noch das
 11x11 Feld vom vorgegebenen und dem bis anhin gezeichneten Bild, das sich direkt
 um den Agenten befindet. Diese erneute Eingabe des kleineren Feldes in das Netz
 ist notwendig, weil die unmittelbare Umgebung des Agenten für die Entscheidung
-der nächsten Aktion sehr relevant ist. 
-
-
-
-Architektur: Deep Q-Learning Algorithmus.
-Agent = Stift. Umgebung = Zeichenfläche (Schwarz Weiss). Speichert Position von
-Agent, das zu Nachzeichnende Bild, das was bis jezt gezeichnet wurde und ob
-Stift gerade vom Blatt gehoben ist. Die Belohnung/Bestrafung ist der Grad der
-Ähnlichkeit zwischen Bildern. Die Unmittelbare Umgebung des Agenten, in dem er
-sich in einem Schritt bewegen kann, wird in das neuronale Netz noch ein weiteres
-Mal eingegeben, wodurch darauf ein Fokus gelegt wird. Ausgabe des neuronalen
-Netz ist eine der Aktionen die der Agent ausführen kann.
-
-
+der nächsten Aktion sehr relevant ist. Der Reward wird durch die Anzahl der neu
+übereinstimmenden Pixeln zwischen der Vorlage und dem bis anhin
+gezeichneten Bild bestimmt. 
 
 \section{Git und GitHub}
 \label{chap:t_git}
