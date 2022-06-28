@@ -61,21 +61,7 @@ class ShapeDraw(object):
 
         # Calculate the x and y position coordinates of action in the current patch
         print(f"Input Action: {agent_action}")
-        if agent_action % 4 == 0:
-            x = 0
-            y = agent_action // 4
-        elif agent_action % 3 == 0:
-            x = -1 * agent_action // 4
-            y = 0
-        elif agent_action % 2 == 0:
-            x = 0
-            y = -1 * agent_action // 4
-        else:
-            x = agent_action // 4
-            y = 0
-        
-        if x > self.max_action_strength or y > self.max_action_strength:
-            self.isDrawing = 0
+        x, y = self.action_to_direction(action)
             
         ''' x = agent_action % self.p
         y = agent_action // self.p
@@ -116,6 +102,23 @@ class ShapeDraw(object):
 
         # Ending the timestep
         return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch]), reward
+
+    def action_to_direction(self, action):
+        if action % 4 == 0:
+            x = 0
+            y = action // 4
+        elif action % 3 == 0:
+            x = -1 * action // 4
+            y = 0
+        elif action % 2 == 0:
+            x = 0
+            y = -1 * action // 4
+        else:
+            x = action // 4
+            y = 0
+        
+        if x > self.max_action_strength or y > self.max_action_strength:
+            self.isDrawing = 0
 
     def set_agentPos(self, pos: list):
         """
