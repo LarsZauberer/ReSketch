@@ -104,21 +104,37 @@ class ShapeDraw(object):
         return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch]), reward
 
     def action_to_direction(self, action):
-        if action % 4 == 0:
-            x = 0
-            y = action // 4
-        elif action % 3 == 0:
-            x = -1 * action // 4
-            y = 0
-        elif action % 2 == 0:
-            x = 0
-            y = -1 * action // 4
-        else:
-            x = action // 4
-            y = 0
+        counter = 0
+        total_counter = 1
+        for i in range(action):
+            counter += 1
+            if counter >= 4:
+                counter = 0
+                total_counter += 1
         
-        if x > self.max_action_strength or y > self.max_action_strength:
+        if counter == 0:
+            x = 0
+            y = 1 * total_counter
+        elif counter == 1:
+            x = 1 * total_counter
+            y = 0
+        elif counter == 2:
+            x = 0
+            y = -1 * total_counter
+        elif counter == 3:
+            x = -1 * total_counter
+            y = 0
+            
+        if action // 4 >= self.max_action_strength:
             self.isDrawing = 0
+            if x != 0:
+                x -= ma.copysign(self.max_action_strength, x)
+            if y != 0:
+                y -= ma.copysign(self.max_action_strength, y)
+        else:
+            self.isDrawing = 1
+        
+        return x, y
 
     def set_agentPos(self, pos: list):
         """
