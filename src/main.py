@@ -23,6 +23,7 @@ if __name__ == '__main__':
     batch_size = 64
     num_episodes = 12000
     num_steps = 64
+    max_action_strength = 1
 
     # loading reference Data
     ref_Data = pd.read_csv("src/data/ref_Data.csv")
@@ -33,9 +34,9 @@ if __name__ == '__main__':
         reference.append(ref_Data.iloc[i].to_numpy().reshape(28, 28))
 
     # Initializing architecture
-    env = ShapeDraw(canvas_size, patch_size, reference)
+    env = ShapeDraw(canvas_size, patch_size, reference, max_action_strength=max_action_strength)
     agent = Agent(gamma=0.99, epsilon=0, alpha=0.001, global_input_dims=(6, canvas_size, canvas_size),
-                  local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size, replace_target=1000)
+                  local_input_dims=(2, patch_size, patch_size), mem_size=mem_size, batch_size=batch_size, replace_target=1000, max_action_strength=max_action_strength)
     if load_checkpoint:
         agent.load_models()
 

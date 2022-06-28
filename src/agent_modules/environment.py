@@ -7,9 +7,10 @@ from agent_modules.physics import Physic_Engine
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, max_action_strength: int):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
+        self.max_action_strength = max_action_strength
 
         # Input gloabal stream
         self.referenceData = referenceData
@@ -28,7 +29,7 @@ class ShapeDraw(object):
         self.n_actions = self.p*self.p*2
         
         # Physics
-        self.phy_settings = {"mass": 1.0, "friction": 0.5, "time_scale": 1.0, "g": 10, "action_scale": 0.2}
+        self.phy_settings = {"mass": 1.0, "friction": 0.5, "time_scale": 1.0, "g": 10, "action_scale": 1.0}
         self.phy = Physic_Engine(**self.phy_settings)
 
         # initializes rest
@@ -59,21 +60,40 @@ class ShapeDraw(object):
         self.isDrawing = 1
 
         # Calculate the x and y position coordinates of action in the current patch
-        x = agent_action % self.p
+        print(f"Input Action: {agent_action}")
+        if agent_action % 4 == 0:
+            x = 0
+            y = agent_action // 4
+        elif agent_action % 3 == 0:
+            x = -1 * agent_action // 4
+            y = 0
+        elif agent_action % 2 == 0:
+            x = 0
+            y = -1 * agent_action // 4
+        else:
+            x = agent_action // 4
+            y = 0
+        
+        if x > self.max_action_strength or y > self.max_action_strength:
+            self.isDrawing = 0
+            
+        ''' x = agent_action % self.p
         y = agent_action // self.p
         if y >= self.p:
             y -= self.p
-            self.isDrawing = 0
+            self.isDrawing = 0 '''
 
         # Calculate the global aim location of the action
         ownpos = (self.p-1)/2
-        action = [int(self.agentPos[0]+x-ownpos),
-                  int(self.agentPos[1]+y-ownpos)]
+        ''' action = [int(self.agentPos[0]+x),
+                  int(self.agentPos[1]+y)] '''
         
         # Physics calculation
-        print(f"action: {action}")
-        action = self.phy.calc_position_step(self.agentPos, action)
-        print(f"out action: {action}")
+        # print(f"action: {x, y}")
+        action = self.phy.calc_position_step(self.agentPos, [x, y])
+        ''' print(f"out action: {action}")
+        print(f"Friction: {self.phy.calc_friction()}")
+        print(f"Velocity: {self.phy.velocity}") '''
 
         # Penalty for being to slow
         penalty = 0

@@ -83,11 +83,11 @@ class DeepQNetwork(object):
 
 
 class Agent(object):
-    def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size,
+    def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size, max_action_strength: int,
                  replace_target=10000,
                  q_next_dir='paper rebuild stable/nn_memory/q_next', q_eval_dir='paper rebuild stable/nn_memory/q_eval'):
 
-        self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
+        self.n_actions = 4*max_action_strength*2  # How many action options the agent has. -> Index of the action to choose
         self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
         self.gamma = gamma  # Is the learnrate
         self.mem_size = mem_size  # The allocated memory size (The number of slots for saved observation)
