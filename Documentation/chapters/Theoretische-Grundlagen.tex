@@ -77,72 +77,79 @@ der Algorithmus die Daten verarbeitet, können neue Muster erkannt werden.
 Muster, die von Menschen bisher übersehen wurden 
 
 
-
-
-
-
-
 \section{Reinforcement Learning}
 \label{chap:t_rl}
 
-Reinforcement Learning bedeutet vereinfacht lernen durch Interaktion mit der
-Umgebung (Sutten, Barto) 
+Reinforcement Learning bedeutet vereinfacht Lernen durch Interaktion mit der
+Umgebung. (Sutten, Barto)  Genauer lernt ein Machine Learning Algorithmus durch
+die Interaktion mit einer Umgebung, wie er sich in dieser Verhalten soll.
 
-Es wird also die Umgebung eingeführt. In supervised und
-unsupervised werden Daten bereitgestellt, aus denen der Algorithmus "lernt".
-Reinforcement Learning Algorithmen lernen nicht aus bereitgestellten Daten, sondern aus ihrer Umgebung.
+Reinforcement Learning Algorithmen führen also die Umgebung ein. In Supervised
+Learning und Unsupervised Learning werden Daten bereitgestellt, aus denen der
+Machine Learning Algorithmus "lernt". Bei einer Umgebung sind diese Daten
+allerdings im Voraus nicht bekannt. Das kommt daher, dass eine Umgebung häufig
+zu viele verschiedene Zustände einnehmen kann, als dass diese im Vorraus erfasst
+werden könnten. Der Machine Learning Algorithmus kann trotzdem aus der Umgebung
+lernen, indem dieser selbt als Element der Umgebung angesehen wird und so mit ihr interagieren kann.
 
-diese Umgebung kann sich gegenüber der Zeit verändern und wird durch
-verschiedene Faktoren beeinflusst. Die Echte Welt dient auch als Umgebung. Eine
-Umgebung mit der der Mensch interagiert, wodurch er Erfahrungen sammelt und
-lernt. Comupterprogramme, wie ein Reinforcement Learning Algorithmus, können
-aber nicht mit der echten Welt interagieren. Stattdessen dienen Computersimulationen als Umgebung.
+
+Die echte Welt kann ebenfalls als eine Umgebung angesehen werden. Der Mensch
+wäre in diesem Fall der Machine learning Algorithmus. Der Mensch erlernt zum
+Beispiel das Laufen, indem er mit der Welt interagiert. Eine Interaktion wäre
+hier zum Beispiel das Hinfallen. Dadurch erlernt der Mensch das Verhalten der
+Schwerkraft, welches zu diesem Fall geführt hat. Der Mensch lernt dieses
+Verhalten durch eigene Erfahrungen, ohne dass ihm vorher bereits Daten über die
+Welt gezeigt wurden. 
+
+Reinforcement Learning Algorithmen stellen dieses Lernverhalten nach. So
+verwenden Roboter, die das Laufen lernen sollen häufig diesen Ansatz. Die
+Umgebung ist für den Reinforcement Learning Algorithmus im Roboter tatsächlich
+die echte Welt. Bei der Umgebung kann es sich aber auch um eine
+Computersimulation handeln.
 
 \subsection*{Aufbau und Funktionsweise}
 
-Wie erwähnt braucht ein Reinforcement Algorithmus eine Umgebung, also eine
-Computersimulation. Der Lernprozess findet durch die Interaktion mit dieser
-Umgebung statt. Diese Interaktion wird durch einen sogenannten Agent ausgeführt.
-Der Agent ist durch die Umgebung beeinflusst, kann umgekehrt aber auch die
-Umgebung durch seine Aktionen verändern. Je nachdem wie die Aktionen des Agents
-auf die Umgebung wirken, kann der Agent belohnt oder bestraft werden. Dabei muss
-vordefiniert sein, was belohnt wird und was bestraft wird. Schlussendlich lernt
-der Agent durch diese Belohnungen und Bestrafungen, wie er sich in zukünftigen
-ähnlichen Situationen verhalten soll. 
+Dieser Abschnitt umfasst eine genauere Erklärung eines Reinforcement Learning
+Algorithmus (Deep Q-Learning) unter der Verwendung der korrekten Fachbegriffe.
 
-Reinforcement Learning ist ein Überbegriff für verschiedene Algorithmen, die
-nach dem gerade beschriebenen Prinzip arbeiten. Der Deep Q-Learning Algorithmus
-ist ein Beispiel für Die genaue Funktionsweise eines Reinforcement Learning
-Algorithmus, der in dieser Arbeit implementiert ist.
+Ein Reinforcement Learning Algorithmus umfasst eine Umgebung und einen Agenten.
+Der Agent ist dasjenige Element in der Umgebung, welches mit dieser interagiert
+und daraus lernt. Der Agent umfasst ein Neuronales Netz. Die Eingabe in dieses
+Netz ist die \textbf{Beobachtung} der Umgebung, also diejenigen aktuellen Daten
+aus der Umgebung, die für den Agenten relevant sind. Die Ausgabe des Netzes
+entspricht einer gewissen Anzahl Neuronen, die alle einen bestimmten Wert (den
+\textbf{Q-Wert}) haben, der jeweils von der Eingabe abhängt. Jedes Neuron
+repräsentiert eine Aktion, wobei jenes Neuron mit dem höchsten Q-Wert als die
+`beste' Aktion angesehen wird. Der Agent kann somit nur eine festgelegte Anzahl
+verschiedener Aktionen ausführen, die durch die Anzahl der Neuronen der Ausgabe
+definiert ist. Der Agent führt in den meisten Fällen diejenige Aktion aus, die
+als die beste definiert ist. Mit einer kleinen Wahrscheinlichkeit führt er
+allerdings eine zufällige Aktion aus. Die Hoffnung dahinter ist, dass sich die
+zufällige Aktion schlussendlich als noch besser herausstellt 
 
-\subsection*{Deep Q-Learning}
+Nachdem der Agent eine Aktion ausführt, wird der Einfluss dieser Aktion auf die
+Umgebung gemessen. Dabei bestimmt eine \textbf{Reward-funciton}, ob die Aktion
+positiv oder negativ auf die Umgebung wirkt. Das wird durch eine Zahl
+ausgedrückt. Umso grösser die Zahl, desto positiver ist der Effekt auf die
+Umgebung und umgekehrt. Diese Zahl wird Belohnung oder \textbf{Reward} genannt.
+Der Q-Wert der ausgeführten Aktion wird schliesslich bezogen auf den Reward
+angepasst (Durch die Bellman Gleichung). Ein Kleinerer Reward führt zu einem
+kleineren Q-Wert für die Aktion, wodurch diese in Zukunft weniger wahrscheinlich
+gewählt wird. Umgekehrt macht ein grösserer Reward die Aktion, die diesen
+ausgelöst hat, in Zukunft wahrscheinlicher. Nach der Anpassung des Q-Werts wird
+das Neuronale Netz auf diese neue Ausgabe trainiert. Die Gewichte im Neuronalen
+Netz werden also so angepasst, dass die Ausgabe einer ähnliche Eingabe in
+Zukunft näher an den neu angepassten Q-Werten ist als an den alten.
 
 
 
-Die hier beschriebene Umgebung hat also
-Ähnlichkeiten mit der echten Welt
-
-
-
-
-Verschiedene Arten
-Ziel, Anwendungsbereich
-
-Architektur<R
 
 
 \section{Verwandte Arbeiten und Themen}
 \label{chap:t_verwandt}
-
-Ein verwandtes Thema dieser Arbeit ist die Robotik. Ein Roboter ist laut der
-Definition eine `Apparatur, die bestimmte Funktionen eines Menschen ausführen
-kann' (Duden). Das Nachzeichnen von Strichbildern ist ebenfalls eine menschliche
-Tätigkeit. Diese Arbeit untersucht allerdings nur das Computerprogramm, welches
-diese Tätigkeit verrichten kann. Das Ziel ist es also nicht, eine Apperatur zu
-bauen, die vom Computerprogramm gesteuert werden würde.
-
 Es gibt verschiedene Ansätze, um ein Computerprogramm die menschliche Tätigkeit
-des Nachzeichnens verrichten zu lassen. Ein häufiger Ansatz ist "Stroke-Based
+des Nachzeichnens verrichten zu lassen. Diese Ansätze werden in verschiedenen
+wissenschaftlichen Arbeiten verfolgt. Ein häufiger Ansatz ist "Stroke-Based
 Rendering", wobei Bilder durch das Platzieren von Elementen wie Strichen
 gezeichnet werden. Beispiele für Arbeiten, die diesen Ansatz verwenden sind\dots
 Stroke-Based Rendering unterscheidet sich von menschlichem Zeichnen dadurch,
@@ -162,14 +169,16 @@ Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt hat, Strichbilder
 aus dem Google Quick-Draw Datenset nachzuzeichnen. Ist in der Freiheit des
 Zeichnens eingeschränk\indent 
 
-Architektur: Agent = Stift. Umgebung = Zeichenfläche. Speichert Position von
+Architektur: Deep Q-Learning Algorithmus.
+Agent = Stift. Umgebung = Zeichenfläche (Schwarz Weiss). Speichert Position von
 Agent, das zu Nachzeichnende Bild, das was bis jezt gezeichnet wurde und ob
 Stift gerade vom Blatt gehoben ist. Die Belohnung/Bestrafung ist der Grad der
 Ähnlichkeit zwischen Bildern. Die Unmittelbare Umgebung des Agenten, in dem er
 sich in einem Schritt bewegen kann, wird in das neuronale Netz noch ein weiteres
 Mal eingegeben, wodurch darauf ein Fokus gelegt wird. Ausgabe des neuronalen
-Netz ist eine der Aktionen die der Agent ausführen kann
-R
+Netz ist eine der Aktionen die der Agent ausführen kann.
+
+
 
 \section{Git und GitHub}
 \label{chap:t_git}
