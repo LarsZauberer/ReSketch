@@ -60,7 +60,7 @@ class ShapeDraw(object):
         self.isDrawing = 1
 
         # Calculate the x and y position coordinates of action in the current patch
-        print(f"Input Action: {agent_action}")
+        # print(f"Input Action: {agent_action}")
         x, y = self.action_to_direction(agent_action)
             
         ''' x = agent_action % self.p
