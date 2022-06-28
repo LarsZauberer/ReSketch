@@ -24,6 +24,19 @@ class Test_Engine:
         assert float("{:.3f}".format(f[0])) == 0.098
         assert float("{:.3f}".format(f[1])) == 0.098
         
+    def test_friction_3(self):
+        eng = Physic_Engine(mass=0.1, friction=0.1)
+        eng.velocity = [1, 0]
+        f = eng.calc_friction()
+        assert float("{:.3f}".format(f[0])) == 0.098
+        assert float("{:.3f}".format(f[1])) == 0.0
+    
+    def test_friction_4(self):
+        eng = Physic_Engine(mass=0.1, friction=0.1)
+        eng.velocity = [0, 1]
+        f = eng.calc_friction()
+        assert float("{:.3f}".format(f[0])) == 0.0
+        assert float("{:.3f}".format(f[1])) == 0.098
     
     def test_pos(self):
         eng = Physic_Engine(mass=0.1, friction=0.1)
