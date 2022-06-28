@@ -29,10 +29,13 @@ class Physic_Engine:
         a = self.calc_acceleration(force)
         self.velocity[0] += a[0]*self.time_scale
         self.velocity[1] += a[1]*self.time_scale
+        # print(f"Velocity with acceleration: {self.velocity}")
         
         f = self.calc_friction()
+        # print(f"Resulting f: {f}")
         self.velocity[0] -= f[0]*self.time_scale
         self.velocity[1] -= f[1]*self.time_scale
+        # print(f"New Velocity: {self.velocity}")
         
         pos[0] += self.velocity[0]*self.time_scale
         pos[1] += self.velocity[1]*self.time_scale
@@ -79,7 +82,7 @@ class Physic_Engine:
         
         # The friction cannot go over 0 barrier
         fricVel[0] = vel[0] if self.check_too_much_friction(vel[0], fricVel[0]) else fricVel[0]
-        fricVel[1] = vel[0] if self.check_too_much_friction(vel[1], fricVel[1]) else fricVel[1]
+        fricVel[1] = vel[1] if self.check_too_much_friction(vel[1], fricVel[1]) else fricVel[1]
         
         return fricVel
     
