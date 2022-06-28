@@ -166,8 +166,36 @@ Doodle-SDQ von ...
 
 \subsection*{Doodle-SDQ}
 Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt hat, Strichbilder
-aus dem Google Quick-Draw Datenset nachzuzeichnen. Ist in der Freiheit des
-Zeichnens eingeschränk\indent 
+aus dem Google Quick-Draw Datenset nachzuzeichnen. Das Programm stammt aus der
+Arbeit `Learning to Doodle with Deep Q-Networks and Demonstration Strokes' von
+Tao Zhou et Al. aus dem Jahr 2018. Wie der Titel beschreibt basiert das Programm
+auf dem Deep Q-Learning Algorithmus (siehe oben). `Demonstration Strokes' ist
+ein weiteres verfolgtes Konzept in der Arbeit. Dieses gehört allerdings nicht
+zum Bereich von Reinforcement learning sonders ist vereinfacht gesagt eine
+Methode zur Optimierung des Algorithmus. Die Folgende Erklärung bezieht sich
+daher nur auf den Deep Q-Learning Algorithmus.
+
+Das Quick-Draw Datenset von Google beinhaltet Bilder von verschiedenen,
+menschlichen Strichzeichnungen. Das Programm versucht, diese Bilder
+nachzuzeichnen. Dazu werden die Bilder zuerst auf eine einheitliche Grösse von
+84x84 Pixeln komprimiert. Der Agent kann sich auf dieser Fläche bewegen und
+Zeichnen. Es handelt sich bei dieser Zeichenfläche um die Umgebung des Agenten
+Der Agent kann sich mit einer Aktion auf einen beliebigen Pixel in einem 11x11
+Feld, in dessen Zentrum er ist, bewegen. Dabei kann der Agent entweder zwischen
+seiner alten und seiner neuen Position Zeichnen oder nicht. Der Agent kann somit
+insgesamt 2x11x11 Aktionen ausführen. Diese Anzahl Aktionen entspricht
+gleichzeitig der Anzahl Neuronen in der Ausgabe des neuronalen Netzes. Die
+Eingabe in das Netz, also die Beobachtung der Umgebung wird in zwei Teile
+gegliedert: Ein globaler Teil (global channel) und ein lokaler Teil (local
+channel). Der Globale Teil umfasst das vorgegebene Bild (die Vorlage), das bis
+anhin gezeichnete Bild, die aktuelle Position des Agenten und die Angabe, ob der
+Agent gerade am Zeichnen ist oder nicht. Der Lokale Teil umfasst nur noch das
+11x11 Feld vom vorgegebenen und dem bis anhin gezeichneten Bild, das sich direkt
+um den Agenten befindet. Diese erneute Eingabe des kleineren Feldes in das Netz
+ist notwendig, weil die unmittelbare Umgebung des Agenten für die Entscheidung
+der nächsten Aktion sehr relevant ist. 
+
+
 
 Architektur: Deep Q-Learning Algorithmus.
 Agent = Stift. Umgebung = Zeichenfläche (Schwarz Weiss). Speichert Position von
