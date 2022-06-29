@@ -62,25 +62,12 @@ class ShapeDraw(object):
         # Calculate the x and y position coordinates of action in the current patch
         # print(f"Input Action: {agent_action}")
         x, y = self.action_to_direction(agent_action)
-            
-        ''' x = agent_action % self.p
-        y = agent_action // self.p
-        if y >= self.p:
-            y -= self.p
-            self.isDrawing = 0 '''
-
-        # Calculate the global aim location of the action
-        ''' ownpos = (self.p-1)/2 '''
-        ''' action = [int(self.agentPos[0]+x),
-                  int(self.agentPos[1]+y)] '''
         
         # Physics calculation
         # print(f"action: {x, y}")
         action = self.phy.calc_position_step(self.agentPos, [x, y])
-        '''print(f"in action: {agent_action} out action: {action}")'''
-
-
-        '''print(f"Friction: {self.phy.calc_friction()}")
+        '''print(f"in action: {agent_action} out action: {action}")
+        print(f"Friction: {self.phy.calc_friction()}")
         print(f"Velocity: {self.phy.velocity}") '''
 
         # Penalty for being to slow
