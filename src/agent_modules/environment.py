@@ -107,6 +107,16 @@ class ShapeDraw(object):
         return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch]), reward
 
     def action_to_direction(self, action):
+        """
+        action_to_direction Convert the action index of the agent to a direction and return the strength of the action. Sets also the isDrawing variable.
+
+        :param action: the index of the action to be executed
+        :type action: int
+        :return: x and y delta of the action
+        :rtype: tuble
+        """
+        
+        # Calculate direction
         counter = 0
         total_counter = 1
         for i in range(action):
@@ -115,6 +125,7 @@ class ShapeDraw(object):
                 counter = 0
                 total_counter += 1
         
+        # Set direction variables
         if counter == 0:
             x = 0
             y = 1 * total_counter
@@ -127,7 +138,9 @@ class ShapeDraw(object):
         elif counter == 3:
             x = -1 * total_counter
             y = 0
-            
+        
+        # Set isDrawing variable
+        # If the action is over the max_action strength make a new counting.
         if action // 4 >= self.max_action_strength:
             self.isDrawing = 0
             if x != 0:
