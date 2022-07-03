@@ -3,10 +3,11 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
+from models import EfficientCapsNet
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, num_steps: int):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -35,6 +36,13 @@ class ShapeDraw(object):
 
         # rendering / visualization
         self.fig = plt.figure(figsize=(10, 7))
+        
+        # Mnist Model -> Recognition of symbol
+        self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
+        self.rec_model.load_graph_weights()
+        
+        self.step_counter = 0  # Count the steps in the current episode
+        self.num_steps = num_steps  # Number of steps in the current episode
 
     def step(self, agent_action: int):
         """
@@ -82,6 +90,7 @@ class ShapeDraw(object):
         reward += penalty
 
         # Ending the timestep
+        self.step_counter += 1
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
 
     def set_agentPos(self, pos: list):
@@ -156,6 +165,17 @@ class ShapeDraw(object):
         # Only use the newly found similar pixels for the reward
         reward = self.lastSim - similarity
         self.lastSim = similarity
+        
+        if self.step_counter % 1 == 0:
+            a, b = self.predict_mnist()
+            if b == -1:
+                rec_const_reward = -0.1
+            elif a == b:
+                rec_const_reward = 1
+            else:
+                rec_const_reward = -1
+            reward *= 1/self.num_steps*(self.num_steps - self.step_counter)
+            reward += 1/self.num_steps*self.step_counter * rec_const_reward
 
         return reward
 
@@ -173,6 +193,25 @@ class ShapeDraw(object):
         if action[1] > len(self.canvas)-2 or action[1] < 1:
             return False
         return True
+    
+    def predict_mnist(self):
+        # Format the input for the model
+        ref_inp = self.reference.reshape(self.s, self.s, 1)
+        canv_inp = self.canvas.reshape(self.s, self.s, 1)
+        inp = np.array([ref_inp, canv_inp])
+        
+        # Predict
+        out = self.rec_model.predict(inp)
+        # Get index of max
+        ref = np.argmax(out[0][0])
+        canv = np.argmax(out[0][1])
+        
+        # Too unsure. Should not be validated
+        ''' if out[0][1][canv] < 0.8:
+            canv = -1 '''
+        
+        print(ref, canv)
+        return ref, canv
 
     def reset(self):
         """
@@ -181,6 +220,8 @@ class ShapeDraw(object):
         :return: Returns an array with the inital state maps
         :rtype: np.array
         """
+        self.step_counter = 0  # Reset the step counter
+        
         # Get another reference image
         self.curRef += 1
         self.reference = self.referenceData[self.curRef]
@@ -222,12 +263,16 @@ class ShapeDraw(object):
                 elif e == 1:
                     rendRef[index] = 50
 
+            # Run recognition
+            ref, canv = self.predict_mnist()
+
             # Original image
+            self.fig = plt.figure(figsize=(10, 7))
             self.fig.add_subplot(2, 2, 1)
             plt.imshow(rendRef.reshape(28, 28), cmap='gray',
                        label='Original', vmin=0, vmax=255)
             plt.axis("off")
-            plt.title("Original")
+            plt.title(f"Original: {ref}")
 
             rendCanv = rendCanv.reshape(28, 28)
 
@@ -238,7 +283,7 @@ class ShapeDraw(object):
             plt.imshow(rendCanv, cmap='gray',
                        label='AI Canvas', vmin=0, vmax=255)
             plt.axis("off")
-            plt.title("AI Canvas")
+            plt.title(f"AI Canvas: {canv}")
 
             plt.pause(0.01)
         else:
