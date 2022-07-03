@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import random
 import keyboard
 import json
+from rich.progress import track
 
 
 if __name__ == '__main__':
@@ -42,9 +43,9 @@ if __name__ == '__main__':
     # Fill replay buffer
     # Fill the replay buffer to have something to learn in the first episode
     g_obs, l_obs = env.reset()
-    for j in range(mem_size):
+    for j in track(range(mem_size), description="Filling replay buffer"):
         action = random.randint(0, n_actions-1)
-        next_g_obs, next_l_obs, reward = env.step(action)
+        next_g_obs, next_l_obs, reward = env.step(action, without_rec=True)
         agent.store_transition(g_obs, l_obs, next_g_obs,
                                next_l_obs, action, reward)
         agent.counter += 1

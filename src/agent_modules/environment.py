@@ -44,7 +44,7 @@ class ShapeDraw(object):
         self.step_counter = 0  # Count the steps in the current episode
         self.num_steps = num_steps  # Number of steps in the current episode
 
-    def step(self, agent_action: int):
+    def step(self, agent_action: int, without_rec: bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
@@ -86,7 +86,7 @@ class ShapeDraw(object):
 
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward() if self.isDrawing else 0.0
+        reward = self.reward(without_rec) if self.isDrawing else 0.0
         reward += penalty
 
         # Ending the timestep
@@ -147,7 +147,7 @@ class ShapeDraw(object):
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
-    def reward(self):
+    def reward(self, without_rec: bool = False):
         """
         reward Calculate the reward based on gained similarity and length of step
 
@@ -166,16 +166,15 @@ class ShapeDraw(object):
         reward = self.lastSim - similarity
         self.lastSim = similarity
         
-        if self.step_counter % 1 == 0:
+        if self.step_counter % 64 == 0 and not without_rec:
             a, b = self.predict_mnist()
-            if b == -1:
-                rec_const_reward = -0.1
-            elif a == b:
+            if b == -1:  # Not recognized
+                rec_const_reward = -0.5
+            elif a == b:  # Recognized
                 rec_const_reward = 1
-            else:
-                rec_const_reward = -1
-            reward *= 1/self.num_steps*(self.num_steps - self.step_counter)
-            reward += 1/self.num_steps*self.step_counter * rec_const_reward
+            else:  # Wrong recognition
+                rec_const_reward = 0
+            reward = rec_const_reward
 
         return reward
 
@@ -207,8 +206,8 @@ class ShapeDraw(object):
         canv = np.argmax(out[0][1])
         
         # Too unsure. Should not be validated
-        ''' if out[0][1][canv] < 0.8:
-            canv = -1 '''
+        if out[0][1][canv] < 0.8:
+            canv = -1
         
         print(ref, canv)
         return ref, canv
@@ -267,7 +266,7 @@ class ShapeDraw(object):
             ref, canv = self.predict_mnist()
 
             # Original image
-            self.fig = plt.figure(figsize=(10, 7))
+            self.fig.clear()
             self.fig.add_subplot(2, 2, 1)
             plt.imshow(rendRef.reshape(28, 28), cmap='gray',
                        label='Original', vmin=0, vmax=255)
