@@ -15,7 +15,7 @@
 
 import numpy as np
 import tensorflow as tf
-from utils.layers import PrimaryCaps, FCCaps, Length, Mask
+from mnist_model.utils.layers import PrimaryCaps, FCCaps, Length, Mask
 import tensorflow_addons as tfa
 
 

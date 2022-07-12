@@ -3,7 +3,7 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
-from models import EfficientCapsNet
+from mnist_model.models import EfficientCapsNet
 
 
 
@@ -210,7 +210,6 @@ class ShapeDraw(object):
         if out[0][1][canv] < 0.8:
             canv = -1
         
-        print(np.max(out[0][0]), np.max(out[0][1]))
         return ref, canv
 
     def reset(self):

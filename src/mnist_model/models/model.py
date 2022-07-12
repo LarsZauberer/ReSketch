@@ -15,11 +15,11 @@
 
 import numpy as np
 import tensorflow as tf
-from utils.layers import PrimaryCaps, FCCaps, Length
-from utils.tools import get_callbacks, marginLoss, multiAccuracy
-from utils.dataset import Dataset
-from utils import pre_process_multimnist
-from models import efficient_capsnet_graph_mnist, efficient_capsnet_graph_smallnorb, efficient_capsnet_graph_multimnist, original_capsnet_graph_mnist
+from mnist_model.utils.layers import PrimaryCaps, FCCaps, Length
+from mnist_model.utils.tools import get_callbacks, marginLoss, multiAccuracy
+from mnist_model.utils.dataset import Dataset
+from mnist_model.utils import pre_process_multimnist
+from mnist_model.models import efficient_capsnet_graph_mnist, efficient_capsnet_graph_smallnorb, efficient_capsnet_graph_multimnist, original_capsnet_graph_mnist
 import os
 import json
 from tqdm.notebook import tqdm
@@ -54,7 +54,7 @@ class Model(object):
     save_graph_weights():
         save model weights
     """
-    def __init__(self, model_name, mode='test', config_path='config.json', verbose=True):
+    def __init__(self, model_name, mode='test', config_path='src/mnist_model/config.json', verbose=True):
         self.model_name = model_name
         self.model = None
         self.mode = mode
@@ -136,7 +136,7 @@ class EfficientCapsNet(Model):
         train the constructed network with a given dataset. All train hyperparameters are defined in the configuration file
 
     """
-    def __init__(self, model_name, mode='test', config_path='config.json', custom_path=None, verbose=True):
+    def __init__(self, model_name, mode='test', config_path='src/mnist_model/config.json', custom_path=None, verbose=True):
         Model.__init__(self, model_name, mode, config_path, verbose)
         if custom_path != None:
             self.model_path = custom_path
@@ -212,7 +212,7 @@ class CapsNet(Model):
     train():
         train the constructed network with a given dataset. All train hyperparameters are defined in the configuration file
     """
-    def __init__(self, model_name, mode='test', config_path='config.json', custom_path=None, verbose=True, n_routing=3):
+    def __init__(self, model_name, mode='test', config_path='src/mnist_model/config.json', custom_path=None, verbose=True, n_routing=3):
         Model.__init__(self, model_name, mode, config_path, verbose)   
         self.n_routing = n_routing
         self.load_config()

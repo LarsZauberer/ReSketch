@@ -63,8 +63,8 @@ if __name__ == '__main__':
             # Run the timestep
             action = agent.choose_action(global_obs, local_obs)
             next_gloabal_obs, next_local_obs, reward = env.step(action)
-            env.render("Compare", realtime=True)
-            print(env.predict_mnist())
+            
+           
 
             # Save new information
             agent.store_transition(

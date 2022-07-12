@@ -18,7 +18,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import matplotlib.pyplot as plt
 import os
-from utils import pre_process_mnist, pre_process_multimnist, pre_process_smallnorb
+from mnist_model.utils import pre_process_mnist, pre_process_multimnist, pre_process_smallnorb
 import json
 
 
@@ -44,7 +44,7 @@ class Dataset(object):
     get_tf_data():
         get a tf.data.Dataset object of the loaded dataset. 
     """
-    def __init__(self, model_name, config_path='config.json'):
+    def __init__(self, model_name, config_path='src/mnist_model/config.json'):
         self.model_name = model_name
         self.config_path = config_path
         self.config = None
