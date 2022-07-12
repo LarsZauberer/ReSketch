@@ -5,6 +5,7 @@ from keras.layers import Conv2D, Dense, Flatten, Input, concatenate
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.models import load_model, clone_model
 import numpy as np
+from tensorflow.keras.utils import plot_model
 import time
 
 class DeepQNetwork(object):
@@ -63,6 +64,8 @@ class DeepQNetwork(object):
         # Network is ready for calling / Training
         self.dqn.compile(loss="mean_squared_error", optimizer=tf.keras.optimizers.Adam(
             learning_rate=self.lr), metrics=["accuracy"])
+
+        plot_model(self.dqn, to_file=f"{self.name}.png", show_shapes=True)
 
         #calling: dqn([global_state_batch, local_state_batch])
         #training: dqn.train_on_batch(x=[global_state_batch, local_state_batch], y=q_target)
