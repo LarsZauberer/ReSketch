@@ -20,7 +20,7 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    mem_size = 20000
+    mem_size = 10000
     batch_size = 64
     num_episodes = 12000
     num_steps = 64
@@ -63,7 +63,8 @@ if __name__ == '__main__':
             # Run the timestep
             action = agent.choose_action(global_obs, local_obs)
             next_gloabal_obs, next_local_obs, reward = env.step(action)
-            #env.render("Compare", realtime=True)
+            env.render("Compare", realtime=True)
+            print(env.predict_mnist())
 
             # Save new information
             agent.store_transition(

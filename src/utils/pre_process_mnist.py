@@ -16,7 +16,6 @@
 import numpy as np
 import tensorflow as tf
 import os
-import cv2
 tf2 = tf.compat.v2
 
 # constants

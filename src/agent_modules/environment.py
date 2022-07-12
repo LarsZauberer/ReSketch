@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from models import EfficientCapsNet
 
 
+
 class ShapeDraw(object):
     def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, num_steps: int):
         self.s = sidelength
@@ -209,7 +210,7 @@ class ShapeDraw(object):
         if out[0][1][canv] < 0.8:
             canv = -1
         
-        print(ref, canv)
+        print(np.max(out[0][0]), np.max(out[0][1]))
         return ref, canv
 
     def reset(self):
@@ -232,7 +233,7 @@ class ShapeDraw(object):
         
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
-        self.reward()
+        self.reward(without_rec=True)
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
     def render(self, mode="None", realtime=False):
@@ -384,8 +385,3 @@ def drawline(setpos, pos, canvas):
 
     return canvas
 
-
-if __name__ == '__main__':
-    # Debugging drawline
-    canv = np.zeros((28, 28))
-    drawline([0, 0], [5, 10], canv)
