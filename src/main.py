@@ -20,7 +20,7 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    mem_size = 20000
+    mem_size = 10000
     batch_size = 64
     num_episodes = 12000
     num_steps = 64
@@ -51,6 +51,9 @@ if __name__ == '__main__':
         agent.counter += 1
         g_obs = next_g_obs
         l_obs = next_l_obs
+
+        if j % 64 == 0:
+            env.reset()
 
     scores = []
     learning_history = [[], []]
@@ -97,7 +100,7 @@ if __name__ == '__main__':
                 lastsave = i
                 isSaved = True
                 agent.save_models()
-                with open("src/plotlearn_data.json", "w") as f:
+                with open("src/result_stats/plotlearn_data.json", "w") as f:
                     json.dump(learning_history, f)
         elif i > lastsave+2:
             isSaved = False
