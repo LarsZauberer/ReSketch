@@ -28,7 +28,7 @@ class ShapeDraw(object):
         self.lastSim = 0  # Last similarity between reference and canvas
         self.maxScore = 1 # Maximum Reward (changes with reference Image) = base Similarity between empty canvas and reference        
         self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
-        self.curRef = 0 #current reference image, counter that increments with every episode
+        self.curRef = -1 #current reference image, counter that increments with every episode
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
         self.set_agentPos([random.randint(1, self.s-2),
@@ -192,6 +192,7 @@ class ShapeDraw(object):
         """
         # Get another reference image
         self.curRef += 1
+        self.curRef = self.curRef % len(self.referenceData)
         self.reference = self.referenceData[self.curRef]
         
         # Reset canvas and agent position
