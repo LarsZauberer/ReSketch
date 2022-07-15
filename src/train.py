@@ -9,11 +9,13 @@ import matplotlib.pyplot as plt
 import random
 import keyboard
 import json
+import time
+import sys
 
 
 if __name__ == '__main__':
     # memory parameters
-    load_checkpoint = False
+    load_checkpoint = True
     isSaved = False
     lastsave = 0
 
@@ -50,10 +52,13 @@ if __name__ == '__main__':
 
     learning_history = [[], []]
     scores = []
-    for _ in range(epochs):
+    for n in range(epochs):
+
         
-        reference = shuffle_data(reference)
-        if _ == 0:
+        reference = shuffle_data(reference.copy())
+        env.referenceData = reference
+        
+        if n == 0:
             run_episodes = num_episodes-episode_mem_size
 
             # Fill replay buffer
@@ -82,6 +87,7 @@ if __name__ == '__main__':
             for j in range(num_steps):
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs)
+                
                 next_gloabal_obs, next_local_obs, reward = env.step(action)
                 #env.render("Compare", realtime=True)
 
@@ -96,10 +102,12 @@ if __name__ == '__main__':
 
                 if (j+1) % 4 == 0:
                     agent.learn()
+            
 
 
             # Learn Process visualization
             if i % 12 == 0 and i > 0:
+                real_episode = i*(1+n)
                 avg_score = np.mean(scores)
                 scores = []
                 print(f"episode: {i}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
@@ -125,4 +133,7 @@ if __name__ == '__main__':
             elif i > lastsave+2:
                 isSaved = False
 
+
 agent.save_models()
+with open("src/result_stats/plotlearn_data.json", "w") as f:
+    json.dump(learning_history, f)
