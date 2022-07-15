@@ -3,7 +3,7 @@ import tensorflow as tf
 from keras import Sequential, Model
 from keras.layers import Conv2D, Dense, Flatten, Input, concatenate
 from keras.callbacks import ModelCheckpoint, EarlyStopping
-from keras.models import load_model, clone_model
+from keras.models import load_model
 import numpy as np
 from tensorflow.keras.utils import plot_model
 import time
@@ -83,6 +83,9 @@ class DeepQNetwork(object):
         """
         print("...Saving checkpoint...")
         self.dqn.save(self.checkpoint_file)
+
+
+    
 
 
 class Agent(object):

@@ -3,7 +3,7 @@ import matplotlib.pyplot as mp
 import json
 
 data = []
-with open("src/plotlearn_data.json", "r") as p:
+with open("src/result_stats/plotlearn_data.json", "r") as p:
     data = json.load(p)
 
 

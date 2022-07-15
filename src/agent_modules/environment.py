@@ -152,9 +152,7 @@ class ShapeDraw(object):
         for i in range(self.s):
             for j in range(self.s):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
-
-
-        
+                
         similarity /= self.maxScore
 
         # Only use the newly found similar pixels for the reward
@@ -353,7 +351,4 @@ def drawline(setpos, pos, canvas):
     return canvas
 
 
-if __name__ == '__main__':
-    # Debugging drawline
-    canv = np.zeros((28, 28))
-    drawline([0, 0], [5, 10], canv)
+
