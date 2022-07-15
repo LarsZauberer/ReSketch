@@ -41,7 +41,7 @@ if __name__ == '__main__':
     test_data = shuffle_data(test_data)
 
     # Initializing architecture
-    env = ShapeDraw(canvas_size, patch_size, test_data )
+    env = ShapeDraw(canvas_size, patch_size, test_data)
     agent = Agent(gamma=0.99, epsilon=0, alpha=0.001, replace_target=1000,
                   global_input_dims=glob_in_dims, local_input_dims=loc_in_dims, 
                   mem_size=mem_size, batch_size=batch_size, 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
 
 
     print("\n########################################\n")
-    avg_score = np.mean(scores):
+    avg_score = np.mean(scores)
     print(f"average score: {avg_score}")
     
 
