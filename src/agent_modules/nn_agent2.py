@@ -171,16 +171,20 @@ class Agent(object):
         else:
             # create batch of states (prediciton must be in batches)
             # Create a batch containing only one real state (all zeros for the other states)
+
+
+
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
-            for _ in range(self.batch_size-1):
+            """ for _ in range(self.batch_size-1):
                 glob_batch = np.append(glob_batch, np.array(
                     [np.zeros(self.global_input_dims)]), axis=0)
                 loc_batch = np.append(loc_batch, np.array(
-                    [np.zeros(self.local_input_dims)]), axis=0)
+                    [np.zeros(self.local_input_dims)]), axis=0) """
 
             # Ask the QNetwork for an action
             actions = self.q_eval.dqn([glob_batch, loc_batch])[0]
+
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
 
