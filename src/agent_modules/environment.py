@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool =True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -34,9 +34,9 @@ class ShapeDraw(object):
         self.set_agentPos([random.randint(1, self.s-2),
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
 
-        # rendering / visualization
-        self.fig = plt.figure(figsize=(10, 7))
 
+        if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
+        
     def step(self, agent_action: int):
         """
         step execute a timestep. Creates a new canvas state in account of the action
@@ -233,22 +233,21 @@ class ShapeDraw(object):
                     rendRef[index] = 50
 
             # Original image
-            self.fig.add_subplot(2, 2, 1)
-            plt.imshow(rendRef.reshape(28, 28), cmap='gray',
+            rendRef = rendRef.reshape(28,28)
+            self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
                        label='Original', vmin=0, vmax=255)
-            plt.axis("off")
-            plt.title("Original")
-
+            self.axs[0].set_title('Original')
+            self.axs[0].axis("off")
+            
+            
+            # AI Generated Image
             rendCanv = rendCanv.reshape(28, 28)
-
             if realtime:
                 rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
-            # AI Generated Image
-            self.fig.add_subplot(2, 2, 2)
-            plt.imshow(rendCanv, cmap='gray',
+            self.axs[1].imshow(rendCanv, cmap='gray',
                        label='AI Canvas', vmin=0, vmax=255)
-            plt.axis("off")
-            plt.title("AI Canvas")
+            self.axs[1].set_title('AI Canvas')
+            self.axs[1].axis('off')
 
             plt.pause(0.01)
         else:
