@@ -1,6 +1,7 @@
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.data_prep import sample_data, shuffle_data
+from agent_modules.nn_test import Test_NN
 
 from rich.progress import track
 import numpy as np
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    episode_mem_size = 10
+    episode_mem_size = 200
     batch_size = 64
     num_episodes = 4000
     num_steps = 64
@@ -38,7 +39,6 @@ if __name__ == '__main__':
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
-    
 
     #loading data
     sorted_data = [] 
@@ -51,16 +51,19 @@ if __name__ == '__main__':
     agent = Agent(**agent_args)
     if load_checkpoint:
         agent.load_models()
-    
+    test_env = Test_NN(n_test = 12)
+
+   
 
 
-    learning_history = [[], []]
+    history = {"learning": [[], []], "test": [[], []]}
     scores = []
     for n in range(epochs):
 
+        
         reference = shuffle_data(reference.copy())
         env.referenceData = reference
-        
+
         if n == 0:
             run_episodes = num_episodes-episode_mem_size
 
@@ -110,14 +113,20 @@ if __name__ == '__main__':
 
             # Learn Process visualization
             real_episode = i*(1+n)
-            if real_episode % 12 == 0 and real_episode > 0:
+            if i % 12 == 0 and i > 0:
                 avg_score = np.mean(scores)
                 scores = []
-                print(f"episode: {real_episode}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
                 env.render("Compare")
-                learning_history[0].append(real_episode)
-                learning_history[1].append(avg_score)
+
+                test_accuracy = test_env.test(agent)
+
+                history["learning"][0].append(real_episode)
+                history["learning"][1].append(avg_score)
+                history["test"][0].append(real_episode)
+                history["test"][1].append(test_accuracy)
+
+                print(f"episode: {real_episode}, score: {score}, average score: {'%.3f' % avg_score}, test accuracy: {'%0.3f' % test_accuracy}")
             else:
                 print(f"episode: {real_episode} score: {score}")
 
@@ -132,11 +141,23 @@ if __name__ == '__main__':
                     isSaved = True
                     agent.save_models()
                     with open("src/result_stats/plotlearn_data.json", "w") as f:
-                        json.dump(learning_history, f)
+                        json.dump(history, f)
             elif i > lastsave+2:
                 isSaved = False
 
 
 agent.save_models()
 with open("src/result_stats/plotlearn_data.json", "w") as f:
-    json.dump(learning_history, f)
+    json.dump(history, f)
+
+
+
+
+
+
+
+
+
+
+
+

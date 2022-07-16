@@ -26,3 +26,8 @@ print(rew)
 
 plt.imshow(env.canvas, interpolation='none', cmap='gray')
 plt.show()
+
+
+
+
+
