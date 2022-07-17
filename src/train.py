@@ -9,13 +9,14 @@ import matplotlib.pyplot as plt
 import random
 import keyboard
 import json
-import time
+from time import sleep
 import sys
+import os
 
 
 if __name__ == '__main__':
     # memory parameters
-    load_checkpoint = False
+    load_checkpoint = True
     isSaved = False
     lastsave = 0
 
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    episode_mem_size = 10
+    episode_mem_size = 200
     batch_size = 64
     num_episodes = 4000
     num_steps = 64
@@ -53,7 +54,7 @@ if __name__ == '__main__':
         agent.load_models()
     
 
-
+    total_counter = 0
     learning_history = [[], []]
     scores = []
     for n in range(epochs):
@@ -86,13 +87,14 @@ if __name__ == '__main__':
         for i in range(run_episodes):
             global_obs, local_obs = env.reset()
             score = 0
+            total_counter += 1
 
             for j in range(num_steps):
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs)
                 
                 next_gloabal_obs, next_local_obs, reward = env.step(action)
-                #env.render("Compare", realtime=True)
+                env.render("Compare", realtime=True)
 
                 # Save new information
                 agent.store_transition(
@@ -109,17 +111,17 @@ if __name__ == '__main__':
 
 
             # Learn Process visualization
-            real_episode = i*(1+n)
-            if real_episode % 12 == 0 and real_episode > 0:
+            
+            if total_counter % 12 == 0 and total_counter > 0:
                 avg_score = np.mean(scores)
                 scores = []
-                print(f"episode: {real_episode}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
+                print(f"episode: {total_counter}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
-                env.render("Compare")
-                learning_history[0].append(real_episode)
+                #env.render("Compare")
+                learning_history[0].append(total_counter)
                 learning_history[1].append(avg_score)
             else:
-                print(f"episode: {real_episode} score: {score}")
+                print(f"episode: {total_counter} score: {score}")
 
             scores.append(score)
 
@@ -140,3 +142,8 @@ if __name__ == '__main__':
 agent.save_models()
 with open("src/result_stats/plotlearn_data.json", "w") as f:
     json.dump(learning_history, f)
+
+sleep(5)
+os.system("shutdown /s /t 30")
+
+
