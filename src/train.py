@@ -1,3 +1,4 @@
+from xmlrpc.client import FastMarshaller
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.data_prep import sample_data, shuffle_data
@@ -16,7 +17,7 @@ import os
 
 if __name__ == '__main__':
     # memory parameters
-    load_checkpoint = True
+    load_checkpoint = False
     isSaved = False
     lastsave = 0
 
@@ -94,7 +95,7 @@ if __name__ == '__main__':
                 action = agent.choose_action(global_obs, local_obs)
                 
                 next_gloabal_obs, next_local_obs, reward = env.step(action)
-                env.render("Compare", realtime=True)
+                #env.render("Compare", realtime=True)
 
                 # Save new information
                 agent.store_transition(
@@ -111,19 +112,19 @@ if __name__ == '__main__':
 
 
             # Learn Process visualization
-            
+            rel_acc = score/env.maxScore
             if total_counter % 12 == 0 and total_counter > 0:
                 avg_score = np.mean(scores)
                 scores = []
-                print(f"episode: {total_counter}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
+                print(f"episode: {total_counter}, score: {score}, percent: {rel_acc}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
                 #env.render("Compare")
                 learning_history[0].append(total_counter)
                 learning_history[1].append(avg_score)
             else:
-                print(f"episode: {total_counter} score: {score}")
+                print(f"episode: {total_counter}, score: {score}, percent {rel_acc}")
 
-            scores.append(score)
+            scores.append(rel_acc)
 
 
             # bad memory fix: save manually
@@ -143,7 +144,5 @@ agent.save_models()
 with open("src/result_stats/plotlearn_data.json", "w") as f:
     json.dump(learning_history, f)
 
-sleep(5)
-os.system("shutdown /s /t 30")
 
 

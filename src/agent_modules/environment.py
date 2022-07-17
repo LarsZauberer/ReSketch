@@ -75,7 +75,7 @@ class ShapeDraw(object):
         else:
             # Give a penalty for an illegal move
             self.isDrawing = 0
-            penalty = -0.005
+            penalty = -0.001
 
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
@@ -152,17 +152,11 @@ class ShapeDraw(object):
         for i in range(self.s):
             for j in range(self.s):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
+        similarity = similarity/(self.s**2)
                 
-        similarity /= self.maxScore
-
-        # Only use the newly found similar pixels for the reward
         reward = (self.lastSim - similarity) 
         
-        if self.maxScore == 1:
-            self.maxScore = similarity
-            self.lastSim = 1
-        else:
-            self.lastSim = similarity
+        self.lastSim = similarity
 
         return reward
 
@@ -200,8 +194,9 @@ class ShapeDraw(object):
         
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
-        self.maxScore = 1
+        
         self.reward()
+        self.maxScore = self.lastSim
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
