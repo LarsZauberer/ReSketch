@@ -148,8 +148,3 @@ dmypy.json
 *.synctex.gz
 *.thm
 /Documentation/main.pdf
-
-# tensorflow/keras
-*.pb
-*.index
-*.data-00000-of.00001
