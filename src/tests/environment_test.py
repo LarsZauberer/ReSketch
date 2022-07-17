@@ -1,4 +1,4 @@
-import numpy as np
+""" import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -26,7 +26,11 @@ print(rew)
 
 plt.imshow(env.canvas, interpolation='none', cmap='gray')
 plt.show()
+ """
 
+import keyboard
+
+keyboard.on_press_key("p", lambda _:print("You pressed p"))
 
 
 

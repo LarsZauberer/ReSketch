@@ -1,7 +1,7 @@
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.data_prep import sample_data, shuffle_data
-from agent_modules.nn_test import Test_NN
+from nn_test import Test_NN
 
 from rich.progress import track
 import numpy as np
