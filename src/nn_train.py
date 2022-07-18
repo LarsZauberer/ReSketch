@@ -17,7 +17,7 @@ import os
 
 if __name__ == '__main__':
     # memory parameters
-    load_checkpoint = False
+    load_checkpoint = True
     isSaved = False
     lastsave = 0
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     loc_in_dims = (2, patch_size, patch_size)
     mem_size = episode_mem_size*num_steps
 
-    agent_args = {"gamma": 0.99, "epsilon": 0, "alpha": 0.001, "replace_target": 1000, 
+    agent_args = {"gamma": 0.99, "epsilon": 0.005, "alpha": 0.001, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
