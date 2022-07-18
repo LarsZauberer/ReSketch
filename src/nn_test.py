@@ -42,6 +42,7 @@ class Test_NN():
         
 
         scores = []
+        accuracies = []
         for i in range(self.n_test):
             global_obs, local_obs = self.envir.reset()
             score = 0
@@ -59,10 +60,13 @@ class Test_NN():
                 score += reward
             
             scores.append(score)
+            accuracies.append(score/self.envir.maxScore)
+
         
         avg_score = np.mean(scores)
+        avg_acc = np.mean(accuracies)
     
-        return avg_score
+        return avg_score, avg_acc
     
 
     def test_from_loaded(self, agent_args):
@@ -70,7 +74,8 @@ class Test_NN():
         agent = Agent(**agent_args)
         agent.load_models()
 
-        return self.test(agent)
+        score, acc = self.test(agent)
+        print(f"score: {score}, accuracy: {acc}")
 
 
 if __name__ == '__main__':  
@@ -88,7 +93,7 @@ if __name__ == '__main__':
     glob_in_dims = (4, canvas_size, canvas_size)
     loc_in_dims = (2, patch_size, patch_size)
     mem_size = episode_mem_size*num_steps
-    kwargs = {"gamma": 0.99, "epsilon": 0, "alpha": 0.001, "replace_target": 1000, 
+    kwargs = {"gamma": 0.99, "epsilon": 0.005, "alpha": 0.001, "replace_target": 1000, 
             "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
             "mem_size": mem_size, "batch_size": batch_size, 
              "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
