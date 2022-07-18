@@ -2,11 +2,11 @@ import os
 import tensorflow as tf
 from keras import Sequential, Model
 from keras.layers import Conv2D, Dense, Flatten, Input, concatenate
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-from keras.models import load_model
-import numpy as np
 from tensorflow.keras.utils import plot_model
-import time
+
+import numpy as np
+
+
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions: int, batch_size: int, name: str,
@@ -75,14 +75,14 @@ class DeepQNetwork(object):
         load_checkpoint Load a network checkpoint from the file
         """
         print("...Loading checkpoint...")
-        self.dqn = load_model(self.checkpoint_file)
+        self.dqn.load_weights(self.checkpoint_file)
 
     def save_checkpoint(self):
         """
         save_checkpoint Save a network checkpoint to the file
         """
         print("...Saving checkpoint...")
-        self.dqn.save(self.checkpoint_file)
+        self.dqn.save_weights(self.checkpoint_file)
 
 
     

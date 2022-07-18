@@ -202,7 +202,7 @@ class ShapeDraw(object):
         
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
-        
+        self.maxScore = 1
         self.reward()
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
