@@ -4,7 +4,7 @@ import json
 
 def train():
     data = []
-    with open("src/result_stats/plotlearn_rarexp_part1.json", "r") as p:
+    with open("src/result_stats/plotlearn_data.json", "r") as p:
         data = json.load(p)
 
     mp.plot(data[0], data[1])
