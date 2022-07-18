@@ -152,13 +152,21 @@ class ShapeDraw(object):
         for i in range(self.s):
             for j in range(self.s):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
-        similarity = similarity/(self.s**2)
                 
+        similarity /= self.maxScore
+
+        # Only use the newly found similar pixels for the reward
         reward = (self.lastSim - similarity) 
         
-        self.lastSim = similarity
+        if self.maxScore == 1:
+            self.maxScore = similarity
+            self.lastSim = 1
+        else:
+            self.lastSim = similarity
 
         return reward
+
+
 
     def move_isLegal(self, action):
         """
@@ -196,7 +204,6 @@ class ShapeDraw(object):
         # This should clear the last similarity variable
         
         self.reward()
-        self.maxScore = self.lastSim
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 

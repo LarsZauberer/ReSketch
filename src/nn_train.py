@@ -17,7 +17,7 @@ import os
 
 if __name__ == '__main__':
     # memory parameters
-    load_checkpoint = True
+    load_checkpoint = False
     isSaved = False
     lastsave = 0
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     loc_in_dims = (2, patch_size, patch_size)
     mem_size = episode_mem_size*num_steps
 
-    agent_args = {"gamma": 0.99, "epsilon": 0.005, "alpha": 0.001, "replace_target": 1000, 
+    agent_args = {"gamma": 0.99, "epsilon": 0, "alpha": 0.001, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
@@ -112,19 +112,20 @@ if __name__ == '__main__':
 
 
             # Learn Process visualization
-            rel_acc = score/env.maxScore
             if total_counter % 12 == 0 and total_counter > 0:
                 avg_score = np.mean(scores)
                 scores = []
-                print(f"episode: {total_counter}, score: {score}, percent: {rel_acc}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
+                print(f"episode: {total_counter}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
                 #env.render("Compare")
                 learning_history[0].append(total_counter)
                 learning_history[1].append(avg_score)
             else:
-                print(f"episode: {total_counter}, score: {score}, percent {rel_acc}")
+                print(f"episode: {total_counter}, score: {score}")
 
-            scores.append(rel_acc)
+            scores.append(score)
+
+            
 
 
             # bad memory fix: save manually
