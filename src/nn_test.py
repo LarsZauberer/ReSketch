@@ -109,11 +109,14 @@ class Test_NN():
                 agent.counter += 1
             
             inp = np.array([self.envir.reference, self.envir.canvas])
-            ref, canv = self.mnist_model.predict(inp)
+            out = self.mnist_model.predict(inp)
+            ref = np.argmax(out[0][0])
+            canv = np.argmax(out[0][1])
+
             scores += int(ref == canv) 
 
-        avg = scores/self.n_test
-        return '%.3f' % avg
+        return scores/self.n_test
+        
 
     def mnist_test_from_loaded(self, agent_args : dict):
         """ 
@@ -130,12 +133,8 @@ class Test_NN():
         agent.load_models()
 
         score = self.mnist_test(agent)
-        return '%.3f' % score
-    
+        return '%.4f' % score
 
-      
-           
- 
 
 
 
@@ -153,24 +152,10 @@ if __name__ == '__main__':
     loc_in_dims = (2, patch_size, patch_size)
     mem_size = episode_mem_size*num_steps
 
-    kwargs = {"gamma": 0.99, "epsilon": 0.005, "alpha": 0.005, "replace_target": 1000, 
+    kwargs = {"gamma": 0.99, "epsilon": 0, "alpha": 0.005, "replace_target": 1000, 
             "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
             "mem_size": mem_size, "batch_size": batch_size, 
              "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
     test = Test_NN()
     print(f'score: {test.mnist_test_from_loaded(kwargs)}')
-
-
-
-    
-
-
-
-
-
-
-
-
-
-    
