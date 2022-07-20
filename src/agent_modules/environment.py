@@ -3,6 +3,7 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
+from mnist_model.models import EfficientCapsNet
 
 
 class ShapeDraw(object):
@@ -34,7 +35,12 @@ class ShapeDraw(object):
         self.set_agentPos([random.randint(1, self.s-2),
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
 
+        # rendering / visualization
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
+
+        # Mnist Model -> Recognition of symbol
+        self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
+        self.rec_model.load_graph_weights()
         
     def step(self, agent_action: int):
         """
@@ -165,7 +171,23 @@ class ShapeDraw(object):
 
         return reward
 
-
+    def predict_mnist(self):
+        # Format the input for the model
+        ref_inp = self.reference.reshape(self.s, self.s, 1)
+        canv_inp = self.canvas.reshape(self.s, self.s, 1)
+        inp = np.array([ref_inp, canv_inp])
+        
+        # Predict
+        out = self.rec_model.predict(inp)
+        # Get index of max
+        ref = np.argmax(out[0][0])
+        canv = np.argmax(out[0][1])
+        
+        # Too unsure. Should not be validated
+        if out[0][1][canv] < 0.8:
+            canv = -1
+        
+        return ref, canv
 
     def move_isLegal(self, action):
         """
