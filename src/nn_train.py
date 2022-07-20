@@ -41,6 +41,8 @@ if __name__ == '__main__':
     for epoch in range(n_epochs):
         data.shuffle()
         env.referenceData = data.pro_data
+
+        print(data.pro_data[0:2])
         
         # Main process
         for episode in range(n_episodes):
