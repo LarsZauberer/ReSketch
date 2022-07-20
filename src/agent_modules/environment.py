@@ -28,6 +28,7 @@ class ShapeDraw(object):
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
+        self.last_canv_value = 0  # Last Recognition value of the canvas
         self.maxScore = 1 # Maximum Reward (changes with reference Image) = base Similarity between empty canvas and reference        
         self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
         self.curRef = -1 #current reference image, counter that increments with every episode
@@ -175,6 +176,15 @@ class ShapeDraw(object):
             self.lastSim = 1
         else:
             self.lastSim = similarity
+            
+        # MNIST Recognition reward
+        if self.step_counter % 8 == 0 and not without_rec:
+            _, _, _, canv = self.predict_mnist()
+            self.last_canv_value = canv
+        else:
+            canv = self.last_canv_value
+        
+        reward = (-(1/self.num_steps)*self.step_counter*reward+1) + ((1/self.num_steps)*self.step_counter*canv)
 
         return reward
 
@@ -204,14 +214,13 @@ class ShapeDraw(object):
         # Predict
         out = self.rec_model.predict(inp)
         # Get index of max
-        ref = np.argmax(out[0][0])
-        canv = np.argmax(out[0][1])
+        ref_ind = np.argmax(out[0][0])
+        canv_ind = np.argmax(out[0][1])
         
-        # Too unsure. Should not be validated
-        if out[0][1][canv] < 0.8:
-            canv = -1
+        canv = out[0][1][ref_ind]
+        ref = out[0][0][ref_ind]
         
-        return ref, canv
+        return ref_ind, canv_ind, ref, canv
 
     def reset(self):
         """
@@ -221,6 +230,7 @@ class ShapeDraw(object):
         :rtype: np.array
         """
         self.step_counter = 0  # Reset the step counter
+        self.last_canv_value = 0  # Reset the last canvas value
         
         # Get another reference image
         self.curRef += 1
@@ -267,13 +277,13 @@ class ShapeDraw(object):
                     rendRef[index] = 50
 
             # Run recognition
-            ref, canv = self.predict_mnist()
+            ref_ind, canv_ind, ref, canv = self.predict_mnist()
 
             # Original image
             rendRef = rendRef.reshape(28,28)
             self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
                        label='Original', vmin=0, vmax=255)
-            self.axs[0].set_title(f'Original: {ref}')
+            self.axs[0].set_title(f'Original: {ref_ind}, Value: {ref:.2f}')
             self.axs[0].axis("off")
             
             
@@ -283,7 +293,7 @@ class ShapeDraw(object):
                 rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
             self.axs[1].imshow(rendCanv, cmap='gray',
                        label='AI Canvas', vmin=0, vmax=255)
-            self.axs[1].set_title(f'AI Canvas: {canv}')
+            self.axs[1].set_title(f'AI Canvas: {canv_ind}, Value of {ref_ind}: {canv:.2f}')
             self.axs[1].axis('off')
 
             plt.pause(0.01)
