@@ -69,7 +69,7 @@ class Test_NN():
         return avg_score
     
 
-    def test_from_loaded(self, agent_args):
+    def test_from_loaded(self, agent_args: dict):
         """ 
         Test Model from saved weights
             
@@ -86,27 +86,58 @@ class Test_NN():
         score = self.test(agent)
         return '%.3f' % score
 
-    
-    """ def mnist_test(self):
-        def predict_mnist(self):
-        # Format the input for the model
-        ref_inp = self.reference.reshape(self.s, self.s, 1)
-        canv_inp = self.canvas.reshape(self.s, self.s, 1)
-        inp = np.array([ref_inp, canv_inp])
-        
-        # Predict
-        out = self.rec_model.predict(inp)
-        # Get index of max
-        ref = np.argmax(out[0][0])
-        canv = np.argmax(out[0][1])
-        
-        # Too unsure. Should not be validated
-        if out[0][1][canv] < 0.8:
-            canv = -1
-        
-        return ref, canv """
 
-       
+    
+    def mnist_test(self, agent: Agent):
+         
+        print("...Testing...")
+        self.data.shuffle()
+        self.envir.referenceData = self.data.pro_data
+        
+        scores = 0
+        for i in range(self.n_test):
+            global_obs, local_obs = self.envir.reset()
+            
+            for j in range(self.num_steps):
+                # Run the timestep
+                action = agent.choose_action(global_obs, local_obs)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action)
+
+                global_obs = next_gloabal_obs
+                local_obs = next_local_obs
+
+                agent.counter += 1
+            
+            inp = np.array([self.envir.reference, self.envir.canvas])
+            ref, canv = self.mnist_model.predict(inp)
+            scores += int(ref == canv) 
+
+        avg = scores/self.n_test
+        return '%.3f' % avg
+
+    def mnist_test_from_loaded(self, agent_args : dict):
+        """ 
+        Test Model according to mnist accuracy from saved weights
+            
+        :param agent_args: the parameters of the model to be tested
+        :type agent_args: dict
+        :return: the Average Accuracy of each Episode in the test
+        :rtype: float
+        """
+
+        # Initializing architecture
+        agent = Agent(**agent_args)
+        agent.load_models()
+
+        score = self.mnist_test(agent)
+        return '%.3f' % score
+    
+
+      
+           
+ 
+
+
 
 
 
@@ -128,7 +159,7 @@ if __name__ == '__main__':
              "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
     test = Test_NN()
-    print(f'score: {test.test_from_loaded(kwargs)}')
+    print(f'score: {test.mnist_test_from_loaded(kwargs)}')
 
 
 
