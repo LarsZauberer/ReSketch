@@ -57,9 +57,10 @@ class DeepQNetwork(object):
                        name="dense1")(concat_model)
         out = Dense(self.n_actions, activation="relu", name="output")(dense1)
 
-        self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
         # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
         # Output of the netword are Q-values. each Q-value represents an action
+        self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
+        
 
         # Network is ready for calling / Training
         self.dqn.compile(loss="mean_squared_error", optimizer=tf.keras.optimizers.Adam(

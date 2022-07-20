@@ -4,6 +4,7 @@ import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
 from mnist_model.models import EfficientCapsNet
+from time import sleep
 
 
 class ShapeDraw(object):
@@ -42,13 +43,15 @@ class ShapeDraw(object):
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
         self.rec_model.load_graph_weights()
         
-    def step(self, agent_action: int):
+    def step(self, agent_action: int, counter : int, without_rec : bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
 
         :param agent_action: the index of the action to be executed
         :type agent_action: int
+        :param n_step: number of the current step
+        :type n_step: int
         :return: the data of the environment after the timestep (observation for the agent). It is containing an np array with
             `reference`, `canvas`, `distmap` and `colmap` another np array with
             `ref_patch` and `canvas_patch` and an int with the `reward`
@@ -56,6 +59,7 @@ class ShapeDraw(object):
         """
         action = [0, 0]
         self.isDrawing = 1
+
 
         # Calculate the x and y position coordinates of action in the current patch
         x = agent_action % self.p
@@ -82,10 +86,18 @@ class ShapeDraw(object):
             self.isDrawing = 0
             penalty = -0.001
 
+        
+
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
         reward = self.reward() if self.isDrawing else 0.0
         reward += penalty
+
+        rec_const_reward = 0
+        if (counter+1) % 8 == 0 and counter > 200 and not without_rec:
+            a, b = self.predict_mnist()
+            rec_const_reward = 0.1 if a == b else 0
+        reward += rec_const_reward
 
         # Ending the timestep
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
@@ -184,7 +196,7 @@ class ShapeDraw(object):
         canv = np.argmax(out[0][1])
         
         # Too unsure. Should not be validated
-        if out[0][1][canv] < 0.8:
+        if out[0][1][canv] < 0.9:
             canv = -1
         
         return ref, canv

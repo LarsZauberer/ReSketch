@@ -4,6 +4,7 @@ from data.ai_data import AI_Data
 from result_stats.learn_plotter import Learn_Plotter
 import numpy as np
 import json
+from time import sleep
 
 if __name__ == '__main__':
     # Hyper parameters
@@ -42,7 +43,7 @@ if __name__ == '__main__':
         data.shuffle()
         env.referenceData = data.pro_data
 
-        print(data.pro_data[0:2])
+        
         
         # Main process
         for episode in range(n_episodes):
@@ -53,7 +54,7 @@ if __name__ == '__main__':
             for step in range(n_steps):
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs)
-                next_gloabal_obs, next_local_obs, reward = env.step(action)
+                next_gloabal_obs, next_local_obs, reward = env.step(agent_action=action, counter=total_counter*n_steps+step)
                 #env.render("Compare", realtime=True)
 
                 # Save new information
@@ -68,7 +69,6 @@ if __name__ == '__main__':
                 if step % 4 == 0 and total_counter > episode_mem_size:
                     agent.learn()
                     agent.epsilon = 0
-            
 
             # Learn Process visualization
             if total_counter > 200:
