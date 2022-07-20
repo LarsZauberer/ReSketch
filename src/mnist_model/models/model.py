@@ -80,7 +80,7 @@ class Model(object):
             
         
     def predict(self, dataset_test):
-        return self.model.predict(dataset_test)
+        return self.model(dataset_test)
     
 
     def evaluate(self, X_test, y_test):
