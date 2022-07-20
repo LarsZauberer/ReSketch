@@ -25,7 +25,7 @@ class Test_NN():
         self.data = AI_Data(path="src/data/test_ref_Data.json")
         self.data.sample(n_test)
 
-        self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, do_render=False)
+        self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, num_steps=self.num_steps, do_render=False)
 
     def test(self, agent: Agent):
         print("...Testing...")

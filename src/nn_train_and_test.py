@@ -47,7 +47,7 @@ if __name__ == '__main__':
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
     # Initializing architecture
-    env = ShapeDraw(canvas_size, patch_size, data.pro_data)
+    env = ShapeDraw(canvas_size, patch_size, data.pro_data, num_steps=n_steps)
     agent = Agent(**agent_args)
    
     
@@ -97,7 +97,7 @@ if __name__ == '__main__':
 
                     learn_plot.update_plot(total_counter, avg_score, test_score)
                 else:
-                    print(f"episode: {total_counter}, score: {score}, test_score: {test_score}")
+                    print(f"episode: {total_counter}, score: {score}, test_score: {test_score}")  # TODO: Test Score is not defined
 
                 scores.append(score)
             
