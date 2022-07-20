@@ -28,6 +28,15 @@ class Test_NN():
         self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, do_render=False)
 
     def test(self, agent: Agent):
+        """ 
+        Tests a given Model for n_test Episodes
+        
+        :param agent: the model to be tested
+        :type agent: Agent
+        :return: the Average Accuracy of each Episode in the test
+        :rtype: float
+        """
+
         print("...Testing...")
         self.data.shuffle()
         self.envir.referenceData = self.data.pro_data
@@ -56,6 +65,15 @@ class Test_NN():
     
 
     def test_from_loaded(self, agent_args):
+        """ 
+        Test Model from saved weights
+            
+        :param agent_args: the parameters of the model to be tested
+        :type agent_args: dict
+        :return: the Average Accuracy of each Episode in the test
+        :rtype: float
+        """
+
         # Initializing architecture
         agent = Agent(**agent_args)
         agent.load_models()
