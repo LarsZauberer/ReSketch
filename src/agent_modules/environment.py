@@ -8,7 +8,7 @@ from mnist_model.models import EfficientCapsNet
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, num_steps: int):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, num_steps: int, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -28,8 +28,9 @@ class ShapeDraw(object):
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
+        self.maxScore = 1 # Maximum Reward (changes with reference Image) = base Similarity between empty canvas and reference        
         self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
-        self.curRef = 0 #current reference image, counter that increments with every episode
+        self.curRef = -1 #current reference image, counter that increments with every episode
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
         self.set_agentPos([random.randint(1, self.s-2),
@@ -45,6 +46,8 @@ class ShapeDraw(object):
         self.step_counter = 0  # Count the steps in the current episode
         self.num_steps = num_steps  # Number of steps in the current episode
 
+        if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
+        
     def step(self, agent_action: int, without_rec: bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
@@ -74,8 +77,8 @@ class ShapeDraw(object):
 
         # Penalty for being to slow
         penalty = 0
-        if abs(x) < ownpos or abs(y) < ownpos:
-            penalty = -0.0005
+        """if abs(x) < ownpos or abs(y) < ownpos:
+            penalty = -0.0005 """
 
         # Draw if the move is legal
         if self.move_isLegal(action):
@@ -161,23 +164,21 @@ class ShapeDraw(object):
         for i in range(self.s):
             for j in range(self.s):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
-        similarity = similarity/(self.s**2)
+                
+        similarity /= self.maxScore
 
         # Only use the newly found similar pixels for the reward
-        reward = self.lastSim - similarity
-        self.lastSim = similarity
+        reward = (self.lastSim - similarity) 
         
-        if self.step_counter % 64 == 0 and not without_rec:
-            a, b = self.predict_mnist()
-            if b == -1:  # Not recognized
-                rec_const_reward = -0.5
-            elif a == b:  # Recognized
-                rec_const_reward = 1
-            else:  # Wrong recognition
-                rec_const_reward = 0
-            reward = rec_const_reward
+        if self.maxScore == 1:
+            self.maxScore = similarity
+            self.lastSim = 1
+        else:
+            self.lastSim = similarity
 
         return reward
+
+
 
     def move_isLegal(self, action):
         """
@@ -223,6 +224,7 @@ class ShapeDraw(object):
         
         # Get another reference image
         self.curRef += 1
+        self.curRef = self.curRef % len(self.referenceData)
         self.reference = self.referenceData[self.curRef]
         
         # Reset canvas and agent position
@@ -232,7 +234,9 @@ class ShapeDraw(object):
         
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
+        self.maxScore = 1
         self.reward(without_rec=True)
+
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
     def render(self, mode="None", realtime=False):
@@ -266,23 +270,21 @@ class ShapeDraw(object):
             ref, canv = self.predict_mnist()
 
             # Original image
-            self.fig.clear()
-            self.fig.add_subplot(2, 2, 1)
-            plt.imshow(rendRef.reshape(28, 28), cmap='gray',
+            rendRef = rendRef.reshape(28,28)
+            self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
                        label='Original', vmin=0, vmax=255)
-            plt.axis("off")
-            plt.title(f"Original: {ref}")
-
+            self.axs[0].set_title(f'Original: {ref}')
+            self.axs[0].axis("off")
+            
+            
+            # AI Generated Image
             rendCanv = rendCanv.reshape(28, 28)
-
             if realtime:
                 rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
-            # AI Generated Image
-            self.fig.add_subplot(2, 2, 2)
-            plt.imshow(rendCanv, cmap='gray',
+            self.axs[1].imshow(rendCanv, cmap='gray',
                        label='AI Canvas', vmin=0, vmax=255)
-            plt.axis("off")
-            plt.title(f"AI Canvas: {canv}")
+            self.axs[1].set_title(f'AI Canvas: {canv}')
+            self.axs[1].axis('off')
 
             plt.pause(0.01)
         else:
@@ -383,4 +385,3 @@ def drawline(setpos, pos, canvas):
                 canvas[pix[1]][pix[0]+weight-x] = 1
 
     return canvas
-
