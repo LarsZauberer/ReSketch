@@ -25,12 +25,13 @@ für die Umsetzung eines solchen Algorithmus.
 
 \subsection*{Funktionsweise eines Machine Learning Algorithmus}
 Dieser Abschnitt beschreibt die Funktionsweise einen Machine Learning
-Algorithmus, der das im letzen Abschnitt genannte Problem (siehe ML) löst.
-Vorerst benötigt der Algorithmus die Daten, die analysiert werden. Die
-allermeisten Machine Learning Algorithmen die dieses Problem lösen verwenden das
-MNIST Datenset. Das MNIST Datenset wurde vom NIST (National Institute of
-Standards and Technology) in Amerika erstellt und beinhaltet 70'000 Bilder von
-hangeschriebenen Zahlen. Jedes Bild hat eine auflösung von $28\times28$ Pixeln.
+Algorithmus, der das im letzen Abschnitt genannte Problem (siehe
+\autoref{chap:t_ml}) löst. Vorerst benötigt der Algorithmus die Daten, die
+analysiert werden. Die allermeisten Machine Learning Algorithmen die dieses
+Problem lösen verwenden das MNIST Datenset. Das MNIST Datenset wurde vom NIST
+(National Institute of Standards and Technology) in Amerika erstellt und
+beinhaltet $70'000$ Bilder von hangeschriebenen Zahlen. Jedes Bild hat eine
+auflösung von $28\times28$ Pixeln.
 
 Ein Machine Learning Algorithmus durchläuft eine Trainingsphase, bevor er das
 Problem erfolgreich lösen kann. Vor dieser Trainingsphase kann der Algorithmus
@@ -38,15 +39,14 @@ keine verlässlichen Aussagen über die Eingabedaten treffen. Nach der
 Trainingsphase folgt eine Testphase. Dabei wird die Genauigkeit gemessen, also
 die Wahrscheinlichkeit, mit der der Algorithmus die richige Lösung zur Eingabe
 liefert. Nur in den seltensten Fällen erreicht diese Genauigkeit $100\%$. Der
-Algorithmus garantiert somit nicht die richtige Lösung
+Algorithmus garantiert somit nicht die richtige Lösung.
 
 Während der Trainingsphase werden einem Machine Learning Algorithmus immer
 wieder Bilder als Eingabe übergeben, aus denen der Algorithmus eine Aussage
-trifft. Am Anfang der Trainingsphase ist diese Aussage nicht verlässlich und in
-vielen Fällen falsch. Zu der übergebenen Eingabe ist die korrekte Lösung bereits
+trifft. Zu der übergebenen Eingabe ist die korrekte Lösung bereits
 im Voraus bekannt. Falls die Vorhersage, die vom Algorithmus getroffen wurde,
 nicht mit der korrekten Lösung übereinstimmt, passt sich der Algorithmus
-automatisch und selbstständig an. Durch diese Anpassung wird es bei einer
+automatisch und selbstständig an. Durch diese Anpassung wird es bei einer % ? Automatisch ist wahrscheinlich etwas falsch gewählt
 nächsten, ähnlichen Eingabe wahrscheinlicher, dass der Algorithmus die korrekte
 Vorhersage trifft. 
 
@@ -54,6 +54,8 @@ Ein Machine Learning Algorithmus trifft also Vorhersagen bezogen auf eine
 Eingabe und kann sich selbst während der Trainingsphase automatisch Anpassen.
 Diese Funktionalität erhalten Machine Learning Algorithmen durch künstliche
 neuronale Netze.
+
+% TODO: Kann man wahrscheinlich kürzen. Wird sehr viel wiederholt
 
 \subsection*{künstliche neuronale Netze}
 
@@ -135,7 +137,6 @@ Kriterien diese Einteilung vorgenommen wird.
 
 \section{Reinforcement Learning}
 \label{chap:t_rl}
-
 Reinforcement Learning bedeutet vereinfacht Lernen durch Interaktion mit der
 Umgebung. (Sutten, Barto)  Genauer lernt ein Machine Learning Algorithmus durch
 die Interaktion mit einer Umgebung, wie er sich in dieser Verhalten soll.
@@ -201,8 +202,8 @@ Zukunft näher an den neu angepassten Q-Werten ist als an den alten.
 \label{chap:t_verwandt}
 Es gibt verschiedene Ansätze, um ein Computerprogramm die menschliche Tätigkeit
 des Nachzeichnens verrichten zu lassen. Diese Ansätze werden in verschiedenen
-wissenschaftlichen Arbeiten verfolgt. Ein häufiger Ansatz ist "Stroke-Based
-Rendering", wobei Bilder durch das Platzieren von Elementen wie Strichen
+wissenschaftlichen Arbeiten verfolgt. Ein häufiger Ansatz ist ``Stroke-Based
+Rendering'', wobei Bilder durch das Platzieren von Elementen wie Strichen
 gezeichnet werden. Beispiele für Arbeiten, die diesen Ansatz verwenden sind\dots
 Stroke-Based Rendering unterscheidet sich von menschlichem Zeichnen dadurch,
 dass kein Stift geführt wird. Stattdessen können die Elemente zu jedem Zeitpunkt
@@ -227,13 +228,13 @@ daher nur auf den Deep Q-Learning Algorithmus.
 
 Das Quick-Draw Datenset von Google beinhaltet Bilder von verschiedenen,
 menschlichen Strichzeichnungen. Das Programm versucht, diese Bilder
-nachzuzeichnen. Dazu werden die Bilder zuerst auf eine einheitliche Grösse von
+nach\hyp{}zuzeichnen. Dazu werden die Bilder zuerst auf eine einheitliche Grösse von
 84x84 Pixeln komprimiert. Der Agent kann sich auf dieser Fläche bewegen und
 Zeichnen. Es handelt sich bei dieser Zeichenfläche um die Umgebung des Agenten
 Der Agent kann sich mit einer Aktion auf einen beliebigen Pixel in einem 11x11
 Feld, in dessen Zentrum er ist, bewegen. Dabei kann der Agent entweder zwischen
 seiner alten und seiner neuen Position Zeichnen oder nicht. Der Agent kann somit
-insgesamt 2x11x11 Aktionen ausführen. Diese Anzahl Aktionen entspricht
+insgesamt $2\times11\times11$ Aktionen ausführen. Diese Anzahl Aktionen entspricht
 gleichzeitig der Anzahl Neuronen in der Ausgabe des neuronalen Netzes. Die
 Eingabe in das Netz, also die Beobachtung der Umgebung wird in zwei Teile
 gegliedert: Ein globaler Teil (global channel) und ein lokaler Teil (local
@@ -251,7 +252,7 @@ gezeichneten Bild bestimmt.
 \label{chap:git_github}
 Git und Github sind weit verbreitete Hilfsmittel für Entwickler. Bei Git handelt
 es sich um ein Programm, während Github ein Service ist, um Projekte, welche mit
-Git verwaltet werden, öffentlich zugänglich zu machen. GitHub bringt zusätzlich
+Git verwaltet werden, in der Cloud zugänglich zu machen. GitHub bringt zusätzlich
 viele weitere nützliche Features, welche die Zusam\hyp{}menarbeit erleichtern. Die
 genaue Funktion und das Zusammenspiel dieser beiden Hilfsmittel wird nachfolgend
 erläutert.
@@ -282,7 +283,7 @@ Entwicklern bereitstellt.
 \cite{noauthor_github_2021} 
 
 ``GitHub wurde von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom Preston-Werner
-[...] entwickelt und im Februar 2008 gestartet'' \cite{noauthor_github_2021}.
+[\ldots] entwickelt und im Februar 2008 gestartet'' \cite{noauthor_github_2021}.
 2018 wurde das Unternehmen von Microsoft gekauft. GitHub ist heute eine der
 grössten Plattformen für Open Source Projekte und das Zusammenarbeiten an
 Software. Projekte können ohne Umstände für Leute auf der ganzen Welt zugänglich
