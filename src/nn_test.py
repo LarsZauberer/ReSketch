@@ -1,6 +1,7 @@
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.ai_data import AI_Data
+from mnist_model.models import EfficientCapsNet
 
 from rich.progress import track
 import numpy as np
@@ -26,6 +27,10 @@ class Test_NN():
         self.data.sample(n_test)
 
         self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, do_render=False)
+
+        #for mnist test
+        self.mnist_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
+        self.mnist_model.load_graph_weights()
 
     def test(self, agent: Agent):
         """ 
@@ -80,6 +85,27 @@ class Test_NN():
 
         score = self.test(agent)
         return '%.3f' % score
+
+    
+    """ def mnist_test(self):
+        def predict_mnist(self):
+        # Format the input for the model
+        ref_inp = self.reference.reshape(self.s, self.s, 1)
+        canv_inp = self.canvas.reshape(self.s, self.s, 1)
+        inp = np.array([ref_inp, canv_inp])
+        
+        # Predict
+        out = self.rec_model.predict(inp)
+        # Get index of max
+        ref = np.argmax(out[0][0])
+        canv = np.argmax(out[0][1])
+        
+        # Too unsure. Should not be validated
+        if out[0][1][canv] < 0.8:
+            canv = -1
+        
+        return ref, canv """
+
        
 
 
