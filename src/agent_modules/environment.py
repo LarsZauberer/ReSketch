@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool =True):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -33,7 +33,6 @@ class ShapeDraw(object):
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
         self.set_agentPos([random.randint(1, self.s-2),
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
-
 
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
         
