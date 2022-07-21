@@ -94,9 +94,14 @@ class ShapeDraw(object):
         reward += penalty
 
         rec_const_reward = 0
-        if (counter+1) % 8 == 0 and counter > 200 and not without_rec:
-            a, b = self.predict_mnist()
-            rec_const_reward = 0.1 if a == b else 0
+        if (counter+1) % 8 == 0 and counter > 12800 and not without_rec:
+            a, b, oa, ob = self.predict_mnist()
+            if a == b:
+                rec_const_reward = 0.125
+                print(oa, ob)
+                self.render("Compare")
+            else:
+                rec_const_reward = 0
         reward += rec_const_reward
 
         # Ending the timestep
@@ -199,7 +204,7 @@ class ShapeDraw(object):
         if out[0][1][canv] < 0.9:
             canv = -1
         
-        return ref, canv
+        return ref, canv, out[0][0], out[0][1]
 
     def move_isLegal(self, action):
         """
