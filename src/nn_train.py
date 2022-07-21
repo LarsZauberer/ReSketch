@@ -26,6 +26,7 @@ if __name__ == '__main__':
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
+
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
     agent_args = {"gamma": 0.99, "epsilon": 1, "alpha": 0.001, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
@@ -54,7 +55,7 @@ if __name__ == '__main__':
             for step in range(n_steps):
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs)
-                next_gloabal_obs, next_local_obs, reward = env.step(agent_action=action, counter=total_counter*n_steps+step)
+                next_gloabal_obs, next_local_obs, reward = env.step(agent_action=action, counter=episode*n_steps+step)
                 #env.render("Compare", realtime=True)
 
                 # Save new information
@@ -70,19 +71,19 @@ if __name__ == '__main__':
                     agent.learn()
                     agent.epsilon = 0
 
-            # Learn Process visualization
-            if total_counter > 200:
+            """ # Learn Process visualization
+            if total_counter > 205:
                 if total_counter % 12 == 0:
                     avg_score = np.mean(scores)
                     scores = []
                     print(f"episode: {total_counter}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
-                    env.render("Compare")
+                    #env.render("Compare")
                     learn_plot.update_plot(total_counter, avg_score)
                 else:
                     print(f"episode: {total_counter}, score: {score}")
 
-                scores.append(score)
+                scores.append(score) """
             
     
         #save weights
@@ -90,8 +91,6 @@ if __name__ == '__main__':
         learn_plot.save_plot()
 
 
-agent.save_models()
-learn_plot.save_plot()
 
 
 

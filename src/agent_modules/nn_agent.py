@@ -208,7 +208,7 @@ class Agent(object):
         # chooses as many states from Memory as batch_size requires
         max_mem = self.counter if self.counter < self.mem_size else self.mem_size
         # Get random state inputs from the replay buffer
-        batch = np.random.choice(max_mem, self.batch_size)
+        batch = np.random.choice(max_mem, self.batch_size, replace=False)
         # batch = [0, 5, 11, ..., batch_size] type: np.array
 
         # load sampled memory

@@ -26,7 +26,7 @@ class Test_NN():
         self.data = AI_Data(path="src/data/test_ref_Data.json")
         self.data.sample(n_test)
 
-        self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, do_render=False)
+        self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data)
 
         #for mnist test
         self.mnist_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
@@ -45,7 +45,6 @@ class Test_NN():
         print("...Testing...")
         self.data.shuffle()
         self.envir.referenceData = self.data.pro_data
-        
         scores = []
         for i in range(self.n_test):
             global_obs, local_obs = self.envir.reset()
@@ -54,13 +53,16 @@ class Test_NN():
             for j in range(self.num_steps):
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, i*self.num_steps+j)
 
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
 
                 agent.counter += 1
                 score += reward
+
+            if i % 12 == 0 and i > 0:
+                self.envir.render("Compare")
             
             scores.append(score)
            
@@ -101,13 +103,16 @@ class Test_NN():
             for j in range(self.num_steps):
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, i*self.num_steps+j)
 
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
 
                 agent.counter += 1
             
+
+            
+
             inp = np.array([self.envir.reference, self.envir.canvas])
             out = self.mnist_model.predict(inp)
             ref = np.argmax(out[0][0])

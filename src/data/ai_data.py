@@ -30,7 +30,7 @@ class AI_Data():
         sampled = []
         num = int(number/10)
         for n in range(10):
-            ind = np.random.choice(len(self.ref_data[n]), num)
+            ind = np.random.choice(len(self.ref_data[n]), num, replace=False)
             for i in ind:
                 sampled.append(np.array(self.ref_data[n][i]).reshape(28,28))
 
