@@ -15,7 +15,7 @@ if __name__ == '__main__':
     n_episodes = 4000
     n_steps = 64
     n_epochs = 3
-    max_action_strength = 2
+    max_action_strength = 1
 
     # further calculations
     glob_in_dims = (6, canvas_size, canvas_size)
