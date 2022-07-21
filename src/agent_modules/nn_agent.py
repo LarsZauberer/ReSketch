@@ -5,6 +5,7 @@ from keras.layers import Conv2D, Dense, Flatten, Input, concatenate
 from tensorflow.keras.utils import plot_model
 
 import numpy as np
+from time import sleep
 
 
 
@@ -231,8 +232,14 @@ class Agent(object):
         q_target = np.copy(q_eval)
         idx = np.arange(self.batch_size)
         # Recalculate the q-value of the action taken in each state
+        
+
         q_target[idx, action_batch] = reward_batch + \
             self.gamma*np.max(q_next, axis=1)
+
+     
+
+       
 
         # Calls training
         # Basic Training: gives input and desired output.
