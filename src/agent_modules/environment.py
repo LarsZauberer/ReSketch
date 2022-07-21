@@ -184,7 +184,8 @@ class ShapeDraw(object):
         else:
             canv = self.last_canv_value
         
-        reward = (-(1/self.num_steps)*self.step_counter*reward+1) + ((1/self.num_steps)*self.step_counter*canv)
+        # print(reward, (-(1/self.num_steps)*self.step_counter+1)*reward, ((1/self.num_steps)*self.step_counter*canv))
+        reward = ((-(1/self.num_steps)*self.step_counter+1)*reward*10) + ((1/self.num_steps)*self.step_counter*canv)
 
         return reward
 
