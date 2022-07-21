@@ -24,9 +24,10 @@ menschlichen Intelligenz. [Quelle]. Machine Learning Algorithmen sind ein Ansatz
 für die Umsetzung eines solchen Algorithmus.
 
 \subsection*{Funktionsweise eines Machine Learning Algorithmus}
+\label{sub:funktionsweise}
 Dieser Abschnitt beschreibt die Funktionsweise einen Machine Learning
 Algorithmus, der das im letzen Abschnitt genannte Problem (siehe
-\autoref{chap:t_ml}) löst. Vorerst benötigt der Algorithmus die Daten, die
+\nameref{chap:t_ml}) löst. Vorerst benötigt der Algorithmus die Daten, die
 analysiert werden. Die allermeisten Machine Learning Algorithmen die dieses
 Problem lösen verwenden das MNIST Datenset. Das MNIST Datenset wurde vom NIST
 (National Institute of Standards and Technology) in Amerika erstellt und
@@ -68,11 +69,11 @@ Sie sind somit theoretische Abbildungen der Realität, die in Programmcode
 eines neuronalen Netz. In anderen Worten simuliert der Computer eine
 vereinfachte Form der menschlichen Intelligenz. Diese Arbeit behandelt nur
 künsltiche neuronale Netze, nicht aber biologische. Somit handelt es sich bei
-jedem erwähnten neuronalen Netz, um ein künstliches neuronales Netz 
+jedem erwähnten neuronalen Netz, um ein künstliches neuronales Netz.
 
 Der Grundbaustein eines neuronalen Netzes ist das Neuron. Im Modell stellt
 dieses ein Objekt dar, das eine beliebiege Anzahl \textbf{Eingaben} hat und
-daraus eine einzige \textbf{Ausgabe} trifft. Eingaben und Ausgaben sind hierbei
+daraus eine einzige \textbf{Ausgabe} macht. Eingaben und Ausgaben sind hierbei
 immer rationale Zahlen. Die Ausgabe des Neurons ist grundsätzlich entweder 0
 oder 1. Die Ausgabe ist 1, wenn die Summe der Eingaben einen vorgegebenen
 \textbf{Schwellenwert} des Neurons überschreiten. Ansonsten ist die Ausgabe
@@ -82,20 +83,24 @@ Eingabe mit dem zugehörigen Gewicht multipliziert. Die Grösse des Gewichts
 bestimmt somit den Einfluss der zugehörigen Eingabe auf die Ausgabe des Neurons.
 Es gibt verschiedene Arten von Neuronen. Diese Erklärung bezieht sich auf die
 einfachste Form, das Perceptron. Neuronale Netze verwenden kompliziertere
-Varianten, wie das Sigmoid-Neuron. 
+Varianten, wie das Sigmoid-Neuron.
+
+% Bin mir nicht sicher, ob das mit dem Schwellwert wirklich stimmt. Es gibt doch
+% die ganzen Activation Functions. Diese verändern diese Ausgabe des Neurons in
+% dem Layer.
 
 Neuronale Netze sind Verbindungen dieser Neuronen. Dabei dient die Ausgabe eines
 Neurons als eine Eingabe in ein anderes Neuron. Da ein Neuron mehrere Eingaben
-haben kann, bilden sich sehr unterschiedliche Anordnungen. die Neuronen sind in
+haben kann, bilden sich sehr unterschiedliche Anordnungen. Die Neuronen sind in
 Ebenen geordnet. Es gibt die \textbf{Eingabe-Ebene}. Es handelt sich dabei um
 die eigentliche Eingabe des Problems, das der Machine Learning Algrorithmus
-lösen sollte. Im Beispielproblem (siehe oben) bestände die Eingabe-Ebene aus
-28x28 Neuronen, wobei jedes Neuron die Graustufe (durch einen Wert von 0 bis
-255) eines Pixels im Bild beschreibt. Die letzte Ebene ist die
+lösen sollte. Im Beispielproblem (siehe \nameref{chap:t_ml}) bestände die Eingabe-Ebene aus
+$28\times28$ Neuronen, wobei jedes Neuron die Graustufe (durch einen Wert von 0
+bis $255$) eines Pixels im Bild beschreibt. Die letzte Ebene ist die
 \textbf{Ausgabe-Ebene} Im Beispielproblem soll der Machine Learning Algorithmus
-die korrekte Zahl zwischen 0 und 9 ausgeben. Die Ausgabe-Ebene hat im Beispiel
+die korrekte Zahl zwischen $0$ und $9$ ausgeben. Die Ausgabe-Ebene hat im Beispiel
 10 Neuronen, wobei jedes Neuron eine der Lösungen (also eine Zahl von 0 bis 9)
-repräsentiert. Dasjenige Neuron der Ausgabe mit dem höchsten Wert entspricht der
+repräsentiert. Dasjenige Neuron der Ausgabe mit dem höchsten Wert entspricht der  % Eben mit der Erklärung des Schwellwertes von oben passt der Satz hier nicht ganz dazu.
 Entscheidung des Algorithmus. (Die letzte Entscheidung gehört also nicht mehr
 zum neuronalen Netz, basiert aber auf dessen Ergebnis). Zwischen der
 Eingabe-Ebene und der Ausgabe-Ebene gibt es häufig weitere Ebenen an Neuronen,
@@ -104,23 +109,27 @@ komplexere neuronale Netze, die in der Lage sind, komplexere Vorhersagen zu
 treffen. Ab mehr als einer versteckten Ebene werden Machine Learning Algorithmen
 als Deep Learning Algorithmen bezeichnet.
 
-Ein Machine Learning Algorithmus passt während der Trainingsphase (siehe oben)
-einzelne Gewichte im neuronalen Netz an. Dadurch wird die Ausgabe verändert. 
+% ? Was hat Herr Ruh nochmals genau zu den denglischen Ausdrücken gesagt?
+% ? Sollen wir nicht vielleicht auf die englischen Begriffe zurückgreifen?
 
+Ein Machine Learning Algorithmus passt während der Trainingsphase (siehe
+\nameref{sub:funktionsweise}) einzelne Gewichte im neuronalen Netz an.
+Dadurch wird die Ausgabe verändert.
 
 \subsection*{Arten von Machine Learning}
 
-Es gibt drei Arten von Machine Learning Algorithmen: Supervised Learning (überwachtes Lernen), Unsupervised Learning (unüberwachtes Lernen) und
-Reinforcement learning (bestärktes Lernen). Nachfolgend werden supervised Learnig und unsupervised learning
-kurz erklärt. Die Erklärung vom Reinforcement learning folgt im nächsten Kapitel (siehe unten)
+Es gibt drei Arten von Machine Learning Algorithmen: Supervised Learning
+(überwachtes Lernen), Unsupervised Learning (unüberwachtes Lernen) und
+Reinforcement learning (bestärktes Lernen). Nachfolgend werden supervised
+Learnig und unsupervised learning kurz erklärt. Die Erklärung vom Reinforcement
+learning folgt im nächsten Kapitel (siehe \nameref{chap:t_rl}).
 
-Das Beispielproblem (siehe oben) wird durch einen Supervised Learning
+Das Beispielproblem (siehe \nameref{chap:t_ml}) wird durch einen Supervised Learning
 Algorithmus gelöst. Typisch sind dabei Trainingsdaten, bei denen die korrekte
 Lösung bereits im Voraus bekannt ist. Der Algorithmus trainiert also auf
 Vorhersagen, die zuvor als richtig definiert wurden. Der Algorithmus passt sich
 somit den Vorstellungen derjenigen Person an, die die Daten präpariert und die
 Lösungen definiert hat.
-
 
 Unsupervised learning ist das Gegenteil von Supervised Learning. Bei den
 Trainingsdaten ist keine vorgegebene Lösung bekannt. Stattdessen soll der
@@ -131,14 +140,14 @@ Algorithmus nach seinen eigenen Vorstellungen anzupassen. Stattdessen versucht
 der Entwickler aus den Ergebnisen des Algorithmus neue Schlüsse zu ziehen.
 Beispiele für Unsupervised Learning sind einige Algorithmen hinter der
 Personalisierung von Werbung. Diese Algorithmen versuchen Personen anhand von
-gesammelten Benutzerdaten in Gruppen zu ordnen, die gewisse Produkte
+gesammelten Benutzerdaten in Gruppen zu zuordnen, die gewisse Produkte
 interessieren. Den Entwicklern ist dabei im Voraus unklar, nach welchen
 Kriterien diese Einteilung vorgenommen wird. 
 
 \section{Reinforcement Learning}
 \label{chap:t_rl}
 Reinforcement Learning bedeutet vereinfacht Lernen durch Interaktion mit der
-Umgebung. (Sutten, Barto)  Genauer lernt ein Machine Learning Algorithmus durch
+Umgebung. (Sutten, Barto) Genauer lernt ein Machine Learning Algorithmus durch
 die Interaktion mit einer Umgebung, wie er sich in dieser Verhalten soll.
 
 Reinforcement Learning Algorithmen führen also die Umgebung ein. In Supervised
@@ -165,7 +174,6 @@ die echte Welt. Bei der Umgebung kann es sich aber auch um eine
 Computersimulation handeln.
 
 \subsection*{Aufbau und Funktionsweise}
-
 Dieser Abschnitt umfasst eine genauere Erklärung eines Reinforcement Learning
 Algorithmus (Deep Q-Learning) unter der Verwendung der korrekten Fachbegriffe.
 
@@ -198,13 +206,15 @@ das Neuronale Netz auf diese neue Ausgabe trainiert. Die Gewichte im Neuronalen
 Netz werden also so angepasst, dass die Ausgabe einer ähnliche Eingabe in
 Zukunft näher an den neu angepassten Q-Werten ist als an den alten.
 
+% TODO: Reward oder Belohnung
+
 \section{Verwandte Arbeiten und Themen}
 \label{chap:t_verwandt}
 Es gibt verschiedene Ansätze, um ein Computerprogramm die menschliche Tätigkeit
 des Nachzeichnens verrichten zu lassen. Diese Ansätze werden in verschiedenen
 wissenschaftlichen Arbeiten verfolgt. Ein häufiger Ansatz ist ``Stroke-Based
 Rendering'', wobei Bilder durch das Platzieren von Elementen wie Strichen
-gezeichnet werden. Beispiele für Arbeiten, die diesen Ansatz verwenden sind\dots
+gezeichnet werden. Beispiele für Arbeiten, die diesen Ansatz verwenden sind\dots % TODO: Quelle anfügen
 Stroke-Based Rendering unterscheidet sich von menschlichem Zeichnen dadurch,
 dass kein Stift geführt wird. Stattdessen können die Elemente zu jedem Zeitpunkt
 an einer willkürlichen Position auf der Zeichenfläche platziert werden.
@@ -220,18 +230,18 @@ Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt hat, Strichbilder
 aus dem Google Quick-Draw Datenset nachzuzeichnen. Das Programm stammt aus der
 Arbeit `Learning to Doodle with Deep Q-Networks and Demonstration Strokes' von
 Tao Zhou et Al. aus dem Jahr 2018. Wie der Titel beschreibt basiert das Programm
-auf dem Deep Q-Learning Algorithmus (siehe oben). `Demonstration Strokes' ist
-ein weiteres verfolgtes Konzept in der Arbeit. Dieses gehört allerdings nicht
-zum Bereich von Reinforcement learning, sondern ist vereinfacht gesagt eine
-Methode zur Optimierung des Algorithmus. Die Folgende Erklärung bezieht sich
-daher nur auf den Deep Q-Learning Algorithmus.
+auf dem Deep Q-Learning Algorithmus (siehe \nameref{chap:t_rl}). `Demonstration
+Strokes' ist ein weiteres verfolgtes Konzept in der Arbeit. Dieses gehört
+allerdings nicht zum Bereich von Reinforcement learning, sondern ist vereinfacht
+gesagt eine Methode zur Optimierung des Algorithmus. Die Folgende Erklärung
+bezieht sich daher nur auf den Deep Q-Learning Algorithmus.
 
 Das Quick-Draw Datenset von Google beinhaltet Bilder von verschiedenen,
 menschlichen Strichzeichnungen. Das Programm versucht, diese Bilder
 nach\hyp{}zuzeichnen. Dazu werden die Bilder zuerst auf eine einheitliche Grösse von
-84x84 Pixeln komprimiert. Der Agent kann sich auf dieser Fläche bewegen und
+$84\times84$ Pixeln komprimiert. Der Agent kann sich auf dieser Fläche bewegen und
 Zeichnen. Es handelt sich bei dieser Zeichenfläche um die Umgebung des Agenten
-Der Agent kann sich mit einer Aktion auf einen beliebigen Pixel in einem 11x11
+Der Agent kann sich mit einer Aktion auf einen beliebigen Pixel in einem $11\times11$
 Feld, in dessen Zentrum er ist, bewegen. Dabei kann der Agent entweder zwischen
 seiner alten und seiner neuen Position Zeichnen oder nicht. Der Agent kann somit
 insgesamt $2\times11\times11$ Aktionen ausführen. Diese Anzahl Aktionen entspricht
@@ -241,12 +251,12 @@ gegliedert: Ein globaler Teil (global channel) und ein lokaler Teil (local
 channel). Der Globale Teil umfasst das vorgegebene Bild (die Vorlage), das bis
 anhin gezeichnete Bild, die aktuelle Position des Agenten und die Angabe, ob der
 Agent gerade am Zeichnen ist oder nicht. Der Lokale Teil umfasst nur noch das
-11x11 Feld vom vorgegebenen und dem bis anhin gezeichneten Bild, das sich direkt
+$11\times11$ Feld vom vorgegebenen und dem bis anhin gezeichneten Bild, das sich direkt
 um den Agenten befindet. Diese erneute Eingabe des kleineren Feldes in das Netz
 ist notwendig, weil die unmittelbare Umgebung des Agenten für die Entscheidung
 der nächsten Aktion sehr relevant ist. Der Reward wird durch die Anzahl der neu
 übereinstimmenden Pixeln zwischen der Vorlage und dem bis anhin
-gezeichneten Bild bestimmt. 
+gezeichneten Bild bestimmt.
 
 \section{Git und GitHub}
 \label{chap:git_github}
