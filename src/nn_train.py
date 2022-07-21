@@ -71,7 +71,7 @@ if __name__ == '__main__':
                     agent.learn()
                     agent.epsilon = 0
 
-            """ # Learn Process visualization
+            # Learn Process visualization
             if total_counter > 205:
                 if total_counter % 12 == 0:
                     avg_score = np.mean(scores)
@@ -83,7 +83,7 @@ if __name__ == '__main__':
                 else:
                     print(f"episode: {total_counter}, score: {score}")
 
-                scores.append(score) """
+                scores.append(score)
             
     
         #save weights
