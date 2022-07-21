@@ -15,9 +15,10 @@ if __name__ == '__main__':
     n_episodes = 4000
     n_steps = 64
     n_epochs = 3
+    max_action_strength = 2
 
     # further calculations
-    glob_in_dims = (4, canvas_size, canvas_size)
+    glob_in_dims = (6, canvas_size, canvas_size)
     loc_in_dims = (2, patch_size, patch_size)
     mem_size = episode_mem_size*n_steps
 
@@ -25,11 +26,11 @@ if __name__ == '__main__':
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
-    env = ShapeDraw(canvas_size, patch_size, data.pro_data)
+    env = ShapeDraw(canvas_size, patch_size, data.pro_data, max_action_strength=max_action_strength)
     agent_args = {"gamma": 0.99, "epsilon": 1, "alpha": 0.001, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
-                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
+                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval", "max_action_strength": max_action_strength}
     agent = Agent(**agent_args)
     
     # Initializing architecture
