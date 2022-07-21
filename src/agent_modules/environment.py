@@ -7,7 +7,7 @@ from agent_modules.physics import Physic_Engine
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, max_action_strength: int):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, max_action_strength: int, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
         self.max_action_strength = max_action_strength
@@ -34,16 +34,16 @@ class ShapeDraw(object):
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
+        self.maxScore = 1 # Maximum Reward (changes with reference Image) = base Similarity between empty canvas and reference        
         self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
-        self.curRef = 0 #current reference image, counter that increments with every episode
+        self.curRef = -1 #current reference image, counter that increments with every episode
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
         self.set_agentPos([random.randint(1, self.s-2),
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
 
-        # rendering / visualization
-        self.fig = plt.figure(figsize=(10, 7))
-
+        if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
+        
     def step(self, agent_action: int):
         """
         step execute a timestep. Creates a new canvas state in account of the action
@@ -72,9 +72,8 @@ class ShapeDraw(object):
 
         # Penalty for being to slow
         penalty = 0
-        '''
-        if abs(x) < ownpos or abs(y) < ownpos:
-            penalty = -0.0005 '''
+        """if abs(x) < ownpos or abs(y) < ownpos:
+            penalty = -0.0005 """
 
         # Draw if the move is legal
         if self.move_isLegal(action):
@@ -217,13 +216,21 @@ class ShapeDraw(object):
         for i in range(self.s):
             for j in range(self.s):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
-        similarity = similarity/(self.s**2)
+                
+        similarity /= self.maxScore
 
         # Only use the newly found similar pixels for the reward
-        reward = self.lastSim - similarity
-        self.lastSim = similarity
+        reward = (self.lastSim - similarity) 
+        
+        if self.maxScore == 1:
+            self.maxScore = similarity
+            self.lastSim = 1
+        else:
+            self.lastSim = similarity
 
         return reward
+
+
 
     def move_isLegal(self, action):
         """
@@ -249,6 +256,7 @@ class ShapeDraw(object):
         """
         # Get another reference image
         self.curRef += 1
+        self.curRef = self.curRef % len(self.referenceData)
         self.reference = self.referenceData[self.curRef]
         
         # Reset canvas and agent position
@@ -261,7 +269,9 @@ class ShapeDraw(object):
         
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
+        self.maxScore = 1
         self.reward()
+
         return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch])
 
     def render(self, mode="None", realtime=False):
@@ -292,22 +302,21 @@ class ShapeDraw(object):
                     rendRef[index] = 50
 
             # Original image
-            self.fig.add_subplot(2, 2, 1)
-            plt.imshow(rendRef.reshape(28, 28), cmap='gray',
+            rendRef = rendRef.reshape(28,28)
+            self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
                        label='Original', vmin=0, vmax=255)
-            plt.axis("off")
-            plt.title("Original")
-
+            self.axs[0].set_title('Original')
+            self.axs[0].axis("off")
+            
+            
+            # AI Generated Image
             rendCanv = rendCanv.reshape(28, 28)
-
             if realtime:
                 rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
-            # AI Generated Image
-            self.fig.add_subplot(2, 2, 2)
-            plt.imshow(rendCanv, cmap='gray',
+            self.axs[1].imshow(rendCanv, cmap='gray',
                        label='AI Canvas', vmin=0, vmax=255)
-            plt.axis("off")
-            plt.title("AI Canvas")
+            self.axs[1].set_title('AI Canvas')
+            self.axs[1].axis('off')
 
             plt.pause(0.01)
         else:
@@ -410,7 +419,4 @@ def drawline(setpos, pos, canvas):
     return canvas
 
 
-if __name__ == '__main__':
-    # Debugging drawline
-    canv = np.zeros((28, 28))
-    drawline([0, 0], [5, 10], canv)
+
