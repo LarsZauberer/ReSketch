@@ -61,7 +61,7 @@ class Traintest_Learn_Plotter():
 
 
 if __name__ == '__main__':
-    lp = Learn_Plotter(path="src/result_stats/plotlearn_rarexp_part1.json")
+    lp = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     lp.plot()
 
 
