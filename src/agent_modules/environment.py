@@ -1,3 +1,4 @@
+from configparser import Interpolation
 import os
 import random
 import numpy as np
@@ -236,7 +237,7 @@ class ShapeDraw(object):
             # Original image
             rendRef = rendRef.reshape(28,28)
             self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
-                       label='Original', vmin=0, vmax=255)
+                       interpolation = 'none', label='Original', vmin=0, vmax=255)
             self.axs[0].set_title('Original')
             self.axs[0].axis("off")
             
@@ -245,12 +246,13 @@ class ShapeDraw(object):
             rendCanv = rendCanv.reshape(28, 28)
             if realtime:
                 rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
-            self.axs[1].imshow(rendCanv, cmap='gray',
+            self.axs[1].imshow(rendCanv, cmap='gray', interpolation='none',
                        label='AI Canvas', vmin=0, vmax=255)
             self.axs[1].set_title('AI Canvas')
             self.axs[1].axis('off')
 
-            plt.pause(0.01)
+            plt.pause(0.005)
+            plt.pause(0.005)
         else:
             plt.imshow(self.canvas, interpolation='none', cmap='gray')
             plt.pause(0.01)
