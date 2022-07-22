@@ -114,6 +114,7 @@ class Agent(object):
             self.mem_size, global_input_dims[0], global_input_dims[1], global_input_dims[2])
         loc_mem_shape = (
             self.mem_size, local_input_dims[0], local_input_dims[1], local_input_dims[2])
+        illegal_list_shape = (self.mem_size, self.n_actions)
         
         # Replay buffer
         self.global_state_memory = np.zeros(glob_mem_shape)
@@ -123,11 +124,12 @@ class Agent(object):
 
         self.action_memory = np.zeros(self.mem_size, dtype=np.int8)
         self.reward_memory = np.zeros(self.mem_size)
+        self.illegal_list_memory = np.zeros(illegal_list_shape)
 
         self.recent_mem = 6
         self.recent_actions = np.zeros(self.recent_mem)
 
-    def store_transition(self, global_state: np.array, local_state: np.array, next_gloabal_state: np.array, next_local_state: np.array, action: int, reward: float):
+    def store_transition(self, global_state: np.array, local_state: np.array, next_gloabal_state: np.array, next_local_state: np.array, action: int, reward: float, illegal_list : np.array):
         """
         store_transition Save the next step to the replay buffer
 
@@ -150,10 +152,13 @@ class Agent(object):
         self.local_state_memory[index] = local_state
         self.action_memory[index] = action
         self.reward_memory[index] = reward
+        self.illegal_list_memory[index] = illegal_list
         self.new_global_state_memory[index] = next_gloabal_state
         self.new_local_state_memory[index] = next_local_state
 
-    def choose_action(self, global_state: np.array, local_state: np.array, replay_fill: bool = False):
+
+
+    def choose_action(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
         """
         choose_action Agent should choose an action from the action_space
 
@@ -164,15 +169,20 @@ class Agent(object):
         :return: Index of the action the agent wants to take
         :rtype: int
         """
+        action = 0
+
         # Check if the agent should explore
         rand = np.random.random()
         if rand < self.epsilon or self.rare_Exploration() or replay_fill:
-            action = np.random.choice(self.action_space)
+            while True:
+                action = np.random.choice(self.action_space)
+                if illegal_list[action] == 1:
+                    continue
+                    
+                else: break
         else:
             # create batch of states (prediciton must be in batches)
             # Create a batch containing only one real state (all zeros for the other states)
-
-
 
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
@@ -183,7 +193,11 @@ class Agent(object):
                     [np.zeros(self.local_input_dims)]), axis=0) """
 
             # Ask the QNetwork for an action
-            actions = self.q_eval.dqn([glob_batch, loc_batch])[0]
+            actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
+
+            while illegal_list[np.argmax(actions)] == 1:
+                
+                actions[np.argmax(actions)] = -1
 
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
@@ -217,19 +231,33 @@ class Agent(object):
         reward_batch = self.reward_memory[batch]
         new_global_state_batch = self.new_global_state_memory[batch]
         new_local_state_batch = self.new_local_state_memory[batch]
+        illegal_list_batch = self.illegal_list_memory[batch]
 
         # runs network -> delivers output for training
         # gives the outpus (Q-values) of current states and next states. 
         # It gives this output of every state in the batch
         # type: np.array example: [ [0.23, 0.64, 0.33, ..., n_actions], ..., batch_size]
-        q_eval = self.q_eval.dqn([global_state_batch, local_state_batch])
-        q_next = self.q_next.dqn(
-            [new_global_state_batch, new_local_state_batch])
+
+
+        q_eval = np.array(self.q_eval.dqn([global_state_batch, local_state_batch]))
+        q_next = np.array(self.q_next.dqn([new_global_state_batch, new_local_state_batch]))
 
         # Calculates optimal output for training. ( Bellman Equation !! )
+
+
+
         q_target = np.copy(q_eval)
+        for i, il_list in enumerate(illegal_list_batch):
+            for j, item in enumerate(il_list):
+                if item == 1: #if illegal
+                    if q_target[i][j] > 0.1: print("yes")
+                    q_target[i][j] = 0
+
+        
+
         idx = np.arange(self.batch_size)
         # Recalculate the q-value of the action taken in each state
+
         q_target[idx, action_batch] = reward_batch + \
             self.gamma*np.max(q_next, axis=1)
 
