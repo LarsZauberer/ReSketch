@@ -19,6 +19,7 @@ class Test_NN():
 
         canvas_size = 28
         patch_size = 7
+        self.n_actions = 2*patch_size**2
         self.test_data = []
         self.sorted_data = [] 
         
@@ -38,8 +39,10 @@ class Test_NN():
             score = 0
 
             for j in range(self.num_steps):
+                illegal_moves = np.zeros(self.n_actions)
+                illegal_moves = self.envir.illegal_actions(illegal_moves)
                 # Run the timestep
-                action = agent.choose_action(global_obs, local_obs)
+                action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
                 next_gloabal_obs, next_local_obs, reward = self.envir.step(action)
 
                 global_obs = next_gloabal_obs
