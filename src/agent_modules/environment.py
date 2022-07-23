@@ -218,19 +218,14 @@ class ShapeDraw(object):
         patchY = int(self.agentPos[1]-(self.p-1)/2)
         for y in range(self.p):
             for x in range(self.p):
-                ny = patchY+y
-                nx = patchX+x
+                # Check for bounds
+                yInd = 0 if patchY + \
+                    y >= len(self.reference) or patchY+y < 0 else patchY+y
+                xInd = 0 if patchX + \
+                    x >= len(self.reference[0]) or patchX+x < 0 else patchX+x
 
-                pixel = ()
-                if ny >= len(self.reference) or ny < 0:
-                    pixel = (-1, -1)
-                elif nx>= len(self.reference[0]) or nx < 0:
-                    pixel = (-1, -1)
-                else:
-                    pixel = (self.reference[ny][nx], self.canvas[ny][nx])
-                
-                self.ref_patch[y][x] = pixel[0]
-                self.canvas_patch[y][x] = pixel[1]
+                self.ref_patch[y][x] = self.reference[yInd][xInd]
+                self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
     def update_velocity_map(self):
         # Updtae velocity maps
