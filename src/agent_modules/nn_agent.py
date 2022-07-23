@@ -5,7 +5,7 @@ from keras.layers import Conv2D, Dense, Flatten, Input, concatenate
 from tensorflow.keras.utils import plot_model
 
 import numpy as np
-
+from time import sleep
 
 
 class DeepQNetwork(object):
@@ -93,7 +93,7 @@ class Agent(object):
                  replace_target=1000,
                  q_next_dir='src/nn_memory/q_next', q_eval_dir='src/nn_memory/q_eval'):
 
-        self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
+        self.n_actions = 8  # How many action options the agent has. -> Index of the action to choose
         self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
         self.gamma = gamma  # Is the learnrate
         self.mem_size = mem_size  # The allocated memory size (The number of slots for saved observation)
@@ -174,12 +174,8 @@ class Agent(object):
         # Check if the agent should explore
         rand = np.random.random()
         if rand < self.epsilon or self.rare_Exploration() or replay_fill:
-            while True:
-                action = np.random.choice(self.action_space)
-                if illegal_list[action] == 1:
-                    continue
-                    
-                else: break
+            action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
+                
         else:
             # create batch of states (prediciton must be in batches)
             # Create a batch containing only one real state (all zeros for the other states)
@@ -195,12 +191,16 @@ class Agent(object):
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
+
+            """ print(illegal_list)
+            sleep(1) """
+
             while illegal_list[np.argmax(actions)] == 1:
-                
                 actions[np.argmax(actions)] = -1
 
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
+
 
         # Only important for the rare_exploration
         action_ind = self.counter % self.recent_mem
@@ -250,7 +250,6 @@ class Agent(object):
         for i, il_list in enumerate(illegal_list_batch):
             for j, item in enumerate(il_list):
                 if item == 1: #if illegal
-                    if q_target[i][j] > 0.1: print("yes")
                     q_target[i][j] = 0
 
         
