@@ -4,26 +4,35 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
+from agent_modules.physics import Physic_Engine
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool = True):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool = True, max_action_strength : int = 1):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
+        self.max_action_strength = max_action_strength
 
         # Input gloabal stream
         self.referenceData = referenceData
         self.canvas = np.zeros((self.s, self.s))
         self.distmap = np.zeros((self.s, self.s))
         self.colmap = np.zeros((self.s, self.s))
+        self.velocitymap_x = np.zeros((self.s, self.s))
+        self.velocitymap_y = np.zeros((self.s, self.s))
 
         # Input local stream
         self.ref_patch = np.zeros((self.p, self.p))
         self.canvas_patch = np.zeros((self.p, self.p))
 
+        # Physics
+        self.phy_settings = {"mass": 1.0, "friction": 0.3, "time_scale": 1.0, "g": 1, "action_scale": 1.0}
+        self.phy = Physic_Engine(**self.phy_settings)
+
+
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
-        self.n_actions = self.p*self.p*2
+        self.n_actions = 8
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
@@ -50,39 +59,39 @@ class ShapeDraw(object):
         :rtype: tuple
         """
         
-        self.isDrawing = 1
-        action = self.translate_action(agent_action)
+        x, y = self.translate_action(agent_action)
+        action = self.phy.calc_position_step(self.agentPos, [x, y])
 
-        """ # Penalty for being to slow
+
+
         penalty = 0
-        if abs(x) < ownpos or abs(y) < ownpos:
-            penalty = -0.0005
-
-        # Draw if the move is legal
         if self.move_isLegal(action):
-
-
-            
+            self.set_agentPos(action)
         else:
             # Give a penalty for an illegal move
             self.isDrawing = 0
-            penalty = -0.001 """
-
-        self.set_agentPos(action)
+            penalty = -0.05
+            self.phy.velocity = [0, 0]
 
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
         reward = self.reward() if self.isDrawing else 0.0
-        """ reward += penalty """
+        reward += penalty
 
         # Ending the timestep
-        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch]), reward
 
     def illegal_actions(self, illegal_list : np.array):
+        cur_Vel = self.phy.velocity.copy()
         for action in range(self.n_actions):
-            if not self.move_isLegal(self.translate_action(action)):
+            x, y = self.translate_action(action)
+            act = self.phy.calc_position_step(self.agentPos, [x, y])
+            if not self.move_isLegal(act):
                 illegal_list[action] = 1 # 1 == illegal, 0 == legal
 
+            self.phy.velocity = cur_Vel.copy()
+
+        #print(self.phy.velocity)
         return illegal_list
 
     def move_isLegal(self, action):
@@ -100,20 +109,40 @@ class ShapeDraw(object):
             return False
         return True
 
-    def translate_action(self, agent_action: int):
-        # Calculate the x and y position coordinates of action in the current patch
-        action = [0, 0]
-        x = agent_action % self.p
-        y = agent_action // self.p
-        if y >= self.p:
-            y -= self.p
-            self.isDrawing = 0
-        # Calculate the global aim location of the action
-        ownpos = (self.p-1)/2
-        action = [int(self.agentPos[0]+x-ownpos),
-                  int(self.agentPos[1]+y-ownpos)]
+    def translate_action(self, action):
+        """
+        action_to_direction Convert the action index of the agent to a direction and return the strength of the action. Sets also the isDrawing variable.
 
-        return action
+        :param action: the index of the action to be executed
+        :type action: int
+        :return: x and y delta of the action
+        :rtype: tuple
+        """
+        #find out if drawing
+        movepool = 4*self.max_action_strength
+        self.isDrawing = 1
+
+        if action >= movepool:
+            action -= movepool
+            self.isDrawing = 0
+            
+        direction = action % 4
+        power = 1 + (action // 4)
+
+        if direction == 0:
+            x = 0
+            y = 1 * power
+        elif direction == 1:
+            x = 1 * power
+            y = 0
+        elif direction == 2:
+            x = 0
+            y = -1 * power
+        elif direction == 3:
+            x = -1 * power
+            y = 0
+        
+        return x, y
 
 
     def reward(self):
@@ -156,6 +185,7 @@ class ShapeDraw(object):
         self.update_distmap()
         self.update_patch()
         self.update_colmap()
+        self.update_velocity_map()
 
     def update_distmap(self):
         """
@@ -188,14 +218,29 @@ class ShapeDraw(object):
         patchY = int(self.agentPos[1]-(self.p-1)/2)
         for y in range(self.p):
             for x in range(self.p):
-                # Check for bounds
-                yInd = 0 if patchY + \
-                    y >= len(self.reference) or patchY+y < 0 else patchY+y
-                xInd = 0 if patchX + \
-                    x >= len(self.reference[0]) or patchX+x < 0 else patchX+x
+                ny = patchY+y
+                nx = patchX+x
 
-                self.ref_patch[y][x] = self.reference[yInd][xInd]
-                self.canvas_patch[y][x] = self.canvas[yInd][xInd]
+                pixel = ()
+                if ny >= len(self.reference) or ny < 0:
+                    pixel = (-1, -1)
+                elif nx>= len(self.reference[0]) or nx < 0:
+                    pixel = (-1, -1)
+                else:
+                    pixel = (self.reference[ny][nx], self.canvas[ny][nx])
+                
+                self.ref_patch[y][x] = pixel[0]
+                self.canvas_patch[y][x] = pixel[1]
+
+    def update_velocity_map(self):
+        # Updtae velocity maps
+        for y in range(self.s):
+            for x in range(self.s):
+                self.velocitymap_x[y][x] = self.phy.velocity[0]
+        
+        for y in range(self.s):
+            for x in range(self.s):
+                self.velocitymap_y[y][x] = self.phy.velocity[1]
 
 
     def reset(self):
@@ -221,7 +266,7 @@ class ShapeDraw(object):
         self.maxScore = 1
         self.reward()
 
-        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch])
 
     def render(self, mode="None", realtime=False):
         """
