@@ -155,7 +155,7 @@ class Agent(object):
         self.new_global_state_memory[index] = next_gloabal_state
         self.new_local_state_memory[index] = next_local_state
 
-    def choose_action(self, global_state: np.array, local_state: np.array):
+    def choose_action(self, global_state: np.array, local_state: np.array, replay_fill: bool = False):
         """
         choose_action Agent should choose an action from the action_space
 
@@ -168,7 +168,7 @@ class Agent(object):
         """
         # Check if the agent should explore
         rand = np.random.random()
-        if rand < self.epsilon or self.rare_Exploration():
+        if rand < self.epsilon or self.rare_Exploration() or replay_fill:
             action = np.random.choice(self.action_space)
         else:
             # create batch of states (prediciton must be in batches)
