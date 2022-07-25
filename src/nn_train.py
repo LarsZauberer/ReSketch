@@ -28,7 +28,7 @@ if __name__ == '__main__':
     data.sample(n_episodes)
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
-    agent_args = {"gamma": 0.99, "epsilon": 1, "alpha": 0.001, "replace_target": 1000, 
+    agent_args = {"gamma": 0.99, "epsilon": 0, "alpha": 0.001, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     
     # Initializing architecture
     
-
+    replay_fill = True
     print("...filling Replay Buffer...")
     total_counter = 0
     scores = []
@@ -54,8 +54,8 @@ if __name__ == '__main__':
 
             for step in range(n_steps):
                 # Run the timestep
-                action = agent.choose_action(global_obs, local_obs)
-                next_gloabal_obs, next_local_obs, reward = env.step(agent_action=action, counter=episode*n_steps+step)
+                action = agent.choose_action(global_obs, local_obs, replay_fill=replay_fill)
+                next_gloabal_obs, next_local_obs, reward = env.step(action)
                 #env.render("Compare", realtime=True)
 
                 # Save new information
@@ -68,20 +68,22 @@ if __name__ == '__main__':
                 score += reward
 
                 if step % 4 == 0 and total_counter > episode_mem_size:
+                    replay_fill = False #finish filling replay buffer
                     agent.learn()
-                    agent.epsilon = 0
+            
 
             # Learn Process visualization
-            if total_counter > 205:
-                if total_counter % 12 == 0:
+            if total_counter > episode_mem_size:
+                real_ep = total_counter - episode_mem_size
+                if real_ep % 12 == 0:
                     avg_score = np.mean(scores)
                     scores = []
-                    print(f"episode: {total_counter}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
+                    print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
-                    #env.render("Compare")
-                    learn_plot.update_plot(total_counter, avg_score)
+                    env.render("Compare")
+                    learn_plot.update_plot(real_ep, avg_score)
                 else:
-                    print(f"episode: {total_counter}, score: {score}")
+                    print(f"episode: {real_ep}, score: {score}")
 
                 scores.append(score)
             
