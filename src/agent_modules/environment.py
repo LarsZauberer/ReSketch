@@ -58,34 +58,96 @@ class ShapeDraw(object):
             `ref_patch` and `canvas_patch` and an int with the `reward`
         :rtype: tuple
         """
-        action = [0, 0]
+        
         self.isDrawing = 1
+        action = self.translate_action(agent_action)
+
+        """ # Penalty for being to slow
+        penalty = 0
+        if abs(x) < ownpos or abs(y) < ownpos:
+            penalty = -0.0005
+
+        # Draw if the move is legal
+        if self.move_isLegal(action):
 
 
+            
+        else:
+            # Give a penalty for an illegal move
+            self.isDrawing = 0
+            penalty = -0.001 """
+
+        self.set_agentPos(action)
+
+        # Calculate the reward for the action in this turn
+        # The reward can be 0 because it is gaining the reward only for new pixels
+        reward = self.reward() if self.isDrawing else 0.0
+        """ reward += penalty """
+
+        # Ending the timestep
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
+
+    def illegal_actions(self, illegal_list : np.array):
+        for action in range(self.n_actions):
+            if not self.move_isLegal(self.translate_action(action)):
+                illegal_list[action] = 1 # 1 == illegal, 0 == legal
+
+        return illegal_list
+
+    def move_isLegal(self, action):
+        """
+        move_isLegal Check if an action is legel.
+
+        :param action: The action to validate
+        :type action: list
+        :return: Wether it is legal or not
+        :rtype: bool
+        """
+        if action[0] > len(self.canvas[0])-1 or action[0] < 0:
+            return False
+        if action[1] > len(self.canvas)-1 or action[1] < 0:
+            return False
+        return True
+
+    def translate_action(self, agent_action: int):
         # Calculate the x and y position coordinates of action in the current patch
+        action = [0, 0]
         x = agent_action % self.p
         y = agent_action // self.p
         if y >= self.p:
             y -= self.p
             self.isDrawing = 0
-
         # Calculate the global aim location of the action
         ownpos = (self.p-1)/2
         action = [int(self.agentPos[0]+x-ownpos),
                   int(self.agentPos[1]+y-ownpos)]
 
-        # Penalty for being to slow
-        penalty = 0
-        """if abs(x) < ownpos or abs(y) < ownpos:
-            penalty = -0.0005 """
+        return action
 
-        # Draw if the move is legal
-        if self.move_isLegal(action):
-            self.set_agentPos(action)
+
+    def reward(self):
+        """
+        reward Calculate the reward based on gained similarity and length of step
+
+        :return: The reward value
+        :rtype: float
+        """
+        reward = 0
+        similarity = 0
+        for i in range(self.s):
+            for j in range(self.s):
+                similarity += (self.canvas[i][j] - self.reference[i][j])**2
+                
+        similarity /= self.maxScore
+
+        # Only use the newly found similar pixels for the reward
+        reward = (self.lastSim - similarity) 
+        
+        if self.maxScore == 1:
+            self.maxScore = similarity
+            self.lastSim = 1
         else:
-            # Give a penalty for an illegal move
-            self.isDrawing = 0
-            penalty = -0.001
+            self.lastSim = similarity
 
         
 
@@ -231,6 +293,7 @@ class ShapeDraw(object):
         self.curRef += 1
         self.curRef = self.curRef % len(self.referenceData)
         self.reference = self.referenceData[self.curRef]
+        self.isDrawing = 0
         
         # Reset canvas and agent position
         self.canvas = np.zeros((self.s, self.s))
@@ -361,6 +424,8 @@ def drawline(setpos, pos, canvas):
                 if pix[1]+weight-y >= len(canvas) or pix[1]+weight-y < 0:
                     continue
                 canvas[pix[1]+weight-y][pix[0]] = 1
+                
+                    
     
     # The same procedure for the y-position
     else:
