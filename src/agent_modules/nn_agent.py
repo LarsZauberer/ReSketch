@@ -90,11 +90,11 @@ class DeepQNetwork(object):
 
 
 class Agent(object):
-    def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size,
+    def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size, n_actions,
                  replace_target=1000,
                  q_next_dir='src/nn_memory/q_next', q_eval_dir='src/nn_memory/q_eval'):
 
-        self.n_actions = 8  # How many action options the agent has. -> Index of the action to choose
+        self.n_actions = n_actions  # How many action options the agent has. -> Index of the action to choose
         self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
         self.gamma = gamma  # Is the learnrate
         self.mem_size = mem_size  # The allocated memory size (The number of slots for saved observation)
@@ -243,16 +243,14 @@ class Agent(object):
         q_next = np.array(self.q_next.dqn([new_global_state_batch, new_local_state_batch]))
 
         # Calculates optimal output for training. ( Bellman Equation !! )
-
-        print(q_eval[0])
         
 
-
         q_target = np.copy(q_eval)
+        """
         for i, il_list in enumerate(illegal_list_batch):
             for j, item in enumerate(il_list):
                 if item == 1: #if illegal
-                    q_target[i][j] = 0
+                    q_target[i][j] = 0 """
 
         
 
@@ -282,8 +280,9 @@ class Agent(object):
         :return: If the ai should explore
         :rtype: bool
         """
-        if self.epsilon > 0:
-            return False
+
+        """ if self.epsilon > 0:
+            return False """
         # Is used when exploration is zero
         # If the ai is too much exploiting -> Force an exploration
         variance = 0

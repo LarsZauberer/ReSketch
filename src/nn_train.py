@@ -16,7 +16,7 @@ if __name__ == '__main__':
     n_steps = 64
     n_epochs = 3
     max_action_strength = 1
-    n_actions = 2*4*max_action_strength
+    n_actions = 42
 
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
@@ -27,8 +27,8 @@ if __name__ == '__main__':
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
-    env = ShapeDraw(canvas_size, patch_size, data.pro_data, max_action_strength=max_action_strength)
-    agent_args = {"gamma": 0.99, "epsilon": 0.1, "alpha": 0.001, "replace_target": 1000, 
+    env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength)
+    agent_args = {"gamma": 0.99, "epsilon": 0.1, "alpha": 0.001, "n_actions" : n_actions, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
@@ -71,10 +71,11 @@ if __name__ == '__main__':
                 next_gloabal_obs, next_local_obs, reward = env.step(action)
 
                 
-                if total_counter % 5 == 0 and total_counter > 200: 
+                """ if total_counter % 5 == 0 and total_counter > 200: 
                     env.render("Compare", realtime=True)
                     print(illegal_moves, action)
                     sleep(0.5)
+                """
 
                 # Save new information
                 agent.store_transition(
