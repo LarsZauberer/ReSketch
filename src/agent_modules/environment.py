@@ -1,6 +1,7 @@
 from configparser import Interpolation
 import os
 import random
+from turtle import up
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
@@ -18,15 +19,13 @@ class ShapeDraw(object):
         self.canvas = np.zeros((self.s, self.s))
         self.distmap = np.zeros((self.s, self.s))
         self.colmap = np.zeros((self.s, self.s))
-        self.velocitymap_x = np.zeros((self.s, self.s))
-        self.velocitymap_y = np.zeros((self.s, self.s))
 
         # Input local stream
         self.ref_patch = np.zeros((self.p, self.p))
         self.canvas_patch = np.zeros((self.p, self.p))
 
         # Physics
-        self.phy_settings = {"mass": 1.0, "friction": 0.3, "time_scale": 1.0, "g": 1, "action_scale": 1.0}
+        self.phy_settings = {"friction": 0.2, "action_scale": 1.0}
         self.phy = Physic_Engine(**self.phy_settings)
 
 
@@ -60,16 +59,13 @@ class ShapeDraw(object):
         """
         
         x, y = self.translate_action(agent_action)
-        action = self.phy.calc_position_step(self.agentPos, [x, y])
-
-
+        action = self.phy.calc_new_pos(self.agentPos, [x, y], update_velocity=True)
 
         penalty = 0
         if self.move_isLegal(action):
             self.set_agentPos(action)
         else:
             # Give a penalty for an illegal move
-            self.isDrawing = 0
             penalty = -0.05
             self.phy.velocity = [0, 0]
 
@@ -79,19 +75,16 @@ class ShapeDraw(object):
         reward += penalty
 
         # Ending the timestep
-        return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch]), reward
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
 
     def illegal_actions(self, illegal_list : np.array):
-        cur_Vel = self.phy.velocity.copy()
         for action in range(self.n_actions):
             x, y = self.translate_action(action)
-            act = self.phy.calc_position_step(self.agentPos, [x, y])
-            if not self.move_isLegal(act):
-                illegal_list[action] = 1 # 1 == illegal, 0 == legal
+            act = self.phy.calc_new_pos(self.agentPos, [x, y], update_velocity = False)
+            illegal_list[action] = int(not self.move_isLegal(act))
+        
+        
 
-            self.phy.velocity = cur_Vel.copy()
-
-        #print(self.phy.velocity)
         return illegal_list
 
     def move_isLegal(self, action):
@@ -105,7 +98,7 @@ class ShapeDraw(object):
         """
         if action[0] > len(self.canvas[0])-1 or action[0] < 0:
             return False
-        if action[1] > len(self.canvas)-1 or action[1] < 0:
+        elif action[1] > len(self.canvas)-1 or action[1] < 0:
             return False
         return True
 
@@ -176,7 +169,7 @@ class ShapeDraw(object):
         """
         set_agentPos Sets the agent to a new position.
 
-        :param pos: Koordinates of the new position
+        :param pos: coordinates of the new position
         :type pos: list
         """
         if self.isDrawing:
@@ -185,7 +178,6 @@ class ShapeDraw(object):
         self.update_distmap()
         self.update_patch()
         self.update_colmap()
-        self.update_velocity_map()
 
     def update_distmap(self):
         """
@@ -213,9 +205,11 @@ class ShapeDraw(object):
         update_patch Calculate a local input patch of the agent
         The local patch is a concentrated smaller part of the canvas
         """
+        vel_pos = self.phy.calc_new_pos(self.agentPos, [0,0], update_velocity=False)
+
         # Get start locations of the patch
-        patchX = int(self.agentPos[0]-(self.p-1)/2)
-        patchY = int(self.agentPos[1]-(self.p-1)/2)
+        patchX = int(vel_pos[0]-(self.p-1)/2)
+        patchY = int(vel_pos[1]-(self.p-1)/2)
         for y in range(self.p):
             for x in range(self.p):
                 # Check for bounds
@@ -226,16 +220,6 @@ class ShapeDraw(object):
 
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
-
-    def update_velocity_map(self):
-        # Updtae velocity maps
-        for y in range(self.s):
-            for x in range(self.s):
-                self.velocitymap_x[y][x] = self.phy.velocity[0]
-        
-        for y in range(self.s):
-            for x in range(self.s):
-                self.velocitymap_y[y][x] = self.phy.velocity[1]
 
 
     def reset(self):
@@ -249,19 +233,24 @@ class ShapeDraw(object):
         self.curRef += 1
         self.curRef = self.curRef % len(self.referenceData)
         self.reference = self.referenceData[self.curRef]
-        self.isDrawing = 0
         
-        # Reset canvas and agent position
+        
+        # Reset canvas 
         self.canvas = np.zeros((self.s, self.s))
+
+        #reset Agent position
+        self.isDrawing = 0
+        self.phy.velocity = [.0, .0]
         self.set_agentPos((random.randint(1, self.s-2),
                           random.randint(1, self.s-2)))
+
         
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
         self.reward()
 
-        return np.array([self.reference, self.canvas, self.distmap, self.colmap, self.velocitymap_x, self.velocitymap_y]), np.array([self.ref_patch, self.canvas_patch])
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
     def render(self, mode="None", realtime=False):
         """
