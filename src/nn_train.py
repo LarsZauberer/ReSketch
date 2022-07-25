@@ -9,7 +9,7 @@ from time import sleep
 if __name__ == '__main__':
     # Hyper parameters
     canvas_size = 28
-    patch_size = 7
+    patch_size = 5
     episode_mem_size = 200
     batch_size = 64
     n_episodes = 4000
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     n_actions = 2*4*max_action_strength
 
     # further calculations
-    glob_in_dims = (6, canvas_size, canvas_size)
+    glob_in_dims = (4, canvas_size, canvas_size)
     loc_in_dims = (2, patch_size, patch_size)
     mem_size = episode_mem_size*n_steps
 
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
     env = ShapeDraw(canvas_size, patch_size, data.pro_data, max_action_strength=max_action_strength)
-    agent_args = {"gamma": 0.99, "epsilon": 0.5, "alpha": 0.001, "replace_target": 1000, 
+    agent_args = {"gamma": 0.99, "epsilon": 0.1, "alpha": 0.001, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
@@ -56,21 +56,25 @@ if __name__ == '__main__':
                 illegal_moves = np.zeros(n_actions)
                 illegal_moves = env.illegal_actions(illegal_moves)
 
+                
 
                 if not all(a == 1 for a in illegal_moves):
                     action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
                 else:
-                    """ env.render("Compare", realtime=True)
+                    """  env.render("Compare", realtime=True)
                     print(env.phy.velocity)
+                    print(illegal_moves)
                     sleep(5) """
                     action = np.random.choice(n_actions)
                     
 
                 next_gloabal_obs, next_local_obs, reward = env.step(action)
+
                 
                 if total_counter % 5 == 0 and total_counter > 200: 
                     env.render("Compare", realtime=True)
-                    print(action)
+                    print(illegal_moves, action)
+                    sleep(0.5)
 
                 # Save new information
                 agent.store_transition(
@@ -85,6 +89,7 @@ if __name__ == '__main__':
                     replay_fill = False #finish filling replay buffer
                     agent.learn()
             
+                
 
             # Learn Process visualization
             if total_counter > episode_mem_size:

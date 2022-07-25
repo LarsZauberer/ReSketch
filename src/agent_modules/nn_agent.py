@@ -27,6 +27,7 @@ class DeepQNetwork(object):
         # Generate the network
         self.build_network()
 
+
     def build_network(self):
         """
         build_network Generate a keras DeepQNetwork. The model will be saved in the self.dqn variable.
@@ -34,7 +35,7 @@ class DeepQNetwork(object):
         # global convolution
         glob_in = Input(shape=self.global_input_dims,
                         batch_size=self.batch_size, name="global_input")
-        glob_conv1 = Conv2D(32, (8, 8), strides=2,  activation="relu", input_shape=self.global_input_dims,
+        glob_conv1 = Conv2D(32, (8, 8), strides=3,  activation="relu", input_shape=self.global_input_dims,
                             padding="same", name="glob_conv1", data_format='channels_first')(glob_in)
         glob_conv2 = Conv2D(64, (4, 4), strides=2, activation="relu", name="glob_conv2",
                             padding="same", data_format='channels_first')(glob_conv1)
@@ -201,7 +202,6 @@ class Agent(object):
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
 
-
         # Only important for the rare_exploration
         action_ind = self.counter % self.recent_mem
         self.recent_actions[action_ind] = action
@@ -244,6 +244,8 @@ class Agent(object):
 
         # Calculates optimal output for training. ( Bellman Equation !! )
 
+        print(q_eval[0])
+        
 
 
         q_target = np.copy(q_eval)
@@ -280,6 +282,8 @@ class Agent(object):
         :return: If the ai should explore
         :rtype: bool
         """
+        if self.epsilon > 0:
+            return False
         # Is used when exploration is zero
         # If the ai is too much exploiting -> Force an exploration
         variance = 0
