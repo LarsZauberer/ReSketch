@@ -1,7 +1,4 @@
-from configparser import Interpolation
-import os
 import random
-from turtle import up
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
@@ -9,7 +6,7 @@ from agent_modules.physics import Physic_Engine
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool = True, max_action_strength : int = 1):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, max_action_strength : int = 1):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
         self.max_action_strength = max_action_strength
@@ -31,7 +28,16 @@ class ShapeDraw(object):
 
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
-        self.n_actions = 8
+        self.n_actions = 42
+        self.actions = [(0,0)]
+        for i in range(8):
+            angle = ma.pi/4*i
+            self.actions.append( (float('%.2f' % ma.cos(angle)) , float('%.2f' % ma.sin(angle))) )
+        for i in range(12):
+            angle = ma.pi/6*i
+            self.actions.append( (float('%.2f' % ma.cos(angle)) , float('%.2f' % ma.sin(angle))) )
+
+        #print(self.actions)
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
@@ -111,30 +117,12 @@ class ShapeDraw(object):
         :return: x and y delta of the action
         :rtype: tuple
         """
-        #find out if drawing
-        movepool = 4*self.max_action_strength
         self.isDrawing = 1
-
-        if action >= movepool:
-            action -= movepool
+        if action >= int(self.n_actions/2):
+            action -= int(self.n_actions/2)
             self.isDrawing = 0
-            
-        direction = action % 4
-        power = 1 + (action // 4)
 
-        if direction == 0:
-            x = 0
-            y = 1 * power
-        elif direction == 1:
-            x = 1 * power
-            y = 0
-        elif direction == 2:
-            x = 0
-            y = -1 * power
-        elif direction == 3:
-            x = -1 * power
-            y = 0
-        
+        x, y = self.actions[action]
         return x, y
 
 
