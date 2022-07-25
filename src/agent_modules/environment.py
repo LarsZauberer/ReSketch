@@ -151,10 +151,7 @@ class ShapeDraw(object):
 
         
 
-        # Calculate the reward for the action in this turn
-        # The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward() if self.isDrawing else 0.0
-        reward += penalty
+        return reward
 
         rec_const_reward = 0
         if (counter+1) % 8 == 0 and counter > 12800 and not without_rec:
