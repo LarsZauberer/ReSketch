@@ -69,9 +69,6 @@ class ShapeDraw(object):
 
         # Draw if the move is legal
         if self.move_isLegal(action):
-
-
-            
         else:
             # Give a penalty for an illegal move
             self.isDrawing = 0
@@ -81,7 +78,7 @@ class ShapeDraw(object):
 
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward() if self.isDrawing else 0.0
+        reward = self.reward(counter, without_rec=without_rec) if self.isDrawing else 0.0
         """ reward += penalty """
 
         # Ending the timestep
@@ -125,7 +122,7 @@ class ShapeDraw(object):
         return action
 
 
-    def reward(self):
+    def reward(self, counter, without_rec : bool = False):
         """
         reward Calculate the reward based on gained similarity and length of step
 
@@ -149,10 +146,6 @@ class ShapeDraw(object):
         else:
             self.lastSim = similarity
 
-        
-
-        return reward
-
         rec_const_reward = 0
         if (counter+1) % 8 == 0 and counter > 12800 and not without_rec:
             a, b = self.predict_mnist()
@@ -162,8 +155,10 @@ class ShapeDraw(object):
                 rec_const_reward = 0
         reward += rec_const_reward
 
-        # Ending the timestep
-        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
+
+        return reward
+
+        
 
     def set_agentPos(self, pos: list):
         """
@@ -219,32 +214,6 @@ class ShapeDraw(object):
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
-    def reward(self):
-        """
-        reward Calculate the reward based on gained similarity and length of step
-
-        :return: The reward value
-        :rtype: float
-        """
-        # calculates reward of action based on gained similarity and length of step
-        reward = 0
-        similarity = 0
-        for i in range(self.s):
-            for j in range(self.s):
-                similarity += (self.canvas[i][j] - self.reference[i][j])**2
-                
-        similarity /= self.maxScore
-
-        # Only use the newly found similar pixels for the reward
-        reward = (self.lastSim - similarity) 
-        
-        if self.maxScore == 1:
-            self.maxScore = similarity
-            self.lastSim = 1
-        else:
-            self.lastSim = similarity
-
-        return reward
 
     def predict_mnist(self):
         # Format the input for the model
@@ -264,20 +233,6 @@ class ShapeDraw(object):
         
         return ref, canv
 
-    def move_isLegal(self, action):
-        """
-        move_isLegal Check if an action is legel.
-
-        :param action: The action to validate
-        :type action: list
-        :return: Wether it is legal or not
-        :rtype: bool
-        """
-        if action[0] > len(self.canvas[0])-2 or action[0] < 1:
-            return False
-        if action[1] > len(self.canvas)-2 or action[1] < 1:
-            return False
-        return True
 
     def reset(self):
         """
@@ -300,7 +255,7 @@ class ShapeDraw(object):
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward()
+        self.reward(counter=0, without_rec=True)
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 

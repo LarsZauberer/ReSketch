@@ -59,7 +59,7 @@ if __name__ == '__main__':
                 illegal_moves = env.illegal_actions(illegal_moves)
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                next_gloabal_obs, next_local_obs, reward = env.step(action)
+                next_gloabal_obs, next_local_obs, reward = env.step(action, counter=total_counter*n_steps+step, without_rec=False)
                 #env.render("Compare", realtime=True)
 
                 # Save new information
