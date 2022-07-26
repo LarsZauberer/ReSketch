@@ -27,7 +27,7 @@ if __name__ == '__main__':
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
     env = ShapeDraw(canvas_size, patch_size, data.pro_data, max_action_strength=max_action_strength)
-    agent_args = {"gamma": 0.99, "epsilon": 1, "alpha": 0.001, "replace_target": 1000, 
+    agent_args = {"gamma": 0.6787, "epsilon": 0.4773, "alpha": 0.000584, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval", "max_action_strength": max_action_strength}
