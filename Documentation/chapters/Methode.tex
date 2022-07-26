@@ -1,0 +1,77 @@
+\section{Grundprogramm}
+Notwendigkeit einen Grundprogramms 
+-> für grundlegende Architektur. Alle erweiterungen darauf aufbaubar
+Möglichst flexibel gestalten. Alles in Parametern
+
+\subsection*{Doodle-SDQ als Basis}
+- Umgebung (drawline Funktion, Bilder nur als Bitmaps, Translation der Aktion, Render, Anfang in random Position)
+- Agent (Eingabe 28x28, Ausgabe 7x7, rareexploration, Illegale Aktionen gegen 0 gehen lassen, Relativer Reward)
+- Unterschiede (Keine Stroke Demonstration, kein Training auf Geschwindigkeit)
+
+\subsection*{Präparierung der Daten und Training}
+- Daten Präparierung (Datenset, auf Schwarz weiss , 1 0 begrenzen, abgrenzung Test und Train Phase)
+    Total dataset: 42000
+    Training: 36000
+    Testing: 6000
+- Trainingsdaten 
+    3 Epochen
+    4000 Episoden (heisst 4000 Bilder, die zufällig aus Datenset gewählt werden und vor jeder Epoche gemischt werden) -> 400 Bilder pro Nummer
+    64 Steps (Stift kann sich 64 mal bewegen)
+
+    Replay buffer speichert 200 Episoden (grösse 12800 Frames -> Steps)
+
+    -> Total Training: 780'800 Frames
+    Training in jedem 4. Schritt. mit Batchsize von 64
+
+
+\section{Evaluierung der Leistung}
+Um Erweiterungen der KI mit der Grundversion vergleichen zu können, müssen Kriterien aufgestellt werden. 
+Algorithmus braucht reward. Anhaltspunkt was gut ist
+
+\subsection*{Messbare Leistung}
+Messbare Leistungen können als Reward dienen. Objektive angaben über Verhalten von Agent
+
+- Pixelähnlichkeit
+- Geschwindigkeit (Wann Fertig oder Durchschnittsgeschwindigkeit)
+
+- Unterschied zwischen Reward, tatsächlicher Leistung
+  Leistung kann durch gesammelter Reward pro Episode gemessen werden. in Reward können verschiedene Faktoren kommen (also nicht nur Pixelähnlichkeit)
+  Fortschritt während Trainingsphase kann durch Akkumulierter Reward gemessen werden (Durchschnitt der letzten 12 Episoden Beispiel Grundprogramm)
+  Durch Akkumulierter Reward können Unterschiede in Leistung erfasst werden. Weil sich aber Reward zwischen Versionen ändert kann nicht als Objektiver Vergleich verwendet werden
+
+\subsection*{nicht Messbare Leistungen}
+Ziel: Eine KI. Ein Programm, das Menschen nachahmt. 
+Kann Menschen besser oder schlechter nachahmen -> Leistung
+Schwer messbar. Subjektiv. Auf Beobachtungen gestützt
+
+Wichtigstes Prinzip: Schwungvoll. -> Hohe Geschwindigkeit, wenige bis keine Abbrüche
+    - Implementierung von Physik. 
+    - Erkennbarkeit über Genauigkeit
+
+
+
+\section{Physikalische Umgebung}
+Art von Physik: Kinematik. Addierung von Geschwindigkeit 2 Dimensionale
+Kinematik. Stift bewegt sich nur auf Blatt -> einziges 3D Element ist hebung und
+senkung von Stift. Wie bis Anhin in 2 States geregelt. (Also kein Druck -> Entfernung von menschlichem Zeichnen)
+
+\subsection*{Training auf physikalische Umstände}
+Ausgabe in Form von Kraftvektoren in Kreis angeordnet. Kraftvektoren
+beeinflussen Geschwindigkeit des Agenten. Position in jedem Schritt wird über
+Geschwindigkeit bestimmt. Durchgehende Reibung wirkt auf Agenten
+-> Physik beruht ausnahmslos auf Dynamik und Kinematik. Vereinfachung durch Annahmen
+
+Geschwindigkeit Als Eingabe (-> Absolute Werte, oder verschiebung des Patch)
+Problem von zu hoher Geschwindigkeit (-> Lösung durch negative Belohnung)
+
+
+\section{Schrifterkennung als Kriterium}
+Möglichkeit einer neuen messbaren Leistung
+-> Annäherung an Menschliches Verhalten weil Erkennbarkeit > Genauigkeit
+
+
+\subsection*{Training auf bessere Erkennbarkeit}
+- Erkennung von MNIST Netz als Reward. 
+verschiedene Varianten (MNIST Training only, Pixelreward mit MNIST am Schluss, Pixelreward - MNIST reward Verlauf, MNIST zu wenigen Schritten)
+
+
