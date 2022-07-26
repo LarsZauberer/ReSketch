@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
                 if step % 4 == 0 and total_counter > episode_mem_size:
                     agent.learn()
-                    agent.epsilon = 0
+                    # agent.epsilon = 0
             
 
             # Learn Process visualization
