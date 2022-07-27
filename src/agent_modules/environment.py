@@ -32,12 +32,12 @@ class ShapeDraw(object):
         self.actions = [(0,0)]
         for i in range(8):
             angle = ma.pi/4*i
-            self.actions.append( (float('%.2f' % ma.cos(angle)) , float('%.2f' % ma.sin(angle))) )
+            self.actions.append( (float('%.2f' % (ma.cos(angle)*0.8)) , float('%.2f' % (ma.sin(angle)*0.8))) )
         for i in range(12):
             angle = ma.pi/6*i
-            self.actions.append( (float('%.2f' % ma.cos(angle)) , float('%.2f' % ma.sin(angle))) )
+            self.actions.append( (float('%.2f' % (ma.cos(angle)*1.2)) , float('%.2f' % (ma.sin(angle)*1.2))) )
 
-        #print(self.actions)
+        print(self.actions)
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
