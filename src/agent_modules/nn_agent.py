@@ -178,9 +178,12 @@ class Agent(object):
             action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
                 
         else:
-            # create batch of states (prediciton must be in batches)
-            # Create a batch containing only one real state (all zeros for the other states)
+            # update q_next after certain step
+            if self.counter % self.replace_target == 0:
+                # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
+                self.update_graph()
 
+            # create batch of states (prediciton must be in batches)
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
             """ for _ in range(self.batch_size-1):
@@ -212,10 +215,6 @@ class Agent(object):
         """
         learn the Training of The agent/network. Based on deep Q-learning
         """
-        # update q_next after certain step
-        if self.counter % self.replace_target == 0:
-            # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
-            self.update_graph()
 
         # randomly samples Memory.
         # chooses as many states from Memory as batch_size requires
@@ -281,8 +280,8 @@ class Agent(object):
         :rtype: bool
         """
 
-        """ if self.epsilon > 0:
-            return False """
+        if self.epsilon > 0:
+            return False
         # Is used when exploration is zero
         # If the ai is too much exploiting -> Force an exploration
         variance = 0
