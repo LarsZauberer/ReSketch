@@ -128,7 +128,7 @@ class Agent(object):
         self.reward_memory = np.zeros(self.mem_size)
         self.illegal_list_memory = np.zeros(illegal_list_shape)
 
-        self.recent_mem = 6
+        self.recent_mem = 10
         self.recent_actions = np.zeros(self.recent_mem)
 
     def store_transition(self, global_state: np.array, local_state: np.array, next_gloabal_state: np.array, next_local_state: np.array, action: int, reward: float, illegal_list : np.array):
@@ -183,6 +183,9 @@ class Agent(object):
                     
                 else: break
         else:
+            if self.counter % self.replace_target == 0:
+                # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
+                self.update_graph()
             # create batch of states (prediciton must be in batches)
             # Create a batch containing only one real state (all zeros for the other states)
 
@@ -214,10 +217,7 @@ class Agent(object):
         """
         learn the Training of The agent/network. Based on deep Q-learning
         """
-        # update q_next after certain step
-        if self.counter % self.replace_target == 0:
-            # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
-            self.update_graph()
+        
 
         # randomly samples Memory.
         # chooses as many states from Memory as batch_size requires
@@ -252,7 +252,6 @@ class Agent(object):
         for i, il_list in enumerate(illegal_list_batch):
             for j, item in enumerate(il_list):
                 if item == 1: #if illegal
-                    if q_target[i][j] > 0.1: print("yes")
                     q_target[i][j] = 0
 
         
@@ -261,7 +260,7 @@ class Agent(object):
         # Recalculate the q-value of the action taken in each state
 
         q_target[idx, action_batch] = reward_batch + \
-            self.gamma*np.max(q_next, axis=1)
+        self.gamma*np.max(q_next, axis=1)
 
      
 
@@ -289,6 +288,9 @@ class Agent(object):
         """
         # Is used when exploration is zero
         # If the ai is too much exploiting -> Force an exploration
+        if self.epsilon > 0:
+            return False
+
         variance = 0
         container = []
         for i in range(0, self.recent_mem):
