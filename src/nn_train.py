@@ -11,11 +11,11 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 5
     n_actions = 2*(patch_size**2)
-    episode_mem_size = 200
+    episode_mem_size = 700
     batch_size = 64
-    n_episodes = 1
+    n_episodes = 4000
     n_steps = 64
-    n_epochs = 1000
+    n_epochs = 3
 
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
@@ -25,19 +25,19 @@ if __name__ == '__main__':
     #load Data
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     data = AI_Data(path="src/data/train_ref_Data.json")
-    
-    data.pro_data = [np.reshape(data.ref_data[2][40], (28,28))]
-    #data.sample(n_episodes)
+    data.sample(n_episodes)
 
-    print(data.pro_data)
+
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
-    agent_args = {"gamma": 0.99, "epsilon": 0.1, "alpha": 0.0005, "replace_target": 5000, 
+    agent_args = {"gamma": 0.66, "epsilon": 0.2, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
     agent = Agent(**agent_args)
     
+    
+
     # Initializing architecture
     
     replay_fill = True
@@ -94,13 +94,11 @@ if __name__ == '__main__':
                 scores.append(score)
             
             
-            
-    
-        """ #save weights
+        #save weights
         agent.save_models()
-        learn_plot.save_plot() """
+        learn_plot.save_plot()
     
-    print(np.mean(learn_plot.averages[-20:]))
+    
 
 
 
