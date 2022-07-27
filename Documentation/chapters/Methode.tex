@@ -1,11 +1,34 @@
+\chapter{Methode}
+Die Methode, um die Fragestellung zu beantworten besteht aus zwei Teilen. Im
+ersten Teil werden die Kriterien gefunden, nach denen die Leistung des Programms
+evaluiert werden kann. Im zweiten Teil wird das Computerprogramm realisiert, das
+bezogen auf die Kriterien die gewünschte Leistung erbringt. Die Unterfragen, zum
+Beispiel wie ein solches Programm aussehen kann, laufen zwangsläufig in den
+Prozess mit ein. 
+
+Es gibt verschiedene Kriterien für die Leistung eines Computerprogramms, das
+Menschen beim Menschen beim Zeichnen einen Strichbildes oder eines Symbols
+nachahmt. Einige Kriterien sind untereinander kombinierbar, andere schliessen
+sich gegenseitig aus. So entstehen verschiedene Versionen des Programmes, deren
+Leistung auf verschiedenen Kriterien beruht.
+
+
 \section{Grundprogramm}
-Notwendigkeit einen Grundprogramms 
--> für grundlegende Architektur. Alle erweiterungen darauf aufbaubar
-Möglichst flexibel gestalten. Alles in Parametern
+Es ist Teil der Methode, ein Computerprogramm zu entwickeln, das bezogen auf ein
+Kriterium ein möglichst gutes Ergebnis erzielt. Reinforcement Learning
+Algortihmen stellen diese Funktion bereit. Auch wenn sich das Kriterium ändert,
+wonach sich das Computerprogramm richtet, kann der Reinforcement Learning
+Algorithmus dahinter grösstenteils gleich bleiben. Der passende Reinforcement
+Learning Algorithmus ist somit ein geeignetes Grundprogramm, worauf alle
+Erweiterungen stützen.
+
+Das Grundprogramm basiert auf dem Reinforcement Algorithmus aus dem Programm
+Doodle-SDQ von Tao Zhou et Al (2018). 
+
 
 \subsection*{Doodle-SDQ als Basis}
 - Umgebung (drawline Funktion, Bilder nur als Bitmaps, Translation der Aktion, Render, Anfang in random Position)
-- Agent (Eingabe 28x28, Ausgabe 7x7, rareexploration, Illegale Aktionen gegen 0 gehen lassen, Relativer Reward)
+- Agent (Eingabe 28x28, Ausgabe 7x7, rareexploration, Illegale Aktionen gegen 0 gehen lassen, (Relativer Reward = Kriterium zur Leistung der KI. prozentuale Übereinstimmung der Pixel. -> Genauer beschrieben im Kapitel Evaluierung der Leistung)
 - Unterschiede (Keine Stroke Demonstration, kein Training auf Geschwindigkeit)
 
 \subsection*{Präparierung der Daten und Training}
@@ -24,30 +47,30 @@ Möglichst flexibel gestalten. Alles in Parametern
     Training in jedem 4. Schritt. mit Batchsize von 64
 
 
+
 \section{Evaluierung der Leistung}
-Um Erweiterungen der KI mit der Grundversion vergleichen zu können, müssen Kriterien aufgestellt werden. 
-Algorithmus braucht reward. Anhaltspunkt was gut ist
-
-\subsection*{Messbare Leistung}
-Messbare Leistungen können als Reward dienen. Objektive angaben über Verhalten von Agent
-
-- Pixelähnlichkeit
-- Geschwindigkeit (Wann Fertig oder Durchschnittsgeschwindigkeit)
-
-- Unterschied zwischen Reward, tatsächlicher Leistung
-  Leistung kann durch gesammelter Reward pro Episode gemessen werden. in Reward können verschiedene Faktoren kommen (also nicht nur Pixelähnlichkeit)
-  Fortschritt während Trainingsphase kann durch Akkumulierter Reward gemessen werden (Durchschnitt der letzten 12 Episoden Beispiel Grundprogramm)
-  Durch Akkumulierter Reward können Unterschiede in Leistung erfasst werden. Weil sich aber Reward zwischen Versionen ändert kann nicht als Objektiver Vergleich verwendet werden
-
-\subsection*{nicht Messbare Leistungen}
-Ziel: Eine KI. Ein Programm, das Menschen nachahmt. 
-Kann Menschen besser oder schlechter nachahmen -> Leistung
-Schwer messbar. Subjektiv. Auf Beobachtungen gestützt
-
-Wichtigstes Prinzip: Schwungvoll. -> Hohe Geschwindigkeit, wenige bis keine Abbrüche
-    - Implementierung von Physik. 
-    - Erkennbarkeit über Genauigkeit
-
+    Um Erweiterungen der KI mit der Grundversion vergleichen zu können, müssen Kriterien aufgestellt werden. 
+    Algorithmus braucht reward. Anhaltspunkt was gut ist
+    
+    \subsection*{Messbare Leistung}
+    Messbare Leistungen können als Reward dienen. Objektive angaben über Verhalten von Agent
+    
+    - Pixelähnlichkeit
+    - Geschwindigkeit (Wann Fertig oder Durchschnittsgeschwindigkeit)
+    
+    - Unterschied zwischen Reward, tatsächlicher Leistung
+      Leistung kann durch gesammelter Reward pro Episode gemessen werden. in Reward können verschiedene Faktoren kommen (also nicht nur Pixelähnlichkeit)
+      Fortschritt während Trainingsphase kann durch Akkumulierter Reward gemessen werden (Durchschnitt der letzten 12 Episoden Beispiel Grundprogramm)
+      Durch Akkumulierter Reward können Unterschiede in Leistung erfasst werden. Weil sich aber Reward zwischen Versionen ändert kann nicht als Objektiver Vergleich verwendet werden
+    
+    \subsection*{nicht Messbare Leistungen}
+    Ziel: Eine KI. Ein Programm, das Menschen nachahmt. 
+    Kann Menschen besser oder schlechter nachahmen -> Leistung
+    Schwer messbar. Subjektiv. Auf Beobachtungen gestützt
+    
+    Wichtigstes Prinzip: Schwungvoll. -> Hohe Geschwindigkeit, wenige bis keine Abbrüche
+        - Implementierung von Physik. 
+        - Erkennbarkeit über Genauigkeit
 
 
 \section{Physikalische Umgebung}
