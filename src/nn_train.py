@@ -10,7 +10,7 @@ if __name__ == '__main__':
     # Hyper parameters
     canvas_size = 28
     patch_size = 5
-    episode_mem_size = 200
+    episode_mem_size = 698
     batch_size = 64
     n_episodes = 4000
     n_steps = 64
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
     env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength)
-    agent_args = {"gamma": 0.99, "epsilon": 0.1, "alpha": 0.001, "n_actions" : n_actions, "replace_target": 1000, 
+    agent_args = {"gamma": 0.668203818695378, "epsilon": 0.18627800588700177, "alpha": 0.0007625609229496337, "n_actions" : n_actions, "replace_target": 1973, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
