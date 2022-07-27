@@ -77,6 +77,24 @@ Doodle-SDQ von Tao Zhou et Al (2018).
 % Art von Physik: Kinematik. Addierung von Geschwindigkeit 2 Dimensionale
 % Kinematik. Stift bewegt sich nur auf Blatt -> einziges 3D Element ist hebung und
 % senkung von Stift. Wie bis Anhin in 2 States geregelt. (Also kein Druck -> Entfernung von menschlichem Zeichnen)
+Bei der physikalischen Umgebung für die Untersuchung handelt es sich um ein sehr
+simples inertial System. Also ein System in dem die Kinematik gilt. Das Ziel
+dieser Veränderung ist es die Anzahl möglicher Aktionen des Agenten zu
+reduzieren, wodurch es einfacher werden soll diese zu erlernen.
+
+Die Umgebung nimmt Kraftvektoren entgegen und berechnet darauf hin die neue
+Stiftposition auf der Zeichenebene. Der Kraftvektor wird gemäss der Gesetze der
+Kinematik zu der schon bestehenden Geschwindigkeit hinzugefügt
+($\frac{\vec{F}}{m}\cdot t=\vec{v}$). Pro Zeitschritt wird die Geschwindigkeit
+auch kleiner durch eine simulierte Reibung ($m\cdot g \cdot \mu = F_R$). Für die
+Position wird immer die Geschwindigkeit zu der jetzigen Position addiert. Somit
+wird als physikalische Zeit zwischen den Zeitschritten $t=1$ genommen.
+
+Wie aus den Formeln herauszulesen ist, wurde den dem Stift und auch der Umgebung
+physikalische Eigenschaften ($m$, $g$, $\mu$) gegeben, welche für ein optimales
+Ergebnis angepasst wurden.
+
+% TODO: Bleibt das noch so mit nur 2 States. Wird nicht vielleicht auch noch die z-Achse mehr eingebaut?
 
 \subsection*{Training auf physikalische Umstände}
 % Ausgabe in Form von Kraftvektoren in Kreis angeordnet. Kraftvektoren
@@ -86,6 +104,33 @@ Doodle-SDQ von Tao Zhou et Al (2018).
 
 % Geschwindigkeit Als Eingabe (-> Absolute Werte, oder verschiebung des Patch)
 % Problem von zu hoher Geschwindigkeit (-> Lösung durch negative Belohnung)
+Als Eingabe für die physikalische Umgebung, wurden Kraftvektoren verwendet, für
+die sich der Agent in seiner Aktion entscheidet. Da die Aktion nur ein einfacher
+Integer ist, hat jeder Kraftvektor einen eigenen Index bekommen. Es gibt
+insgesamt $4$ Richtungen in die der Agent sich bewegen kann. Der Stift wird
+somit immer in eine dieser Richtungen um die Einheit $1$ beschleunigt. Somit
+gibt es eigentlich $4$ einzigartige Aktionen. Allerdings soll der Agent sich
+auch entscheiden können gar nicht zu zeichnen oder stärker zu zeichnen, wodurch
+nochmals $4\cdot(\underbrace{1}_{\text{nicht zeichnen}} +
+\underbrace{s}_{\text{stärke des Zeichnens}})$ So sind die Möglichkeiten der
+Aktionen des Agenten viel stärker begrenzt als in der ursprünglichen Variante.
+
+Es stellte sich zu beginn des Training heraus, dass der Agent das Konzept der
+Geschwindigkeit noch nicht verstanden hat. Um dieses Problem zu lösen wurde die
+Geschwindigkeit als Kontext zur Observation hinzugefügt und somit als Eingabe
+des Netzes verwendet. Dies brachte bessere Ergebnisse, allerdings gelang es noch
+bessere Ergebnisse zu erziehlen, in dem man die Geschwindigkeit nicht roh als
+Zahlen mitgibt, sondern den lokalen Patch in die Richtung der Geschwindigkeit,
+also der nächsten Position des Agenten verschiebt.
+
+Ein weiteres Problem während dem Training war, dass der Agent viel zu hohe
+Geschwindigkeiten angenommen hat und somit oft aus der Zeichenebene verschwinden
+wollte. Dieses Problem wurde durch die Reward Function gelöst, sodass er bei
+solchem Verhalten bestraft wird.
+
+% TODO: Bin mir nicht mehr ganz sicher, ob all diese Angaben stimmen
+% TODO: Übersetzung Lokalen Patch nachschauen
+% TODO: War negativer Reward wirklich die Lösung?
 
 
 \section{Schrifterkennung als Kriterium}
