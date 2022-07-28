@@ -2,15 +2,14 @@
 Die Methode, um die Fragestellung zu beantworten besteht aus zwei Teilen. Im
 ersten Teil werden die Kriterien gefunden, nach denen die Leistung des Programms
 evaluiert werden kann. Im zweiten Teil wird das Computerprogramm realisiert, das
-bezogen auf die Kriterien die gewünschte Leistung erbringt. Die Unterfragen, zum
-Beispiel wie ein solches Programm aussehen kann, laufen zwangsläufig in den
+bezogen auf die Kriterien die gewünschte Leistung erbringt. Die Antworten auf die
+Unterfragen, zum Beispiel wie ein solches Programm aussehen kann, laufen in den
 Prozess mit ein. 
 
 Es gibt verschiedene Kriterien für die Leistung eines Computerprogramms, das
-Menschen beim Menschen beim Zeichnen einen Strichbildes oder eines Symbols
-nachahmt. Einige Kriterien sind untereinander kombinierbar, andere schliessen
-sich gegenseitig aus. So entstehen verschiedene Versionen des Programmes, deren
-Leistung auf verschiedenen Kriterien beruht.
+Menschen beim Zeichnen einer Zahl nachahmt. Einige Kriterien sind untereinander
+kombinierbar, andere schliessen sich gegenseitig aus. So entstehen verschiedene
+Versionen des Programmes, deren Leistung auf verschiedenen Kriterien beruht.
 
 
 \section{Grundprogramm}
@@ -23,15 +22,68 @@ Learning Algorithmus ist somit ein geeignetes Grundprogramm, worauf alle
 Erweiterungen stützen.
 
 Das Grundprogramm basiert auf dem Reinforcement Algorithmus aus dem Programm
-Doodle-SDQ von Tao Zhou et Al (2018). 
-
+Doodle-SDQ von Tao Zhou et Al (2018). Das Grundprogramm in dieser Arbeit
+übernimmt die Architektur, bezogen auf die Form der Eingabe, der Ausgabe und den
+versteckten Ebenen des Neuronalen Netz. 
 
 \subsection*{Doodle-SDQ als Basis}
-- Umgebung (drawline Funktion, Bilder nur als Bitmaps, Translation der Aktion, Render, Anfang in random Position)
-- Agent (Eingabe 28x28, Ausgabe 7x7, rareexploration, Illegale Aktionen gegen 0 gehen lassen, (Relativer Reward = Kriterium zur Leistung der KI. prozentuale Übereinstimmung der Pixel. -> Genauer beschrieben im Kapitel Evaluierung der Leistung)
-- Unterschiede (Keine Stroke Demonstration, kein Training auf Geschwindigkeit)
+Bei der Umgebung hantelt es sich, wie bei Doodle-SDQ, um eine Zeichenfläche,
+worauf sich der Agent frei bewegen kann. 
+
+Die Zahlen, die nachgezeichnet werden sollen, stammen aus dem MNIST Datenset und
+haben somit eine Grösse von 28x28 Pixeln. Die Fläche, worauf sich der Agent
+bewegen kann, hat somit auch eine Grösse von 28x28 Pixeln. die "globale" Eingabe
+in das Neuronale Netz ändert sich bis auf diese neue Grösse der Bilder nicht.
+
+die Bilder, wie auch die Zeichenfläche, haben die Datenstruktur einer Bitmap. Es
+handelt sich also um eine 28x28 Matrix, wobei jedes Element eine Null oder eine
+Eins ist. Eine Null repräsentiert einen schwarzen Pixel an dieser Stelle im Bild
+und eine Eins einen weissen Pixel.
+
+Die Position des Agenten hat die Datenstruktur einer Liste mit zwei Elementen,
+die die horizontalen und vertikalen Koordinaten auf der Zeichenfläche
+repräsentieren
+
+Die lokale Eingabe, also das nahe Umfeld um den Agenten schrumpft von 11x11
+Pixeln auf 5x5 Pixeln. Somit schrumpft gleichzeitig der Actionspace des Agenten
+von 2*11*11 = 242 Aktionen auf 2*5*5 50 Aktionen. Das bedeutet für den Agenten,
+dass er sich pro Schritt um maximal zwei Pixel von seiner Position pro Schritt
+bewegen kann. Diese bewegung kann der Agent wie in Doodle-SDQ entweder
+zeichnend oder nicht zeichnend ausführen.
+
+Falls der Agent die Aktion zeichnend ausführt, zieht das Programm einen Strich
+zwischen der alten und der neuen Position. Mit anderen Worten werden alle Pixel
+in der Zeichenfläche zwischen den beiden Positionen weiss gemacht. der Strich
+hat eine festgelegte Breite von 3 Pixeln.
+
+Am Anfang jeder Episode, also bei jeder neuen Zahl, die gezeichnet werden soll,
+startet der Agent in einer zufälligen Position im nicht zeichnenden Zustand.
+
+Aktionen des Agenten, die ihn über die vorgegebene Zeichenfläche hinaus
+positionieren würden, sind nicht zulässig. Diese Aktionen können vom Agenten
+nicht gewählt werden und ihr optimaler Q-Wert ist als 0 definiert. Das hat zur
+Folge, dass nach der Trainingsphase die allermeisten unzulässigen Aktionen einen
+tiefen Q-Wert haben. Das senkt die Wahrscheinlichkeit, dass der Agent versucht,
+eine unzulässige Aktion zu wählen.
+
+der Reward wird wie in Doodle-SDQ aus den neu übereinstimmenden Pixeln zwischen
+der Vorlage und der Zeichenfläche pro Schritt definiert. Der Reward besteht
+allerdings aus einer relativen, prozentualen Übereinstimmung der Pixel anstelle
+eines absoluten Rewards pro Pixel. Auf die Eigenschaften und
+die Unterschiede dieser beiden Reward-Funktionen wird im nächsten Abschnitt
+eingegangen (siehe Evaluierung).
+Anders als bei Doodle-SDQ bekommt der Agent keine negativen Rewards für langsame Bewegungen. 
+
+% Wird Rare-Exploration verwendet?  Wenn ja: Todo
+%- Umgebung (drawline Funktion, Bilder nur als Bitmaps, Translation der Aktion, Render, Anfang in random Position)
+%- Agent (Eingabe 28x28, Ausgabe 7x7, rareexploration, Illegale Aktionen gegen 0 gehen lassen, (Relativer Reward = Kriterium zur Leistung der KI. prozentuale Übereinstimmung der Pixel. -> Genauer beschrieben im Kapitel Evaluierung der Leistung)
+%- Unterschiede (Keine Stroke Demonstration, kein Training auf Geschwindigkeit)
 
 \subsection*{Präparierung der Daten und Training}
+Das in dieser Arbeit verwendete MNIST Datenset besteht aus 42000 Bildern von handgeschriebenen Zahlen. 
+
+
+
 - Daten Präparierung (Datenset, auf Schwarz weiss , 1 0 begrenzen, abgrenzung Test und Train Phase)
     Total dataset: 42000
     Training: 36000
@@ -55,7 +107,7 @@ Doodle-SDQ von Tao Zhou et Al (2018).
     \subsection*{Messbare Leistung}
     Messbare Leistungen können als Reward dienen. Objektive angaben über Verhalten von Agent
     
-    - Pixelähnlichkeit
+    - Pixelähnlichkeit (-> Im Grundprogramm verwendet)
     - Geschwindigkeit (Wann Fertig oder Durchschnittsgeschwindigkeit)
     
     - Unterschied zwischen Reward, tatsächlicher Leistung
@@ -67,6 +119,8 @@ Doodle-SDQ von Tao Zhou et Al (2018).
     Ziel: Eine KI. Ein Programm, das Menschen nachahmt. 
     Kann Menschen besser oder schlechter nachahmen -> Leistung
     Schwer messbar. Subjektiv. Auf Beobachtungen gestützt
+
+    (Probleme mit Grundprogramm?)
     
     Wichtigstes Prinzip: Schwungvoll. -> Hohe Geschwindigkeit, wenige bis keine Abbrüche
         - Implementierung von Physik. 
