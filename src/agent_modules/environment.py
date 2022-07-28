@@ -6,7 +6,7 @@ from agent_modules.physics import Physic_Engine
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, max_action_strength : int = 1):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, max_action_strength : int = 1, friction: float = 0.2, vel_1: float = 0.8, vel_2: float = 1.2):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
         self.max_action_strength = max_action_strength
@@ -22,7 +22,7 @@ class ShapeDraw(object):
         self.canvas_patch = np.zeros((self.p, self.p))
 
         # Physics
-        self.phy_settings = {"friction": 0.2, "action_scale": 1.0}
+        self.phy_settings = {"friction": friction, "action_scale": 1.0}
         self.phy = Physic_Engine(**self.phy_settings)
 
 
@@ -32,10 +32,10 @@ class ShapeDraw(object):
         self.actions = [(0,0)]
         for i in range(8):
             angle = ma.pi/4*i
-            self.actions.append( (float('%.2f' % (ma.cos(angle)*0.8)) , float('%.2f' % (ma.sin(angle)*0.8))) )
+            self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_1)) , float('%.2f' % (ma.sin(angle)*vel_1))) )
         for i in range(12):
             angle = ma.pi/6*i
-            self.actions.append( (float('%.2f' % (ma.cos(angle)*1.2)) , float('%.2f' % (ma.sin(angle)*1.2))) )
+            self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_2)) , float('%.2f' % (ma.sin(angle)*vel_2))) )
 
         print(self.actions)
 
