@@ -10,7 +10,7 @@ if __name__ == '__main__':
     # Hyper parameters
     canvas_size = 28
     patch_size = 5
-    episode_mem_size = 698
+    episode_mem_size = 603
     batch_size = 64
     n_episodes = 4000
     n_steps = 64
@@ -27,8 +27,8 @@ if __name__ == '__main__':
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
-    env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength)
-    agent_args = {"gamma": 0.66, "epsilon": 0.2, "alpha": 0.00075, "n_actions" : n_actions, "replace_target": 8000, 
+    env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength, friction=0.5069326469533084, vel_1=0.1370098025636264, vel_2=1.5509605321766515)
+    agent_args = {"gamma": 0.7156814785141222, "epsilon": 0.10224681711646642, "alpha": 0.0003739100350232336, "n_actions" : n_actions, "replace_target": 8000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}

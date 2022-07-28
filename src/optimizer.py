@@ -21,7 +21,7 @@ n_epochs = 1
 max_action_strength = 1
 
 
-def runner(gamma, epsilon, alpha, episode_mem_size, replace_target):
+def runner(gamma, epsilon, alpha, episode_mem_size, replace_target, friction, vel_1, vel_2):
     episode_mem_size = int(episode_mem_size)
     replace_target = int(replace_target)
 
@@ -33,7 +33,7 @@ def runner(gamma, epsilon, alpha, episode_mem_size, replace_target):
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
     env = ShapeDraw(canvas_size, patch_size, data.pro_data,
-                    max_action_strength=max_action_strength, n_actions=n_actions)
+                    max_action_strength=max_action_strength, n_actions=n_actions, friction=friction, vel_1=vel_1, vel_2=vel_2)
     agent_args = {"gamma": gamma, "epsilon": epsilon, "alpha": alpha, "replace_target": replace_target,
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims,
                   "mem_size": mem_size, "batch_size": batch_size,
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     # Parameter list to optimize
     parameters = {"gamma": (0.001, 0.99), "epsilon": (
         0.1, 1), "alpha": (0.0001, 0.001),
-        "episode_mem_size": (25, 1000), "replace_target": (50, 3000)}
+        "episode_mem_size": (200, 1000), "replace_target": (1000, 10000), "friction": (0.01, 0.6), "vel_1": (0.1, 1), "vel_2": (0.1, 2)}
 
     optimizer = BayesianOptimization(
         f=runner,
