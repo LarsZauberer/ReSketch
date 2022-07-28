@@ -66,8 +66,8 @@ class Test_NN():
                 agent.counter += 1
                 score += reward
 
-                if i % 12 == 0 and i > 0:
-                    self.envir.render("Compare", realtime=True)
+                """ if i % 12 == 0 and i > 0:
+                    self.envir.render("Compare", realtime=True) """
 
             
             
@@ -171,4 +171,4 @@ if __name__ == '__main__':
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
     test = Test_NN()
-    print(f'score: {test.test_from_loaded(kwargs)}')
+    print(f'score: {test.mnist_test_from_loaded(kwargs)}')
