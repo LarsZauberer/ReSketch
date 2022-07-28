@@ -6,7 +6,7 @@ from agent_modules.physics import Physic_Engine
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, max_action_strength : int = 1):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, max_action_strength : int = 2, friction: float = 0.2, vel_1: float = 0.8, vel_2: float = 1.2):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
         self.max_action_strength = max_action_strength
@@ -22,20 +22,20 @@ class ShapeDraw(object):
         self.canvas_patch = np.zeros((self.p, self.p))
 
         # Physics
-        self.phy_settings = {"friction": 0.2, "action_scale": 1.0}
+        self.phy_settings = {"friction": friction, "action_scale": 1.0}
         self.phy = Physic_Engine(**self.phy_settings)
 
 
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
-        self.n_actions = 42
+        self.n_actions = n_actions
         self.actions = [(0,0)]
         for i in range(8):
             angle = ma.pi/4*i
-            self.actions.append( (float('%.2f' % (ma.cos(angle)*0.8)) , float('%.2f' % (ma.sin(angle)*0.8))) )
+            self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_1)) , float('%.2f' % (ma.sin(angle)*vel_1))) )
         for i in range(12):
             angle = ma.pi/6*i
-            self.actions.append( (float('%.2f' % (ma.cos(angle)*1.2)) , float('%.2f' % (ma.sin(angle)*1.2))) )
+            self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_2)) , float('%.2f' % (ma.sin(angle)*vel_2))) )
 
         print(self.actions)
 
@@ -47,7 +47,7 @@ class ShapeDraw(object):
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
         self.set_agentPos([random.randint(1, self.s-2),
-                          random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
+                          random.randrange(1, self.s-2)], weight=1)  # Set a random start location for the agent (but with one pixel margin)
 
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
         
@@ -64,12 +64,12 @@ class ShapeDraw(object):
         :rtype: tuple
         """
         
-        x, y = self.translate_action(agent_action)
+        x, y, weight = self.translate_action(agent_action)
         action = self.phy.calc_new_pos(self.agentPos, [x, y], update_velocity=True)
 
         penalty = 0
         if self.move_isLegal(action):
-            self.set_agentPos(action)
+            self.set_agentPos(action, weight)
         else:
             # Give a penalty for an illegal move
             penalty = -0.05
@@ -85,7 +85,7 @@ class ShapeDraw(object):
 
     def illegal_actions(self, illegal_list : np.array):
         for action in range(self.n_actions):
-            x, y = self.translate_action(action)
+            x, y, _ = self.translate_action(action)
             act = self.phy.calc_new_pos(self.agentPos, [x, y], update_velocity = False)
             illegal_list[action] = int(not self.move_isLegal(act))
         
@@ -118,12 +118,13 @@ class ShapeDraw(object):
         :rtype: tuple
         """
         self.isDrawing = 1
-        if action >= int(self.n_actions/2):
-            action -= int(self.n_actions/2)
+        weight = int(action/(self.n_actions/self.max_action_strength))
+        action = action % int(self.n_actions/self.max_action_strength)
+        if weight == 0:
             self.isDrawing = 0
 
         x, y = self.actions[action]
-        return x, y
+        return x, y, weight
 
 
     def reward(self):
@@ -153,7 +154,7 @@ class ShapeDraw(object):
         return reward
 
 
-    def set_agentPos(self, pos: list):
+    def set_agentPos(self, pos: list, weight: int):
         """
         set_agentPos Sets the agent to a new position.
 
@@ -161,7 +162,7 @@ class ShapeDraw(object):
         :type pos: list
         """
         if self.isDrawing:
-            self.canvas = drawline(self.agentPos, pos, self.canvas)
+            self.canvas = drawline(self.agentPos, pos, self.canvas, weight=weight)
         self.agentPos = pos
         self.update_distmap()
         self.update_patch()
@@ -230,7 +231,7 @@ class ShapeDraw(object):
         self.isDrawing = 0
         self.phy.velocity = [.0, .0]
         self.set_agentPos((random.randint(1, self.s-2),
-                          random.randint(1, self.s-2)))
+                          random.randint(1, self.s-2)), weight = 1)
 
         
         # Reset the reward by rerunning it on an empty canvas
@@ -299,7 +300,7 @@ class ShapeDraw(object):
 
 
 # draws Line directly on bitmap to save convert
-def drawline(setpos, pos, canvas):
+def drawline(setpos, pos, canvas, weight):
     """
     drawline Draw a line on a specified canvas.
 
@@ -312,7 +313,7 @@ def drawline(setpos, pos, canvas):
     :return: The canvas with the line drawn
     :rtype: np.array
     """
-    weight = 1  # The weight of a stroke
+    weight = weight-1  # The weight of a stroke
     dx = pos[0] - setpos[0]  # delta x
     dy = pos[1] - setpos[1]  # delta y
     linePix = []  # Pixels of the line
