@@ -86,7 +86,7 @@ if __name__ == '__main__':
                     scores = []
                     print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
-                    env.render("Compare")
+                    #env.render("Compare")
                     learn_plot.update_plot(real_ep, avg_score)
                 else:
                     print(f"episode: {real_ep}, score: {score}")
