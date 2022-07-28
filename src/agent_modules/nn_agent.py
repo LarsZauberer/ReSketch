@@ -183,7 +183,7 @@ class Agent(object):
                     
                 else: break
         else:
-            if self.counter % self.replace_target == 0:
+            if self.counter % self.replace_target == 0 and self.counter > 0:
                 # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
                 self.update_graph()
             # create batch of states (prediciton must be in batches)
@@ -210,6 +210,7 @@ class Agent(object):
         # Only important for the rare_exploration
         action_ind = self.counter % self.recent_mem
         self.recent_actions[action_ind] = action
+
 
         return action
 
@@ -273,7 +274,7 @@ class Agent(object):
         
 
         # reduces Epsilon: Network relies less on exploration over time
-        if self.counter > self.mem_size and self.epsilon != 0:
+        if self.counter > self.mem_size and self.epsilon > 0:
             if self.epsilon > 0.05:
                 self.epsilon -= 1e-5  # go constant at 25000 steps
             elif self.epsilon <= 0.05:
@@ -288,7 +289,7 @@ class Agent(object):
         """
         # Is used when exploration is zero
         # If the ai is too much exploiting -> Force an exploration
-        if self.epsilon > 0:
+        if self.epsilon >= 0:
             return False
 
         variance = 0
