@@ -166,3 +166,11 @@ verschiedene Varianten (MNIST Training only, Pixelreward mit MNIST am Schluss, P
 \section{Hyperparameteroptimierung}
 \label{chap:Hyperparameter Optimierung}
 % Baysian Optimization. Hyperparameter Optimierung. Vlt. Geschwindigkeitsoptimierung des Algorithmus
+Zur Optimierung der Hyperparameter wird der Baysian Algorithmus verwendet. Es
+wird ein bereits implementierung in Python genutzt, um eine schnellere
+Ergebnisse zu erzielen. \cite{fernando_bayesian_2022}
+
+Als Blackboxfunktion wurde das Agent im Environment genommen. Dieser trainiert
+$4000$ Episoden und der Durchschnitt des Rewards der letzten 12 Episoden wird
+als Wert zur optimierung verwendet. Um eine bessere Vergleichbarkeit dieser
+Werte sicherzustellen, werden immer dieselben $4000$ Referenzbilder gezeigt.
