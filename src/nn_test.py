@@ -12,6 +12,8 @@ import keyboard
 import json
 import time
 
+from rich.progress import track
+
 
 class Test_NN():
     def __init__(self, n_test: int = 100, num_steps: int = 64):
@@ -19,7 +21,7 @@ class Test_NN():
         self.num_steps = num_steps
 
         canvas_size = 28
-        patch_size = 7
+        patch_size = 5
         self.n_actions = 2*patch_size**2
         self.test_data = []
         self.sorted_data = [] 
@@ -47,7 +49,7 @@ class Test_NN():
         self.data.shuffle()
         self.envir.referenceData = self.data.pro_data
         scores = []
-        for i in range(self.n_test):
+        for i in track(range(self.n_test), description="testing"):
             global_obs, local_obs = self.envir.reset()
             score = 0
 
@@ -56,7 +58,7 @@ class Test_NN():
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, counter=0)
 
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
@@ -64,15 +66,17 @@ class Test_NN():
                 agent.counter += 1
                 score += reward
 
-            if i % 12 == 0 and i > 0:
-                self.envir.render("Compare")
+                if i % 12 == 0 and i > 0:
+                    self.envir.render("Compare", realtime=True)
+
+            
             
             scores.append(score)
            
         avg_score = np.mean(scores)
 
         return avg_score
-    
+
 
     def test_from_loaded(self, agent_args: dict):
         """ 
@@ -100,20 +104,21 @@ class Test_NN():
         self.envir.referenceData = self.data.pro_data
         
         scores = 0
-        for i in range(self.n_test):
+        for i in track(range(self.n_test), description="testing"):
             global_obs, local_obs = self.envir.reset()
             
             for j in range(self.num_steps):
+                illegal_moves = np.zeros(self.n_actions)
+                illegal_moves = self.envir.illegal_actions(illegal_moves)
                 # Run the timestep
-                action = agent.choose_action(global_obs, local_obs)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, i*self.num_steps+j)
+                action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, counter=0, without_rec=True)
 
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
 
                 agent.counter += 1
-            
-
+                
             
 
             inp = np.array([self.envir.reference, self.envir.canvas])
@@ -151,8 +156,8 @@ class Test_NN():
 if __name__ == '__main__':  
     # Hyper parameters
     canvas_size = 28
-    patch_size = 7
-    episode_mem_size = 200
+    patch_size = 5
+    episode_mem_size = 700
     batch_size = 64
     num_steps = 64
     # further calculations
@@ -160,10 +165,10 @@ if __name__ == '__main__':
     loc_in_dims = (2, patch_size, patch_size)
     mem_size = episode_mem_size*num_steps
 
-    kwargs = {"gamma": 0.99, "epsilon": 0, "alpha": 0.005, "replace_target": 1000, 
-            "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
-            "mem_size": mem_size, "batch_size": batch_size, 
-             "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
+    kwargs = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
+                  "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
+                  "mem_size": mem_size, "batch_size": batch_size, 
+                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
     test = Test_NN()
-    print(f'score: {test.mnist_test_from_loaded(kwargs)}')
+    print(f'score: {test.test_from_loaded(kwargs)}')
