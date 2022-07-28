@@ -148,11 +148,13 @@ class ShapeDraw(object):
 
         rec_const_reward = 0
         if (counter+1) % 8 == 0 and counter > 12800 and not without_rec:
-            a, b = self.predict_mnist()
-            if a == b:
-                rec_const_reward = 0.125
-            else:
-                rec_const_reward = 0
+            if (1 - similarity) > 0.6:
+                #print("yes")
+                a, b = self.predict_mnist()
+                if a == b:
+                    rec_const_reward = 0.125
+                else:
+                    rec_const_reward = 0
         reward += rec_const_reward
 
 
