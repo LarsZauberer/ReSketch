@@ -132,25 +132,37 @@ Das in dieser Arbeit verwendete MNIST Datenset besteht aus 42000 Bildern von han
 % Kinematik. Stift bewegt sich nur auf Blatt -> einziges 3D Element ist hebung und
 % senkung von Stift. Wie bis Anhin in 2 States geregelt. (Also kein Druck -> Entfernung von menschlichem Zeichnen)
 Bei der physikalischen Umgebung für die Untersuchung handelt es sich um ein sehr
-simples inertial System. Also ein System in dem die Kinematik gilt. Das Ziel
-dieser Veränderung ist es die Anzahl möglicher Aktionen des Agenten zu
-reduzieren, wodurch es einfacher werden soll diese zu erlernen. Zusätzlich soll
-die simulierte Umgebung auch einer reellen Situation näher kommen und somit sich
-mehr an das menschliche Zeichnen annähern.
+simples inertial System. Also ein System in dem die Gesetze der Kinematik
+gelten. Das Ziel dieser Veränderung ist es die Anzahl möglicher Aktionen des
+Agenten zu reduzieren, wodurch es einfacher werden soll diese zu erlernen.
+Zusätzlich soll die simulierte Umgebung auch einer reellen Situation näher
+kommen und somit sich mehr an das menschliche Zeichnen annähern.
 
 Die Umgebung nimmt Kraftvektoren entgegen und berechnet darauf hin die neue
 Stiftposition auf der Zeichenebene. Der Kraftvektor wird gemäss der Gesetze der
-Kinematik zu der schon bestehenden Geschwindigkeit hinzugefügt
+Kinematik zu der schon bestehenden Geschwindigkeit hinzugefügt. Jeder
+Zeitschritt des Agenten repräsentiert in der Physik die vergangene Zeit $t=1$.
 ($\frac{\vec{F}}{m}\cdot t=\vec{v}$). Pro Zeitschritt wird die Geschwindigkeit
 auch kleiner durch eine simulierte Reibung ($m\cdot g \cdot \mu = F_R$). Für die
-Position wird immer die Geschwindigkeit zu der jetzigen Position addiert. Somit
-wird als physikalische Zeit zwischen den Zeitschritten $t=1$ genommen.
+Position wird immer die Geschwindigkeit zu der jetzigen Position addiert.
 
-Wie aus den Formeln herauszulesen ist, wurde den dem Stift und auch der Umgebung
-physikalische Eigenschaften ($m$, $g$, $\mu$) gegeben, welche für ein optimales
-Ergebnis angepasst wurden.
+Wie aus den Formeln herauszulesen ist, besitzt der Stift und auch die Umgebung
+physikalische Eigenschaften ($m$, $g$, $\mu$), welche für ein optimales Ergebnis
+später optimiert werden.
 
-% TODO: Bleibt das noch so mit nur 2 States. Wird nicht vielleicht auch noch die z-Achse mehr eingebaut?
+Der Agent hat in der Umgebung die Möglichkeit haben seinen Stift mit
+Kraftvektoren zu beschleunigen. Nicht nur eine Beschleunigung ist möglich,
+sondern das Gleiten mit der restlichen Geschwindigkeit ist für den Agenten
+möglich.
+
+Um das menschlichte Zeichnen noch näher zu bringen kann sich der Agent
+zusätzlich entscheiden, wie stark der Stift auf die Zeichenfläche drückt. Das
+bewirkt, dass um den Stift herum Pixel zusätzlich bemalt werden. Zu der Stärker
+kommt auch dazu, dass der Agent sich entscheiden kann, gar nicht auf das Papier
+zu drücken, sondern sich ganz vom Papier zu heben und nicht zu zeichnen.
+
+In der Realität müsste der Druck auch mit einer Beschleunigung gelöst werden,
+was zur Vereinfachung weggelassen wird.
 
 \subsection*{Training auf physikalische Umstände}
 % Ausgabe in Form von Kraftvektoren in Kreis angeordnet. Kraftvektoren
@@ -160,16 +172,14 @@ Ergebnis angepasst wurden.
 
 % Geschwindigkeit Als Eingabe (-> Absolute Werte, oder verschiebung des Patch)
 % Problem von zu hoher Geschwindigkeit (-> Lösung durch negative Belohnung)
-Als Eingabe für die physikalische Umgebung, wurden Kraftvektoren verwendet, für
-die sich der Agent in seiner Aktion entscheidet. Da die Aktion nur ein einfacher
-Integer ist, hat jeder Kraftvektor einen eigenen Index bekommen. Es gibt
-insgesamt $4$ Richtungen in die der Agent sich bewegen kann. Der Stift wird
-somit immer in eine dieser Richtungen um die Einheit $1$ beschleunigt. Somit
-gibt es eigentlich $4$ einzigartige Aktionen. Allerdings soll der Agent sich
-auch entscheiden können gar nicht zu zeichnen oder stärker zu zeichnen, wodurch
-nochmals $4\cdot(\underbrace{1}_{\text{nicht zeichnen}} +
-\underbrace{s}_{\text{stärke des Zeichnens}})$ So sind die Möglichkeiten der
-Aktionen des Agenten viel stärker begrenzt als in der ursprünglichen Variante.
+Da die Aktiondes Agenten nur ein einfacher Integer ist, hat jeder Kraftvektor
+einen eigenen Index bekommen. Es gibt insgesamt $20 + 1 (\text{gar nicht
+bewegen})$ Richtungen in die der Agent sich bewegen kann. Der Stift wird somit
+immer in eine dieser Richtungen, um den Betrag $1$ beschleunigt. Mit den
+Optionen des Drucks kommt die Formel für die Anzahl Aktionsmöglichkeiten heraus:
+$21\cdot(\underbrace{1}_{\text{nicht zeichnen}} + \underbrace{s}_{\text{maximale
+Stärke des Zeichnens}})$. So sind die Möglichkeiten der Aktionen des Agenten
+viel stärker begrenzt als in der ursprünglichen Variante.
 
 Es stellte sich zu beginn des Training heraus, dass der Agent das Konzept der
 Geschwindigkeit noch nicht verstanden hat. Um dieses Problem zu lösen wurde die
@@ -184,9 +194,17 @@ Geschwindigkeiten angenommen hat und somit oft aus der Zeichenebene verschwinden
 wollte. Dieses Problem wurde durch die Reward Function gelöst, sodass er bei
 solchem Verhalten bestraft wird.
 
-% TODO: Bin mir nicht mehr ganz sicher, ob all diese Angaben stimmen
 % TODO: Übersetzung Lokalen Patch nachschauen
 % TODO: War negativer Reward wirklich die Lösung?
+
+\subsection*{Parameteroptimizerung}
+Nach einigem Trainieren zeigt sich, dass der Agent am meisten Erfolg mit einer
+maximalen Zeichenstärke von $1$ hat. Zur Optimierung der physikalischen
+Parameter wird gleich, wie bei der Hyperparameteroptimierung (siehe % TODO: Ist das wird hier so gut gelöst?
+\nameref{chap:Hyperparameter Optimierung}) der Baysian Algorithmus verwendet um
+das bestmöglichste Ergebnis zu erzielen.
+
+% TODO: Ist das Überhaupt eine gute Idee, weil wir so die Aufgabenstellung des menschlichen Zeichnens verfremden?
 
 
 \section{Schrifterkennung als Kriterium}
@@ -199,5 +217,14 @@ Möglichkeit einer neuen messbaren Leistung
 verschiedene Varianten (MNIST Training only, Pixelreward mit MNIST am Schluss, Pixelreward - MNIST reward Verlauf, MNIST zu wenigen Schritten)
 
 
-\section{Optimierung}
+\section{Hyperparameteroptimierung}
+\label{chap:Hyperparameter Optimierung}
 % Baysian Optimization. Hyperparameter Optimierung. Vlt. Geschwindigkeitsoptimierung des Algorithmus
+Zur Optimierung der Hyperparameter wird der Baysian Algorithmus verwendet. Es
+wird ein bereits implementierung in Python genutzt, um eine schnellere
+Ergebnisse zu erzielen. \cite{fernando_bayesian_2022}
+
+Als Blackboxfunktion wurde das Agent im Environment genommen. Dieser trainiert
+$4000$ Episoden und der Durchschnitt des Rewards der letzten 12 Episoden wird
+als Wert zur optimierung verwendet. Um eine bessere Vergleichbarkeit dieser
+Werte sicherzustellen, werden immer dieselben $4000$ Referenzbilder gezeigt.
