@@ -35,7 +35,7 @@ class DeepQNetwork(object):
         # global convolution
         glob_in = Input(shape=self.global_input_dims,
                         batch_size=self.batch_size, name="global_input")
-        glob_conv1 = Conv2D(32, (8, 8), strides=3,  activation="relu", input_shape=self.global_input_dims,
+        glob_conv1 = Conv2D(32, (8, 8), strides=2,  activation="relu", input_shape=self.global_input_dims,
                             padding="same", name="glob_conv1", data_format='channels_first')(glob_in)
         glob_conv2 = Conv2D(64, (4, 4), strides=2, activation="relu", name="glob_conv2",
                             padding="same", data_format='channels_first')(glob_conv1)
