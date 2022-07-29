@@ -9,7 +9,7 @@ from time import sleep
 if __name__ == '__main__':
     # Hyper parameters
     canvas_size = 28
-    patch_size = 5
+    patch_size = 7
     n_actions = 2*(patch_size**2)
     episode_mem_size = 700
     batch_size = 64
