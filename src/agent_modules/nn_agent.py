@@ -245,11 +245,11 @@ class Agent(object):
         
 
         q_target = np.copy(q_eval)
-        """
+        
         for i, il_list in enumerate(illegal_list_batch):
             for j, item in enumerate(il_list):
                 if item == 1: #if illegal
-                    q_target[i][j] = 0 """
+                    q_target[i][j] = 0
 
         
 
