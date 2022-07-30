@@ -1,9 +1,69 @@
 \chapter{Resultate}
-Resultate werden in Testumgebung dargestellt 
-Trainingsverhalten irrelevant 
-(vielleicht nur während Methode trainingsplot zeigen)
+Bei dem Resultat der Methode handelt es sich um die Leistung der
+Computerprogramme bezogen auf die ausgewählten Kriterien (siehe chap evaluierung
+der Leistung). Mit den Computerprogrammen sind dabei die unterschiedlichen, auf
+dem Grundprogramm basierenden Versionen gemeint, die auf die verschiedenen
+Kriterien ausgelehnt sind. 
+Mit den Daten über die Leistung der Computerprogramme
+ist eine genauere Untersuchung der Fragestellung möglich.
 
-\section{Methode zur Darstellung}
+\section{Methode zur Auswertung}
+Die Leistung der Computerprogramme wird in einer Testumgebung ausgewertet. In
+dieser Testumgebung wird die Leistung eines trainierten Agenten überprüft. Die
+Testumgebung unterscheidet sich kaum von der Trainingsumgebung. Die einzigen
+Unterschiede sind, dass der Agent in keinem Fall mehr eine zufälligen Aktion
+trifft ($epsilon = 0$), und die Bilder, die als Vorlage dienen. In der
+Testumgebung werden dem Computerprogramm 1000 Bilder von handgeschriebenen
+Zahlen aus dem Testset übergeben. Das Testset besteht aus 6000 Bildern. Diese
+Bilder sind im Trainingsset nicht vertreten, was bedeutet, dass der Agent für
+ihn unbekannte Bilder von Zahlen nachzeichnen muss. Am Ende jeder Zeichnung
+werden die relevanten Kriterien Kriterien ausgewertet. Am Ende des Testes,
+sobald alle Zeichnungen fertig sind, wird für jedes Kriterium der Durchschnitt
+aus allen 1000 Zeichnungen berechnet. Diese Werte repräsentieren die Leistung
+des Computerprogrammes.
+
+\subsection*{Auszuwertende Programme und Kriterien}
+Eine Auswertung durch die Testumgebung ist nur für messbare Kriterien und
+teilweise messbare Kriterien möglich, weil diese durch einen berechenbaren
+Zahlenwert repräsentiert sind (siehe chap evaluierung). Am Ende jeder Zeichnung
+werden folgende Kriterien berechnet:
+\begin{itemize}
+    \item prozentuale Genauigkeit
+    \item Erkennbarkeit
+    \item Geschwindigkeit
+\end{itemize}
+Die prozentuale Genauigkeit ist eine Prozentangabe für den Anteil der
+getroffenen weissen Pixel zwischen der Vorlage und der fertigen Zeichnung. Die
+Erkennbarkeit ist durch eine Eins repräsentiert, wenn in der Zeichnung die
+korrekte Zahl von einer Schrifterkennungssoftware erkannt wird. Ansonsten ist
+die Erkennbarkeit durch eine Null repräsentiert. Der Durchschnitt aus diesem
+Kriterium jeder Zeichnung entspricht einer Angabe des Anteils der korrekt
+erkannten Zahlen. Dieser Anteil wird in Prozent angegeben. Die Geschwindigkeit
+ist durch die die Anzahl Schritte bis zur Fertigstellung definiert. Eine
+geringere Zahl entspricht hier einer besseren Leistung.
+
+Für folgende Versionen wird die Leistung in den drei Kriterien ausgewertet
+\begin{itemize}
+    \item Grundprogramm (Kriterium der prozentualen Genauigkeit)
+    \item 2D-Physik-Programm
+    \item 3D-Physik-Programm
+    \item Grundprogramm + Training auf Erkennbarkeit
+    \item 2D-Physikprogramm + Training auf Erkennbarkeit
+    \item 3D-Physikphysikprogram + Training auf Erkennbarkeit
+    \item Grundprogramm + Training auf Geschwindigkeit
+    \item 2D-Physikprogramm + Training auf Geschwindigkeit
+    \item 3D-Physikphysikprogram + Training auf Geschwindigkeit
+\end{itemize}
+
+
+
+
+
+
+
+
+Testumgebung. Die gleiche Umgebung wie bei dem Training des Agenten. 
+
 - Testumgebung
     - 6000 Test Bilder
     Gleiche Bedingungen wie am Ende des Trainings
@@ -11,16 +71,6 @@ Trainingsverhalten irrelevant
     - Zu jeder Version Daten aus Tests (Vergleichstabelle)
     - Zu jeder Version Beispielbilder
     - zu jeder Version ein gif
-
-\subsection*{Kriterien der Auswertung}
-Nur Objektive Kriterien (siehe Methode Evaluierung)
-    - relative Pixelähnlichkeit (Prozent)
-    - MNIST erkennung (Prozent)
-    
-    (vielleicht:
-      - Durchschnittliche Geschwindigkeit (Unterschied Base, Physik)
-      - Geschwindigkeit bis Endprodukt (z.B sobald 50 \% und MNIST erkennung)
-    )
 
     
 \subsection*{Was wird Ausgewertet}
