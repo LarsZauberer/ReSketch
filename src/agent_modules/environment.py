@@ -27,6 +27,8 @@ class ShapeDraw(object):
         # For each pixel, is an action option (location of that pixel)
         self.n_actions = self.p*self.p*2
 
+        self.step_counter = 0
+
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
         self.maxScore = 1 # Maximum Reward (changes with reference Image) = base Similarity between empty canvas and reference        
@@ -44,7 +46,7 @@ class ShapeDraw(object):
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
         self.rec_model.load_graph_weights()
         
-    def step(self, agent_action: int, counter : int, without_rec : bool = False):
+    def step(self, agent_action: int, rec_reward, rec_cons, rec_thres, without_rec : bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
@@ -62,23 +64,14 @@ class ShapeDraw(object):
         self.isDrawing = 1
         action = self.translate_action(agent_action)
 
-        """ # Penalty for being to slow
-        penalty = 0
-        if abs(x) < ownpos or abs(y) < ownpos:
-            penalty = -0.0005
-
-        # Draw if the move is legal
-        if self.move_isLegal(action):
-        else:
-            # Give a penalty for an illegal move
-            self.isDrawing = 0
-            penalty = -0.001 """
 
         self.set_agentPos(action)
 
+        self.step_counter += 1
+
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(counter, without_rec=without_rec) if self.isDrawing else 0.0
+        reward = self.reward(rec_reward, rec_cons, rec_thres, without_rec=without_rec) if self.isDrawing else 0.0
         """ reward += penalty """
 
         # Ending the timestep
@@ -122,7 +115,7 @@ class ShapeDraw(object):
         return action
 
 
-    def reward(self, counter, without_rec : bool = False):
+    def reward(self, rec_reward = 1, rec_cons = 1, rec_thres = 1,   without_rec : bool = False):
         """
         reward Calculate the reward based on gained similarity and length of step
 
@@ -147,12 +140,12 @@ class ShapeDraw(object):
             self.lastSim = similarity
 
         rec_const_reward = 0
-        if (counter+1) % 8 == 0 and counter > 12800 and not without_rec:
-            if (1 - similarity) > 0.6:
+        if self.step_counter % rec_cons == 0 and not without_rec:
+            if (1 - similarity) > rec_thres:
                 #print("yes")
                 a, b = self.predict_mnist()
                 if a == b:
-                    rec_const_reward = 0.125
+                    rec_const_reward = rec_reward
                 else:
                     rec_const_reward = 0
         reward += rec_const_reward
@@ -257,7 +250,7 @@ class ShapeDraw(object):
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward(counter=0, without_rec=True)
+        self.reward(without_rec=True)
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
