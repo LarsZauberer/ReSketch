@@ -16,7 +16,7 @@ canvas_size = 28
 patch_size = 7
 n_actions = 2*(patch_size**2)
 batch_size = 64
-n_episodes = 1000
+n_episodes = 2000
 n_steps = 64
 n_epochs = 1
 
@@ -34,23 +34,10 @@ data.shuffle()
 
 
 
-def runner(gamma):
-
-    epsilon = 0.2
-    alpha = 0.0005
-    replace_target = 4000 
-    episode_mem_size = 900
-
+def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, rec_reward, rec_cons, rec_thres):
     mem_size = int(episode_mem_size*n_steps)
     replace_target = int(replace_target)
-    
-
-
-
-    rec_reward = 0.2
-    rec_cons = 8
-    rec_thres = 0.8
-    
+    rec_cons = int(rec_cons)
 
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
@@ -102,7 +89,8 @@ def runner(gamma):
             
             if total_counter % 150 == 0: print(total_counter)
     
-            scores.append(1 - env.lastSim)
+            ref, canv = env.predict_mnist()
+            scores.append(1 if ref == canv else 0)
             
     
     print(f"score: {np.mean(scores[-50:])} g: {gamma}, ep: {epsilon}, alp: {alpha}, replace: {replace_target}, mem: {episode_mem_size}, rec_rew: {rec_reward}, rec_cons: {rec_cons}, rec_thres: {rec_thres} \n \n")
@@ -112,7 +100,10 @@ def runner(gamma):
 
 if __name__ == '__main__':
     # Parameter list to optimize
-    parameters = {"gamma": (0.01, 0.99)}
+    parameters = {"gamma": (0.01, 0.99), "epsilon": (
+        0.1, 1), "alpha": (0.0001, 0.001),
+        "episode_mem_size": (200, 1000), "replace_target": (1000, 10000), 
+        "rec_reward": (0.05, 1), "rec_cons": (1, 64), "rec_thres": (0, 0.8)}
 
     optimizer = BayesianOptimization(
         f=runner,
@@ -121,7 +112,7 @@ if __name__ == '__main__':
     )
 
     optimizer.maximize(
-        init_points=1,
+        init_points=5,
         n_iter=10
     )
 
