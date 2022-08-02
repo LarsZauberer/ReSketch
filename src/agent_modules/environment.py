@@ -46,7 +46,7 @@ class ShapeDraw(object):
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
         self.rec_model.load_graph_weights()
         
-    def step(self, agent_action: int, rec_reward, rec_cons, rec_thres, without_rec : bool = False):
+    def step(self, agent_action: int, decrementor, rec_reward, without_rec : bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
@@ -67,11 +67,11 @@ class ShapeDraw(object):
 
         self.set_agentPos(action)
 
-        self.step_counter += 1
+        if not without_rec: self.step_counter += 1
 
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(rec_reward, rec_cons, rec_thres, without_rec=without_rec) if self.isDrawing else 0.0
+        reward = self.reward(decrementor=decrementor, rec_reward=rec_reward, without_rec=without_rec) if self.isDrawing else 0.0
         """ reward += penalty """
 
         # Ending the timestep
@@ -115,7 +115,7 @@ class ShapeDraw(object):
         return action
 
 
-    def reward(self, rec_reward = 1, rec_cons = 1, rec_thres = 1,   without_rec : bool = False):
+    def reward(self, decrementor = 1000, rec_reward = 1,  without_rec : bool = False):
         """
         reward Calculate the reward based on gained similarity and length of step
 
@@ -127,11 +127,21 @@ class ShapeDraw(object):
         for i in range(self.s):
             for j in range(self.s):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
-                
         similarity /= self.maxScore
 
+
+
+        ep_counter = 1 + self.step_counter // 64
+
+        factor = 0.1
+        if ep_counter < decrementor-150:
+            factor = 1 - ep_counter/decrementor
+        elif without_rec:
+            factor = 1 
+        
+            
         # Only use the newly found similar pixels for the reward
-        reward = (self.lastSim - similarity) 
+        reward = (self.lastSim - similarity) * factor
         
         if self.maxScore == 1:
             self.maxScore = similarity
@@ -139,15 +149,14 @@ class ShapeDraw(object):
         else:
             self.lastSim = similarity
 
+    
         rec_const_reward = 0
-        if self.step_counter % rec_cons == 0 and not without_rec:
-            if (1 - similarity) > rec_thres:
-                #print("yes")
-                a, b = self.predict_mnist()
-                if a == b:
-                    rec_const_reward = rec_reward
-                else:
-                    rec_const_reward = 0
+        if self.step_counter % 8 == 0 and not without_rec:
+            a, b = self.predict_mnist()
+            if a == b:
+                rec_const_reward = rec_reward * (1 - factor)
+            else:
+                rec_const_reward = 0 
         reward += rec_const_reward
 
 
