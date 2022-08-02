@@ -1,4 +1,5 @@
 from dataclasses import replace
+from re import I
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.ai_data import AI_Data
@@ -7,6 +8,7 @@ import numpy as np
 import json
 from bayes_opt import BayesianOptimization
 from rich.progress import track
+import os
 
 
 
@@ -28,16 +30,21 @@ loc_in_dims = (2, patch_size, patch_size)
 #load Data
 learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
 data = AI_Data(path="src/data/train_ref_Data.json")
-data.sample(n_episodes)
-data.shuffle()
 
 
 
 
-def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, rec_reward, rec_cons, rec_thres):
+
+def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, n_ep, decrementor, rec_reward):
     mem_size = int(episode_mem_size*n_steps)
     replace_target = int(replace_target)
-    rec_cons = int(rec_cons)
+    decrementor = int(decrementor)
+
+    n_episodes = int(episode_mem_size + n_ep)
+
+    data.sample(n_episodes)
+    data.shuffle()
+    
 
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
@@ -46,6 +53,8 @@ def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, rec_reward, 
                 "mem_size": mem_size, "batch_size": batch_size, 
                 "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
     agent = Agent(**agent_args)
+
+
     
     # Initializing architecture
     
@@ -54,7 +63,7 @@ def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, rec_reward, 
     print("...filling Replay Buffer...")
 
  
-
+    print(episode_mem_size)
     total_counter = 0
     scores = []
     for epoch in range(n_epochs):
@@ -70,7 +79,7 @@ def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, rec_reward, 
                 illegal_moves = env.illegal_actions(illegal_moves)
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                next_gloabal_obs, next_local_obs, reward = env.step(action, rec_reward, rec_cons, rec_thres, without_rec=wo_rec)
+                next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=decrementor, rec_reward=rec_reward, without_rec=wo_rec)
                 #env.render("Compare", realtime=True)
 
                 # Save new information
@@ -87,13 +96,13 @@ def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, rec_reward, 
                     wo_rec = False
                     agent.learn()
             
-            if total_counter % 150 == 0: print(total_counter)
+            if total_counter % (int(n_episodes/10)) == 0: print(total_counter, " -- ", n_episodes)
     
             ref, canv = env.predict_mnist()
             scores.append(1 if ref == canv else 0)
             
     
-    print(f"score: {np.mean(scores[-50:])} g: {gamma}, ep: {epsilon}, alp: {alpha}, replace: {replace_target}, mem: {episode_mem_size}, rec_rew: {rec_reward}, rec_cons: {rec_cons}, rec_thres: {rec_thres} \n \n")
+    print(f"score: {np.mean(scores[-50:])} g: {gamma}, ep: {epsilon}, alp: {alpha}, replace: {replace_target}, mem: {int(episode_mem_size)}, episode: {int(n_episodes)}, decrementor: {decrementor} rec_rew: {rec_reward},  \n \n")
     return np.mean(scores[-50:] )
 
 
@@ -102,8 +111,7 @@ if __name__ == '__main__':
     # Parameter list to optimize
     parameters = {"gamma": (0.01, 0.99), "epsilon": (
         0.1, 1), "alpha": (0.0001, 0.001),
-        "episode_mem_size": (200, 1000), "replace_target": (1000, 10000), 
-        "rec_reward": (0.05, 1), "rec_cons": (1, 64), "rec_thres": (0, 0.8)}
+        "episode_mem_size": (200, 1000), "replace_target": (1000, 10000), "n_ep": (500, 2000), "decrementor": (400, 1800), "rec_reward": (0.05, 1)}
 
     optimizer = BayesianOptimization(
         f=runner,
@@ -116,4 +124,12 @@ if __name__ == '__main__':
         n_iter=10
     )
 
-    print(optimizer.max)
+    dic = optimizer.max
+
+    print(dic)
+
+    with open("src/opti.json", "w") as f:
+        json.dump(dic, f)
+
+
+    os.system("shutdown /s /t 30")
