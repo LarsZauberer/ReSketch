@@ -11,11 +11,11 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    episode_mem_size = 600
+    episode_mem_size = 200
     batch_size = 64
-    n_episodes = 4000
+    n_episodes = 1
     n_steps = 64
-    n_epochs = 3
+    n_epochs = 1200
 
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
@@ -25,12 +25,14 @@ if __name__ == '__main__':
     #load Data
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     data = AI_Data(path="src/data/train_ref_Data.json")
-    data.sample(n_episodes)
+    
+
+    data.pro_data = [np.reshape(data.ref_data[2][45], (28,28))]
 
 
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
-    agent_args = {"gamma": 0.66, "epsilon": 0.3, "alpha": 0.0003545815846602133, "replace_target": 4685, 
+    agent_args = {"gamma": 0.8, "epsilon": 0.2, "alpha": 0.0002545815846602133, "replace_target": 4685, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
@@ -47,6 +49,8 @@ if __name__ == '__main__':
 
     total_counter = 0
     scores = []
+    predicts = []
+    sims = []
     for epoch in range(n_epochs):
         data.shuffle()
         env.referenceData = data.pro_data
@@ -63,7 +67,7 @@ if __name__ == '__main__':
                 illegal_moves = env.illegal_actions(illegal_moves)
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                next_gloabal_obs, next_local_obs, reward = env.step(action,  decrementor=3000, rec_reward=0.2, without_rec=wo_rec)
+                next_gloabal_obs, next_local_obs, reward = env.step(action,  decrementor=1000, rec_reward=0.1, without_rec=wo_rec)
                 #env.render("Compare", realtime=True)
 
                 # Save new information
@@ -80,13 +84,22 @@ if __name__ == '__main__':
                     replay_fill = False #finish filling replay buffer
                     agent.learn()
 
+                
+
             # Learn Process visualization
             if total_counter > episode_mem_size:
                 real_ep = total_counter - episode_mem_size
+
+                
+
                 if real_ep % 12 == 0:
                     avg_score = np.mean(scores)
+                    avg_predicts = np.mean(predicts)
+                    avg_sims = np.mean(sims)
+                    predicts = []
+                    sims = []
                     scores = []
-                    print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
+                    print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, predictions: {'%.3f' % avg_predicts} sims: {'%.3f' % avg_sims} epsilon: {'%.3f' % agent.epsilon}")
 
                     #env.render("Compare")
                     learn_plot.update_plot(real_ep, avg_score)
@@ -94,11 +107,15 @@ if __name__ == '__main__':
                     print(f"episode: {real_ep}, score: {score}")
 
                 scores.append(score)
+                ref, canv = env.predict_mnist()
+                predicts.append(1 if ref == canv else 0)
+                sims.append(1-env.lastSim)
+
             
             
-        #save weights
+        """ #save weights
         agent.save_models()
-        learn_plot.save_plot()
+        learn_plot.save_plot() """
     
     
 

@@ -133,12 +133,17 @@ class ShapeDraw(object):
 
         ep_counter = 1 + self.step_counter // 64
 
-        factor = 0.1
-        if ep_counter < decrementor-150:
-            factor = 1 - ep_counter/decrementor
-        elif without_rec:
-            factor = 1 
         
+
+        factor = 0.2
+        if without_rec:
+            factor = 1 
+        else:
+            factor = 1 - ep_counter/decrementor
+        if factor < 0.1:
+            factor = 0.2
+        
+
             
         # Only use the newly found similar pixels for the reward
         reward = (self.lastSim - similarity) * factor
@@ -151,7 +156,7 @@ class ShapeDraw(object):
 
     
         rec_const_reward = 0
-        if self.step_counter % 8 == 0 and not without_rec:
+        if  1 - similarity > 0.2 and (not without_rec):
             a, b = self.predict_mnist()
             if a == b:
                 rec_const_reward = rec_reward * (1 - factor)
