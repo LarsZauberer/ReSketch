@@ -11,11 +11,11 @@ if __name__ == '__main__':
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    episode_mem_size = 200
+    episode_mem_size = 600
     batch_size = 64
-    n_episodes = 1
+    n_episodes = 4000
     n_steps = 64
-    n_epochs = 1200
+    n_epochs = 1
 
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
@@ -32,14 +32,11 @@ if __name__ == '__main__':
 
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
-    agent_args = {"gamma": 0.8, "epsilon": 0.2, "alpha": 0.0002545815846602133, "replace_target": 4685, 
+    agent_args = {"gamma": 0.8, "epsilon": 0.2, "alpha": 0.0004545815846602133, "replace_target": 4685, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
     agent = Agent(**agent_args)
-
-    
-    
     
 
     # Initializing architecture
@@ -67,7 +64,7 @@ if __name__ == '__main__':
                 illegal_moves = env.illegal_actions(illegal_moves)
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                next_gloabal_obs, next_local_obs, reward = env.step(action,  decrementor=1000, rec_reward=0.1, without_rec=wo_rec)
+                next_gloabal_obs, next_local_obs, reward = env.step(action,  decrementor=3400, rec_reward=0.1, without_rec=wo_rec)
                 #env.render("Compare", realtime=True)
 
                 # Save new information
@@ -113,9 +110,9 @@ if __name__ == '__main__':
 
             
             
-        """ #save weights
+        #save weights
         agent.save_models()
-        learn_plot.save_plot() """
+        learn_plot.save_plot()
     
     
 
