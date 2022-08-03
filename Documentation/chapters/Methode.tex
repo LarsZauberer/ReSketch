@@ -99,6 +99,7 @@ Die nächsten Kapitel behandeln jeweils eines dieser Kriterien in dieser Reihenf
 % TODO: Ich finde die Section zwar wichtig, ist aber denke ich eigentlich zu kurz um eine eigene Section sein zu können.
 
 \section{Grundprogramm}
+\label{chap:m_grundprogramm}
 Es ist Teil der Methode, ein Computerprogramm zu entwickeln, das bezogen auf ein
 Kriterium, ein möglichst gutes Ergebnis erzielt. Reinforcement Learning  % TODO: Komma nach Kriterium nicht sicher
 Algortihmen stellen diese Funktion bereit (siehe RL). Auch wenn sich das  % TODO: Ref setzen
@@ -328,20 +329,24 @@ Dieses Kriterium nähert qualitativ die Menschlichkeit der Zeichnung, im
 Vergleich zum Kriterium der prozentualen Genauigkeit, weiter an. Die Annäherung
 an menschliches Verhalten liegt dabei in der Annahme, dass für Menschen
 Erkennbarkeit wichtiger als Genauigkeit ist. Diese Annahme erklärt zum Beispiel
-unterschiede in der Handschrift von verschiedenen Menschen. Handgeschriebene
+Unterschiede in der Handschrift von verschiedenen Menschen. Handgeschriebene
 Zahlen sehen je nach Person verschieden aus, bleiben aber in den allermeisten
 Fällen für andere Personen erkennbar. So wäre es auch für das Computerprogramm
 profitabel, Erkennbarkeit der Genauigkeit vorzuziehen.
 
 Das Computerprogramm benötigt eine Funktion, um die Erkennbarkeit einer Zahl zu
 beurteilen. Diese Funktion ist durch Schrifterkennungssoftware, also eine
-weitere künstliche Intelligenz, zugänglich (siehe Theorie Schrifterkennung). Die
-in dieser Arbeit verwendete Schrifterkennungssoftware stammt von Vittorio Mazzia
-und Francesco Salvetti (Link) Die Schrifterkennungssoftware erreicht bei einem
-Test von 5000 Bildern aus den Trainingsdaten eine Genauigkeit von ......%
+weitere künstliche Intelligenz, zugänglich (siehe Theorie Schrifterkennung). Die  % TODO: Ref setzen
+in dieser Arbeit verwendete Schrifterkennungssoftware stammt von Mazzia,
+Vittorio und Salvetti, Francesco und Chiaberge, Marcello
+\cite{mazzia_salvetti_efficient-capsnet_2021} Die Schrifterkennungssoftware
+erreicht bei einem Test von 5000 Bildern aus den Trainingsdaten eine Genauigkeit
+von ......\%
+% TODO: Prozent berechnen und hinzufügen
 
-Eine Zahl gilt nur als erkannt, wenn das zugehörige Neuron einen Wert von über 0.9
+Eine Zahl gilt nur als erkannt, wenn das zugehörige Neuron einen Wert von über $0.9$
 hat. Das entspricht einer hohen Wahrscheinlichkeit zur korrekten Beurteilung. 
+% TODO: Evt. Veränderung des Wertes
 
 \subsection{Training auf Erkennbarkeit}
 Mit der Schrifterkennungssoftware ist die Erkennbarkeit der Zeichnungen für jede
@@ -357,6 +362,7 @@ der Zeichnung gleich ist, erhält der Agent einen Reward von $0.1$. In diesem
 Zustand funktioniert die Reward-Funktion nicht. Das heisst, der Agent kann den
 akkumulierten Reward nicht vergrössern. Für dieses Problem gibt es mindestens
 zwei Gründe.
+% TODO: Sollen nicht die Gründe in die Diskussion
 
 Der erste Grund liegt in der Einschätzung der Schrifterkennungssoftware, die
 teilweise für einen menschlichen Betrachter Fragwürdig ist. Zum Beispiel schätzt
@@ -367,7 +373,8 @@ Zeichenfläche erhält. Das stört das weitere Lernverhalten, indem es
 wahrscheinlicher wird, dass der Agent nicht mehr zeichnet. Die verwendete Lösung
 ist, die Schrifterkennungssoftware erst ab einer gewissen prozentualen
 Genauigkeit einzusetzen. So löst die Schrifterkennungssoftware erst Rewards aus,
-wenn die prozentuale Genauigkeit der Zeichnung mehr als 20\% beträgt. 
+wenn die prozentuale Genauigkeit der Zeichnung mehr als 20\% beträgt.
+% TODO: Ist das Problem nicht auch ein bisschen durch die 0.9 Prozenzt Sicherheit gelöst?
 
 Der zweite Grund liegt in einer zu hohen Abhängigkeit auf den Zufall. Damit die
 Schrifterkennungssoftware einen Reward auslösen kann, muss der Agent eine gut
@@ -375,10 +382,10 @@ erkennbare Zahl zeichnen. Diese Zeichnung muss durch Zufall entstehen, weil der
 Agent zuvor ohne einen Reward nicht besser wird. Dieses Problem wird ebenfalls
 durch eine Implementierung des Kriteriums der prozentualen Genauigkeit gelöst.
 Dieses Kriterium ermöglicht in der Reward-Funktion, wie im Grundprogramm (siehe
-Grundprogramm), einen positiven Reward selbst für kleine Verbesserungen. Dieser
-Reward ist vor allem am Anfang des Trainings wichtig. Deswegen nimmt der Reward
-über das ganze Training hinweg linear ab, während der Reward für eine richtig
-erkannte Zahl linear zunimmt.
+\nameref{chap:m_grundprogramm}), einen positiven Reward selbst für kleine
+Verbesserungen. Dieser Reward ist vor allem am Anfang des Trainings wichtig.
+Deswegen nimmt der Reward über das ganze Training hinweg linear ab, während der
+Reward für eine richtig erkannte Zahl linear zunimmt.
 
 
 \section{Hyperparameteroptimierung}
