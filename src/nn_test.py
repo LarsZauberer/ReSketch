@@ -106,31 +106,30 @@ class Test_NN():
         for i in track(range(self.n_test), description="testing"):
             global_obs, local_obs = self.envir.reset()
             
-            for j in range(self.num_steps):
+            for step in range(n_steps):
+                # Run the timestep
                 illegal_moves = np.zeros(self.n_actions)
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
 
+                action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=False)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action,  decrementor=3400, rec_reward=0.1, without_rec=True)
+                #env.render("Compare", realtime=True)
                 
-                # Run the timestep
-                action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, decrementor=1, rec_reward = 0, without_rec=True)
-
-                if i % 12 == 0 and i > 0:
-                    self.envir.render("Compare", realtime=True)
-
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
+               
 
                 agent.counter += 1
                 
-            
 
             inp = np.array([self.envir.reference, self.envir.canvas])
             out = self.mnist_model.predict(inp)
             ref = np.argmax(out[0][0])
             canv = np.argmax(out[0][1])
+            if out[0][1][canv] < 0.9:
+                canv = -1
 
-            scores += int(ref == canv) 
+            scores += 1 if ref == canv else 0
 
         return scores/self.n_test
         
@@ -161,15 +160,19 @@ if __name__ == '__main__':
     # Hyper parameters
     canvas_size = 28
     patch_size = 7
-    episode_mem_size = 700
+    n_actions = 2*(patch_size**2)
+    episode_mem_size = 600
     batch_size = 64
-    num_steps = 64
+    n_episodes = 4000
+    n_steps = 64
+    n_epochs = 2
+
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
     loc_in_dims = (2, patch_size, patch_size)
-    mem_size = episode_mem_size*num_steps
+    mem_size = episode_mem_size*n_steps
 
-    kwargs = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
+    kwargs = {"gamma": 0.8, "epsilon": 0.05, "alpha": 0.0002545815846602133, "replace_target": 4685, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
