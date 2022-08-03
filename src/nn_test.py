@@ -66,10 +66,6 @@ class Test_NN():
                 agent.counter += 1
                 score += reward
 
-                
-
-            
-            
             scores.append(score)
            
         avg_score = np.mean(scores)
@@ -106,13 +102,13 @@ class Test_NN():
         for i in track(range(self.n_test), description="testing"):
             global_obs, local_obs = self.envir.reset()
             
-            for step in range(n_steps):
+            for step in range(self.num_steps):
                 # Run the timestep
                 illegal_moves = np.zeros(self.n_actions)
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=False)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action,  decrementor=3400, rec_reward=0.1, without_rec=True)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action,  decrementor=1, rec_reward=0.1, without_rec=True)
                 #env.render("Compare", realtime=True)
                 
                 global_obs = next_gloabal_obs
@@ -120,17 +116,12 @@ class Test_NN():
                
 
                 agent.counter += 1
-                
 
-            inp = np.array([self.envir.reference, self.envir.canvas])
-            out = self.mnist_model.predict(inp)
-            ref = np.argmax(out[0][0])
-            canv = np.argmax(out[0][1])
-            if out[0][1][canv] < 0.9:
-                canv = -1
-
+            
+            ref, canv = self.envir.predict_mnist()
             scores += 1 if ref == canv else 0
-
+                
+           
         return scores/self.n_test
         
 
