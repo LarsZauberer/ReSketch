@@ -172,11 +172,6 @@ Rewards für langsame Bewegungen.
 Alle Aspekte des Grundprogrammes sind leicht veränderbar, um es für
 Erweiterungen flexibel zu halten.
 
-% Wird Rare-Exploration verwendet?  Wenn ja: Todo
-%- Umgebung (drawline Funktion, Bilder nur als Bitmaps, Translation der Aktion, Render, Anfang in random Position)
-%- Agent (Eingabe 28x28, Ausgabe 7x7, rareexploration, Illegale Aktionen gegen 0 gehen lassen, (Relativer Reward = Kriterium zur Leistung der KI. prozentuale Übereinstimmung der Pixel. -> Genauer beschrieben im Kapitel Evaluierung der Leistung)
-%- Unterschiede (Keine Stroke Demonstration, kein Training auf Geschwindigkeit)
-
 \subsection*{Präparierung der Daten und Training}
 Das in dieser Arbeit verwendete MNIST Datenset besteht aus 42000 Bildern von
 handgeschriebenen Zahlen zwischen Null und Neun. Die Bilder im Datenset sind als
@@ -198,6 +193,8 @@ Basis von 3*4000*64 = 780'000 Schritten. Der Replay Buffer speichert die
 Schritte von 700 Episoden. Somit speichert er 700*64 = ... Schritte. Das
 Training (des Neuronalen Netz) findet in jedem vierten Schritt statt mit einem
 Batch von 64 zufällig gewählten Schritten aus dem replay buffer. 
+
+
 
 
 
@@ -301,14 +298,65 @@ das bestmöglichste Ergebnis zu erzielen.
 % TODO: Ist das Überhaupt eine gute Idee, weil wir so die Aufgabenstellung des menschlichen Zeichnens verfremden?
 
 
+
+
 \section{Schrifterkennung als Kriterium}
-Möglichkeit einer neuen messbaren Leistung
--> Annäherung an Menschliches Verhalten weil Erkennbarkeit > Genauigkeit
+Dieses Kapitel behandelt das Kriterium der Erkennbarkeit der gezeichneten Zahl.
+Dieses Kriterium nähert qualitativ die Menschlichkeit der Zeichnung, im
+Vergleich zum Kriterium der prozentualen Genauigkeit, weiter an. Die Annäherung
+an menschliches Verhalten liegt dabei in der Annahme, dass für Menschen
+Erkennbarkeit wichtiger als Genauigkeit ist. Diese Annahme erklärt zum Beispiel
+unterschiede in der Handschrift von verschiedenen Menschen. Handgeschriebene
+Zahlen sehen je nach Person verschieden aus, bleiben aber in den allermeisten
+Fällen für andere Personen erkennbar. So wäre es auch für das Computerprogramm
+profitabel, Erkennbarkeit der Genauigkeit vorzuziehen.
 
+Das Computerprogramm benötigt eine Funktion, um die Erkennbarkeit einer Zahl zu
+beurteilen. Diese Funktion ist durch Schrifterkennungssoftware, also eine
+weitere künstliche Intelligenz, zugänglich (siehe Theorie Schrifterkennung). Die
+in dieser Arbeit verwendete Schrifterkennungssoftware stammt von Vittorio Mazzia
+und Francesco Salvetti (Link) Die Schrifterkennungssoftware erreicht bei einem
+Test von 5000 Bildern aus den Trainingsdaten eine Genauigkeit von ......%
 
-\subsection*{Training auf bessere Erkennbarkeit}
-- Erkennung von MNIST Netz als Reward. 
-verschiedene Varianten (MNIST Training only, Pixelreward mit MNIST am Schluss, Pixelreward - MNIST reward Verlauf, MNIST zu wenigen Schritten)
+Eine Zahl gilt nur als erkannt, wenn das zugehörige Neuron einen Wert von über 0.9
+hat. Das entspricht einer hohen Wahrscheinlichkeit zur korrekten Beurteilung. 
+
+\subsection{Training auf Erkennbarkeit}
+Mit der Schrifterkennungssoftware ist die Erkennbarkeit der Zeichnungen für jede
+Version des Computerprogramms bestimmbar. Das Computerprogramm, beziehungsweise
+der Reinforcement Learning Algorithmus, kann aber auch spezifisch auf dieses
+Kriterium trainiert werden. 
+
+Um das Computerprogramm auf Erkennbarkeit zu trainieren, beinhaltet die
+Reward-Funktion eine Implementierung der Schrifterkennungssoftware. Die
+Schrifterkennungssoftware beurteilt in jedem Schritt die erkannte Zahl in der
+Vorlage und der aktuellen Zeichnung. Wenn die erkannte Zahl in der Vorlage und
+der Zeichnung gleich ist, erhält der Agent einen Reward von $0.1$. In diesem
+Zustand funktioniert die Reward-Funktion nicht. Das heisst, der Agent kann den
+akkumulierten Reward nicht vergrössern. Für dieses Problem gibt es mindestens
+zwei Gründe.
+
+Der erste Grund liegt in der Einschätzung der Schrifterkennungssoftware, die
+teilweise für einen menschlichen Betrachter Fragwürdig ist. Zum Beispiel schätzt
+die Schrifterkennungssoftware eine leere Zeichenfläche mit einer hohen
+Wahrscheinlichkeit als eine Eins ein. Das ist in diesem Fall ein Problem, weil
+dadurch der Agent einen positiven Reward (eine Belohnung) für eine leere
+Zeichenfläche erhält. Das stört das weitere Lernverhalten, indem es
+wahrscheinlicher wird, dass der Agent nicht mehr zeichnet. Die verwendete Lösung
+ist, die Schrifterkennungssoftware erst ab einer gewissen prozentualen
+Genauigkeit einzusetzen. So löst die Schrifterkennungssoftware erst Rewards aus,
+wenn die prozentuale Genauigkeit der Zeichnung mehr als 20\% beträgt. 
+
+Der zweite Grund liegt in einer zu hohen Abhängigkeit auf den Zufall. Damit die
+Schrifterkennungssoftware einen Reward auslösen kann, muss der Agent eine gut
+erkennbare Zahl zeichnen. Diese Zeichnung muss durch Zufall entstehen, weil der
+Agent zuvor ohne einen Reward nicht besser wird. Dieses Problem wird ebenfalls
+durch eine Implementierung des Kriteriums der prozentualen Genauigkeit gelöst.
+Dieses Kriterium ermöglicht in der Reward-Funktion, wie im Grundprogramm (siehe
+Grundprogramm), einen positiven Reward selbst für kleine Verbesserungen. Dieser
+Reward ist vor allem am Anfang des Trainings wichtig. Deswegen nimmt der Reward
+über das ganze Training hinweg linear ab, während der Reward für eine richtig
+erkannte Zahl linear zunimmt.
 
 
 \section{Hyperparameteroptimierung}
