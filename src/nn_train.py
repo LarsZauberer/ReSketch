@@ -25,9 +25,10 @@ if __name__ == '__main__':
     #load Data
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     data = AI_Data(path="src/data/train_ref_Data.json")
+    data.sample(n_episodes)
     
 
-    data.pro_data = [np.reshape(data.ref_data[2][45], (28,28))]
+   
 
 
 

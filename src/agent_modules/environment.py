@@ -46,7 +46,7 @@ class ShapeDraw(object):
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
         self.rec_model.load_graph_weights()
         
-    def step(self, agent_action: int, decrementor, rec_reward, without_rec : bool = False):
+    def step(self, agent_action: int, decrementor : int, rec_reward : float, without_rec : bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
