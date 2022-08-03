@@ -1,5 +1,5 @@
 \chapter{Methode}
-Die Methode, um die Fragestellung zu beantworten besteht aus zwei Teilen. Im
+Die Methode, um die Fragestellung zu beantworten, besteht aus zwei Teilen. Im
 ersten Teil werden die Kriterien gefunden, nach denen die Leistung des Programms
 evaluiert werden kann. Im zweiten Teil wird das Computerprogramm realisiert, das
 bezogen auf die Kriterien die gewünschte Leistung erbringt. Die Antworten auf
@@ -7,7 +7,7 @@ die Unterfragen, zum Beispiel wie ein solches Programm aussehen kann, laufen in
 den Prozess mit ein. 
 
 Es gibt verschiedene Kriterien für die Leistung eines Computerprogramms, das
-Menschen beim Zeichnen einer Zahl nachahmt. Einige Kriterien sind untereinander
+Menschen beim Zeichnen einer Zahl nachahmt. Einige Kriterien sind untereinander  % TODO: Zahl evt. ausbessern
 kombinierbar, andere schliessen sich gegenseitig aus. So entstehen verschiedene
 Versionen des Programmes, deren Leistung auf verschiedenen Kriterien beruht.
 
@@ -26,22 +26,22 @@ berechenbare Zahlenwerte definiert und stützen auf Daten, die direkt aus dem
 Computerprogramm hervorgehen. Aus diesen Gründen eignen sich messbare Kriterien
 als Reward-Funktionen für einen Reinforcement Learning Algorithmus. Eine
 Reward-Funktion berechnet allerdings nur den Unterschied im Wert des Kriteriums
-zwischen zwei Schritten anstelle des eigentlichen Wertes (siehe Th RL)
+zwischen zwei Schritten anstelle des eigentlichen Wertes (siehe Th RL)  % TODO: Ref setzen
 
 Ein Beispiel für ein messbares Kriterium ist die \emph{Genauigkeit} der
-Zeichnung. Spezifischer ist damit die Die Anzahl sich unterscheidender Pixel
+Zeichnung. Spezifischer ist damit die Anzahl sich unterscheidender Pixel
 zwischen der Vorlage und der Zeichnung gemeint. Es wird explizit nicht die
 Anzahl der übereinstimmenden Pixel bestimmt, sondern der sich unterscheidenden.
 Das bedeutet, dass ein tieferer Wert dieses Kriteriums einer besseren Leistung
 entspricht. Der Vorteil davon liegt darin, dass die Pixel, die bereits zwischen
 einer leeren Zeichenfläche und der Vorlage übereinstimmen, nicht mitgezählt
 werden. Die Reward-Funktion des Reinforcement Learning Algorithmus in Doodle-SDQ
-(siehe Doodle-SDQ) basiert auf diesem Kriterium.
+(siehe Doodle-SDQ) basiert auf diesem Kriterium.  % TODO: Ref setzen
 \emph{Die prozentuale Genauigkeit} ist ein weiteres messbares Kriterium, das auf
 dem letzten Kriterium basiert. Der Unterschied ist, dass der Wert des Kriterium
 nicht durch eine Anzahl Pixel bestimmt wird, sondern durch den prozentualen
 Anteil der richtigen Pixel in der Zeichnung zur Vorlage. Dieses Kriterium wird
-im nächsten Kapitel (siehe Grundprogramm) genauer behandelt.
+im nächsten Kapitel (siehe Grundprogramm) genauer behandelt.  % TODO: Ref setzen
 
 
 \subsection*{Nicht messbare Kriterien}
@@ -69,7 +69,7 @@ Annäherungen an die Menschlichkeit möglich. Einige mögliche Annäherungen sin
 jedoch teilweise messbar. Mit teilweise messbar ist hier gemeint, dass die
 Kriterien durch einen Zahlenwert repräsentiert werden können, aber zuerst
 subjektiv definiert werden müssen. Mit dem Zahlenwert in der Reward-Funktion
-kann der Algorithmus auf diese Kriterien trainiert werden 
+kann der Algorithmus auf diese Kriterien trainiert werden.
 
 Ein Beispiel ist die \emph{Erkennbarkeit} der Zeichnung. Entweder ist die
 richtige Zahl in der Zeichnung erkennbar oder nicht. Diese möglichen Ausgänge
@@ -78,11 +78,11 @@ muss jedoch definiert sein, wann die Zahl erkennbar ist.
 Ein weiteres Beispiel ist die \emph{Geschwindigkeit} des Zeichnens, oder
 spezifischer die Anzahl Schritte bis zur Fertigstellung der Zeichnung. Diese
 Zahl ist messbar. Für dieses Kriterium muss jedoch definiert sein, wann die
-Zeichnung fertig ist. 
+Zeichnung fertig ist.
 
 Es scheint so, dass für diese Kriterien eine menschliche Beurteilung nötig ist.
 Als Ausblick: Dieser Umstand ist in beiden Fällen durch eine zweite
-künstliche Intelligenz, die die menschliche Beurteilung nachahmt, umgehbar
+künstliche Intelligenz, die die menschliche Beurteilung nachahmt, umgehbar.
 
 \subsection*{Wahl der Kriterien}
 Folgende Kriterien werden im Verlauf der Methode weiterverfolgt:
@@ -95,6 +95,8 @@ Folgende Kriterien werden im Verlauf der Methode weiterverfolgt:
 \end{itemize}
 
 Die nächsten Kapitel behandeln jeweils eines dieser Kriterien in dieser Reihenfolge.
+
+% TODO: Ich finde die Section zwar wichtig, ist aber denke ich eigentlich zu kurz um eine eigene Section sein zu können.
 
 \section{Grundprogramm}
 Es ist Teil der Methode, ein Computerprogramm zu entwickeln, das bezogen auf ein
