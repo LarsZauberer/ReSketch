@@ -100,106 +100,123 @@ Die nächsten Kapitel behandeln jeweils eines dieser Kriterien in dieser Reihenf
 
 \section{Grundprogramm}
 Es ist Teil der Methode, ein Computerprogramm zu entwickeln, das bezogen auf ein
-Kriterium ein möglichst gutes Ergebnis erzielt. Reinforcement Learning
-Algortihmen stellen diese Funktion bereit. Auch wenn sich das Kriterium ändert,
-wonach sich das Computerprogramm richtet, kann der Reinforcement Learning
-Algorithmus dahinter grösstenteils gleich bleiben. Der passende Reinforcement
-Learning Algorithmus ist somit ein geeignetes Grundprogramm, worauf alle
-Erweiterungen stützen. 
+Kriterium, ein möglichst gutes Ergebnis erzielt. Reinforcement Learning  % TODO: Komma nach Kriterium nicht sicher
+Algortihmen stellen diese Funktion bereit (siehe RL). Auch wenn sich das  % TODO: Ref setzen
+Kriterium ändert, wonach sich das Computerprogramm richtet, kann der
+Reinforcement Learning Algorithmus dahinter grösstenteils gleich bleiben. Der
+passende Reinforcement Learning Algorithmus ist somit ein geeignetes  % TODO: Was ist genau mit passend gemeint?
+Grundprogramm, worauf alle Erweiterungen stützen. 
 
 \subsection*{Doodle-SDQ als Basis}
 Das Grundprogramm basiert auf dem Reinforcement Algorithmus aus dem Programm
-Doodle-SDQ von Tao Zhou et Al (2018). Das Grundprogramm in dieser Arbeit
-übernimmt die Architektur, bezogen auf die Form der Eingabe, der Ausgabe und den
-versteckten Ebenen des Neuronalen Netz.
+Doodle-SDQ von Tao Zhou et Al (2018) \cite{zhou_learning_2018}. Das
+% TODO: Soll überhaupt so genau lange der Name des Projektes ausgeführt werden, wenn wir es eh Zitieren müssen. (Abschnitte sind zusammengefügt)
+Grundprogramm in dieser Arbeit übernimmt die Architektur, bezogen auf die Form
+der Eingabe, der Ausgabe und den versteckten Ebenen des Neuronalen Netz.
 
 Bei der Umgebung handelt es sich, wie bei Doodle-SDQ, um eine Zeichenfläche,
-worauf sich der Agent frei bewegen kann. 
+worauf sich der Agent frei bewegen kann.
+% TODO: Wieso ein neuer Abschnitt? Nicht etwas zu kurz
 
 Die Zahlen, die nachgezeichnet werden sollen, stammen aus dem MNIST Datenset und
-haben somit eine Grösse von 28x28 Pixeln. Die Fläche, worauf sich der Agent
-bewegen kann, hat somit auch eine Grösse von 28x28 Pixeln. die "globale" Eingabe
+haben somit eine Grösse von $28\times28$ Pixeln. Die Fläche, worauf sich der Agent
+bewegen kann, hat somit auch eine Grösse von $28\times28$ Pixeln. Die `globale' Eingabe
 in das Neuronale Netz ändert sich bis auf diese neue Grösse der Bilder nicht.
+% TODO: Wieso meinst du noch ändern?
+% TODO: Sollte man da noch schreiben, dass keine Graustufen in den Bildern genommen werden.
 
-die Bilder, wie auch die Zeichenfläche, haben die Datenstruktur einer Bitmap. Es
-handelt sich also um eine 28x28 Matrix, wobei jedes Element eine Null oder eine
-Eins ist. Eine Null repräsentiert einen schwarzen Pixel an dieser Stelle im Bild
-und eine Eins einen weissen Pixel.
+Die Bilder, wie auch die Zeichenfläche, haben die Datenstruktur einer Bitmap. Es
+handelt sich also um eine $28\times28$ Matrix, wobei jedes Element eine Null oder eine
+Eins ist. Eine Null repräsentiert einen schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild
+und eine Eins einen weissen (gezeichneten) Pixel.
 
 Die Position des Agenten hat die Datenstruktur einer Liste mit zwei Elementen,
 die die horizontalen und vertikalen Koordinaten auf der Zeichenfläche
 repräsentieren
+% TODO: Wurde dafür nicht die Distmap, also eine Heatmap genutzt?
 
-Die lokale Eingabe, also das nahe Umfeld um den Agenten schrumpft von 11x11
-Pixeln auf 7x7 Pixeln. Somit schrumpft gleichzeitig der Actionspace des Agenten
-von 2*11*11 = 242 Aktionen auf 2*7*7 98 Aktionen. Das bedeutet für den Agenten,
-dass er sich pro Schritt um maximal drei Pixel von seiner Position pro Schritt
-bewegen kann. Diese bewegung kann der Agent wie in Doodle-SDQ entweder
-zeichnend oder nicht zeichnend ausführen.
+Die lokale Eingabe, also das nahe Umfeld um den Agenten schrumpft von
+$11\times11$ Pixeln auf $7\times7$ Pixeln. Somit schrumpft gleichzeitig der
+Actionspace des Agenten von $2\cdot11\cdot11 = 242$ Aktionen auf $2\cdot7\cdot7
+= 98$ Aktionen. Das bedeutet für den Agenten, dass er sich pro Schritt um
+maximal drei Pixel von seiner Position pro Schritt bewegen kann. Diese Bewegung
+kann der Agent wie in Doodle-SDQ entweder zeichnend oder nicht zeichnend
+ausführen.
 
 Falls der Agent die Aktion zeichnend ausführt, zieht das Programm einen Strich
 zwischen der alten und der neuen Position. Mit anderen Worten werden alle Pixel
-in der Zeichenfläche zwischen den beiden Positionen weiss gemacht. der Strich
-hat eine festgelegte Breite von 3 Pixeln.
+in der Zeichenfläche zwischen den beiden Positionen weiss gemacht. Der Strich
+hat eine festgelegte Breite von $3$ Pixeln.
 
 Am Anfang jeder Episode, also bei jeder neuen Zahl, die gezeichnet werden soll,
 startet der Agent in einer zufälligen Position im nicht zeichnenden Zustand.
 
 Aktionen des Agenten, die ihn über die vorgegebene Zeichenfläche hinaus
 positionieren würden, sind nicht zulässig. Diese Aktionen können vom Agenten
-nicht gewählt werden und ihr optimaler Q-Wert ist als 0 definiert. Das hat zur
+nicht gewählt werden und ihr optimaler Q-Wert ist als $0$ definiert. Das hat zur
 Folge, dass nach der Trainingsphase die allermeisten unzulässigen Aktionen einen
 tiefen Q-Wert haben. Das senkt die Wahrscheinlichkeit, dass der Agent versucht,
 eine unzulässige Aktion zu wählen.
+% TODO: Wie wurde das definiert im Code?
 
-Die Reward-Funktion verwendet das Kriterium der Prozentualen Genauigkeit. (siehe eval messbare)
-Spezifischer ist damit die prozentuale Übereinstimmung der weissen Pixel zwischen der Vorlage und der Zeichnung
-gemeint. Wie bei Doodle-SDQ werden die sich unterscheidenden Pixel
-gezählt. Zuerst wird die Anzahl der Pixel, die sich zwischen der Vorlage und
-einer leeren Zeichenfläche unterscheiden, berechnet. Diese Zahl $S_(max)$
-Entspricht allen weissen Pixeln in der Vorlage, da die leere Zeichenfläche
-vollständig schwarz ist. Der Wert $K(t)$ des Kriteriums zu einem bestimmten
-Schritt berechnet sich aus folgender Formel: 
-$$ K(t) = 1 - \frac{S(t)}{S_max} $$ Dabei ist $S(t)$ die Anzahl sich
-underscheidender Pixel zu dem Schritt an dem das Kriterium ausgewertet werden
-soll. Bei diesem Wert handelt es sich also um die prozentuale (als Dezimalzahl)
-Übereinstimmung der Weissen Pixel. Dieser Wert kann auch negativ sein, wenn
-weisse Pixel an Stellen gezeichnet werden, an denen in der Vorlage keine sind.
-Diese Reward-Funktion hat Gegenüber von derjenigen in Doodle-SDQ einen Vorteil. Die Leistung wird bei Vorlagen, die nur wenige
-weisse Pixel haben (wo zum Beispiel die Zahl klein geschrieben ist), nicht
-kleiner eingeschätzt, als bei Vorlagen mit vielen weissen Pixeln. So werden gewisse Vorlagen anderen nicht vorgezogen
-Anders als bei Doodle-SDQ bekommt der Agent keine negativen
-Rewards für langsame Bewegungen. 
+Die Reward-Funktion verwendet das Kriterium der Prozentualen Genauigkeit. (siehe eval messbare)  % TODO: Welchen Teil soll referenziert werden, der von der methode oder aus der diskussion
+Spezifischer ist damit die prozentuale Übereinstimmung der weissen Pixel
+zwischen der Vorlage und der Zeichnung gemeint. Wie bei Doodle-SDQ werden die
+sich unterscheidenden Pixel gezählt. Zuerst wird die Anzahl der Pixel, die sich
+zwischen der Vorlage und einer leeren Zeichenfläche unterscheiden, berechnet.
+Diese Zahl $S_{max}$ entspricht allen weissen Pixeln in der Vorlage, da die
+leere Zeichenfläche vollständig schwarz ist. Der Wert $K(t)$ des Kriteriums zu
+einem bestimmten Schritt berechnet sich aus folgender Formel: 
+
+$$ K(t) = 1 - \frac{S(t)}{S_{max}} $$  % TODO: Soll das eine saubere Equation werden? Dann kann sie auch referenziert werden
+
+Dabei ist $S(t)$ die Anzahl sich underscheidender Pixel zu dem Schritt an dem
+das Kriterium ausgewertet werden soll. Bei diesem Wert handelt es sich also um
+die prozentuale (als Dezimalzahl) Übereinstimmung der Weissen Pixel. Dieser Wert
+kann auch negativ sein, wenn weisse Pixel an Stellen gezeichnet werden, an denen
+in der Vorlage keine sind. Diese Reward-Funktion hat Gegenüber von derjenigen in
+Doodle-SDQ einen Vorteil. Die Leistung wird bei Vorlagen, die nur wenige weisse
+Pixel haben (wo zum Beispiel die Zahl klein geschrieben ist), nicht kleiner
+eingeschätzt, als bei Vorlagen mit vielen weissen Pixeln. So werden gewisse
+Vorlagen anderen nicht vorgezogen. Anders als bei Doodle-SDQ bekommt der Agent
+keine negativen Rewards für langsame Bewegungen. 
+% TODO: Soll der Unterschied lieber in der Diskussion beschrieben werden?
 
 Alle Aspekte des Grundprogrammes sind leicht veränderbar, um es für
 Erweiterungen flexibel zu halten.
 
+% TODO: Review von untenstehenden Fragen
 % Wird Rare-Exploration verwendet?  Wenn ja: Todo
 %- Umgebung (drawline Funktion, Bilder nur als Bitmaps, Translation der Aktion, Render, Anfang in random Position)
 %- Agent (Eingabe 28x28, Ausgabe 7x7, rareexploration, Illegale Aktionen gegen 0 gehen lassen, (Relativer Reward = Kriterium zur Leistung der KI. prozentuale Übereinstimmung der Pixel. -> Genauer beschrieben im Kapitel Evaluierung der Leistung)
 %- Unterschiede (Keine Stroke Demonstration, kein Training auf Geschwindigkeit)
 
 \subsection*{Präparierung der Daten und Training}
-Das in dieser Arbeit verwendete MNIST Datenset besteht aus 42000 Bildern von
+Das in dieser Arbeit verwendete MNIST Datenset besteht aus $42000$ Bildern von
 handgeschriebenen Zahlen zwischen Null und Neun. Die Bilder im Datenset sind als
-Bitmap dargestellt, wobei jedes Element (jeder Pixel) einen Wert zwischen 0 und
+Bitmap dargestellt, wobei jedes Element (jeder Pixel) einen Wert zwischen $0$ und
 255 annimmt. Die Zahl räpresentiert einen Punkt auf dem Spektrum von Grautönen,
 wobei 0 Schwarz ist und 255 Weiss. Diese Graustufen werden entfernt. Jeder Pixel
 mit einem Wert über 0 übernimmt den Wert 1. So stimmen die Bilder mit den
 Zeichnungen, die der Agent produzieren kann, überein.
+% TODO Vielleicht oben bei der Änderungen der Daten eine Referenz setzen
+% TODO: Muss vielleicht geändert werden, wenn Graustufen wieder hinzugefügt werden
 
-Die Trainingsdaten bestehen aus 36000 der 42000 Bilder im Datenset. Die
-restlichen 6000 Bilder sind für die Testphase aufgehoben. Das Grundprogramm
-trainiert mit 4000 Bildern, von denen jede Zahl von Null bis Neun 400 Bilder
+Die Trainingsdaten bestehen aus $36000$ der $42000$ Bilder im Datenset. Die
+restlichen $6000$ Bilder sind für die Testphase aufgehoben. Das Grundprogramm
+trainiert mit $4000$ Bildern, von denen jede Zahl von Null bis Neun $400$ Bilder
 ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche
-Erweiterungen aufgehoben. Der Agent zeichnet jedes der 4000 Bilder insgesamt
-drei mal. Mit anderen Worten Läuft die Trainingsphase für 3 Epochen mit jeweils
-4000 Episoden. Der Agent macht 64 Schritte pro Episode. Er kann sich also pro
-Zeichnung 64 mal bewegen. Insgesamt trainiert der Algorithmus somit auf der
-Basis von 3*4000*64 = 780'000 Schritten. Der Replay Buffer speichert die
-Schritte von 700 Episoden. Somit speichert er 700*64 = ... Schritte. Das
-Training (des Neuronalen Netz) findet in jedem vierten Schritt statt mit einem
-Batch von 64 zufällig gewählten Schritten aus dem replay buffer. 
+Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder insgesamt
+drei mal. Mit anderen Worten Läuft die Trainingsphase für $3$ Epochen mit jeweils
+$4000$ Episoden. Der Agent macht $64$ Schritte pro Episode. Er kann sich also pro
+Zeichnung $64$ mal bewegen. Insgesamt trainiert der Algorithmus somit auf der
+Basis von $3\cdot4000\cdot64$ = $780'000$ Schritten. Der Replay Buffer speichert die
+Schritte von $700$ Episoden. Somit speichert er $700\cdot64 = 44'800$ Schritte. Das
+Training (des Neuronalen Netz) findet in jedem vierten Schritt statt mit einem  % TODO: Ist vierten Schritt oder Episode?
+Batch von $64$ zufällig gewählten Schritten aus dem replay buffer.
+% TODO: Sollten diese ganzen Zahlen und daten vielleicht als Tabelle dargestellt werden?
+% TODO: Brauchen diese unteren Daten aus der Architektur mit den Hyperparametern ein eigenes Kapitel
+% TODO: Manche Parameter müssen später nochmals geändert werden
 
 
 
@@ -210,15 +227,15 @@ Batch von 64 zufällig gewählten Schritten aus dem replay buffer.
 
 
 
-Ziel: Eine KI. Ein Programm, das Menschen nachahmt. 
-Kann Menschen besser oder schlechter nachahmen -> Leistung
-Schwer messbar. Subjektiv. Auf Beobachtungen gestützt
+% Ziel: Eine KI. Ein Programm, das Menschen nachahmt. 
+% Kann Menschen besser oder schlechter nachahmen -> Leistung
+% Schwer messbar. Subjektiv. Auf Beobachtungen gestützt
 
-    (Probleme mit Grundprogramm?)
+%     (Probleme mit Grundprogramm?)
     
-    Wichtigstes Prinzip: Schwungvoll. -> Hohe Geschwindigkeit, wenige bis keine Abbrüche
-        - Implementierung von Physik. 
-        - Erkennbarkeit über Genauigkeit
+%     Wichtigstes Prinzip: Schwungvoll. -> Hohe Geschwindigkeit, wenige bis keine Abbrüche
+%         - Implementierung von Physik. 
+%         - Erkennbarkeit über Genauigkeit
 
 
 \section{Physikalische Umgebung}
