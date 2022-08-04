@@ -44,7 +44,7 @@ class ShapeDraw(object):
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
         self.rec_model.load_graph_weights()
         
-    def step(self, agent_action: int, counter : int, without_rec : bool = False):
+    def step(self, agent_action: int):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
@@ -78,7 +78,7 @@ class ShapeDraw(object):
 
         # Calculate the reward for the action in this turn
         # The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(counter, without_rec=without_rec) if self.isDrawing else 0.0
+        reward = self.reward() if self.isDrawing else 0.0
         """ reward += penalty """
 
         # Ending the timestep
@@ -122,7 +122,7 @@ class ShapeDraw(object):
         return action
 
 
-    def reward(self, counter, without_rec : bool = False):
+    def reward(self):
         """
         reward Calculate the reward based on gained similarity and length of step
 
@@ -146,19 +146,16 @@ class ShapeDraw(object):
         else:
             self.lastSim = similarity
 
-        rec_const_reward = 0
-        if (counter+1) % 8 == 0 and counter > 12800 and not without_rec:
-            if (1 - similarity) > 0.6:
-                #print("yes")
-                a, b = self.predict_mnist()
-                if a == b:
-                    rec_const_reward = 0.125
-                else:
-                    rec_const_reward = 0
-        reward += rec_const_reward
-
-
         return reward
+
+    def speed_reward(self, step : int):
+        if step == None:
+            return 1
+        return (2 - step/64)
+    
+
+
+
 
         
 
@@ -236,6 +233,14 @@ class ShapeDraw(object):
         return ref, canv
 
 
+    def agent_is_done(self, done_accuracy : float):
+        if (1 - self.lastSim) > done_accuracy:
+            ref, canv = self.predict_mnist()
+            if ref == canv:
+                return True
+        return False
+
+
     def reset(self):
         """
         reset Reset the canvas to the initial state.
@@ -257,7 +262,7 @@ class ShapeDraw(object):
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward(counter=0, without_rec=True)
+        self.reward()
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 

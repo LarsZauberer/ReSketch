@@ -158,6 +158,11 @@ class Agent(object):
         self.new_global_state_memory[index] = next_gloabal_state
         self.new_local_state_memory[index] = next_local_state
 
+    def update_speedreward(self, reward = 1.1):
+        start_i = (self.counter % self.mem_size) - 64
+        for i in range(64):
+            index = start_i+i
+            self.reward_memory[index] *= reward
 
 
     def choose_action(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
@@ -176,12 +181,7 @@ class Agent(object):
         # Check if the agent should explore
         rand = np.random.random()
         if rand < self.epsilon or self.rare_Exploration() or replay_fill:
-            while True:
-                action = np.random.choice(self.action_space)
-                if illegal_list[action] == 1:
-                    continue
-                    
-                else: break
+            action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
         else:
             if self.counter % self.replace_target == 0 and self.counter > 0:
                 # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
