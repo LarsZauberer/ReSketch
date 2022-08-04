@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
-    agent_args = {"gamma": 0.8, "epsilon": 0.2, "alpha": 0.0004545815846602133, "replace_target": 4685, 
+    agent_args = {"gamma": 0.7, "epsilon": 0.2, "alpha": 0.0002545815846602133, "replace_target": 4685, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
