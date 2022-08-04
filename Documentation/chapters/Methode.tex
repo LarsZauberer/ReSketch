@@ -7,7 +7,7 @@ die Unterfragen, zum Beispiel wie ein solches Programm aussehen kann, laufen in
 den Prozess mit ein. 
 
 Es gibt verschiedene Kriterien für die Leistung eines Computerprogramms, das
-Menschen beim Zeichnen einer Zahl nachahmt. Einige Kriterien sind untereinander  % TODO: Zahl evt. ausbessern
+Menschen beim Zeichnen einer Zahl nachahmt. Einige Kriterien sind untereinander  % TODO: Zahl evt. ausbessern % BUG: Ruh
 kombinierbar, andere schliessen sich gegenseitig aus. So entstehen verschiedene
 Versionen des Programmes, deren Leistung auf verschiedenen Kriterien beruht.
 
@@ -20,6 +20,7 @@ und nicht messbare Kriterien. Zwischen den Kategorien gibt es weitere Kriterien,
 die teilweise messbar sind.
 
 \subsection*{Messbare Kriterien}
+\label{chap:m_messbare}
 Messbare Kriterien sind in diesem Fall objektiv. Das heisst sie sind nicht
 abhängig von der Wahrnehmung eines Betrachters. Messbare Kriterien sind durch
 berechenbare Zahlenwerte definiert und stützen auf Daten, die direkt aus dem
@@ -97,44 +98,41 @@ Folgende Kriterien werden im Verlauf der Methode weiterverfolgt:
 Die nächsten Kapitel behandeln jeweils eines dieser Kriterien in dieser Reihenfolge.
 
 % TODO: Ich finde die Section zwar wichtig, ist aber denke ich eigentlich zu kurz um eine eigene Section sein zu können.
+% BUG: Ruh
 
 \section{Grundprogramm}
 \label{chap:m_grundprogramm}
-Es ist Teil der Methode, ein Computerprogramm zu entwickeln, das bezogen auf ein
-Kriterium, ein möglichst gutes Ergebnis erzielt. Reinforcement Learning  % TODO: Komma nach Kriterium nicht sicher
-Algortihmen stellen diese Funktion bereit (siehe RL). Auch wenn sich das  % TODO: Ref setzen
-Kriterium ändert, wonach sich das Computerprogramm richtet, kann der
+Es ist Teil der Methode, ein Computerprogramm zu entwickeln. Dieses soll,
+bezogen auf ein Kriterium, ein möglichst gutes Ergebnis erzielt. Reinforcement
+Learning Algortihmen stellen diese Funktion bereit (siehe RL). Auch wenn sich  % TODO: Ref setzen
+das Kriterium ändert, wonach sich das Computerprogramm richtet, kann der
 Reinforcement Learning Algorithmus dahinter grösstenteils gleich bleiben. Der
-passende Reinforcement Learning Algorithmus ist somit ein geeignetes  % TODO: Was ist genau mit passend gemeint?
+funktionierende Reinforcement Learning Algorithmus ist die Basis eines geeignetes
 Grundprogramm, worauf alle Erweiterungen stützen. 
 
 \subsection*{Doodle-SDQ als Basis}
 Das Grundprogramm basiert auf dem Reinforcement Algorithmus aus dem Programm
 Doodle-SDQ von Tao Zhou et Al (2018) \cite{zhou_learning_2018}. Das
 % TODO: Soll überhaupt so genau lange der Name des Projektes ausgeführt werden, wenn wir es eh Zitieren müssen. (Abschnitte sind zusammengefügt)
+% BUG: Ruh
 Grundprogramm in dieser Arbeit übernimmt die Architektur, bezogen auf die Form
 der Eingabe, der Ausgabe und den versteckten Ebenen des Neuronalen Netz.
-
 Bei der Umgebung handelt es sich, wie bei Doodle-SDQ, um eine Zeichenfläche,
 worauf sich der Agent frei bewegen kann.
-% TODO: Wieso ein neuer Abschnitt? Nicht etwas zu kurz
 
 Die Zahlen, die nachgezeichnet werden sollen, stammen aus dem MNIST Datenset und
 haben somit eine Grösse von $28\times28$ Pixeln. Die Fläche, worauf sich der Agent
 bewegen kann, hat somit auch eine Grösse von $28\times28$ Pixeln. Die `globale' Eingabe
 in das Neuronale Netz ändert sich bis auf diese neue Grösse der Bilder nicht.
-% TODO: Wieso meinst du noch ändern?
-% TODO: Sollte man da noch schreiben, dass keine Graustufen in den Bildern genommen werden.
 
 Die Bilder, wie auch die Zeichenfläche, haben die Datenstruktur einer Bitmap. Es
 handelt sich also um eine $28\times28$ Matrix, wobei jedes Element eine Null oder eine
-Eins ist. Eine Null repräsentiert einen schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild
-und eine Eins einen weissen (gezeichneten) Pixel.
+Eins ist. Eine Null repräsentiert einen schwarzen (nicht gezeichneten) Pixel an
+dieser Stelle im Bild und eine Eins einen weissen (gezeichneten) Pixel.
 
-Die Position des Agenten hat die Datenstruktur einer Liste mit zwei Elementen,
-die die horizontalen und vertikalen Koordinaten auf der Zeichenfläche
-repräsentieren
-% TODO: Wurde dafür nicht die Distmap, also eine Heatmap genutzt?
+% Die Position des Agenten hat die Datenstruktur einer Liste mit zwei Elementen,
+% die die horizontalen und vertikalen Koordinaten auf der Zeichenfläche
+% repräsentieren.
 
 Die lokale Eingabe, also das nahe Umfeld um den Agenten schrumpft von
 $11\times11$ Pixeln auf $7\times7$ Pixeln. Somit schrumpft gleichzeitig der
@@ -158,39 +156,43 @@ nicht gewählt werden und ihr optimaler Q-Wert ist als $0$ definiert. Das hat zu
 Folge, dass nach der Trainingsphase die allermeisten unzulässigen Aktionen einen
 tiefen Q-Wert haben. Das senkt die Wahrscheinlichkeit, dass der Agent versucht,
 eine unzulässige Aktion zu wählen.
-% TODO: Wie wurde das definiert im Code?
 
-Die Reward-Funktion verwendet das Kriterium der Prozentualen Genauigkeit. (siehe eval messbare)  % TODO: Welchen Teil soll referenziert werden, der von der methode oder aus der diskussion
+Die Reward-Funktion verwendet das Kriterium der Prozentualen Genauigkeit. (siehe \nameref{chap:m_messbare})
 Spezifischer ist damit die prozentuale Übereinstimmung der weissen Pixel
 zwischen der Vorlage und der Zeichnung gemeint. Wie bei Doodle-SDQ werden die
 sich unterscheidenden Pixel gezählt. Zuerst wird die Anzahl der Pixel, die sich
 zwischen der Vorlage und einer leeren Zeichenfläche unterscheiden, berechnet.
 Diese Zahl $S_{max}$ entspricht allen weissen Pixeln in der Vorlage, da die
 leere Zeichenfläche vollständig schwarz ist. Der Wert $K(t)$ des Kriteriums zu
-einem bestimmten Schritt berechnet sich aus folgender Formel: 
+einem bestimmten Schritt berechnet sich aus folgender Formel:
 
-$$ K(t) = 1 - \frac{S(t)}{S_{max}} $$  % TODO: Soll das eine saubere Equation werden? Dann kann sie auch referenziert werden
+\begin{equation}
+    \label{eq:m_reward}
+    K(t) = 1 - \frac{S(t)}{S_{max}}
+\end{equation}
 
 Dabei ist $S(t)$ die Anzahl sich underscheidender Pixel zu dem Schritt an dem
 das Kriterium ausgewertet werden soll. Bei diesem Wert handelt es sich also um
 die prozentuale (als Dezimalzahl) Übereinstimmung der Weissen Pixel. Dieser Wert
 kann auch negativ sein, wenn weisse Pixel an Stellen gezeichnet werden, an denen
-in der Vorlage keine sind. Diese Reward-Funktion hat Gegenüber von derjenigen in
+in der Vorlage keine sind.
+
+Diese Reward-Funktion hat Gegenüber von derjenigen in
 Doodle-SDQ einen Vorteil. Die Leistung wird bei Vorlagen, die nur wenige weisse
 Pixel haben (wo zum Beispiel die Zahl klein geschrieben ist), nicht kleiner
 eingeschätzt, als bei Vorlagen mit vielen weissen Pixeln. So werden gewisse
 Vorlagen anderen nicht vorgezogen. Anders als bei Doodle-SDQ bekommt der Agent
-keine negativen Rewards für langsame Bewegungen. 
-% TODO: Soll der Unterschied lieber in der Diskussion beschrieben werden?
+keine negativen Rewards für langsame Bewegungen.
+% TODO: Teil in Diskussion rein und ref setzen
 
 Alle Aspekte des Grundprogrammes sind leicht veränderbar, um es für
 Erweiterungen flexibel zu halten.
 
-% TODO: Review von untenstehenden Fragen
 % Wird Rare-Exploration verwendet?  Wenn ja: Todo
 %- Umgebung (drawline Funktion, Bilder nur als Bitmaps, Translation der Aktion, Render, Anfang in random Position)
 %- Agent (Eingabe 28x28, Ausgabe 7x7, rareexploration, Illegale Aktionen gegen 0 gehen lassen, (Relativer Reward = Kriterium zur Leistung der KI. prozentuale Übereinstimmung der Pixel. -> Genauer beschrieben im Kapitel Evaluierung der Leistung)
 %- Unterschiede (Keine Stroke Demonstration, kein Training auf Geschwindigkeit)
+% TODO: Review von Fragen
 
 \subsection*{Präparierung der Daten und Training}
 Das in dieser Arbeit verwendete MNIST Datenset besteht aus $42000$ Bildern von
@@ -200,24 +202,25 @@ Bitmap dargestellt, wobei jedes Element (jeder Pixel) einen Wert zwischen $0$ un
 wobei 0 Schwarz ist und 255 Weiss. Diese Graustufen werden entfernt. Jeder Pixel
 mit einem Wert über 0 übernimmt den Wert 1. So stimmen die Bilder mit den
 Zeichnungen, die der Agent produzieren kann, überein.
-% TODO Vielleicht oben bei der Änderungen der Daten eine Referenz setzen
-% TODO: Muss vielleicht geändert werden, wenn Graustufen wieder hinzugefügt werden
 
 Die Trainingsdaten bestehen aus $36000$ der $42000$ Bilder im Datenset. Die
 restlichen $6000$ Bilder sind für die Testphase aufgehoben. Das Grundprogramm
 trainiert mit $4000$ Bildern, von denen jede Zahl von Null bis Neun $400$ Bilder
 ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche
 Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder insgesamt
-drei mal. Mit anderen Worten Läuft die Trainingsphase für $3$ Epochen mit jeweils
-$4000$ Episoden. Der Agent macht $64$ Schritte pro Episode. Er kann sich also pro
-Zeichnung $64$ mal bewegen. Insgesamt trainiert der Algorithmus somit auf der
-Basis von $3\cdot4000\cdot64$ = $780'000$ Schritten. Der Replay Buffer speichert die
-Schritte von $700$ Episoden. Somit speichert er $700\cdot64 = 44'800$ Schritte. Das
-Training (des Neuronalen Netz) findet in jedem vierten Schritt statt mit einem  % TODO: Ist vierten Schritt oder Episode?
-Batch von $64$ zufällig gewählten Schritten aus dem replay buffer.
+drei mal. Mit anderen Worten Läuft die Trainingsphase für $3$ Epochen mit
+jeweils $4000$ Episoden. Der Agent macht $64$ Schritte pro Episode. Er kann sich
+also pro Zeichnung $64$ mal bewegen. Insgesamt trainiert der Algorithmus somit
+auf der Basis von $3\cdot4000\cdot64$ = $780'000$ Schritten. Der Replay Buffer
+(siehe Replay Buffer) speichert die Schritte von $700$ Episoden. Somit speichert  % TODO: Ref setzen
+er $700\cdot64 = 44'800$ Schritte. Das Training (des Neuronalen Netz) findet in
+jedem vierten Schritt statt mit einem Batch von $64$ zufällig gewählten
+Schritten aus dem replay buffer.
+% TODO: Braucht noch mehr referenzen von den Begriffen
 % TODO: Sollten diese ganzen Zahlen und daten vielleicht als Tabelle dargestellt werden?
 % TODO: Brauchen diese unteren Daten aus der Architektur mit den Hyperparametern ein eigenes Kapitel
 % TODO: Manche Parameter müssen später nochmals geändert werden
+% BUG: Ruh
 
 
 
@@ -335,10 +338,10 @@ Fällen für andere Personen erkennbar. So wäre es auch für das Computerprogra
 profitabel, Erkennbarkeit der Genauigkeit vorzuziehen.
 
 Das Computerprogramm benötigt eine Funktion, um die Erkennbarkeit einer Zahl zu
-beurteilen. Diese Funktion ist durch Schrifterkennungssoftware, also eine
+beurteilen. Diese Funktion ist durch Schrifterkennungssoftware, also eine  % TODO: Softwareerkennungsnetz % BUG: Ruh
 weitere künstliche Intelligenz, zugänglich (siehe Theorie Schrifterkennung). Die  % TODO: Ref setzen
 in dieser Arbeit verwendete Schrifterkennungssoftware stammt von Mazzia,
-Vittorio und Salvetti, Francesco und Chiaberge, Marcello
+Vittorio und Salvetti, Francesco und Chiaberge, Marcello.
 \cite{mazzia_salvetti_efficient-capsnet_2021} Die Schrifterkennungssoftware
 erreicht bei einem Test von 5000 Bildern aus den Trainingsdaten eine Genauigkeit
 von ......\%
@@ -363,6 +366,7 @@ Zustand funktioniert die Reward-Funktion nicht. Das heisst, der Agent kann den
 akkumulierten Reward nicht vergrössern. Für dieses Problem gibt es mindestens
 zwei Gründe.
 % TODO: Sollen nicht die Gründe in die Diskussion
+% BUG: Ruh
 
 Der erste Grund liegt in der Einschätzung der Schrifterkennungssoftware, die
 teilweise für einen menschlichen Betrachter Fragwürdig ist. Zum Beispiel schätzt
@@ -374,7 +378,6 @@ wahrscheinlicher wird, dass der Agent nicht mehr zeichnet. Die verwendete Lösun
 ist, die Schrifterkennungssoftware erst ab einer gewissen prozentualen
 Genauigkeit einzusetzen. So löst die Schrifterkennungssoftware erst Rewards aus,
 wenn die prozentuale Genauigkeit der Zeichnung mehr als 20\% beträgt.
-% TODO: Ist das Problem nicht auch ein bisschen durch die 0.9 Prozenzt Sicherheit gelöst?
 
 Der zweite Grund liegt in einer zu hohen Abhängigkeit auf den Zufall. Damit die
 Schrifterkennungssoftware einen Reward auslösen kann, muss der Agent eine gut
@@ -399,3 +402,5 @@ Als Blackboxfunktion wurde das Agent im Environment genommen. Dieser trainiert
 $4000$ Episoden und der Durchschnitt des Rewards der letzten 12 Episoden wird
 als Wert zur optimierung verwendet. Um eine bessere Vergleichbarkeit dieser
 Werte sicherzustellen, werden immer dieselben $4000$ Referenzbilder gezeigt.
+% TODO: Wahrscheinlich in das Grundprogramm
+% BUG: Ruh
