@@ -1,3 +1,4 @@
+from threading import activeCount
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.ai_data import AI_Data
@@ -16,6 +17,8 @@ if __name__ == '__main__':
     n_episodes = 4000
     n_steps = 64
     n_epochs = 3
+
+    done_accuracy = 0.6
 
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
@@ -54,6 +57,7 @@ if __name__ == '__main__':
             total_counter += 1
             global_obs, local_obs = env.reset()
             score = 0
+            done_step = None
 
             for step in range(n_steps):
                 # Run the timestep
@@ -61,9 +65,13 @@ if __name__ == '__main__':
                 illegal_moves = env.illegal_actions(illegal_moves)
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                next_gloabal_obs, next_local_obs, reward = env.step(action, counter=total_counter*n_steps+step, without_rec=True)
+                next_gloabal_obs, next_local_obs, reward = env.step(action)
+
                 #env.render("Compare", realtime=True)
 
+                if done_step == None and not replay_fill: 
+                    if env.agent_is_done(done_accuracy): done_step = step
+                
                 # Save new information
                 agent.store_transition(
                     global_obs, local_obs, next_gloabal_obs, next_local_obs, action, reward, illegal_moves)
@@ -77,7 +85,13 @@ if __name__ == '__main__':
                     replay_fill = False #finish filling replay buffer
                     agent.learn()
             
+            
+            speed_reward = env.speed_reward(done_step)
+            #if not replay_fill: print(speed_reward)
+            agent.update_speedreward(speed_reward)
+                
 
+        
             # Learn Process visualization
             if total_counter > episode_mem_size:
                 real_ep = total_counter - episode_mem_size
