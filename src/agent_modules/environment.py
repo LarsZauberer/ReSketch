@@ -3,6 +3,7 @@ import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
 from agent_modules.physics import Physic_Engine
+from mnist_model.models import EfficientCapsNet
 
 
 class ShapeDraw(object):
@@ -50,6 +51,9 @@ class ShapeDraw(object):
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
 
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
+
+        self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
+        self.rec_model.load_graph_weights()
         
     def step(self, agent_action: int):
         """
@@ -209,6 +213,30 @@ class ShapeDraw(object):
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
+    def predict_mnist(self):
+        # Format the input for the model
+        ref_inp = self.reference.reshape(self.s, self.s, 1)
+        canv_inp = self.canvas.reshape(self.s, self.s, 1)
+        inp = np.array([ref_inp, canv_inp])
+        
+        # Predict
+        out = self.rec_model.predict(inp)
+        # Get index of max
+        ref = np.argmax(out[0][0])
+        canv = np.argmax(out[0][1])
+        
+        # Too unsure. Should not be validated
+        if out[0][1][canv] < 0.9:
+            canv = -1
+        
+        return ref, canv
+    
+    def agent_is_done(self, done_accuracy : float):
+        if (1 - self.lastSim) > done_accuracy:
+            ref, canv = self.predict_mnist()
+            if ref == canv:
+                return True
+        return False
 
     def reset(self):
         """
