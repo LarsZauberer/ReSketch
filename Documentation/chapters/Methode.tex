@@ -324,8 +324,6 @@ das bestmöglichste Ergebnis zu erzielen.
 % TODO: Ist das Überhaupt eine gute Idee, weil wir so die Aufgabenstellung des menschlichen Zeichnens verfremden?
 
 
-
-
 \section{Schrifterkennung als Kriterium}
 Dieses Kapitel behandelt das Kriterium der Erkennbarkeit der gezeichneten Zahl.
 Dieses Kriterium nähert qualitativ die Menschlichkeit der Zeichnung, im
@@ -389,6 +387,34 @@ Dieses Kriterium ermöglicht in der Reward-Funktion, wie im Grundprogramm (siehe
 Verbesserungen. Dieser Reward ist vor allem am Anfang des Trainings wichtig.
 Deswegen nimmt der Reward über das ganze Training hinweg linear ab, während der
 Reward für eine richtig erkannte Zahl linear zunimmt.
+
+\section{Geschwindigkeit als Kriterium}
+% Menschliches Zeichnen langsam. schreiben von Zahlen schnell. Erkennbarkeit über Genauigkeit. u.A weil so schneller. 
+% Geschwindigkeit also wichtige Annäherung an Menschen.
+
+% Für Training auf Geschwindigkeit muss das Kriterium einen numerischen Wert annehmen
+% Bestimmt durch Anzahl Schritte bis fertig ist. dafür muss aber bestimmt werden, wann Zeichnung fertig ist.
+
+% Zeichnung ist fertig, wenn Zahl nach der Definition im letzten kapitel erkannt wird und eine relative Genauigkeit von 60% erreicht.
+
+\subsection*{Training auf Geschwindigkeit}
+
+% Reward am Ende jeder Zeichnung für alle Schritte mit einem Faktor multipliziert
+% Faktor Grösser, wenn Schneller (Formel für Berechnung) 1 + Schritte bis Fertigstellung/max Schritte
+% Wenn Zeichnung nicht fertiggestellt wird (Anforderungen nicht erfüllt) -> Faktor = 1
+% Die Zeichnung wird immer bis ans Ende ausgeführt. Der Schritt der Fertigstellung wird beim ersten Mal gespeichert, wenn das Kriterium erfüllt wird.
+
+% mögliche Erweiterungen:
+% - Relative Schrittzahl in Input
+% - Keine Fertigstellung der Zeichnung
+
+
+
+
+
+
+
+
 
 
 \section{Hyperparameteroptimierung}
