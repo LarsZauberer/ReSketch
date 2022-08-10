@@ -162,16 +162,16 @@ Spezifischer ist damit die prozentuale Übereinstimmung der weissen Pixel
 zwischen der Vorlage und der Zeichnung gemeint. Wie bei Doodle-SDQ werden die
 sich unterscheidenden Pixel gezählt. Zuerst wird die Anzahl der Pixel, die sich
 zwischen der Vorlage und einer leeren Zeichenfläche unterscheiden, berechnet.
-Diese Zahl $S_{max}$ entspricht allen weissen Pixeln in der Vorlage, da die
+Diese Zahl $G_{max}$ entspricht allen weissen Pixeln in der Vorlage, da die
 leere Zeichenfläche vollständig schwarz ist. Der Wert $K(t)$ des Kriteriums zu
 einem bestimmten Schritt berechnet sich aus folgender Formel:
 
 \begin{equation}
     \label{eq:m_reward}
-    K(t) = 1 - \frac{S(t)}{S_{max}}
+    K(t) = 1 - \frac{G(t)}{G_{max}}
 \end{equation}
 
-Dabei ist $S(t)$ die Anzahl sich underscheidender Pixel zu dem Schritt an dem
+Dabei ist $G(t)$ die Anzahl sich underscheidender Pixel zu dem Schritt an dem
 das Kriterium ausgewertet werden soll. Bei diesem Wert handelt es sich also um
 die prozentuale (als Dezimalzahl) Übereinstimmung der Weissen Pixel. Dieser Wert
 kann auch negativ sein, wenn weisse Pixel an Stellen gezeichnet werden, an denen
@@ -221,14 +221,6 @@ Schritten aus dem replay buffer.
 % TODO: Brauchen diese unteren Daten aus der Architektur mit den Hyperparametern ein eigenes Kapitel
 % TODO: Manche Parameter müssen später nochmals geändert werden
 % BUG: Ruh
-
-
-
-
-
-
-
-
 
 
 % Ziel: Eine KI. Ein Programm, das Menschen nachahmt. 
@@ -389,24 +381,41 @@ Deswegen nimmt der Reward über das ganze Training hinweg linear ab, während de
 Reward für eine richtig erkannte Zahl linear zunimmt.
 
 \section{Geschwindigkeit als Kriterium}
-% Menschliches Zeichnen langsam. schreiben von Zahlen schnell. Erkennbarkeit über Genauigkeit. u.A weil so schneller. 
-% Geschwindigkeit also wichtige Annäherung an Menschen.
+Eine schnelle Fertigstellung der Zeichnung ist eine weitere Annäherung an
+menschliches Zeichnen. Unter anderem hat das Kriterium des letzten Kapitels
+damit zu tun. Die Erkennbarkeit der gezeichneten Zahl ist wichtiger als die
+Genauigkeit, weil Menschen dadurch unvorsichtiger und schneller vorgehen.
 
-% Für Training auf Geschwindigkeit muss das Kriterium einen numerischen Wert annehmen
-% Bestimmt durch Anzahl Schritte bis fertig ist. dafür muss aber bestimmt werden, wann Zeichnung fertig ist.
-
-% Zeichnung ist fertig, wenn Zahl nach der Definition im letzten kapitel erkannt wird und eine relative Genauigkeit von 60% erreicht.
+Die Zeit bis zur Fertigstellung wird durch die Anzahl Schritte bis zu diesem
+Punkt gemessen. Eine geringere Anzahl Schritte entspricht einer schnelleren
+Fertigstellung. Die Zeichnung gilt als fertig, wenn die prozentuale Genauigkeit
+mindestens 70\% beträgt und die Zahl nach der Definition im letzten Kapitel
+erkannt wird. % TODO: ref setzen
 
 \subsection*{Training auf Geschwindigkeit}
+Der numerische Wert für die Zeit bis zur Fertigstellung der Zeichnung (die
+Geschwindigkeit) kann in die Reward-Funktion integriert werden. Dadurch wird der
+Reinforcement Learning Algorithmus auf die maximale Geschwindigkeit trainiert.
+Die angepasste Reward-Funktion sieht folgendermassen aus: Am Ende jeder
+Zeichnung wird der Reward jedes Schrittes mit einem Faktor $F$ multipliziert. Dieser
+Faktor berechnet sich aus folgender Formel:
 
-% Reward am Ende jeder Zeichnung für alle Schritte mit einem Faktor multipliziert
-% Faktor Grösser, wenn Schneller (Formel für Berechnung) 1 + Schritte bis Fertigstellung/max Schritte
-% Wenn Zeichnung nicht fertiggestellt wird (Anforderungen nicht erfüllt) -> Faktor = 1
-% Die Zeichnung wird immer bis ans Ende ausgeführt. Der Schritt der Fertigstellung wird beim ersten Mal gespeichert, wenn das Kriterium erfüllt wird.
+$$ F = 2 - \frac{S}{S_{max}}$$
+
+$S_{max}$ entspricht der Anzahl Schritte, die der Agent pro Zeichnung (Episode) begeht (siehe Grundprogramm). %TODO: ref setzen.
+$S$ Entspricht der Anzahl Schritte zur fertigstellung der Zeichnung. Der Faktor
+nimmt einen Wert zwischen $1$ und $2$ an. Wenn der Agent die Zeichnung bis zum
+Ende einer Episode nicht fertigstellen kann, ist $F = 1$. In diesem Fall wird
+der Reward also nicht angepasst. Der Agent zeichnet immer $S_{max}$ Schritte pro
+Episode. Das verhindert eine ungleichmässige Verteilung der verschiedenen
+Episoden im replay-buffer. $S$ wird bis an das Ende der Episode gespeichert,
+wenn die Anforderungen für die Fertigstellung einer Zeichnung das erste Mal
+erfüllt sind.
 
 % mögliche Erweiterungen:
 % - Relative Schrittzahl in Input
 % - Keine Fertigstellung der Zeichnung
+% - erkennbarkeitsschwelle langsam erhöhen
 
 
 
