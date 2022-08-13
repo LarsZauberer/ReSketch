@@ -15,14 +15,14 @@ class Test_NN():
 
         canvas_size = 28
         patch_size = 7
-        self.glob_in_dims = (4, canvas_size, canvas_size)
+        self.glob_in_dims = (5, canvas_size, canvas_size)
         self.loc_in_dims = (2, patch_size, patch_size)
         self.n_actions = 2*patch_size**2
         self.episode_mem_size = 700
         self.batch_size = 64
         
 
-        self.done_accuracy = 0.8
+        self.done_accuracy = 0.6
 
         self.test_data = []
         self.sorted_data = [] 

@@ -18,6 +18,8 @@ class ShapeDraw(object):
         self.canvas = np.zeros((self.s, self.s))
         self.distmap = np.zeros((self.s, self.s))
         self.colmap = np.zeros((self.s, self.s))
+        self.stepmap = np.zeros((self.s, self.s))
+        self.curStep = 0
 
         # Input local stream
         self.ref_patch = np.zeros((self.p, self.p))
@@ -155,10 +157,6 @@ class ShapeDraw(object):
     
 
 
-
-
-        
-
     def set_agentPos(self, pos: list):
         """
         set_agentPos Sets the agent to a new position.
@@ -172,6 +170,7 @@ class ShapeDraw(object):
         self.update_distmap()
         self.update_patch()
         self.update_colmap()
+        #self.update_stepmap()
 
     def update_distmap(self):
         """
@@ -193,6 +192,16 @@ class ShapeDraw(object):
         for y in range(self.s):
             for x in range(self.s):
                 self.colmap[y][x] = self.isDrawing
+
+    def update_stepmap(self):
+        """
+        update_colmap Calculate a new colmap
+        The colmap tells the agent if he is drawing or not
+        """
+        rel_speed = self.curStep/64
+        for y in range(self.s):
+            for x in range(self.s):
+                self.stepmap[y][x] = rel_speed
 
     def update_patch(self):
         """
