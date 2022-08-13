@@ -16,7 +16,7 @@ if __name__ == '__main__':
     batch_size = 64
     n_episodes = 4000
     n_steps = 64
-    n_epochs = 3
+    n_epochs = 1
 
     done_accuracy = 0.6
 
@@ -59,10 +59,13 @@ if __name__ == '__main__':
             score = 0
             done_step = None
 
+            done_accuracy = 0.3 + 0.5*(total_counter/n_episodes)
+
             for step in range(n_steps):
                 # Run the timestep
                 illegal_moves = np.zeros(n_actions)
                 illegal_moves = env.illegal_actions(illegal_moves)
+                env.curStep = step
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
                 next_gloabal_obs, next_local_obs, reward = env.step(action)
