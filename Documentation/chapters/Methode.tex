@@ -1,68 +1,69 @@
 \chapter{Methode}
-Die Methode, um die Fragestellung zu beantworten, besteht aus zwei Teilen. Im
-ersten Teil werden die Kriterien gefunden, nach denen die Leistung des Programms
-evaluiert werden kann. Im zweiten Teil wird das Computerprogramm realisiert, das
-bezogen auf die Kriterien die gewünschte Leistung erbringt. Die Antworten auf
-die Unterfragen, zum Beispiel wie ein solches Programm aussehen kann, laufen in
-den Prozess mit ein. 
-
-Es gibt verschiedene Kriterien für die Leistung eines Computerprogramms, das
-Menschen beim Zeichnen einer Zahl nachahmt. Einige Kriterien sind untereinander  % TODO: Zahl evt. ausbessern % BUG: Ruh
-kombinierbar, andere schliessen sich gegenseitig aus. So entstehen verschiedene
-Versionen des Programmes, deren Leistung auf verschiedenen Kriterien beruht.
-
+Das Ziel der Methode ist es, die in der Fragestellung beschriebene künstliche
+Intelligenz zu entwickeln. Die Auswertung und die Diskussion der Leistung dieser
+Künstlichen Intelligenz führt schlussendlich zu einer Antwort auf die
+Fragestellung. Die Entwicklung der künstlichen Intelligenz selbst besteht aus
+zwei Teilen. Im einen Teil werden die Kriterien definiert, nach denen die
+Leistung der künstlichen Intelligenz evauliert wird. Im anderen Teil wird die
+künstliche Intelligenz zusammen mit verschiedenen Variationen davon entwickelt.
+Die verschiedenen Variationen haben jeweils einen anderen Fokus auf die
+definierten Kriterien.
 
 \section{Evaluierung der Leistung}
-In diesem Abschnitt sind die Kriterien definiert, nach denen die Leistung des
-Computerprogramms bestimmt wird. Der Aufbau des Computerprogrammes richtet sich
-nach diesen Kriterien. Es gibt zwei Kategorien von Kriterien: messbare Kriterien
-und nicht messbare Kriterien. Zwischen den Kategorien gibt es weitere Kriterien,
-die teilweise messbar sind.
+In diesem Kapitel sind die Kriterien definiert, die die Leistung der künstlichen
+Intelligenz evaluierenwir. Die Kriterien erfassen unterschiedliche Aspekte der
+Fragestellung (siehe Diskussion). Es gibt drei Kategorien von Kriterien: messbare % TODO: Ref setzen
+Kriterien, nicht messbare Kriterien und teilweise messbare Kriterien.
 
 \subsection*{Messbare Kriterien}
 \label{chap:m_messbare}
-Messbare Kriterien sind in diesem Fall objektiv. Das heisst sie sind nicht
-abhängig von der Wahrnehmung eines Betrachters. Messbare Kriterien sind durch
-berechenbare Zahlenwerte definiert und stützen auf Daten, die direkt aus dem
-Computerprogramm hervorgehen. Aus diesen Gründen eignen sich messbare Kriterien
-als Reward-Funktionen für einen Reinforcement Learning Algorithmus. Eine
-Reward-Funktion berechnet allerdings nur den Unterschied im Wert des Kriteriums
-zwischen zwei Schritten anstelle des eigentlichen Wertes (siehe Th RL)  % TODO: Ref setzen
+Messbare Kriterien sind objektiv und somit nicht abhängig von der Wahrnehmung
+eines Betrachters. Sie sind durch berechenbare Zahlenwerte definiert und stützen
+auf Daten, die direkt aus dem Computerprogramm hervorgehen. Aus diesen Gründen
+sind messbare Kriterien für Reward Functions (siehe Th RL) geeignet. So kann die % TODO: Ref setzen
+künstliche Intelligenz direkt auf messbare Kriterien trainiert werden.
 
-Ein Beispiel für ein messbares Kriterium ist die \emph{Genauigkeit} der
-Zeichnung. Spezifischer ist damit die Anzahl sich unterscheidender Pixel
-zwischen der Vorlage und der Zeichnung gemeint. Es wird explizit nicht die
-Anzahl der übereinstimmenden Pixel bestimmt, sondern der sich unterscheidenden.
-Das bedeutet, dass ein tieferer Wert dieses Kriteriums einer besseren Leistung
-entspricht. Der Vorteil davon liegt darin, dass die Pixel, die bereits zwischen
-einer leeren Zeichenfläche und der Vorlage übereinstimmen, nicht mitgezählt
-werden. Die Reward-Funktion des Reinforcement Learning Algorithmus in Doodle-SDQ
-(siehe Doodle-SDQ) basiert auf diesem Kriterium.  % TODO: Ref setzen
-\emph{Die prozentuale Genauigkeit} ist ein weiteres messbares Kriterium, das auf
-dem letzten Kriterium basiert. Der Unterschied ist, dass der Wert des Kriterium
-nicht durch eine Anzahl Pixel bestimmt wird, sondern durch den prozentualen
-Anteil der richtigen Pixel in der Zeichnung zur Vorlage. Dieses Kriterium wird
-im nächsten Kapitel (siehe Grundprogramm) genauer behandelt.  % TODO: Ref setzen
-
+Ein Beispiel für ein messbares Kriterium ist die \emph{prozentuale Genauigkeit}
+der Zeichnung. Spezifischer ist damit die prozentuale Übereinstimmung der
+weissen (gezeichneten) Pixel zwischen der Vorlage und der Zeichnung gemeint. Der Wert $K$ dieses
+Kriteriums zu einem bestimmten Schritt $t$ berechnet sich aus folgender Formel:
+\begin{equation}
+  \label{eq:m_reward}
+  K(t) = \frac{G(t)}{G_{max}}
+\end{equation}
+$G_{max}$ entspricht der Anzahl aller weissen Pixeln in der Vorlage. $G(t)$
+entspricht der Anzahl der weissen Pixel, die zwischen der Vorlage und der
+Zeichenfläche übereinstimmen. Wenn der gleiche Pixel (am gleichen Ort) in der
+Vorlage und in der Zeichenfläche weiss ist, erhöht sich diese Anzahl um Eins.
+Wenn in der Zeichenfläche ein weisser Pixel gezeichnet ist, der in der Vorlage
+schwarz ist, sinkt die Anzahl um Eins. $G(t)$ und somit auch $K(t)$ können
+dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
+einer Genauigkeit von $100\%$ entspricht.
 
 \subsection*{Nicht messbare Kriterien}
 Nicht messbare Leistungen sind subjektiv. Sie sind abhängig von der Wahrnehmung
 eines Betrachters. Sie können nicht, oder nicht ausreichend genau durch einen
-Zahlenwert definiert werden. Diese Kriterien funktionieren also nicht als eine
-Reward-Funktion. Dadurch kann auch nicht objektiv beurteilt werden, wie gut die
-Leistung des Computerprogrammes bezogen auf diese Kriterien ist. Die
-\emph{Menschlichkeit} des Computerprogrammes ist ein Beispiel für ein nicht
-messbares Kriterium. Trotzdem ist das Kriterium relevant für die Beantwortung
-der Fragestellung dieser Untersuchung. Das Computerprogramm soll Menschen nachahmen.
-Weil es nicht möglich ist, die Menschlichkeit des Computerprogrammes durch
-Zahlen zu repräsentieren und den Algorithmus darauf zu trainieren, sind nur
-qualitative Annäherungen möglich. 
-\emph{Zeichnen in einer physikalischen Umgebung} ist eine mögliche Annäherung.
-Die Führung eines Stiftes ist mit physikalischen Prozessen aus der Dynamik und
-der Kinematik verbunden. Wie sehr diese physikalischen Prozesse die
-Menschlichkeit des Computerprogrammes beeinflussen ist wie erwähnt nicht
-messbar. Dieses Kriterium kann nur durch Beobachtungen und dem Vergleich mit
-Erfahrungen bestimmt werden.
+Zahlenwert definiert werden. Diese Kriterien ermöglichen somit keine genaue
+Evaluierung der Leistung und können nur diskutiert werden. Durch den fehlenden
+Zahlenwert sind messbare Kriterien ungeeignet für eine Reward Function.
+
+Die \emph{Menschlichkeit} der künstlichen Intelligenz, beziehungsweise des
+Agents ist ein Beispiel für ein nicht messbares Kriterium. Eine andere
+Bezeichnung für dieses Kriterium wäre, wie realistisch die Bewegungen des Agents
+sind. Eine bessere Leistung in diesem Kriterium wird zum Beispiel durch
+simulierte physischen Beschränkungen, die auch in echten Situationen existieren,
+erzielt. Trotzdem sind nur qualitative Annäherungen an die Menschlichkeit der
+künstlichen Intelligenz möglich.  
+
+\emph{Vielfältigkeit} ist ein weiteres nicht messbares Kriterium. Damit ist
+gemeint, wie sich die Leistung der künstlichen Intelligenz für verschiedene
+Arten von Strichbildern verändert. Bei den verschiedenen möglichen Strichbildern
+handelt es sich um Ziffern aus dem MNIST Datenset (ref), Buchstaben aus
+dem EMNIST Datenset (ref) und verschiedenen Strichzeichnungen aus dem  %TODO ref
+Google Quickdraw Datenset (ref). Die Leistungen der künstlichen Intelligenz für
+das Zeichnen der verschiedenen Strichbilder kann durch messbare und teilweise
+messbare Kriterien evaluiert werden. Der Vergleich zwischen diesen Leistungen
+ermöglicht die Diskussion über dieses Kriterium.
 
 \subsection*{Teilweise messbare Kriterien}
 Wie im letzten Abschnitt erwähnt sind bei dem Computerprogramm nur qualitative
@@ -84,6 +85,7 @@ Zeichnung fertig ist.
 Es scheint so, dass für diese Kriterien eine menschliche Beurteilung nötig ist.
 Als Ausblick: Dieser Umstand ist in beiden Fällen durch eine zweite
 künstliche Intelligenz, die die menschliche Beurteilung nachahmt, umgehbar.
+
 
 \subsection*{Wahl der Kriterien}
 Folgende Kriterien werden im Verlauf der Methode weiterverfolgt:
