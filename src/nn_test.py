@@ -9,13 +9,13 @@ import numpy as np
 
 
 class Test_NN():
-    def __init__(self, n_test: int = 100, num_steps: int = 64):
+    def __init__(self, n_test: int = 260, num_steps: int = 64, path_dataset : str = "src/data/json/mnist_test_Data.json"):
         self.n_test = n_test
         self.num_steps = num_steps
 
         canvas_size = 28
         patch_size = 7
-        self.glob_in_dims = (5, canvas_size, canvas_size)
+        self.glob_in_dims = (4, canvas_size, canvas_size)
         self.loc_in_dims = (2, patch_size, patch_size)
         self.n_actions = 2*patch_size**2
         self.episode_mem_size = 700
@@ -26,8 +26,11 @@ class Test_NN():
 
         self.test_data = []
         self.sorted_data = [] 
-        self.data = AI_Data(path="src/data/test_ref_Data.json")
+
+        
+        self.data = AI_Data(path=path_dataset)
         self.data.sample(n_test)
+
 
         self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data)
 
@@ -140,7 +143,7 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN()
+    test = Test_NN(path_dataset="src/data/json/emnist_test_Data.json")
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
