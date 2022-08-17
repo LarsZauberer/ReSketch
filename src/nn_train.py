@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     #load Data
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
-    data = AI_Data(path="src/data/json/train_ref_Data.json")
+    data = AI_Data(path="src/data/json/emnist_test_data.json")
     data.sample(n_episodes)
 
 
@@ -61,7 +61,7 @@ if __name__ == '__main__':
                 illegal_moves = env.illegal_actions(illegal_moves)
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                next_gloabal_obs, next_local_obs, reward = env.step(action, counter=total_counter*n_steps+step, without_rec=True)
+                next_gloabal_obs, next_local_obs, reward = env.step(action)
                 #env.render("Compare", realtime=True)
 
                 # Save new information
@@ -86,7 +86,7 @@ if __name__ == '__main__':
                     scores = []
                     print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
-                    #env.render("Compare")
+                    env.render("Compare")
                     learn_plot.update_plot(real_ep, avg_score)
                 else:
                     print(f"episode: {real_ep}, score: {score}")
