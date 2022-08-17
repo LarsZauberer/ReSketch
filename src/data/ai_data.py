@@ -54,42 +54,7 @@ class AI_Data():
 
 
 
-    def generate_json(self):
-        """
-        Creates a json file containing the given reference data ordered into
-        categories from 0 to 9
-
-        :return: None. Creates a json file
-        :rtype: None
-        """
-        label_Data = pd.read_csv("src/data/labels.csv")
-        ref_Data = pd.read_csv("src/data/ref_Data.csv")
-        label_Data = label_Data.drop('Unnamed: 0', axis=1)
-        ref_Data = ref_Data.drop('Unnamed: 0', axis=1)
-        
-
-        data = [[] for _ in range(10)]
-
-
-        ref_Data["label"] = label_Data["label"]
-
-        ref_Data = ref_Data.tail(6000)
-
-        
-
-        for i in range(10):
-            num = ref_Data.loc[ref_Data["label"] == i]
-            num = num.drop("label", axis=1)
-        
-            lis = []
-            for j in  range(num.shape[0]):
-                lis.append( num.iloc[j].tolist() )
-            
-            
-            data[i] = lis
-
-        with open(self.path, "w") as f:
-            json.dump(data, f)
+    
 
 
 
