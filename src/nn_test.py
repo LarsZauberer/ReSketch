@@ -9,7 +9,7 @@ import numpy as np
 
 
 class Test_NN():
-    def __init__(self, n_test: int = 260, num_steps: int = 64, path_dataset : str = "src/data/json/mnist_test_Data.json"):
+    def __init__(self, n_test: int = 260, num_steps: int = 64, dataset : str = "mnist"):
         self.n_test = n_test
         self.num_steps = num_steps
 
@@ -24,12 +24,16 @@ class Test_NN():
 
         self.done_accuracy = 0.6
 
-        self.test_data = []
-        self.sorted_data = [] 
+        self.dataset = dataset
+        if dataset == "emnist":
+            self.data = AI_Data(path="src/data/json/emnist_test_Data.json")
+        elif dataset == "quickdraw":
+            """..."""
+        else:
+            self.data = AI_Data(path="src/data/json/mnist_test_Data.json")
 
-        
-        self.data = AI_Data(path=path_dataset)
         self.data.sample(n_test)
+
 
 
         self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data)
@@ -39,7 +43,7 @@ class Test_NN():
         self.mnist_model.load_graph_weights()
 
 
-    def test(self, agent: Agent, t_reward: bool = False, t_accuracy: bool = False, t_mnist : bool = False, t_speed : bool = False):
+    def test(self, agent: Agent, t_reward: bool = False, t_accuracy: bool = False, t_datarec : bool = False, t_speed : bool = False):
         """ 
         Tests a given Model for n_test Episodes
         
@@ -49,8 +53,8 @@ class Test_NN():
         :type t_reward: bool
         :param t_accuracy: Test according to percentual accuracy
         :type t_accuracy: bool
-        :param t_mnist: Test according to percentual correct mnist recognition
-        :type t_mnist: bool
+        :param t_datarec: Test according to percentual correct recognition of the drawn motive
+        :type t_datarec: bool
         :param t_speed: Test according to steps until finished
         :type t_speed: bool
         
@@ -62,7 +66,7 @@ class Test_NN():
 
         reward_scores = []
         accuracy_scores = []
-        mnist_scores = []
+        datarec_scores = []
         speed_scores = []
 
         for i in track(range(self.n_test), description="testing"):
@@ -92,16 +96,19 @@ class Test_NN():
                 reward_scores.append(score)
             if t_accuracy: 
                 accuracy_scores.append(1 - self.envir.lastSim)
-            if t_mnist:
-                ref, canv = self.envir.predict_mnist()
-                mnist_scores.append(int(ref == canv))
+            if t_datarec:
+                if self.dataset == "emnist":
+                    "emnist model....."
+                else:
+                    ref, canv = self.envir.predict_mnist()
+                    datarec_scores.append(int(ref == canv))
             if t_speed:
                 speed_scores.append(done_step)
 
         scores = []
         if t_reward: scores.append(np.mean(reward_scores))
         if t_accuracy: scores.append(np.mean(accuracy_scores))
-        if t_mnist: scores.append(np.mean(mnist_scores))
+        if t_datarec: scores.append(np.mean(datarec_scores))
         if t_speed: scores.append(np.mean(speed_scores))
                 
            
@@ -114,7 +121,7 @@ class Test_NN():
             
         :param agent_args: the parameters of the model to be tested
         :type agent_args: dict
-        :param mode: the mode of testing (possibilities: 'reward', 'accuracy', 'mnist', 'speed')
+        :param mode: the mode of testing (possibilities: 'reward', 'accuracy', 'datarec', 'speed')
         :type mode: str
         :return: the Average Accuracy of each Episode in the test
         :rtype: float
@@ -128,27 +135,25 @@ class Test_NN():
             score = self.test(agent, t_reward=True)
         elif mode == "accuracy":
             score = self.test(agent, t_accuracy=True)
-        elif mode == "mnist":
-            score = self.test(agent, t_mnist=True)
+        elif mode == "datarec":
+            score = self.test(agent, t_datarec=True)
         elif mode == "speed":
             score = self.test(agent, t_speed=True)
         else:
-            score = self.test(agent, t_reward=True, t_accuracy=True, t_mnist=True, t_speed=True)
+            score = self.test(agent, t_reward=True, t_accuracy=True, t_datarec=True, t_speed=True)
 
         score = [float('%.3f' % s) for s in score]
         return score
 
 
 
-
-
 if __name__ == '__main__':  
-    test = Test_NN(path_dataset="src/data/json/emnist_test_Data.json")
+    test = Test_NN(dataset="mnist")
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
-    reward, accuracy, mnist, speed = test.test_from_loaded(agent_args)
-    print(f'reward: {reward}, accuracy: {accuracy}, mnist: {mnist}, speed {speed}')
+    reward, accuracy, datarec, speed = test.test_from_loaded(agent_args)
+    print(f'reward: {reward}, accuracy: {accuracy}, {test.dataset} recognition: {datarec}, speed {speed}')
 
