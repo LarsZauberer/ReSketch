@@ -3,10 +3,17 @@ import json
 import numpy as np
 
 class AI_Data():
-    def __init__(self, path : str = "src/data/train_ref_Data.json"):
-        self.path = path
+    def __init__(self, dataset : str = "mnist"):
+        self.dataset = dataset 
+        if dataset == "emnist":
+            path = "src/data/json/emnist_test_data.json"
+        elif dataset == "quickdraw":
+            "...qd..."
+        else:
+            path = "src/data/json/mnist_test_data.json"
+    
+    
         self.ref_data = []
-        
         sorted_data = [] 
         with open(path, "r") as f:
             sorted_data = json.load(f)
@@ -27,12 +34,18 @@ class AI_Data():
         :return: None. It updates the pro_data variable
         :rtype: None
         """
+
+        if self.dataset == "emnist":
+            reshape_ordering = "F"
+        else:
+            reshape_ordering = "C"
+
         sampled = []
         num = int(number/len(self.ref_data))
         for n in range(len(self.ref_data)):
             ind = np.random.choice(len(self.ref_data[n]), num, replace=False)
             for i in ind:
-                sampled.append(np.array(self.ref_data[n][i]).reshape(28,28))
+                sampled.append(np.array(self.ref_data[n][i]).reshape(28,28, order=reshape_ordering))
 
         self.pro_data = sampled
 
