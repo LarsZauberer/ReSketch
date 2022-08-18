@@ -5,19 +5,25 @@ import numpy as np
 class AI_Data():
     def __init__(self, dataset : str = "mnist"):
         self.dataset = dataset 
+        json_import = True
         if dataset == "emnist":
             path = "src/data/json/emnist_test_data.json"
         elif dataset == "quickdraw":
-            "...qd..."
+            json_import = False
+            path = "src/data/quickdraw/full_numpy_bitmap_apple.npy"
         else:
             path = "src/data/json/mnist_test_data.json"
     
-    
-        self.ref_data = []
-        sorted_data = [] 
-        with open(path, "r") as f:
-            sorted_data = json.load(f)
-        self.ref_data = sorted_data
+
+        if json_import:
+            self.ref_data = []
+            sorted_data = [] 
+            with open(path, "r") as f:
+                sorted_data = json.load(f)
+            self.ref_data = sorted_data
+        else:
+            self.ref_data = np.load(path, encoding="latin1", allow_pickle=True)
+            
         
         #processed data
         self.pro_data = []
@@ -40,12 +46,22 @@ class AI_Data():
         else:
             reshape_ordering = "C"
 
-        sampled = []
-        num = int(number/len(self.ref_data))
-        for n in range(len(self.ref_data)):
-            ind = np.random.choice(len(self.ref_data[n]), num, replace=False)
+        if self.dataset == "quickdraw":
+            sampled = []
+            ind = np.random.choice(len(self.ref_data), number, replace=False)
             for i in ind:
-                sampled.append(np.array(self.ref_data[n][i]).reshape(28,28, order=reshape_ordering))
+                arr = np.array(self.ref_data[i]).reshape(28,28, order=reshape_ordering)
+                arr = np.where(arr > 0, 1, arr)
+                print(arr)
+                sampled.append(arr)
+        else:
+            sampled = []
+            num = int(number/len(self.ref_data))
+            for n in range(len(self.ref_data)):
+                ind = np.random.choice(len(self.ref_data[n]), num, replace=False)
+                for i in ind:
+                    arr = np.array(self.ref_data[n][i]).reshape(28,28, order=reshape_ordering)
+                    sampled.append(arr)
 
         self.pro_data = sampled
 

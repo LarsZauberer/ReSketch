@@ -2,6 +2,7 @@ from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.ai_data import AI_Data
 from mnist_model.models import EfficientCapsNet
+from time import sleep
 
 from rich.progress import track
 import numpy as np
@@ -43,7 +44,7 @@ class Test_NN():
         self.mnist_model.load_graph_weights()
 
 
-    def test(self, agent: Agent, t_reward: bool = False, t_accuracy: bool = False, t_datarec : bool = False, t_speed : bool = False):
+    def test(self, agent: Agent, t_reward: bool = False, t_accuracy: bool = False, t_datarec : bool = False, t_speed : bool = False, t_vis: bool = False):
         """ 
         Tests a given Model for n_test Episodes
         
@@ -80,6 +81,10 @@ class Test_NN():
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
                 next_gloabal_obs, next_local_obs, reward = self.envir.step(action)
+                
+                if t_vis:
+                    self.envir.render("Compare", realtime=True)
+                    sleep(0.1)
 
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
@@ -139,6 +144,8 @@ class Test_NN():
             score = self.test(agent, t_datarec=True)
         elif mode == "speed":
             score = self.test(agent, t_speed=True)
+        elif mode == "vis":
+            score = self.test(agent, t_vis=True)
         else:
             score = self.test(agent, t_reward=True, t_accuracy=True, t_datarec=True, t_speed=True)
 
@@ -148,12 +155,12 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(dataset="emnist")
+    test = Test_NN(dataset="quickdraw")
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
-    reward, accuracy, datarec, speed = test.test_from_loaded(agent_args)
+    reward, accuracy, datarec, speed = test.test_from_loaded(agent_args, mode="vis")
     print(f'reward: {reward}, accuracy: {accuracy}, {test.dataset} recognition: {datarec}, speed {speed}')
 
