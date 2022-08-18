@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     #load Data
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
-    data = AI_Data(path="src/data/json/emnist_test_data.json")
+    data = AI_Data(dataset="mnist")
     data.sample(n_episodes)
 
 
