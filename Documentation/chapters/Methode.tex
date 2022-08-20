@@ -22,6 +22,53 @@ Evaluierung sind alle Kriterien durch einen Zahlenwert repräsentierbar. Dieser
 Zahlenwert geht direkt aus Berechnungen im Computerprogramm hervor. Die
 Kriterien und ihre jeweiligen Berechnungen werden nachfolgend beschrieben.
 
+\subsection{Erkennbarkeit}
+Das Kriterium der Erkennbarkeit beschreibt, ob in der Vorlage das gleiche Motiv
+wie in der Zeichnung der künstlichen Intelligenz erkannt wird. Wenn
+Beispielsweise in beiden Fällen eine Fünf erkannt wird, hat das Kriterium den
+Wert $1$. Wird in der Vorlage eine Fünf erkannt, aber in der Zeichnung eine
+Vier, hat das Kriterium den Wert $0$
+
+Welches Motiv in der Zeichnung erkannt wird, ist durch eine zweite künstliche
+Intelligenz bestimmt. Diese künstliche Intelligenz beurteilt ein Motiv nur als
+erkannt, wenn das zugehörige Neuron im Output des neuronalen Netzen einen Wert
+von über $0.9$ hat. Das entspricht einer hohen Wahrscheinlichkeit zur korrekten
+Beurteilung.
+
+Für die verschiedenene Arten von Strichbildern, die die künsltiche Intelligenz
+zeichnen soll, existieren vortrainierte Modelle von neuronalen Netzen. Die
+vortrainierten Modelle, die in dieser Arbeit verwendet wurden sind in der
+Tabelle ... ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die für
+die künstlichen Intelligenz dieser Arbeit als Vorlage zum Abzeichnen dienen.
+
+
+Tabelle
+
+Art       |       Entwickler      |     Trainiert mit     |      Genauigkeit 
+
+Zahlen  
+
+Buchstaben
+
+Strichbilder von Objekten
+
+
+Dieses Kriterium ist in der Fragestellung dieser Untersuchung angedeutet. Die
+Frage ist bestätigt, wenn die künstliche Intelligenz auf physische Weise
+zeichnet und dieses Kriterium konsequet erfüllt. Es gibt aber noch weitere
+Kriterien, die andere Facetten der Leistung der künstlichen Intelligenz
+betreffen
+
+
+
+
+
+
+
+% TODO: Prozent berechnen und hinzufügen
+
+ 
+% TODO: Evt. Veränderung des Wertes
 
 
 \subsection*{Messbare Kriterien}
