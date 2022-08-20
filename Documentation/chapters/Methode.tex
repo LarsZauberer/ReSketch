@@ -57,10 +57,26 @@ Dieses Kriterium ist in der Fragestellung dieser Untersuchung angedeutet. Die
 Frage ist bestätigt, wenn die künstliche Intelligenz auf physische Weise
 zeichnet und dieses Kriterium konsequet erfüllt. Es gibt aber noch weitere
 Kriterien, die andere Facetten der Leistung der künstlichen Intelligenz
-betreffen
+betreffen.
 
 
-
+\subsection{Prozentuale Übereinstimmung}
+Dieses Kriterium ist durch die die prozentuale Übereinstimmung der weissen
+(gezeichneten) Pixel zwischen der Vorlage und der Zeichnung der künstlichen
+Intelligenz definiert. Der Wert $K$ dieses Kriteriums zu einem bestimmten
+Schritt $t$ berechnet sich aus folgender Formel:
+\begin{equation}
+  \label{eq:m_reward}
+  K(t) = \frac{G(t)}{G_{max}}
+\end{equation}
+$G_{max}$ entspricht der Anzahl aller weissen Pixeln in der Vorlage. $G(t)$
+entspricht der Anzahl der weissen Pixel, die zwischen der Vorlage und der
+Zeichenfläche übereinstimmen. Wenn der gleiche Pixel (am gleichen Ort) in der
+Vorlage und in der Zeichenfläche weiss ist, erhöht sich diese Anzahl um Eins.
+Wenn in der Zeichenfläche ein weisser Pixel gezeichnet ist, der in der Vorlage
+schwarz ist, sinkt die Anzahl um Eins. $G(t)$ und somit auch $K(t)$ können
+dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
+einer Genauigkeit von $100\%$ entspricht.
 
 
 
@@ -79,22 +95,7 @@ auf Daten, die direkt aus dem Computerprogramm hervorgehen. Aus diesen Gründen
 sind messbare Kriterien für Reward Functions (siehe Th RL) geeignet. So kann die % TODO: Ref setzen
 künstliche Intelligenz direkt auf messbare Kriterien trainiert werden.
 
-Ein Beispiel für ein messbares Kriterium ist die \emph{prozentuale Genauigkeit}
-der Zeichnung. Spezifischer ist damit die prozentuale Übereinstimmung der
-weissen (gezeichneten) Pixel zwischen der Vorlage und der Zeichnung gemeint. Der Wert $K$ dieses
-Kriteriums zu einem bestimmten Schritt $t$ berechnet sich aus folgender Formel:
-\begin{equation}
-  \label{eq:m_reward}
-  K(t) = \frac{G(t)}{G_{max}}
-\end{equation}
-$G_{max}$ entspricht der Anzahl aller weissen Pixeln in der Vorlage. $G(t)$
-entspricht der Anzahl der weissen Pixel, die zwischen der Vorlage und der
-Zeichenfläche übereinstimmen. Wenn der gleiche Pixel (am gleichen Ort) in der
-Vorlage und in der Zeichenfläche weiss ist, erhöht sich diese Anzahl um Eins.
-Wenn in der Zeichenfläche ein weisser Pixel gezeichnet ist, der in der Vorlage
-schwarz ist, sinkt die Anzahl um Eins. $G(t)$ und somit auch $K(t)$ können
-dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
-einer Genauigkeit von $100\%$ entspricht.
+Ein Beispiel für ein messbares Kriterium ist die 
 
 \subsection*{Nicht messbare Kriterien}
 Nicht messbare Leistungen sind subjektiv. Sie sind abhängig von der Wahrnehmung
