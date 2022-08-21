@@ -12,8 +12,6 @@ Kriterien. Die Auswertung bezieht sich ebenfalls auf die definierten Kriterien.
 Die Leistung der künstlichen Intelligenz wird dabei in einer Testumgebung für
 das Zeichnen von verschiedenen Arten von Strichbildern gemessen.
 
-
-
 \section{Evaluierung der Leistung}
 In diesem Unterkapitel sind die Kriterien definiert, die die Leistung der
 künstlichen Intelligenz evaluieren. Mit anderen Worten beschreiben die
@@ -41,24 +39,17 @@ vortrainierten Modelle, die in dieser Arbeit verwendet wurden sind in der
 Tabelle ... ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die für
 die künstlichen Intelligenz dieser Arbeit als Vorlage zum Abzeichnen dienen.
 
-
-Tabelle
-
+Tabelle:
 Art       |       Entwickler      |     Trainiert mit     |      Genauigkeit 
 
 Zahlen  
-
 Buchstaben
-
 Strichbilder von Objekten
 
-
 Dieses Kriterium ist in der Fragestellung dieser Untersuchung angedeutet. Die
-Frage ist bestätigt, wenn die künstliche Intelligenz auf physische Weise
-zeichnet und dieses Kriterium konsequet erfüllt. Es gibt aber noch weitere
-Kriterien, die andere Facetten der Leistung der künstlichen Intelligenz
-betreffen.
-
+Frage ist bestätigt, wenn die künstliche Intelligenz dieses Kriterium konsequet
+erfüllt (und auf physische Weise zeichnet). Es gibt aber noch weitere Kriterien,
+die andere Facetten der Leistung der künstlichen Intelligenz betreffen.
 
 \subsection{Prozentuale Übereinstimmung}
 Dieses Kriterium ist durch die die prozentuale Übereinstimmung der weissen
@@ -78,86 +69,21 @@ schwarz ist, sinkt die Anzahl um Eins. $G(t)$ und somit auch $K(t)$ können
 dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
 einer Genauigkeit von $100\%$ entspricht.
 
+\section{Geschwindigkeit}
+Dieses Kriterium beschreibt, wie schnell die Zeichnung der künstlichen
+Intelligenz fertig ist. Der Wert dieses Kriteriums entspricht der Anzahl Steps,
+die die künstliche Intelligenz macht, bis die Zeichnung fertig ist. Eine
+kleinere Anzahl Steps entspricht einer schnelleren Fertigstellung der Zeichnung
+und somit einer besseren Leistung nach diesem Kriterium
+
+Eine Zeichnung gilt als fertig, wenn die prozentuale Übereinstimmung (siehe proz
+Übereinstimmung) mindestens 70\% beträgt und die Zahl nach der Definition (siehe
+erkennbarkeit) erkannt wird. Wenn die Zeichnung bis zum Ende die Bedingungen
+einer fertigen Zeichnung nicht erfüllt, hat dieses Kriterium den Wert $64$. Das
+entspricht der maximalen Anzahl Steps, die die künstliche Intelligenz für eine
+Zeichnung begeht.
 
 
-
-% TODO: Prozent berechnen und hinzufügen
-
- 
-% TODO: Evt. Veränderung des Wertes
-
-
-\subsection*{Messbare Kriterien}
-\label{chap:m_messbare}
-Messbare Kriterien sind objektiv und somit nicht abhängig von der Wahrnehmung
-eines Betrachters. Sie sind durch berechenbare Zahlenwerte definiert und stützen
-auf Daten, die direkt aus dem Computerprogramm hervorgehen. Aus diesen Gründen
-sind messbare Kriterien für Reward Functions (siehe Th RL) geeignet. So kann die % TODO: Ref setzen
-künstliche Intelligenz direkt auf messbare Kriterien trainiert werden.
-
-Ein Beispiel für ein messbares Kriterium ist die 
-
-\subsection*{Nicht messbare Kriterien}
-Nicht messbare Leistungen sind subjektiv. Sie sind abhängig von der Wahrnehmung
-eines Betrachters. Sie können nicht, oder nicht ausreichend genau durch einen
-Zahlenwert definiert werden. Diese Kriterien ermöglichen somit keine genaue
-Evaluierung der Leistung und können nur diskutiert werden. Durch den fehlenden
-Zahlenwert sind messbare Kriterien ungeeignet für eine Reward Function.
-
-Die \emph{Menschlichkeit} der künstlichen Intelligenz, beziehungsweise des
-Agents ist ein Beispiel für ein nicht messbares Kriterium. Eine andere
-Bezeichnung für dieses Kriterium wäre, wie realistisch die Bewegungen des Agents
-sind. Eine bessere Leistung in diesem Kriterium wird zum Beispiel durch
-simulierte physischen Beschränkungen, die auch in echten Situationen existieren,
-erzielt. Trotzdem sind nur qualitative Annäherungen an die Menschlichkeit der
-künstlichen Intelligenz möglich.  
-
-\emph{Vielfältigkeit} ist ein weiteres nicht messbares Kriterium. Damit ist
-gemeint, wie sich die Leistung der künstlichen Intelligenz für verschiedene
-Arten von Strichbildern verändert. Bei den verschiedenen möglichen Strichbildern
-handelt es sich um Ziffern aus dem MNIST Datenset (ref), Buchstaben aus
-dem EMNIST Datenset (ref) und verschiedenen Strichzeichnungen aus dem  %TODO ref
-Google Quickdraw Datenset (ref). Die Leistungen der künstlichen Intelligenz für
-das Zeichnen der verschiedenen Strichbilder kann durch messbare und teilweise
-messbare Kriterien evaluiert werden. Der Vergleich zwischen diesen Leistungen
-ermöglicht die Diskussion über dieses Kriterium.
-
-\subsection*{Teilweise messbare Kriterien}
-Wie im letzten Abschnitt erwähnt sind bei dem Computerprogramm nur qualitative
-Annäherungen an die Menschlichkeit möglich. Einige mögliche Annäherungen sind
-jedoch teilweise messbar. Mit teilweise messbar ist hier gemeint, dass die
-Kriterien durch einen Zahlenwert repräsentiert werden können, aber zuerst
-subjektiv definiert werden müssen. Mit dem Zahlenwert in der Reward-Funktion
-kann der Algorithmus auf diese Kriterien trainiert werden.
-
-Ein Beispiel ist die \emph{Erkennbarkeit} der Zeichnung. Entweder ist die
-richtige Zahl in der Zeichnung erkennbar oder nicht. Diese möglichen Ausgänge
-können durch Zahlen, zum Beispiel Eins und Null, repräsentiert werden. Dafür
-muss jedoch definiert sein, wann die Zahl erkennbar ist. 
-Ein weiteres Beispiel ist die \emph{Geschwindigkeit} des Zeichnens, oder
-spezifischer die Anzahl Schritte bis zur Fertigstellung der Zeichnung. Diese
-Zahl ist messbar. Für dieses Kriterium muss jedoch definiert sein, wann die
-Zeichnung fertig ist.
-
-Es scheint so, dass für diese Kriterien eine menschliche Beurteilung nötig ist.
-Als Ausblick: Dieser Umstand ist in beiden Fällen durch eine zweite
-künstliche Intelligenz, die die menschliche Beurteilung nachahmt, umgehbar.
-
-
-\subsection*{Wahl der Kriterien}
-Folgende Kriterien werden im Verlauf der Methode weiterverfolgt:
-
-\begin{itemize}
-  \item Prozentuale Genauigkeit
-  \item Zeichnen in einer physikalischen Umgebung
-  \item Erkennbarkeit 
-  \item Geschwindigkeit
-\end{itemize}
-
-Die nächsten Kapitel behandeln jeweils eines dieser Kriterien in dieser Reihenfolge.
-
-% TODO: Ich finde die Section zwar wichtig, ist aber denke ich eigentlich zu kurz um eine eigene Section sein zu können.
-% BUG: Ruh
 
 \section{Grundprogramm}
 \label{chap:m_grundprogramm}
