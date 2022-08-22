@@ -12,7 +12,6 @@ Kriterien. Die Auswertung bezieht sich ebenfalls auf die definierten Kriterien.
 Die Leistung der künstlichen Intelligenz wird dabei in einer Testumgebung für
 das Zeichnen von verschiedenen Arten von Strichbildern gemessen.
 
-
 \section{Grundprogramm}
 \label{chap:m_grundprogramm}
 Die künstliche Intelligenz ist abhängig von den Kriterien, die dessen Leistung
@@ -34,14 +33,19 @@ des Outputs und den hidden Layers, sind keine weiteren Konzepte von Doodle-SDQ
 übernommen. Die relevanten Anpassungen von Doodle-SDQ für das Grundprogramm
 dieser Arbeit sind nachfolgend erläutert.
 
+%TODO ref theorie Doodle-sdq
 Bei der Umgebung handelt es sich, wie bei Doodle-SDQ, um eine Zeichenfläche,
 worauf sich der Agent frei bewegen kann. Die Ziffern, die während dem Training
 nachgezeichnet werden sollen, stammen aus dem MNIST Datenset und haben somit
-eine Grösse von $28\times28$ Pixeln. Die Fläche, worauf sich der Agent bewegen
-kann, hat somit
-%TODO ref theorie Doodle-sdq
-auch eine Grösse von $28\times28$ Pixeln. Die `globale' Eingabe in das Neuronale
-Netz ändert sich bis auf diese neue Grösse der Bilder nicht.
+eine Grösse von $28\times28$ Pixeln. Die Fläche, worauf sich der Agent bewegen   
+kann, hat somit auch eine Grösse von $28\times28$ Pixeln. Die `globale' Eingabe
+in das Neuronale Netz ändert sich bis auf diese neue Grösse der Bilder nicht.
+Die genaue Architektur des neuronalen Netzes sieht folgendermassen aus (siehe
+Abbildung NN Architektur). Jeder Block in der Abbildung repräsentiert Eine Layer
+des neuronalen Netzes, wobei die Form des Inputs und die Form des Outputs von
+jeder Layer angegeben ist. 
+
+(Bild Architektur NN) %TODO Bild
 
 Die Bilder, wie auch die Zeichenfläche, haben die Datenstruktur einer Bitmap. Es
 handelt sich also um eine $28\times28$ Matrix, wobei jedes Element eine Null oder eine 
@@ -71,65 +75,47 @@ Folge, dass nach der Trainingsphase die allermeisten unzulässigen Aktionen eine
 tiefen Q-Wert haben. Das senkt die Wahrscheinlichkeit, dass der Agent versucht,
 eine unzulässige Aktion auszuführen.
 
-
 \subsection{Präparierung der Daten und Training}
-Das in dieser Arbeit verwendete MNIST Datenset besteht aus $42000$ Bildern von
-handgeschriebenen Zahlen zwischen Null und Neun. Die Bilder im Datenset sind als
-Bitmap dargestellt, wobei jedes Element (jeder Pixel) einen Wert zwischen $0$ und
-255 annimmt. Die Zahl räpresentiert einen Punkt auf dem Spektrum von Grautönen,
+Das für das Training der künstlichen Intelligenz verwendete MNIST Datenset
+besteht aus $42000$ Bildern von handgeschriebenen Ziffern. Die Bilder im
+Datenset sind als Bitmap dargestellt, wobei jedes Element (jeder Pixel) einen
+Wert zwischen $0$ und $255$ annimmt. Die Zahl räpresentiert einen Graustufe,
 wobei 0 Schwarz ist und 255 Weiss. Diese Graustufen werden entfernt. Jeder Pixel
-mit einem Wert über 0 übernimmt den Wert 1. So stimmen die Bilder mit den
-Zeichnungen, die der Agent produzieren kann, überein.
+mit einem Wert über 0 übernimmt den Wert 1, wodurch die Bilder nur noch aus
+Einsen und Nullen bestehen. So stimmen die Bilder mit den Zeichnungen, die der
+Agent produzieren kann, überein.
 
 Die Trainingsdaten bestehen aus $36000$ der $42000$ Bilder im Datenset. Die
-restlichen $6000$ Bilder sind für die Testphase aufgehoben. Das Grundprogramm
-trainiert mit $4000$ Bildern, von denen jede Zahl von Null bis Neun $400$ Bilder
-ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche
-Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder insgesamt
-drei mal. Mit anderen Worten Läuft die Trainingsphase für $3$ Epochen mit
-jeweils $4000$ Episoden. Der Agent macht $64$ Schritte pro Episode. Er kann sich
-also pro Zeichnung $64$ mal bewegen. Insgesamt trainiert der Algorithmus somit
-auf der Basis von $3\cdot4000\cdot64$ = $780'000$ Schritten. Der Replay Buffer
-(siehe Replay Buffer) speichert die Schritte von $700$ Episoden. Somit speichert  % TODO: Ref setzen
-er $700\cdot64 = 44'800$ Schritte. Das Training (des Neuronalen Netz) findet in
-jedem vierten Schritt statt mit einem Batch von $64$ zufällig gewählten
-Schritten aus dem replay buffer.
-% TODO: Braucht noch mehr referenzen von den Begriffen
-% TODO: Sollten diese ganzen Zahlen und daten vielleicht als Tabelle dargestellt werden?
-% TODO: Brauchen diese unteren Daten aus der Architektur mit den Hyperparametern ein eigenes Kapitel
-% TODO: Manche Parameter müssen später nochmals geändert werden
-% BUG: Ruh
+restlichen $6000$ Bilder sind Teil des Test Datensets. Das Grundprogramm
+trainiert mit $4000$ Bildern, von denen jede Ziffer $400$ Bilder ausmacht. Die
+restlichen Bilder in den Trainingsdaten sind für mögliche Erweiterungen
+aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder insgesamt zwei Mal. Mit
+anderen Worten Läuft die Trainingsphase für $2$ Epochen mit jeweils $4000$
+Episoden. Der Agent macht $64$ Schritte pro Episode. Er kann sich also pro
+Zeichnung $64$ mal bewegen. Das Training (des Neuronalen Netz) findet in jedem
+vierten Schritt statt mit einem Batch von $64$ zufällig gewählten Schritten aus
+dem Replay Buffer.
+% TODO: Parameter in Zukunft ändern
 
 \subsection{Hyperparameteroptimierung}
 \label{chap:Hyperparameter Optimierung}
 Die genauen Hyperparameter des Reinforcement Learning Modells, wie auch die der     
 Variationen (siehe Variation) stehen im Anhang. Alle diese Hyperparameter sind    %todo ref
 durch eine Implementierung des Baysian Algorithmus \cite{fernando_bayesian_2022}
-(siehe Theorie Baysian) optimiert.
+(siehe Theorie Baysian) optimiert. Der Baysian Algorithmus ändert sich für
+verschiedene Variationen der künstlichen Intelligenz nicht. Somit ist der
+Baysian Algorithmus Teil des Grundprogrammes, wobei er zu der optimalen Leistung
+der künstlichen Intelligenz beiträgt. 
 
 Mit jeder Iteration des Baysian Algorithmus trainiert das Reinforcement Learning
 Modell für eine Epoch und $4000$ Episodes. Das Training läuft dabei in jeder
 Iteration mit den selben $4000$ Bildern als Vorlagen in der selben Reihenfolge
 ab. Das schliesst einen willkürlichen Einfluss der Trainingsdaten während der
 Optimierung aus. Der Wert, der durch den Baysian Algorithmus maximiert werden
-soll, wird am Ende jedes Trainings berechnet. 
-
-
-
-
-
-% Baysian Optimization. Hyperparameter Optimierung. Vlt. Geschwindigkeitsoptimierung des Algorithmus
-Zur Optimierung der Hyperparameter wird der Baysian Algorithmus verwendet. Es
-wird ein bereits implementierung in Python genutzt, um eine schnellere
-Ergebnisse zu erzielen. \cite{fernando_bayesian_2022}
-
-Als Blackboxfunktion wurde das Agent im Environment genommen. Dieser trainiert
-$4000$ Episoden und der Durchschnitt des Rewards der letzten 12 Episoden wird
-als Wert zur optimierung verwendet. Um eine bessere Vergleichbarkeit dieser
-Werte sicherzustellen, werden immer dieselben $4000$ Referenzbilder gezeigt.
-% TODO: Wahrscheinlich in das Grundprogramm
-% BUG: Ruh
-
+soll, wird am Ende jedes Trainings berechnet. Dieser Wert wird in der
+Testumgebung (siehe Auswertung) mit der gerade trainierten künstlichen    %TODO ref auswertung 
+Intelligenz berechnet. Das Kriterium, wonach die Leistung in der Testumgebung
+berechnet wird, ist frei wählbar.
 
 
 \section{Evaluierung der Leistung}
@@ -204,7 +190,53 @@ entspricht der maximalen Anzahl Steps, die die künstliche Intelligenz für eine
 Zeichnung begeht.
 
 
+\section{Variationen}
+Dieses Kapitel beschreibt Variationen vom Grundprogramm (siehe Grundprogramm).
+Bei einigen dieser Variationen handelt es sich um konkrete Implementierungen der
+definierten Kriterien in die Reward Function. Die Variationen überschneiden sich
+teilweise in den Kriterien, die sie Implementieren. Der Unterschied der
+Variationen liegt im Fokus auf die verschiedenen Kriterien. Einige Variationen
+sind auch untereinander kombinierbar. Variationen können auch strukturelle
+Änderungen an der künsltichen Intelligenz, abgesehen von der Reward Function
+haben. Das Ziel dieser strukturellen Änderungen ist eine grundsätzliche
+Verbesserung, oder zumindest eine Veränderung der Leistung der künstlichen
+Intelligenz. 
 
+%TODO ref
+\subsection{Basis Reward Function}
+Die Basis Reward Function ist die einfachste Erweiterung des Grundprogrammes zu
+einer funktionierenden künstlichen Intelligenz. Diese Reward Function
+implementiert das Kriterium der prozentualen Übereinstimmung (ref proz
+Übereinstimmung). Der Reward für eine Aktion berechnet sich aus der Differenz
+zwischen der prozentualen Übereinstimmung vor dem Ausführen der Aktion und der
+prozentualen Übereinstimmung nach dem Ausführen der Aktion. Somit wird der
+Reward $R$ zum Schritt $t$ durch folgende Formel berechnet. (Für $K(t)$: siehe eval)
+$$R(t) = K(t) - K(t-1)$$
+Der Reward eines Schrittes entspricht dadurch nicht der gesamten prozentualen
+Übereinstimmung, sondern lediglich der Veränderung dieser, die durch den Schritt
+auslöst. Der addierte Reward aller Schritte enstspricht dem absoluten Wert der
+prozentualen Übereinstimmung.
+
+
+\subsection{Training auf Geschwindigkeit}
+Der numerische Wert für die Zeit bis zur Fertigstellung der Zeichnung (die
+Geschwindigkeit) kann in die Reward-Function integriert werden. Dadurch
+trainiert die künstliche Intelligenz auf die kürzeste Zeit bis zur
+Fertigstellung. Die Variation verwendet die grundsätzlich die Basis Reward
+Function. Die Anpassung davon sieht folgendermassen aus: Am Ende jeder Zeichnung
+wird der Reward jedes Schrittes mit einem Faktor $F$ multipliziert. Dieser
+Faktor berechnet sich aus folgender Formel:
+$$ F = 2 - \frac{S}{S_{max}}$$
+$S_{max}$ entspricht der Anzahl Schritte, die der Agent pro Zeichnung (Episode) begeht (siehe Grundprogramm). %TODO: ref setzen.
+$S$ Entspricht der Anzahl Schritte zur Fertigstellung der Zeichnung. Der Faktor
+nimmt einen Wert zwischen $1$ und $2$ an. Wenn der Agent die Zeichnung bis zum
+Ende einer Episode nicht fertigstellen kann, ist $F = 1$. In diesem Fall wird
+der Reward also nicht angepasst. Der Agent zeichnet immer $S_{max}$ Schritte pro
+Episode. Das verhindert eine ungleichmässige Verteilung der verschiedenen
+Episoden im replay-buffer. $S$ wird bis an das Ende der Episode gespeichert,
+wenn die Anforderungen für die Fertigstellung einer Zeichnung das erste Mal
+erfüllt sind.
+               
 
 
 
@@ -383,25 +415,7 @@ Fertigstellung. Die Zeichnung gilt als fertig, wenn die prozentuale Genauigkeit
 mindestens 70\% beträgt und die Zahl nach der Definition im letzten Kapitel
 erkannt wird. % TODO: ref setzen
 
-\subsection*{Training auf Geschwindigkeit}
-Der numerische Wert für die Zeit bis zur Fertigstellung der Zeichnung (die
-Geschwindigkeit) kann in die Reward-Funktion integriert werden. Dadurch wird der
-Reinforcement Learning Algorithmus auf die maximale Geschwindigkeit trainiert.
-Die angepasste Reward-Funktion sieht folgendermassen aus: Am Ende jeder
-Zeichnung wird der Reward jedes Schrittes mit einem Faktor $F$ multipliziert. Dieser
-Faktor berechnet sich aus folgender Formel:
 
-$$ F = 2 - \frac{S}{S_{max}}$$
-
-$S_{max}$ entspricht der Anzahl Schritte, die der Agent pro Zeichnung (Episode) begeht (siehe Grundprogramm). %TODO: ref setzen.
-$S$ Entspricht der Anzahl Schritte zur fertigstellung der Zeichnung. Der Faktor
-nimmt einen Wert zwischen $1$ und $2$ an. Wenn der Agent die Zeichnung bis zum
-Ende einer Episode nicht fertigstellen kann, ist $F = 1$. In diesem Fall wird
-der Reward also nicht angepasst. Der Agent zeichnet immer $S_{max}$ Schritte pro
-Episode. Das verhindert eine ungleichmässige Verteilung der verschiedenen
-Episoden im replay-buffer. $S$ wird bis an das Ende der Episode gespeichert,
-wenn die Anforderungen für die Fertigstellung einer Zeichnung das erste Mal
-erfüllt sind.
 
 % mögliche Erweiterungen:
 % - Relative Schrittzahl in Input
