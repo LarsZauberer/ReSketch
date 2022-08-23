@@ -235,8 +235,65 @@ der Reward also nicht angepasst. Der Agent zeichnet immer $S_{max}$ Schritte pro
 Episode. Das verhindert eine ungleichmässige Verteilung der verschiedenen
 Episoden im replay-buffer. $S$ wird bis an das Ende der Episode gespeichert,
 wenn die Anforderungen für die Fertigstellung einer Zeichnung das erste Mal
-erfüllt sind.
-               
+erfüllt sind. 
+Die Anpassung der Bedingung für eine fertige Zeichnung während dem Training
+ermöglicht eine weitere Verbesserung der Geschwindigkeit. Die minimale
+prozentuale Übereinstimmung einer fertigen Zeichnung ist als $80\%$ definiert.
+Zu beginn des Trainings wird dieser Wert auf $30\%$ heruntergesetzt, und über
+das Training hinweg linear bis auf $80\%$ erhöht. Dadurch löst die Reward
+Function bereits bei einer unfertigen Zeichnung positive Rewards für die
+Geschwindigkeit aus, was den Fokus auf eine maximale Geschwindigkeit weiter
+erhöht.
+
+%TODO Schwellenwert über Training hinweg erhöhen
+
+
+\subsection{Training auf Erkennbarkeit}
+Das Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
+teilweise in die Reward Function integriert werden. Das Kriterium strebt eine
+Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe eval
+erkennbarkeit). Die künstliche Intelligenz trainiert allerdings nur auf das
+Nachzeichnen von Ziffern. Aus diesem Grund trainiert diese Variation nur auf die
+Erkennbarkeit von Ziffern, und lässt die anderen Arten von Strichbildern ausser
+vor. 
+
+Die Reward Function beinhaltet die künstliche Intelligenz, die handgeschriebene
+Ziffern erkennt (siehe eval erkennbarkeit). Diese künstliche Intelligenz
+beurteilt in jedem Schritt, welche Ziffern in der Vorlage und der aktuellen
+Zeichnung erkannt werden. Wenn die erkannte Zahl in der Vorlage und der
+Zeichnung gleich ist, erhält der Agent einen Reward von $0.1$. In diesem Zustand     %TODO Code präzision
+funktioniert die Reward-Funktion nicht. Das heisst, der Agent kann den
+akkumulierten Reward nicht vergrössern. Zwei Ansätze lösen dieses Problem. Beide
+Ansätze sind Teil dieser Variation
+
+Der erste Ansatz ist es, die künstliche Intelligenz, die Ziffern erkennt, erst
+ab einer gewissen prozenutalen Übereinstimmung (siehe prozentuale
+Übereinstimmung) einzusetzen. Das heisst, dass die korrekte Erkennung erst ab
+einer prozentualen Übereinstimmung von $20\%$ einen positiven Reward auslöst.
+Diese zusätzliche Bedingung ist notwendig, weil die Einschätzung der Ziffern
+durch die künstlichen Intelligenz teilweise für einen menschlichen Betrachter
+fragwürdig ist. Zum Beispiel schätzt die Schrifterkennungssoftware eine leere
+Zeichenfläche mit einer hohen Wahrscheinlichkeit als eine Eins ein. Das ist in
+diesem Fall ein Problem, weil dadurch der Agent einen positiven Reward (eine
+Belohnung) für eine leere Zeichenfläche erhält. Das stört das weitere
+Lernverhalten, indem es wahrscheinlicher wird, dass der Agent nicht mehr
+zeichnet. 
+
+Der zweite Ansatz beinhaltet ebenfalls das Kriterium der prozentualen
+Übereinstimmung. Dieses Kriterium ist in dieser Variation gleich wie in der
+Basis Reward Function implementiert. Der Unterschied ist, dass der Reward durch
+diese Reward Function über das Training hinweg linear kleiner wird. Das Training
+startet mit 100\% dieses Rewards und sinkt bis zur letzten Episode des Trainings
+auf 10\%. Gleichzeitig nimmt der Reward durch die korrekte Erkennung der Ziffer
+linear zu. Die Reward Function ändert sich somit über den Verlauf des Trainings
+hinweg. Das hat den Vorteil, dass die künstliche Intelligenz am Anfang des
+Trainings durch das Kriterium der prozentualen Übereinstimmung bereits für
+kleine Erfolge positive Rewards bekommt. Das Kriterium der Erkennbarkeit
+ermöglichst erst bei einer korrekten Erkennung einen Reward. Diese korrekte
+Erkennung ist für eine untrainierte künstliche Intelligenz schwer zu erreichen,
+wodurch sie nur in seltenen Fällen einen positiven Reward erreichen würde.
+
+
 
 
 
@@ -339,81 +396,7 @@ das bestmöglichste Ergebnis zu erzielen.
 % TODO: Ist das Überhaupt eine gute Idee, weil wir so die Aufgabenstellung des menschlichen Zeichnens verfremden?
 
 
-\section{Schrifterkennung als Kriterium}
-Dieses Kapitel behandelt das Kriterium der Erkennbarkeit der gezeichneten Zahl.
-Dieses Kriterium nähert qualitativ die Menschlichkeit der Zeichnung, im
-Vergleich zum Kriterium der prozentualen Genauigkeit, weiter an. Die Annäherung
-an menschliches Verhalten liegt dabei in der Annahme, dass für Menschen
-Erkennbarkeit wichtiger als Genauigkeit ist. Diese Annahme erklärt zum Beispiel
-Unterschiede in der Handschrift von verschiedenen Menschen. Handgeschriebene
-Zahlen sehen je nach Person verschieden aus, bleiben aber in den allermeisten
-Fällen für andere Personen erkennbar. So wäre es auch für das Computerprogramm
-profitabel, Erkennbarkeit der Genauigkeit vorzuziehen.
 
-Das Computerprogramm benötigt eine Funktion, um die Erkennbarkeit einer Zahl zu
-beurteilen. Diese Funktion ist durch Schrifterkennungssoftware, also eine  % TODO: Softwareerkennungsnetz % BUG: Ruh
-weitere künstliche Intelligenz, zugänglich (siehe Theorie Schrifterkennung). Die  % TODO: Ref setzen
-in dieser Arbeit verwendete Schrifterkennungssoftware stammt von Mazzia,
-Vittorio und Salvetti, Francesco und Chiaberge, Marcello.
-\cite{mazzia_salvetti_efficient-capsnet_2021} Die Schrifterkennungssoftware
-erreicht bei einem Test von 5000 Bildern aus den Trainingsdaten eine Genauigkeit
-von ......\%
-% TODO: Prozent berechnen und hinzufügen
-
-Eine Zahl gilt nur als erkannt, wenn das zugehörige Neuron einen Wert von über $0.9$
-hat. Das entspricht einer hohen Wahrscheinlichkeit zur korrekten Beurteilung. 
-% TODO: Evt. Veränderung des Wertes
-
-\subsection{Training auf Erkennbarkeit}
-Mit der Schrifterkennungssoftware ist die Erkennbarkeit der Zeichnungen für jede
-Version des Computerprogramms bestimmbar. Das Computerprogramm, beziehungsweise
-der Reinforcement Learning Algorithmus, kann aber auch spezifisch auf dieses
-Kriterium trainiert werden. 
-
-Um das Computerprogramm auf Erkennbarkeit zu trainieren, beinhaltet die
-Reward-Funktion eine Implementierung der Schrifterkennungssoftware. Die
-Schrifterkennungssoftware beurteilt in jedem Schritt die erkannte Zahl in der
-Vorlage und der aktuellen Zeichnung. Wenn die erkannte Zahl in der Vorlage und
-der Zeichnung gleich ist, erhält der Agent einen Reward von $0.1$. In diesem
-Zustand funktioniert die Reward-Funktion nicht. Das heisst, der Agent kann den
-akkumulierten Reward nicht vergrössern. Für dieses Problem gibt es mindestens
-zwei Gründe.
-% TODO: Sollen nicht die Gründe in die Diskussion
-% BUG: Ruh
-
-Der erste Grund liegt in der Einschätzung der Schrifterkennungssoftware, die
-teilweise für einen menschlichen Betrachter Fragwürdig ist. Zum Beispiel schätzt
-die Schrifterkennungssoftware eine leere Zeichenfläche mit einer hohen
-Wahrscheinlichkeit als eine Eins ein. Das ist in diesem Fall ein Problem, weil
-dadurch der Agent einen positiven Reward (eine Belohnung) für eine leere
-Zeichenfläche erhält. Das stört das weitere Lernverhalten, indem es
-wahrscheinlicher wird, dass der Agent nicht mehr zeichnet. Die verwendete Lösung
-ist, die Schrifterkennungssoftware erst ab einer gewissen prozentualen
-Genauigkeit einzusetzen. So löst die Schrifterkennungssoftware erst Rewards aus,
-wenn die prozentuale Genauigkeit der Zeichnung mehr als 20\% beträgt.
-
-Der zweite Grund liegt in einer zu hohen Abhängigkeit auf den Zufall. Damit die
-Schrifterkennungssoftware einen Reward auslösen kann, muss der Agent eine gut
-erkennbare Zahl zeichnen. Diese Zeichnung muss durch Zufall entstehen, weil der
-Agent zuvor ohne einen Reward nicht besser wird. Dieses Problem wird ebenfalls
-durch eine Implementierung des Kriteriums der prozentualen Genauigkeit gelöst.
-Dieses Kriterium ermöglicht in der Reward-Funktion, wie im Grundprogramm (siehe
-\nameref{chap:m_grundprogramm}), einen positiven Reward selbst für kleine
-Verbesserungen. Dieser Reward ist vor allem am Anfang des Trainings wichtig.
-Deswegen nimmt der Reward über das ganze Training hinweg linear ab, während der
-Reward für eine richtig erkannte Zahl linear zunimmt.
-
-\section{Geschwindigkeit als Kriterium}
-Eine schnelle Fertigstellung der Zeichnung ist eine weitere Annäherung an
-menschliches Zeichnen. Unter anderem hat das Kriterium des letzten Kapitels
-damit zu tun. Die Erkennbarkeit der gezeichneten Zahl ist wichtiger als die
-Genauigkeit, weil Menschen dadurch unvorsichtiger und schneller vorgehen.
-
-Die Zeit bis zur Fertigstellung wird durch die Anzahl Schritte bis zu diesem
-Punkt gemessen. Eine geringere Anzahl Schritte entspricht einer schnelleren
-Fertigstellung. Die Zeichnung gilt als fertig, wenn die prozentuale Genauigkeit
-mindestens 70\% beträgt und die Zahl nach der Definition im letzten Kapitel
-erkannt wird. % TODO: ref setzen
 
 
 
