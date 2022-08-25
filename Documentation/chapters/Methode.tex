@@ -245,8 +245,6 @@ Function bereits bei einer unfertigen Zeichnung positive Rewards für die
 Geschwindigkeit aus, was den Fokus auf eine maximale Geschwindigkeit weiter
 erhöht.
 
-%TODO Schwellenwert über Training hinweg erhöhen
-
 
 \subsection{Training auf Erkennbarkeit}
 Das Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
@@ -294,124 +292,72 @@ Erkennung ist für eine untrainierte künstliche Intelligenz schwer zu erreichen
 wodurch sie nur in seltenen Fällen einen positiven Reward erreichen würde.
 
 
+\subsection{Physikalische Umgebung}
+Diese Variation spezialisiert auf kein Kriterium. Stattdessen ist die Umgebung,
+in der sich der Agent bewegt, verändert. Auch der Input und der Output des
+neuronalen Netzes sind angepasst. Durch diese Veränderungen unterscheidet sich die
+Variation vom Grundprogramm. Sie bleibt allerdings mit den anderen
+Variationen, die hauptsächlich die Reward Function anpassan, kompatibel.
 
+Die Variation verändert die Umgebung, in der der Agent sich bewegt, in eine
+simulierte physikalische Umgebung. Diese Umgebung definiert die physichen
+Rahmenbedingungen des Zeichnens neu und bringt diese optimalerweise näher an die
+Realität (siehe Diskussion). 
 
+Der Agent hat neu eine Geschwindigkeit, die durch einen Vektor $v$ dargestellt
+ist. Die Geschwindigkeit beschreibt, um wie viele Pixel und in welche Richtung
+sich der Agent pro Schritt bewegt.
+Die folgende Formel beschreibt, wie sich die Position des Agenten von Schritt
+$t$ bis zum nächsten Schritt $t+1$ ändert:
+$$p_{t+1} = p_t + v_t$$
+$p_n$ beschreibt die Postition des Agenten zu Schritt $n$ und $v_n$ beschreibt
+die Geschwindigkeit des Agenten zu Schritt $n$. Die Position rundet in jedem
+Schritt auf ganze Zahlen. Das kommt daher, dass die Geschwindigkeit auch
+Dezimalzahlen annehmen kann, aber die Positionnur durch ganze Zahlen dargestellt
+ist.
 
+Zur Geschwindigkeit des Agenten wird in jedem Schritt ein Beschleunigungsvektor
+addiert. Jede Action, die der Agent wählen kann, entspricht einem anderen
+Beschleunigungsvektor. Der Action Space besteht neu aus 42 Aktionen. Davon
+entsprechen 21 Aktionen Beschleunigungsvektoren im zeichnenden Zustand. Die
+anderen 21 Aktionen entsprechen den selben Vektoren im nicht zeichnenden
+Zustand. Die 21 verschiedenen Beschleunigungsvektoren sehen folgendermassen aus:
+(siehe Abbildung action Kreis) Ein Vektor entspricht dem Nullvektor. Dieser
+verändert die Geschwindigkeit des Agenten nicht. $8$ Vektoren sind um den
+Agenten herum mit einer Länge von $0.8$ Pixeln in gleichmässigem Absant von
+einander angeordnet. Zusammen bilden diese Vektoren einen Kreis um den Agent die
+restlichen 12 Vektoren sind in einem grösseren Kreis gleichmässig angeordnet.
+Die Vektoren haben dabei eine Länge von $1.2$ Pixeln. Der Betrag der
+Geschwindigkeit des Agenten wird, unabhängig von der gewählten Aktion, in jedem
+Schritt um $0.4$ Pixel verringert. Das Simuliert eine Reibungskraft, die auf den
+Agenten einwirkt.
+Mit dem gewählten beschleunigungsvektor $a_t$ berechnet sich die Geschwindigkeit
+im nächsten Schritt $t+1$ aus dem aktuellen Schritt $t$ durch folgende Formel:
+$$v_{t+1} = v_t + a_t - 0.4$$
 
+Die Änderungen in der Umgebung erfordern weitere Anpassungen im neuronalen Netz.
+Ohne diese Anpassungen lernt die künstliche Intelligenz nicht. Das Problem ist,
+dass die aktuelle Geschwindigkeit kein Teil der Observation ist. Die
+Entscheidungen des Agenten berücksichtigen dadurch dessen Geschwindigkeit nicht.
+Die Verschiebung von dem local patch bietet eine Lösung für dieses Problem. Im
+Grundprogramm entspricht der Mittelpunkt von dem Local Patch genau der Position
+des Agents. Neu befindet sich der Mittelpunkt dort, wo sich der Agent laut
+seiner aktuellen Geschwindigkeit im nächsten Schritt befindet (Die tatsächliche
+neue Position des Agents wird durch die Action seiner Wahl bestimmt. Wie im
+Grundprogramm gibt der local patch den Bereich an, in dem sich der Agent im
+nächsten Schritt befinden wird). Diese Verschiebung vom Local Patch ist eine
+implizite Angabe der Geschwindigkeit des Agents. Der Local Patch hat neu eine
+Grösse von $5\times5$ Pixeln an der Stelle von $7\times7$ Pixeln.
 
+%Bild Verschiebung des local patch
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section{Physikalische Umgebung}
-% Art von Physik: Kinematik. Addierung von Geschwindigkeit 2 Dimensionale
-% Kinematik. Stift bewegt sich nur auf Blatt -> einziges 3D Element ist hebung und
-% senkung von Stift. Wie bis Anhin in 2 States geregelt. (Also kein Druck -> Entfernung von menschlichem Zeichnen)
-Bei der physikalischen Umgebung für die Untersuchung handelt es sich um ein sehr
-simples inertial System. Also ein System in dem die Gesetze der Kinematik
-gelten. Das Ziel dieser Veränderung ist es die Anzahl möglicher Aktionen des
-Agenten zu reduzieren, wodurch es einfacher werden soll diese zu erlernen.
-Zusätzlich soll die simulierte Umgebung auch einer reellen Situation näher
-kommen und somit sich mehr an das menschliche Zeichnen annähern.
-
-Die Umgebung nimmt Kraftvektoren entgegen und berechnet darauf hin die neue
-Stiftposition auf der Zeichenebene. Der Kraftvektor wird gemäss der Gesetze der
-Kinematik zu der schon bestehenden Geschwindigkeit hinzugefügt. Jeder
-Zeitschritt des Agenten repräsentiert in der Physik die vergangene Zeit $t=1$.
-($\frac{\vec{F}}{m}\cdot t=\vec{v}$). Pro Zeitschritt wird die Geschwindigkeit
-auch kleiner durch eine simulierte Reibung ($m\cdot g \cdot \mu = F_R$). Für die
-Position wird immer die Geschwindigkeit zu der jetzigen Position addiert.
-
-Wie aus den Formeln herauszulesen ist, besitzt der Stift und auch die Umgebung
-physikalische Eigenschaften ($m$, $g$, $\mu$), welche für ein optimales Ergebnis
-später optimiert werden.
-
-Der Agent hat in der Umgebung die Möglichkeit haben seinen Stift mit
-Kraftvektoren zu beschleunigen. Nicht nur eine Beschleunigung ist möglich,
-sondern das Gleiten mit der restlichen Geschwindigkeit ist für den Agenten
-möglich.
-
-Um das menschlichte Zeichnen noch näher zu bringen kann sich der Agent
-zusätzlich entscheiden, wie stark der Stift auf die Zeichenfläche drückt. Das
-bewirkt, dass um den Stift herum Pixel zusätzlich bemalt werden. Zu der Stärker
-kommt auch dazu, dass der Agent sich entscheiden kann, gar nicht auf das Papier
-zu drücken, sondern sich ganz vom Papier zu heben und nicht zu zeichnen.
-
-In der Realität müsste der Druck auch mit einer Beschleunigung gelöst werden,
-was zur Vereinfachung weggelassen wird.
-
-\subsection*{Training auf physikalische Umstände}
-% Ausgabe in Form von Kraftvektoren in Kreis angeordnet. Kraftvektoren
-% beeinflussen Geschwindigkeit des Agenten. Position in jedem Schritt wird über
-% Geschwindigkeit bestimmt. Durchgehende Reibung wirkt auf Agenten
-% -> Physik beruht ausnahmslos auf Dynamik und Kinematik. Vereinfachung durch Annahmen
-
-% Geschwindigkeit Als Eingabe (-> Absolute Werte, oder verschiebung des Patch)
-% Problem von zu hoher Geschwindigkeit (-> Lösung durch negative Belohnung)
-
-
-Da die Aktiondes Agenten nur ein einfacher Integer ist, hat jeder Kraftvektor
-einen eigenen Index bekommen. Es gibt insgesamt $20 + 1 (\text{gar nicht     %Der Action-space besteht aus 21 Aktionen im zeichnenden Zustand und die selben 21 Aktionen im nicht zeichnenden Zustand.  
-bewegen})$ Richtungen in die der Agent sich bewegen kann. Der Stift wird somit %Die 21 Aktionen bestehen aus Kraftvektoren die in verschiedene Richtunge um den Agent zeigen.
-immer in eine dieser Richtungen, um den Betrag $1$ beschleunigt. Mit den
-Optionen des Drucks kommt die Formel für die Anzahl Aktionsmöglichkeiten heraus:
-$21\cdot(\underbrace{1}_{\text{nicht zeichnen}} + \underbrace{s}_{\text{maximale
-Stärke des Zeichnens}})$. So sind die Möglichkeiten der Aktionen des Agenten
-viel stärker begrenzt als in der ursprünglichen Variante. % Von den 50 Aktionen der Basisversion auf 42 gesenkt
-
-Es stellte sich zu beginn des Training heraus, dass der Agent das Konzept der
-Geschwindigkeit noch nicht verstanden hat. Um dieses Problem zu lösen wurde die % Die Geschwindigkeit des Agenten zu einem gegebenen Zeitpunkt ist relevant für die Entscheidung der nächsten Aktion.
-Geschwindigkeit als Kontext zur Observation hinzugefügt und somit als Eingabe   % Deswegen müssen Informationen über die Geschwindigkeit 
-des Netzes verwendet. Dies brachte bessere Ergebnisse, allerdings gelang es noch
-bessere Ergebnisse zu erziehlen, in dem man die Geschwindigkeit nicht roh als
-Zahlen mitgibt, sondern den lokalen Patch in die Richtung der Geschwindigkeit,
-also der nächsten Position des Agenten verschiebt.
-
-Ein weiteres Problem während dem Training war, dass der Agent viel zu hohe
-Geschwindigkeiten angenommen hat und somit oft aus der Zeichenebene verschwinden
-wollte. Dieses Problem wurde durch die Reward Function gelöst, sodass er bei
-solchem Verhalten bestraft wird.
-
-% TODO: Übersetzung Lokalen Patch nachschauen
-% TODO: War negativer Reward wirklich die Lösung?
-
-\subsection*{Parameteroptimizerung}
-Nach einigem Trainieren zeigt sich, dass der Agent am meisten Erfolg mit einer
-maximalen Zeichenstärke von $1$ hat. Zur Optimierung der physikalischen
-Parameter wird gleich, wie bei der Hyperparameteroptimierung (siehe % TODO: Ist das wird hier so gut gelöst?
-\nameref{chap:Hyperparameter Optimierung}) der Baysian Algorithmus verwendet um
-das bestmöglichste Ergebnis zu erzielen.
-
-% TODO: Ist das Überhaupt eine gute Idee, weil wir so die Aufgabenstellung des menschlichen Zeichnens verfremden?
-
-
-
-
-
-
-% mögliche Erweiterungen:
-% - Relative Schrittzahl in Input
-% - Keine Fertigstellung der Zeichnung
-% - erkennbarkeitsschwelle langsam erhöhen
-
-
-
-
-
-
-
-
-
-
-
+Ein weiteres Problem ist, dass der Agent sich durch seine Geschwindigkeit aus
+den vorgegebenen Grenzen der Zeichenfläche begeben kann. Im Grundprogramm  
+(siehe) kann der Agent Aktionen, die ihn in diese Unzulässigen Positionen  %TODO ref
+bewegen würden, nicht auswählen. Wenn die Geschwindigkeit zu hoch wird, kann der
+Agent allerdings gar keine Aktionen mehr wählen, die ihn innerhalb der Grenzen der
+Zeichenflächen halten würden. Wenn der Agent durch zu hohe Geschwindigkeit über
+die Grenze hinausgeht, wird seine Geschwindigkeit auf den Nullvektor
+zurückgesetzt und die Reward Function löst einen negativen Reward von $-0.05$
+aus. Dieser negative Reward soll zu hohe Geschwindigkeiten an gewissen
+Positionen auf der zeichenfläche vermeiden.
