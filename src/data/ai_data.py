@@ -10,19 +10,38 @@ class AI_Data():
             path = "src/data/json/emnist_test_data.json"
         elif dataset == "quickdraw":
             json_import = False
-            path = "src/data/quickdraw/full_numpy_bitmap_apple.npy"
+            path = [
+                    "src/data/quickdraw/full_numpy_bitmap_anvil.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_apple.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_broom.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_bucket.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_bulldozer.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_clock.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_cloud.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_computer.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_eye.npy",
+                    "src/data/quickdraw/full_numpy_bitmap_flower.npy",
+                   ]
         else:
             path = "src/data/json/mnist_test_data.json"
     
 
+        self.ref_data = []
         if json_import:
-            self.ref_data = []
             sorted_data = [] 
             with open(path, "r") as f:
                 sorted_data = json.load(f)
             self.ref_data = sorted_data
         else:
-            self.ref_data = np.load(path, encoding="latin1", allow_pickle=True)
+            self.ref_data = np.array(self.ref_data)
+            for i in path:
+                data = np.load(i, encoding="latin1", allow_pickle=True)
+                # Use only 100'000 instances
+                data = data[:100000]
+                self.ref_data = np.append(self.ref_data, data)
+            
+            # Reshape the array so it's not flattend anymore due to the append function
+            self.ref_data = self.ref_data.reshape(len(path), 100000, 784)
             
         
         #processed data
@@ -48,12 +67,15 @@ class AI_Data():
 
         if self.dataset == "quickdraw":
             sampled = []
-            ind = np.random.choice(len(self.ref_data), number, replace=False)
-            for i in ind:
-                arr = np.array(self.ref_data[i]).reshape(28,28, order=reshape_ordering)
-                arr = np.where(arr > 0, 1, arr)
-                print(arr)
-                sampled.append(arr)
+            for n in range(self.ref_data.shape[0]):
+                ind = np.random.choice(self.ref_data.shape[1], number, replace=False)
+                for i in ind:
+                    arr = np.array(self.ref_data[n][i]).reshape(28, 28, order=reshape_ordering)
+                    
+                    # Remove the grayscale
+                    arr = np.where(arr > 0, 1, arr)
+                    
+                    sampled.append(arr)
         else:
             sampled = []
             num = int(number/len(self.ref_data))
