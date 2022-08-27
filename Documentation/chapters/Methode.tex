@@ -77,7 +77,7 @@ eine unzulässige Aktion auszuführen.
 
 \subsection{Präparierung der Daten und Training}
 Das für das Training der künstlichen Intelligenz verwendete MNIST Datenset
-besteht aus $42000$ Bildern von handgeschriebenen Ziffern. Die Bilder im
+besteht aus $36000$ Bildern von handgeschriebenen Ziffern. Die Bilder im
 Datenset sind als Bitmap dargestellt, wobei jedes Element (jeder Pixel) einen
 Wert zwischen $0$ und $255$ annimmt. Die Zahl räpresentiert einen Graustufe,
 wobei 0 Schwarz ist und 255 Weiss. Diese Graustufen werden entfernt. Jeder Pixel
@@ -85,16 +85,14 @@ mit einem Wert über 0 übernimmt den Wert 1, wodurch die Bilder nur noch aus
 Einsen und Nullen bestehen. So stimmen die Bilder mit den Zeichnungen, die der
 Agent produzieren kann, überein.
 
-Die Trainingsdaten bestehen aus $36000$ der $42000$ Bilder im Datenset. Die
-restlichen $6000$ Bilder sind Teil des Test Datensets. Das Grundprogramm
-trainiert mit $4000$ Bildern, von denen jede Ziffer $400$ Bilder ausmacht. Die
-restlichen Bilder in den Trainingsdaten sind für mögliche Erweiterungen
-aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder insgesamt zwei Mal. Mit
-anderen Worten Läuft die Trainingsphase für $2$ Epochen mit jeweils $4000$
-Episoden. Der Agent macht $64$ Schritte pro Episode. Er kann sich also pro
-Zeichnung $64$ mal bewegen. Das Training (des Neuronalen Netz) findet in jedem
-vierten Schritt statt mit einem Batch von $64$ zufällig gewählten Schritten aus
-dem Replay Buffer.
+Das Grundprogramm trainiert mit $4000$ Bildern, von denen jede Ziffer $400$
+Bilder ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche
+Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder insgesamt
+zwei Mal. Mit anderen Worten Läuft die Trainingsphase für $2$ Epochen mit
+jeweils $4000$ Episoden. Der Agent macht $64$ Schritte pro Episode. Er kann sich
+also pro Zeichnung $64$ mal bewegen. Das Training (des Neuronalen Netz) findet
+in jedem vierten Schritt statt mit einem Batch von $64$ zufällig gewählten
+Schritten aus dem Replay Buffer.
 % TODO: Parameter in Zukunft ändern
 
 \subsection{Hyperparameteroptimierung}
@@ -142,8 +140,9 @@ Beurteilung.
 Für die verschiedenene Arten von Strichbildern, die die künsltiche Intelligenz
 zeichnen soll, existieren vortrainierte Modelle von neuronalen Netzen. Die
 vortrainierten Modelle, die in dieser Arbeit verwendet wurden sind in der
-Tabelle ... ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die für
-die künstlichen Intelligenz dieser Arbeit als Vorlage zum Abzeichnen dienen.
+Tabelle ... ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die
+in der Testumgebung dieser Arbeit (siehe auswertung) als Vorlage zum Abzeichnen
+dienen. %TODO ref
 
 Tabelle:
 Art       |       Entwickler      |     Trainiert mit     |      Genauigkeit 
@@ -361,3 +360,61 @@ die Grenze hinausgeht, wird seine Geschwindigkeit auf den Nullvektor
 zurückgesetzt und die Reward Function löst einen negativen Reward von $-0.05$
 aus. Dieser negative Reward soll zu hohe Geschwindigkeiten an gewissen
 Positionen auf der zeichenfläche vermeiden.
+
+
+\section{Auswertung}
+Die Auswertung der Daten über die Leistung der künstlichen Intelligenz liefert
+das Resultat der Methode. Die Auswertung berechnet den Zahlenwert der
+definierten Kriterien für verschiedene Variationen der künstlichen Intelligenz.
+
+Die Variationen werden auf ihre Leistung für drei verschiedene Datensets
+überprüft. Die drei Datensets beinhalten verschiedene Arten von handgemachten
+Strichbildern Das erste Datenset, MNIST (mnist ref),  beeinhaltet Ziffern, die
+in den Trainingsdaten nicht vorkommen. Das zweite Datenset, EMNIST letters
+(emnist ref), beeinhaltet die 26 Kleinbuchstaben des Alphabets. Das dritte
+Datenset, QuickDraw (quickdraw ref), beeinhaltet Zeichnungen von insgesamt 345
+verschiedenen Motiven. die Variationen werden allerdings nur auf das
+Nachzeichnen von zehn Motiven überprüft. Die zehn Motive sind: `Amboss',
+`Apfel', `Besen', `Eimer', `Bulldozer', `Uhr', `Wolke', `Computer', `Auge' und
+`Blume'. Die Bilder in den drei Datensets sind gleich verarbeitet wie die
+Trainingsdaten (siehe Prep daten). 
+
+Folgende Variationen der künstlichen Intelligenz werden ausgewertet:
+
+\begin{itemize}
+  \item Grundumgebung + Basis Reward Functin
+  \item Grundumgebung + Erkennbarkeit
+  \item Grundumgebung + Geschwindigkeit
+  \item Grundumgebung + Erkennbarkeit + Geschwindigkeit
+  \item physikalische Umgebung + Basis Reward Functin
+  \item physikalische Umgebung + Erkennbarkeit
+  \item physikalische Umgebung + Geschwindigkeit
+  \item physikalische Umgebung + Erkennbarkeit + Geschwindigkeit
+\end{itemize}
+
+%Bild von Quickdraw
+
+\subsection*{Testumgebung}
+
+Die Leistungen der verschiedenen Variationen der künstlichen Intelligenz werden
+in einem Test, in einer Testumgebung ausgewertet. Die Testumgebung unterscheidet
+sich kaum von der Trainingsumgebung. Es gibt im Wesentlichen drei Unterschiede.
+Erstens trainiert die künstliche Intelligenz in der Testumgebung nicht. Die
+Testumgebung übernimmt eine trainierte künstliche Intelligenz und verändert
+diese während dem Test nicht. Zweitens wählt der Agent in keinem Fall mehr eine
+zufälligen Aktion. Stattdessen wählt er immer die Aktion mit dem höchsten
+Q-Value ($\epsilon = 0$). Der Dritte Unterschied liegt in den Strichbildern, die
+für die künstliche Intelligenz als Vorlage dienen. Im Test zeichnet das
+Computerprogramm $1040$ Bilder aus einem der drei zur Verfügung stehenden
+Datensets. Am Ende jeder Episode (d.h jeder Zeichnung) wird der Zahlenwert für
+die verschiedenen Kriterien nach ihrer Definition ausgewertet und gespeichert.
+Der Durchschnitt aller gespeicherten Werte eines Kriteriums entspricht der
+Leistung der getesteten Variation in diesem Kriterium. Das Kriterium der
+Erkennbarkeit verwendet zur Auswertung je nach dem verwendeten Datenset im Test,
+dasjenige vortrainierte Modell, das auf dem selben Datenset trainiert ist. Da
+das Kriterium der Erkennbarkeit jeweils den Wert $0$ oder $1$ hat, ergibt der
+Durchschnitt aus allen Werten eine prozentuale Angabe (in Dezimalform) darüber,
+in wie vielen Fällen das richtige Motiv erkannt wird.
+
+
+
