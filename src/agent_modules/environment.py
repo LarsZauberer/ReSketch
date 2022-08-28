@@ -224,7 +224,7 @@ class ShapeDraw(object):
         
         return ref, canv
 
-    def agent_is_done(self, done_accuracy : float):
+    def agent_is_done(self,  done_accuracy : float):
         if (1 - self.lastSim) > done_accuracy:
             ref, canv = self.predict_mnist()
             if ref == canv:
