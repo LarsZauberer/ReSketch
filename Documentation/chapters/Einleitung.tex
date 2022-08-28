@@ -1,58 +1,58 @@
 \chapter{Einleitung}
+Der Computer ist ein Werkzeug. Er kann den Menschen Arbeit abnehmen. Um
+komplizierte Aufgaben zu übernehmen, muss sich der Computer an menschliches
+Verhalten, menschliches Urteilsvermögen und menschliche Intelligenz annähern.
+Mit anderen Worten braucht der Computer, oder das steuernde Computerprogramm
+eine künstliche Intelligenz. Es ist schwierig, Intelligenz in einem
+Computerprogramm umzusetzen. Der fähigste und am weitesten verbreitete Ansatz
+liefert Machine Learning. 
 
-% Computer = Werkzeuge. Können Menschen Arbeit abnehmen. Für kompliziertere Aufgaben muss Computer näher an Menschliches Verhalten, Urteilungsvermögen, Intelligenz kommen.
-% Computer, bzw. das steuernde Computerprogramm muss Menschen Nachahmen. 
-% Computerprogramme die Menschen nachahmen = künstliche Intelligenz.
-% Schwierige Aufgabe für Computerprogramme. Häufig durch Machine Learning möglich mit Neuronalen Netzen
-% In diesem Fall durch ein Reinforcement Learning Algortihmus möglich.
+Diese Arbeit selbst ist eine Untersuchung Im Bereich Machine Learning.
+Spezifischer ist die Arbeit im Bereich Reinforcement Learning, einem Teilgebiet
+von Machine Learning.
+%Das Wort künstliche Intelligenz kommt oft vor. Abgekürzt zu KI
+% BUG: künstliche Intelligenz abzürken -> KI
 
-% Bei dem Problem das hier gelöst wird handelt es sich um menschliches Nachzeichnen.
-% Spezifischer geht es um die Frage:
-% Kann eine künstliche Intelligenz lernen, Strich(Bspw. Zahlen, Buchstaben) nachzuzeichnen, sodass sie durch ein automatisches System erkannt werden können?'
-% Zumindest die Führung eines Stiftes = menschliches Nachzeichnen. 
-% Gibt bereits Arbeiten wie Doodle-SDQ
-% Kann sich wie ein Roboter vorstellen. 
+Die Fragestellung der Untersuchung lautet: Kann eine künstliche Intelligenz
+lernen, Strichbilder nachzuzeichnen, sodass sie durch ein automatisches System
+richtig erkannt werden können?
 
+Für ein gegebenes Strichbild soll die künstliche Intelligenz erlernen, ein
+möglichst gleiches Bild daneben zeichnen können. Die Frage ist, ob die
+künstliche Intelligenz das Nachzeichnen genug gut lernen kann, damit die
+Zeichnung von einem automatischen System richtig erkannt wird. Richtig erkannt
+heisst in diesem Fall vereinfacht, dass eine zweite künstliche Intelligenz in
+der Zeichnung das selbe Motiv wie in der Vorlage erkennt. Wenn das zutrifft,
+zeichnet die künstliche Intelligenz erfolgreich nach. Es gibt allerdings
+weitere Kriterien, die den Erfolg der künstlichen Intelligenz beim
+Nachzeichnen beurteilen.
 
+Nachzeichnen ist eine menschliche Tätigkeit. Menschen führen beim Zeichnen
+durch gewisse Handbewegungen einen Stift. Die Bewegungen sind durch die
+physische Natur des menschlichen Körpers und des Stiftes eingeschränkt. Der
+Stift kann sich nicht teleportieren, sondern sich nur mit einer bestimmten
+Geschwindigkeit fortbewegen. Die künstliche Intelligenz soll das Nachzeichnen
+mit ähnlichen physischen Einschränkungen erlernenen. Mit anderen Worten soll
+die künstliche Intelligenz lernen, einen Stift zu führen.  Die physischen
+Einschränkungen der künstlichen Intelligenz sind dabei jedoch simuliert und im
+Vergleich zu der echten Welt vereinfacht. 
 
-% Aber weitere Annäherungen an menschliches Verhalten möglich.
+Die künstliche Intelligenz soll das Nachzeichnen von Strichbildern allgemein
+erlernen. Strichbilder können Zahlen, Buchstaben, Formen, Symbole und
+allgemeine Kritzeleien sein. Die künstliche Intelligenz kann nicht mit allen
+Arten von Strichbildern trainieren, weil die Varianz zu gross ist. Die Frage
+ist also, wie sich die künstliche Intelligenz beim Nachzeichnen von
+Strichbildern verhält, die im Training nicht enthalten sind.
 
-
-Computerprogramme sollen den Menschen Arbeit abnehmen. Dafür müssen sie
-allerdings erstmals diese Tätigkeiten nachahmen können. Viele mensch\hyp{}liche
-Tätigkeiten sind aber oft zu komplex und besitzen keine klar definierten Regeln,
-sodass sie durch einen simplen Algorithmus beschrieben werden können. Um dieses
-Problem kümmert sich das Teilgebiet der `Künstlichen Intelligenz' (kurz: KI). KI
-Technologien haben in den letzten Jahren einen grossen Fortschritt gemacht. Sie
-werden schon in vielerlei Anwendungen eingesetzt.
-%  nicht zu letzt wegen der immer billiger und besser werdenden Hardware
-
-Diese Arbeit beschäftigt sich mit der Tätigkeit des menschlichen Nach\hyp{}zeichnens
-und mit der Zielfrage: `Kann eine künstliche Intelligenz lernen, Strichbilder
-(Bspw. Zahlen, Buchstaben) nachzuzeichnen, sodass sie durch ein automatisches
-System erkannt werden können?'
-
-Die Problematik bei dieser Aufgabe ist, dass es viele verschiedene Arten gibt
-gewisse Symbole zu zeichnen und es keine genau definierten Regeln gibt, dass zum
-Beispiel eine Zahl 5 als eine 5 erkannt wird.
-% TODO: Ist der Teil notwendig oder soll er raus gelassen werden?
-
-Diese Arbeit fällt nicht nur in den Bereich der künstlichen Intelligenz, sondern
-auch in das Themengebiet der Robotik. Ein Roboter ist laut der Definition
-`Apparatur, die bestimmte Funktionen eines Menschen ausführen kann'
-\cite{noauthor_duden_nodate-1} Das Nachzeichnen von Strichbildern ist ebenfalls
-eine sehr menschliche Tätigkeit. Diese Arbeit beschränkt sich allerdings nur auf
-das Computer\hyp{}programm, also die Anwendung der künstlichen Intelligenz. Der Bau
-einer Apparatur, die dann selber Zeichnen könnte ist hier nicht das Ziel.
-
-Folgend sind die Ziele/Unterfragen dieser Arbeit weiter präzisiert:
+Die vorangehenden Überlegungen sind in einer Sammlung an Unterfragen, die in
+dieser Arbeit beantwortet werden, enthalten. Die Unterfragen lauten:
 \begin{itemize}
-    \item Wie kann die Architektur einer KI aussehen, die das Nachzeichnen
-    erlernt?
-    \item Wie lässt sich die Leistung der KI in dieser Aufgabe beurteilen?
-    \item Wie lässt sich die Leistung von dem Ergebnis verbessern?
-    \item Welche Einflüsse haben die Integration von einfachen physischen
-    Rah\hyp{}menbedingungen auf die Leistungs der KI?
-    \item Wie und in wiefern lässt sich die Leistung der KI mit menschlichem
-    Zeichnen vergleichen?
+    \item Wie kann die Architektur einer künstlichen Intelligenz aussehen, die das Nachzeichnen erlernt?
+    \item Nach welchen Kriterien lässt sich die Leistung der künstlichen Intelligenz in dieser Aufgabe beurteilen?
+    \item Wie lässt sich die Leistung der Künstlichen Intelligenz in dieser Aufgabe verbessern?
+    \item Wie ändert sich die Leistung der künstlichen Intelligenz für Strichbilder, die im Training nicht enthalten sind?
+    \item Welche Einflüsse haben physische Einschränkungen auf die Leistungs der künstlichen Intelligenz?
+    \item Wie und in wiefern lässt sich die künstlichen Intelligenz mit menschlichem Zeichnen vergleichen?
 \end{itemize}
+
+
