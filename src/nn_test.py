@@ -36,10 +36,6 @@ class Test_NN():
 
         
 
-        for i in range(20):
-            print(self.data.pro_data[i*3])
-        
-
 
 
         self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data)
@@ -109,9 +105,15 @@ class Test_NN():
                 if t_reward:
                     score += reward
                 if t_speed:
-                    if self.envir.agent_is_done(self.done_accuracy): 
-                        done_step = j
-                        break
+                    if (1 - self.envir.lastSim) > self.done_accuracy:
+                        if self.dataset == "emnist":
+                            ref, canv = self.predict_emnist()
+                        elif self.dataset == "quickdraw":
+                            ref, canv = self.predict_quickdraw()
+                        else:
+                            ref, canv = self.envir.predict_mnist()
+                        if ref == canv: 
+                            done_step = j
 
             if t_reward: 
                 reward_scores.append(score)
@@ -119,26 +121,12 @@ class Test_NN():
                 accuracy_scores.append(1 - self.envir.lastSim)
             if t_datarec:
                 if self.dataset == "emnist":
-                    # Reshape data
-                    canvas = self.envir.canvas.reshape(28 * 28)
-                    reference = self.envir.reference.reshape(28 * 28)
-                    
-                    # predict
-                    canv = self.emnist_model.predict(np.array([canvas], dtype=np.float32), verbose="None")
-                    ref = self.emnist_model.predict(np.array([reference], dtype=np.float32), verbose="None")
-                    datarec_scores.append(int(np.argmax(canv[0]) == np.argmax(ref[0])))
+                    ref, canv = self.predict_emnist()
                 elif self.dataset == "quickdraw":
-                    # Reshape data
-                    canvas = self.envir.canvas.reshape(28 * 28)
-                    reference = self.envir.reference.reshape(28 * 28)
-                    
-                    # predict
-                    canv = self.tf_q_model.run(np.array([canvas], dtype=np.float32))
-                    ref = self.tf_q_model.run(np.array([reference], dtype=np.float32))
-                    datarec_scores.append(int(np.argmax(canv[0]) == np.argmax(ref[0])))
+                    ref, canv = self.predict_quickdraw()
                 else:
                     ref, canv = self.envir.predict_mnist()
-                    datarec_scores.append(int(ref == canv))
+                datarec_scores.append(int(ref == canv))
             if t_speed:
                 speed_scores.append(done_step)
 
@@ -148,10 +136,27 @@ class Test_NN():
         if t_datarec: scores.append(np.mean(datarec_scores))
         if t_speed: scores.append(np.mean(speed_scores))
                 
-           
         return scores
 
-    
+    def predict_quickdraw(self):
+        #Reshape data
+        canvas = self.envir.canvas.reshape(28 * 28)
+        reference = self.envir.reference.reshape(28 * 28)
+        # predict
+        canv = self.tf_q_model.run(np.array([canvas], dtype=np.float32))
+        ref = self.tf_q_model.run(np.array([reference], dtype=np.float32))
+        return (np.argmax(ref[0]), np.argmax(canv[0]))
+
+    def predict_emnist(self):
+        # Reshape data
+        canvas = self.envir.canvas.reshape(28 * 28)
+        reference = self.envir.reference.reshape(28 * 28)
+        # predict
+        canv = self.emnist_model(np.array([canvas], dtype=np.float32))
+        ref = self.emnist_model(np.array([reference], dtype=np.float32))
+        return (np.argmax(ref[0]), np.argmax(canv[0]))
+        
+
     def test_from_loaded(self, agent_args : dict, mode : str = "all"):
         """ 
         Test Model from saved weights
@@ -187,7 +192,7 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(dataset="emnist")
+    test = Test_NN(dataset="mnist")
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
