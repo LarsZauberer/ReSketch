@@ -4,7 +4,7 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
-from mnist_model.models import EfficientCapsNet
+from models.mnist_model.models import EfficientCapsNet
 from time import sleep
 
 
