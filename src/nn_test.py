@@ -1,12 +1,17 @@
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.ai_data import AI_Data
-from mnist_model.models import EfficientCapsNet
+from models.mnist_model.models import EfficientCapsNet
 from time import sleep
 
 from rich.progress import track
 import numpy as np
 
+import onnx
+from onnx_tf.backend import prepare
+import json
+
+from keras.models import model_from_json
 
 
 class Test_NN():
@@ -42,6 +47,17 @@ class Test_NN():
         #for mnist test
         self.mnist_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
         self.mnist_model.load_graph_weights()
+        
+        # For quickdraw test
+        q_model = onnx.load("src/models/quickdraw_model/quickdraw.onnx")
+        self.tf_q_model = prepare(q_model)
+        
+        # For emnist test
+        json_file = open('src/models/emnist_model/model.json', 'r')
+        loaded_model_json = json_file.read()
+        json_file.close()
+        self.emnist_model = model_from_json(loaded_model_json)
+        self.emnist_model.load_weights('src/models/emnist_model/model.h5')
 
 
     def test(self, agent: Agent, t_reward: bool = False, t_accuracy: bool = False, t_datarec : bool = False, t_speed : bool = False, t_vis: bool = False):
@@ -103,7 +119,23 @@ class Test_NN():
                 accuracy_scores.append(1 - self.envir.lastSim)
             if t_datarec:
                 if self.dataset == "emnist":
-                    "emnist model....."
+                    # Reshape data
+                    canvas = self.envir.canvas.reshape(28 * 28)
+                    reference = self.envir.reference.reshape(28 * 28)
+                    
+                    # predict
+                    canv = self.emnist_model.predict(np.array([canvas], dtype=np.float32), verbose="None")
+                    ref = self.emnist_model.predict(np.array([reference], dtype=np.float32), verbose="None")
+                    datarec_scores.append(int(np.argmax(canv[0]) == np.argmax(ref[0])))
+                elif self.dataset == "quickdraw":
+                    # Reshape data
+                    canvas = self.envir.canvas.reshape(28 * 28)
+                    reference = self.envir.reference.reshape(28 * 28)
+                    
+                    # predict
+                    canv = self.tf_q_model.run(np.array([canvas], dtype=np.float32))
+                    ref = self.tf_q_model.run(np.array([reference], dtype=np.float32))
+                    datarec_scores.append(int(np.argmax(canv[0]) == np.argmax(ref[0])))
                 else:
                     ref, canv = self.envir.predict_mnist()
                     datarec_scores.append(int(ref == canv))
@@ -155,12 +187,12 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(dataset="quickdraw")
+    test = Test_NN(dataset="emnist")
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
-    reward, accuracy, datarec, speed = test.test_from_loaded(agent_args, mode="vis")
+    reward, accuracy, datarec, speed = test.test_from_loaded(agent_args, mode="all")
     print(f'reward: {reward}, accuracy: {accuracy}, {test.dataset} recognition: {datarec}, speed {speed}')
 
