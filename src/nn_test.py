@@ -113,7 +113,8 @@ class Test_NN():
                         else:
                             ref, canv = self.envir.predict_mnist()
                         if ref == canv: 
-                            done_step = j
+                            if done_step == 64:
+                                done_step = j
 
             if t_reward: 
                 reward_scores.append(score)
