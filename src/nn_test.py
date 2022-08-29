@@ -45,6 +45,7 @@ class Test_NN():
         self.mnist_model.load_graph_weights()
         
         # For quickdraw test
+        # reference: https://analyticsindiamag.com/converting-a-model-from-pytorch-to-tensorflow-guide-to-onnx/
         q_model = onnx.load("src/models/quickdraw_model/quickdraw.onnx")
         self.tf_q_model = prepare(q_model)
         
