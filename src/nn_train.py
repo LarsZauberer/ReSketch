@@ -7,7 +7,7 @@ import json
 from time import sleep
 
 
-def train(env, agent):
+def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions, episode_mem_size, save_training=True):
     # Initializing architecture
     replay_fill = True
     print("...filling Replay Buffer...")
@@ -61,11 +61,12 @@ def train(env, agent):
                     print(f"episode: {real_ep}, score: {score}")
 
                 scores.append(score)
-            
-            
-        #save weights
-        agent.save_models()
-        learn_plot.save_plot()
+
+
+        if save_training:
+            # save weights
+            agent.save_models()
+            learn_plot.save_plot()
     
 
 if __name__ == '__main__':
@@ -97,4 +98,4 @@ if __name__ == '__main__':
     agent = Agent(**agent_args)
     
     # Start training
-    train(env=env, agent=agent)
+    train(env=env, agent=agent, data=data, learn_plot=learn_plot, n_steps=n_steps, n_episodes=n_episodes, n_epochs=n_epochs, n_actions=n_actions, episode_mem_size=episode_mem_size, save_training=True)
