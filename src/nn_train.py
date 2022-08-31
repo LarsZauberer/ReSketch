@@ -55,6 +55,10 @@ if __name__ == '__main__':
 
         # Main process
         for episode in range(n_episodes):
+
+            if episode > 2000+episode_mem_size: break
+
+            if not replay_fill: env.curEpisode += 1
             total_counter += 1
             global_obs, local_obs = env.reset()
             score = 0
@@ -65,7 +69,7 @@ if __name__ == '__main__':
                 illegal_moves = env.illegal_actions(illegal_moves)
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                next_gloabal_obs, next_local_obs, reward = env.step(action,  decrementor=3400, rec_reward=0.1, without_rec=wo_rec)
+                next_gloabal_obs, next_local_obs, reward = env.step(action,  decrementor=n_episodes-episode_mem_size, rec_reward=0.1, without_rec=wo_rec)
                 #env.render("Compare", realtime=True)
 
                 # Save new information

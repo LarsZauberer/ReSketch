@@ -54,14 +54,17 @@ class Test_NN():
             score = 0
 
             for j in range(self.num_steps):
+                # Run the timestep
                 illegal_moves = np.zeros(self.n_actions)
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
-                # Run the timestep
-                action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, counter=0)
 
+                action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=False)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action,  decrementor=1, rec_reward=0.1, without_rec=True)
+                #env.render("Compare", realtime=True)
+                
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
+               
 
                 agent.counter += 1
                 score += reward
@@ -169,4 +172,4 @@ if __name__ == '__main__':
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
     test = Test_NN()
-    print(f'score: {test.mnist_test_from_loaded(kwargs)}')
+    print(f'score: {test.test_from_loaded(kwargs)}')

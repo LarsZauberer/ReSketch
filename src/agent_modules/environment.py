@@ -27,7 +27,7 @@ class ShapeDraw(object):
         # For each pixel, is an action option (location of that pixel)
         self.n_actions = self.p*self.p*2
 
-        self.step_counter = 0
+        self.curEpisode = 0
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
@@ -67,10 +67,8 @@ class ShapeDraw(object):
 
         self.set_agentPos(action)
 
-        if not without_rec: self.step_counter += 1
 
-        # Calculate the reward for the action in this turn
-        # The reward can be 0 because it is gaining the reward only for new pixels
+        # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
         reward = self.reward(decrementor=decrementor, rec_reward=rec_reward, without_rec=without_rec) if self.isDrawing else 0.0
         """ reward += penalty """
 
@@ -129,25 +127,18 @@ class ShapeDraw(object):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
         similarity /= self.maxScore
 
-
-
-        ep_counter = 1 + self.step_counter // 64
-
-        
-
-        factor = 0.2
+        factor = 0.1
         if without_rec:
             factor = 1 
         else:
-            factor = 1 - ep_counter/decrementor
+            factor = 1 - self.curEpisode/decrementor
         if factor < 0.1:
-            factor = 0.2
+            factor = 0.1
         
 
             
         # Only use the newly found similar pixels for the reward
         reward = (self.lastSim - similarity) * factor
-        
         if self.maxScore == 1:
             self.maxScore = similarity
             self.lastSim = 1
@@ -237,7 +228,7 @@ class ShapeDraw(object):
         canv = np.argmax(out[0][1])
         
         # Too unsure. Should not be validated
-        if out[0][1][canv] < 0.9:
+        if out[0][1][canv] < 0.6:
             canv = -1
         
         return ref, canv
