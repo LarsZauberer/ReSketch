@@ -236,7 +236,7 @@ class ShapeDraw(object):
         canv = np.argmax(out[0][1])
         
         # Too unsure. Should not be validated
-        if out[0][1][canv] < 0.9:
+        if out[0][1][canv] < 0.6:
             canv = -1
         
         return ref, canv
