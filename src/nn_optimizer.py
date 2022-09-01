@@ -11,7 +11,7 @@ current_best = None
 
 
 def create_runner(args):
-    def runner(gamma, epsilon, alpha, replace_target, episode_mem_size):
+    def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, n_episodes):
         parameters = locals()
         global current_best
 
@@ -23,7 +23,7 @@ def create_runner(args):
         n_actions = 2*(patch_size**2)
         episode_mem_size = int(episode_mem_size)
         batch_size = 64
-        n_episodes = args.t + int(episode_mem_size)
+        n_episodes = int(n_episodes) + int(episode_mem_size)
         n_steps = 64
         n_epochs = 1
         
@@ -82,7 +82,7 @@ def create_runner(args):
 def main(args):
     # Hyperparameters to optimize
     bounds = {"gamma": (0.1, 1), "epsilon": (0, 1), "alpha": (
-        0.00001, 0.001), "replace_target": (1000, 10000), "episode_mem_size": (100, 200)}
+        0.00001, 0.001), "replace_target": (1000, 10000), "episode_mem_size": (100, 2000), "n_episodes": (100, 4000)}
 
     runner = create_runner(args)
 
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     parser.add_argument("-i", help="Number of iterations", action="store", type=int, default=5)
     parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist")
     parser.add_argument("-c", "--criteria", help="Criteria to improve the test on", action="store", type=str, default="accuracy")
-    parser.add_argument("-t", help="Number of episodes in training", action="store", type=int, default=1000)
+    # parser.add_argument("-t", help="Number of episodes in training", action="store", type=int, default=1000)
 
     args = parser.parse_args()
     
