@@ -128,6 +128,9 @@ if __name__ == '__main__':
     # Check if logs folder exists
     if not Path("logs").exists():
         os.mkdir("logs")
+    else:
+        if Path("logs/log.log").exists():
+            os.remove(Path("logs/log.log"))
 
     # File Log handler
     FileHandler = logging.FileHandler(Path("logs/log.log"))
