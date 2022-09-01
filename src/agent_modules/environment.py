@@ -18,6 +18,8 @@ class ShapeDraw(object):
         self.canvas = np.zeros((self.s, self.s))
         self.distmap = np.zeros((self.s, self.s))
         self.colmap = np.zeros((self.s, self.s))
+        self.stepmap = np.zeros((self.s, self.s))
+        self.curStep = 0
 
         # Input local stream
         self.ref_patch = np.zeros((self.p, self.p))
@@ -155,7 +157,12 @@ class ShapeDraw(object):
 
         return reward
 
-        
+    def speed_reward(self, step : int):
+        if step == None:
+            return 1
+        return (2 - step/64)
+    
+
 
     def set_agentPos(self, pos: list):
         """
@@ -170,6 +177,7 @@ class ShapeDraw(object):
         self.update_distmap()
         self.update_patch()
         self.update_colmap()
+        #self.update_stepmap()
 
     def update_distmap(self):
         """
@@ -191,6 +199,16 @@ class ShapeDraw(object):
         for y in range(self.s):
             for x in range(self.s):
                 self.colmap[y][x] = self.isDrawing
+
+    def update_stepmap(self):
+        """
+        update_colmap Calculate a new colmap
+        The colmap tells the agent if he is drawing or not
+        """
+        rel_speed = self.curStep/64
+        for y in range(self.s):
+            for x in range(self.s):
+                self.stepmap[y][x] = rel_speed
 
     def update_patch(self):
         """
@@ -230,12 +248,14 @@ class ShapeDraw(object):
         
         return ref, canv
 
-    def agent_is_done(self,  done_accuracy : float):
+
+    def agent_is_done(self, done_accuracy : float):
         if (1 - self.lastSim) > done_accuracy:
             ref, canv = self.predict_mnist()
             if ref == canv:
                 return True
         return False
+
 
     def reset(self):
         """
