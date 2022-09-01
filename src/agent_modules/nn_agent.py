@@ -321,5 +321,5 @@ class Agent(object):
         """
         update_graph Update the q_next Network. Set it to the weights of the q_eval network.
         """
-        print("...Updating Network...")
+        #print("...Updating Network...")
         self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
