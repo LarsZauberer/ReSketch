@@ -14,7 +14,7 @@ if __name__ == '__main__':
     batch_size = 64
     n_episodes = 4000
     n_steps = 64
-    n_epochs = 3
+    n_epochs = 1
     max_action_strength = 1
     n_actions = 42
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
     data = AI_Data(path="src/data/train_ref_Data.json")
     data.sample(n_episodes)
-    env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength, friction=0.5069326469533084, vel_1=0.1370098025636264, vel_2=1.5509605321766515)
+    env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength, friction=0.5, vel_1=1, vel_2=1.6)
     agent_args = {"gamma": 0.7156814785141222, "epsilon": 0.25, "alpha": 0.0003739100350232336, "n_actions" : n_actions, "replace_target": 4000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
