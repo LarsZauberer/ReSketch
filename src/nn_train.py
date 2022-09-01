@@ -41,26 +41,9 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                 illegal_moves = env.illegal_actions(illegal_moves)
                 env.curStep = step
 
-                
-
-                if not all(a == 1 for a in illegal_moves):
-                    action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                else:
-                    """  env.render("Compare", realtime=True)
-                    print(env.phy.velocity)
-                    print(illegal_moves)
-                    sleep(5) """
-                    action = np.random.choice(n_actions)
-                    
-
+                action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
                 next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=0.1, without_rec=wo_rec)
-
-                
-                """ if total_counter % 5 == 0 and total_counter > 200: 
-                    env.render("Compare", realtime=True)
-                    print(illegal_moves, action)
-                    sleep(0.5)
-                """
+                #env.render("Compare", realtime=True)
 
                 if done_step == None and not replay_fill: 
                     if env.agent_is_done(done_accuracy): done_step = step
@@ -115,14 +98,13 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
 if __name__ == '__main__':
     # Hyper parameters
     canvas_size = 28
-    patch_size = 5
-    n_actions = 42
+    patch_size = 7
+    n_actions = 2*(patch_size**2)
     episode_mem_size = 700
     batch_size = 64
     n_episodes = 4000
     n_steps = 64
     n_epochs = 3
-    max_action_strength = 1
 
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
@@ -134,11 +116,11 @@ if __name__ == '__main__':
     data = AI_Data(dataset="mnist")
     data.sample(n_episodes)
 
-    env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength, friction=0.5, vel_1=1, vel_2=1.6)
+    env = ShapeDraw(canvas_size, patch_size, data.pro_data)
     agent_args = {"gamma": 0.66, "epsilon": 0.2, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
-                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval", "n_actions": n_actions}
+                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
     agent = Agent(**agent_args)
     
     # Start training

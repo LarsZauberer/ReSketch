@@ -11,7 +11,7 @@ current_best = None
 
 
 def create_runner(args):
-    def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, n_episodes, friction, vel_1, vel_2):
+    def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, n_episodes):
         parameters = locals()
         global current_best
 
@@ -19,8 +19,8 @@ def create_runner(args):
         
         # Fix parameters
         canvas_size = 28
-        patch_size = 5
-        n_actions = 42
+        patch_size = 7
+        n_actions = 2*(patch_size**2)
         episode_mem_size = int(episode_mem_size)
         batch_size = 64
         n_episodes = int(n_episodes) + int(episode_mem_size)
@@ -39,11 +39,11 @@ def create_runner(args):
         log.debug(f"Loaded Training data")
         
         # Creating environment and agent
-        env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=1, friction=friction, vel_1=vel_1, vel_2=vel_2)
+        env = ShapeDraw(canvas_size, patch_size, data.pro_data)
         agent_args = {"gamma": gamma, "epsilon": epsilon, "alpha": alpha, "replace_target": replace_target, 
                     "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                     "mem_size": mem_size, "batch_size": batch_size, 
-                    "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval", "n_actions": n_actions}
+                    "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
         agent = Agent(**agent_args)
         log.debug(f"Initiated Environmnet and Agent")
         log.info(f"Training with parameters: {parameters}")
@@ -82,7 +82,7 @@ def create_runner(args):
 def main(args):
     # Hyperparameters to optimize
     bounds = {"gamma": (0.1, 1), "epsilon": (0, 1), "alpha": (
-        0.00001, 0.001), "replace_target": (1000, 10000), "episode_mem_size": (100, 1000), "n_episodes": (100, 4000), "friction": (0.1, 0.7), "vel_1": (0.7, 1.2), "vel_2": (1.2, 2)}
+        0.00001, 0.001), "replace_target": (1000, 10000), "episode_mem_size": (100, 1000), "n_episodes": (100, 4000)}
 
     runner = create_runner(args)
 
@@ -113,6 +113,8 @@ if __name__ == '__main__':
 
     # Initiate argparsing
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-f", help="Specify your excel spreadsheed", action="store")
     parser.add_argument("-v", help="Verbose",
                         action="store_true", default=False)
     parser.add_argument("-r", help="Number of random iterations", action="store", type=int, default=3)

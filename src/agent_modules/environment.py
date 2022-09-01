@@ -1,17 +1,17 @@
+from configparser import Interpolation
+import os
 import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
-from agent_modules.physics import Physic_Engine
-from mnist_model.models import EfficientCapsNet
+from models.mnist_model.models import EfficientCapsNet
 from time import sleep
 
 
 class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, max_action_strength : int = 1, friction: float = 0.2, vel_1: float = 0.8, vel_2: float = 1.2):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
-        self.max_action_strength = max_action_strength
 
         # Input gloabal stream
         self.referenceData = referenceData
@@ -25,23 +25,9 @@ class ShapeDraw(object):
         self.ref_patch = np.zeros((self.p, self.p))
         self.canvas_patch = np.zeros((self.p, self.p))
 
-        # Physics
-        self.phy_settings = {"friction": friction, "action_scale": 1.0}
-        self.phy = Physic_Engine(**self.phy_settings)
-
-
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
-        self.n_actions = 42
-        self.actions = [(0,0)]
-        for i in range(8):
-            angle = ma.pi/4*i
-            self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_1)) , float('%.2f' % (ma.sin(angle)*vel_1))) )
-        for i in range(12):
-            angle = ma.pi/6*i
-            self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_2)) , float('%.2f' % (ma.sin(angle)*vel_2))) )
-
-        print(self.actions)
+        self.n_actions = self.p*self.p*2
 
         self.curEpisode = 0
 
@@ -58,6 +44,7 @@ class ShapeDraw(object):
         # rendering / visualization
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
 
+        # Mnist Model -> Recognition of symbol
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
         self.rec_model.load_graph_weights()
         
@@ -76,38 +63,21 @@ class ShapeDraw(object):
         :rtype: tuple
         """
         
-        x, y = self.translate_action(agent_action)
-        action = self.phy.calc_new_pos(self.agentPos, [x, y], update_velocity=True)
+        self.isDrawing = 1
+        action = self.translate_action(agent_action)
 
-<<<<<<< HEAD
         self.set_agentPos(action)
 
         # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
         reward = self.reward(decrementor=decrementor, rec_reward=rec_reward, without_rec=without_rec) if self.isDrawing else 0.0
-=======
-        penalty = 0
-        if self.move_isLegal(action):
-            self.set_agentPos(action)
-        else:
-            # Give a penalty for an illegal move
-            penalty = -0.05
-            self.phy.velocity = [0, 0]
-
-        # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(decrementor=decrementor, rec_reward=rec_reward, without_rec=without_rec) if self.isDrawing else 0.0
-        reward += penalty
->>>>>>> feature/physik2.0
 
         # Ending the timestep
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
 
     def illegal_actions(self, illegal_list : np.array):
         for action in range(self.n_actions):
-            x, y = self.translate_action(action)
-            act = self.phy.calc_new_pos(self.agentPos, [x, y], update_velocity = False)
-            illegal_list[action] = int(not self.move_isLegal(act))
-        
-        
+            if not self.move_isLegal(self.translate_action(action)):
+                illegal_list[action] = 1 # 1 == illegal, 0 == legal
 
         return illegal_list
 
@@ -122,26 +92,24 @@ class ShapeDraw(object):
         """
         if action[0] > len(self.canvas[0])-1 or action[0] < 0:
             return False
-        elif action[1] > len(self.canvas)-1 or action[1] < 0:
+        if action[1] > len(self.canvas)-1 or action[1] < 0:
             return False
         return True
 
-    def translate_action(self, action):
-        """
-        action_to_direction Convert the action index of the agent to a direction and return the strength of the action. Sets also the isDrawing variable.
-
-        :param action: the index of the action to be executed
-        :type action: int
-        :return: x and y delta of the action
-        :rtype: tuple
-        """
-        self.isDrawing = 1
-        if action >= int(self.n_actions/2):
-            action -= int(self.n_actions/2)
+    def translate_action(self, agent_action: int):
+        # Calculate the x and y position coordinates of action in the current patch
+        action = [0, 0]
+        x = agent_action % self.p
+        y = agent_action // self.p
+        if y >= self.p:
+            y -= self.p
             self.isDrawing = 0
+        # Calculate the global aim location of the action
+        ownpos = (self.p-1)/2
+        action = [int(self.agentPos[0]+x-ownpos),
+                  int(self.agentPos[1]+y-ownpos)]
 
-        x, y = self.actions[action]
-        return x, y
+        return action
 
 
     def reward(self, decrementor = 1000, rec_reward = 1,  without_rec : bool = False):
@@ -200,7 +168,7 @@ class ShapeDraw(object):
         """
         set_agentPos Sets the agent to a new position.
 
-        :param pos: coordinates of the new position
+        :param pos: Koordinates of the new position
         :type pos: list
         """
         if self.isDrawing:
@@ -247,11 +215,9 @@ class ShapeDraw(object):
         update_patch Calculate a local input patch of the agent
         The local patch is a concentrated smaller part of the canvas
         """
-        vel_pos = self.phy.calc_new_pos(self.agentPos, [0,0], update_velocity=False)
-
         # Get start locations of the patch
-        patchX = int(vel_pos[0]-(self.p-1)/2)
-        patchY = int(vel_pos[1]-(self.p-1)/2)
+        patchX = int(self.agentPos[0]-(self.p-1)/2)
+        patchY = int(self.agentPos[1]-(self.p-1)/2)
         for y in range(self.p):
             for x in range(self.p):
                 # Check for bounds
@@ -262,6 +228,7 @@ class ShapeDraw(object):
 
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
+
 
     def predict_mnist(self):
         # Format the input for the model
@@ -301,17 +268,12 @@ class ShapeDraw(object):
         self.curRef += 1
         self.curRef = self.curRef % len(self.referenceData)
         self.reference = self.referenceData[self.curRef]
-        
-        
-        # Reset canvas 
-        self.canvas = np.zeros((self.s, self.s))
-
-        #reset Agent position
         self.isDrawing = 0
-        self.phy.velocity = [.0, .0]
+        
+        # Reset canvas and agent position
+        self.canvas = np.zeros((self.s, self.s))
         self.set_agentPos((random.randint(1, self.s-2),
                           random.randint(1, self.s-2)))
-
         
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
