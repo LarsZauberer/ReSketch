@@ -89,11 +89,12 @@ class Test_NN():
             done_step = 64
 
             for j in range(self.num_steps):
+                # Run the timestep
                 illegal_moves = np.zeros(self.n_actions)
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, decrementor=1, rec_reward=0.1, without_rec=True)
                 
                 if t_vis:
                     self.envir.render("Compare", realtime=True)
