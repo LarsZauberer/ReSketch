@@ -9,6 +9,7 @@ from data.ai_data import AI_Data
 
 def create_runner(args):
     def runner(gamma, epsilon, alpha, replace_target, episode_mem_size):
+        parameters = locals()
         log = logging.getLogger("optimizer-runner")
         
         # Fix parameters
@@ -40,11 +41,11 @@ def create_runner(args):
                     "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
         agent = Agent(**agent_args)
         log.debug(f"Initiated Environmnet and Agent")
-        log.info(f"Training with parameters: gamma: {gamma}, epsilon: {epsilon}, alpha: {alpha}, replace_target: {replace_target}")
+        log.info(f"Training with parameters: {parameters}")
         
         # Training
         log.debug(f"Start training")
-        train(env=env, agent=agent, data=data, learn_plot=learn_plot, n_episodes=n_episodes, n_steps=n_steps, n_epochs=n_epochs, n_actions=n_actions, episode_mem_size=episode_mem_size, save_training=False)
+        train(env=env, agent=agent, data=data, learn_plot=learn_plot, n_episodes=n_episodes, n_steps=n_steps, n_epochs=n_epochs, n_actions=n_actions, episode_mem_size=episode_mem_size, save_training=False, vis_compare=100)
         log.info(f"Training finished")
         
         log.debug(f"Run Tests")
