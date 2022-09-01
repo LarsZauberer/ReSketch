@@ -20,10 +20,10 @@ class Test_NN():
         self.num_steps = num_steps
 
         canvas_size = 28
-        patch_size = 5
+        patch_size = 7
         self.glob_in_dims = (4, canvas_size, canvas_size)
         self.loc_in_dims = (2, patch_size, patch_size)
-        self.n_actions = 42
+        self.n_actions = 2*patch_size**2
         self.episode_mem_size = 700
         self.batch_size = 64
         
@@ -34,7 +34,11 @@ class Test_NN():
         self.data = AI_Data(dataset)
         self.data.sample(n_test)
 
-        self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, n_actions=self.n_actions)
+        
+
+
+
+        self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data)
 
         #for mnist test
         self.mnist_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
@@ -88,20 +92,16 @@ class Test_NN():
                 # Run the timestep
                 illegal_moves = np.zeros(self.n_actions)
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
-
-                
-
-                if not all(a == 1 for a in illegal_moves):
-                    action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=False)
-                else:
-                    action = np.random.choice(self.n_actions)
-                    
-
+                # Run the timestep
+                action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
                 next_gloabal_obs, next_local_obs, reward = self.envir.step(action, decrementor=1, rec_reward=0.1, without_rec=True)
+                
+                if t_vis:
+                    self.envir.render("Compare", realtime=True)
+                    sleep(0.1)
+
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
-               
-
                 agent.counter += 1
 
                 if t_reward:
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
-                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval", "n_actions": test.n_actions}
+                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
 
     reward, accuracy, datarec, speed = test.test_from_loaded(agent_args, mode="all")
     print(f'reward: {reward}, accuracy: {accuracy}, {test.dataset} recognition: {datarec}, speed {speed}')
