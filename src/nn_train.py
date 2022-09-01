@@ -6,38 +6,9 @@ import numpy as np
 import json
 from time import sleep
 
-if __name__ == '__main__':
-    # Hyper parameters
-    canvas_size = 28
-    patch_size = 5
-    episode_mem_size = 603
-    batch_size = 64
-    n_episodes = 4000
-    n_steps = 64
-    n_epochs = 1
-    max_action_strength = 1
-    n_actions = 42
 
-    # further calculations
-    glob_in_dims = (4, canvas_size, canvas_size)
-    loc_in_dims = (2, patch_size, patch_size)
-    mem_size = episode_mem_size*n_steps
-
-    #load Data
-    learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
-    data = AI_Data(dataset="mnist")
-    data.sample(n_episodes)
-    env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength, friction=0.5, vel_1=1, vel_2=1.6)
-    agent_args = {"gamma": 0.7156814785141222, "epsilon": 0.25, "alpha": 0.0003739100350232336, "n_actions" : n_actions, "replace_target": 4000, 
-                  "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
-                  "mem_size": mem_size, "batch_size": batch_size, 
-                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
-    agent = Agent(**agent_args)
-    
-    
-
+def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions, episode_mem_size, save_training=True, vis_compare=12):
     # Initializing architecture
-    
     replay_fill = True
     print("...filling Replay Buffer...")
 
@@ -97,7 +68,7 @@ if __name__ == '__main__':
             # Learn Process visualization
             if total_counter > episode_mem_size:
                 real_ep = total_counter - episode_mem_size
-                if real_ep % 12 == 0:
+                if real_ep % vis_compare == 0:
                     avg_score = np.mean(scores)
                     scores = []
                     print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
@@ -108,15 +79,42 @@ if __name__ == '__main__':
                     print(f"episode: {real_ep}, score: {score}")
 
                 scores.append(score)
-            
-            
-        #save weights
-        agent.save_models()
-        learn_plot.save_plot()
+
+
+        if save_training:
+            # save weights
+            agent.save_models()
+            learn_plot.save_plot()
     
+
+if __name__ == '__main__':
+    # Hyper parameters
+    canvas_size = 28
+    patch_size = 5
+    n_actions = 42
+    episode_mem_size = 700
+    batch_size = 64
+    n_episodes = 4000
+    n_steps = 64
+    n_epochs = 3
+    max_action_strength = 1
+
+    # further calculations
+    glob_in_dims = (4, canvas_size, canvas_size)
+    loc_in_dims = (2, patch_size, patch_size)
+    mem_size = episode_mem_size*n_steps
+
+    # load Data
+    learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
+    data = AI_Data(dataset="mnist")
+    data.sample(n_episodes)
+
+    env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength, friction=0.5, vel_1=1, vel_2=1.6)
+    agent_args = {"gamma": 0.66, "epsilon": 0.2, "alpha": 0.00075, "replace_target": 8000, 
+                  "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
+                  "mem_size": mem_size, "batch_size": batch_size, 
+                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval", "n_actions": n_actions}
+    agent = Agent(**agent_args)
     
-
-
-
-
-
+    # Start training
+    train(env=env, agent=agent, data=data, learn_plot=learn_plot, n_steps=n_steps, n_episodes=n_episodes, n_epochs=n_epochs, n_actions=n_actions, episode_mem_size=episode_mem_size, save_training=True, vis_compare=12)
