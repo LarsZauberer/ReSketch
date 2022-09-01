@@ -8,6 +8,7 @@ import numpy as np
 from time import sleep
 
 
+
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions: int, batch_size: int, name: str,
                  global_input_dims: int, local_input_dims: int, fc1_dims: int = 512, chkpt_dir='tmp/dqn'):
@@ -27,7 +28,6 @@ class DeepQNetwork(object):
         # Generate the network
         self.build_network()
 
-
     def build_network(self):
         """
         build_network Generate a keras DeepQNetwork. The model will be saved in the self.dqn variable.
@@ -35,7 +35,7 @@ class DeepQNetwork(object):
         # global convolution
         glob_in = Input(shape=self.global_input_dims,
                         batch_size=self.batch_size, name="global_input")
-        glob_conv1 = Conv2D(32, (8, 8), strides=3,  activation="relu", input_shape=self.global_input_dims,
+        glob_conv1 = Conv2D(32, (8, 8), strides=2,  activation="relu", input_shape=self.global_input_dims,
                             padding="same", name="glob_conv1", data_format='channels_first')(glob_in)
         glob_conv2 = Conv2D(64, (4, 4), strides=2, activation="relu", name="glob_conv2",
                             padding="same", data_format='channels_first')(glob_conv1)
@@ -91,11 +91,11 @@ class DeepQNetwork(object):
 
 
 class Agent(object):
-    def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size, n_actions,
+    def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size,
                  replace_target=1000,
                  q_next_dir='src/nn_memory/q_next', q_eval_dir='src/nn_memory/q_eval'):
 
-        self.n_actions = n_actions  # How many action options the agent has. -> Index of the action to choose
+        self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
         self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
         self.gamma = gamma  # Is the learnrate
         self.mem_size = mem_size  # The allocated memory size (The number of slots for saved observation)
@@ -182,14 +182,13 @@ class Agent(object):
         rand = np.random.random()
         if rand < self.epsilon or self.rare_Exploration() or replay_fill:
             action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
-                
         else:
-            # update q_next after certain step
-            if self.counter % self.replace_target == 0:
+            if self.counter % self.replace_target == 0 and self.counter > 0:
                 # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
                 self.update_graph()
-
             # create batch of states (prediciton must be in batches)
+            # Create a batch containing only one real state (all zeros for the other states)
+
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
             """ for _ in range(self.batch_size-1):
@@ -201,11 +200,8 @@ class Agent(object):
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
-
-            """ print(illegal_list)
-            sleep(1) """
-
             while illegal_list[np.argmax(actions)] == 1:
+                
                 actions[np.argmax(actions)] = -1
 
             # Take the index of the maximal value -> action
@@ -222,6 +218,7 @@ class Agent(object):
         """
         learn the Training of The agent/network. Based on deep Q-learning
         """
+        
 
         # randomly samples Memory.
         # chooses as many states from Memory as batch_size requires
@@ -249,10 +246,10 @@ class Agent(object):
         q_next = np.array(self.q_next.dqn([new_global_state_batch, new_local_state_batch]))
 
         # Calculates optimal output for training. ( Bellman Equation !! )
-        
+
+
 
         q_target = np.copy(q_eval)
-        
         for i, il_list in enumerate(illegal_list_batch):
             for j, item in enumerate(il_list):
                 if item == 1: #if illegal
@@ -290,9 +287,6 @@ class Agent(object):
         :return: If the ai should explore
         :rtype: bool
         """
-
-        if self.epsilon > 0:
-            return False
         # Is used when exploration is zero
         # If the ai is too much exploiting -> Force an exploration
         if self.epsilon >= 0:
