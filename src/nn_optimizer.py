@@ -18,14 +18,14 @@ def create_runner(args):
         n_actions = 2*(patch_size**2)
         episode_mem_size = int(episode_mem_size)
         batch_size = 64
-        n_episodes = args.t
+        n_episodes = args.t + int(episode_mem_size)
         n_steps = 64
         n_epochs = 1
         
         # further calculations
         glob_in_dims = (4, canvas_size, canvas_size)
         loc_in_dims = (2, patch_size, patch_size)
-        mem_size = episode_mem_size*n_steps
+        mem_size = int(episode_mem_size) * n_steps
         
         # load training data
         learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
