@@ -58,9 +58,10 @@ class DeepQNetwork(object):
                        name="dense1")(concat_model)
         out = Dense(self.n_actions, activation="relu", name="output")(dense1)
 
-        self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
         # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
         # Output of the netword are Q-values. each Q-value represents an action
+        self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
+        
 
         # Network is ready for calling / Training
         self.dqn.compile(loss="mean_squared_error", optimizer=tf.keras.optimizers.Adam(
@@ -127,7 +128,7 @@ class Agent(object):
         self.reward_memory = np.zeros(self.mem_size)
         self.illegal_list_memory = np.zeros(illegal_list_shape)
 
-        self.recent_mem = 6
+        self.recent_mem = 10
         self.recent_actions = np.zeros(self.recent_mem)
 
     def store_transition(self, global_state: np.array, local_state: np.array, next_gloabal_state: np.array, next_local_state: np.array, action: int, reward: float, illegal_list : np.array):
@@ -209,6 +210,7 @@ class Agent(object):
         action_ind = self.counter % self.recent_mem
         self.recent_actions[action_ind] = action
 
+
         return action
 
     def learn(self):
@@ -257,7 +259,11 @@ class Agent(object):
         # Recalculate the q-value of the action taken in each state
 
         q_target[idx, action_batch] = reward_batch + \
-            self.gamma*np.max(q_next, axis=1)
+        self.gamma*np.max(q_next, axis=1)
+
+     
+
+       
 
         # Calls training
         # Basic Training: gives input and desired output.
@@ -266,7 +272,7 @@ class Agent(object):
         
 
         # reduces Epsilon: Network relies less on exploration over time
-        if self.counter > self.mem_size and self.epsilon != 0:
+        if self.counter > self.mem_size and self.epsilon > 0:
             if self.epsilon > 0.05:
                 self.epsilon -= 1e-5  # go constant at 25000 steps
             elif self.epsilon <= 0.05:
@@ -284,6 +290,9 @@ class Agent(object):
             return False
         # Is used when exploration is zero
         # If the ai is too much exploiting -> Force an exploration
+        if self.epsilon >= 0:
+            return False
+
         variance = 0
         container = []
         for i in range(0, self.recent_mem):

@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     #load Data
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
-    data = AI_Data(path="src/data/train_ref_Data.json")
+    data = AI_Data(dataset="mnist")
     data.sample(n_episodes)
     env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength, friction=0.5, vel_1=1, vel_2=1.6)
     agent_args = {"gamma": 0.7156814785141222, "epsilon": 0.25, "alpha": 0.0003739100350232336, "n_actions" : n_actions, "replace_target": 4000, 
@@ -34,6 +34,8 @@ if __name__ == '__main__':
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
     agent = Agent(**agent_args)
     
+    
+
     # Initializing architecture
     
     replay_fill = True
@@ -44,7 +46,7 @@ if __name__ == '__main__':
     for epoch in range(n_epochs):
         data.shuffle()
         env.referenceData = data.pro_data
-        
+
         # Main process
         for episode in range(n_episodes):
             total_counter += 1
@@ -100,21 +102,21 @@ if __name__ == '__main__':
                     scores = []
                     print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
 
-                    #env.render("Compare")
+                    env.render("Compare")
                     learn_plot.update_plot(real_ep, avg_score)
                 else:
                     print(f"episode: {real_ep}, score: {score}")
 
                 scores.append(score)
             
-    
+            
         #save weights
         agent.save_models()
         learn_plot.save_plot()
+    
+    
 
 
-agent.save_models()
-learn_plot.save_plot()
 
 
 

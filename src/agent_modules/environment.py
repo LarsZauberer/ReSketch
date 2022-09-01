@@ -4,6 +4,7 @@ import math as ma
 import matplotlib.pyplot as plt
 from agent_modules.physics import Physic_Engine
 from mnist_model.models import EfficientCapsNet
+from time import sleep
 
 
 class ShapeDraw(object):
@@ -50,6 +51,7 @@ class ShapeDraw(object):
         self.set_agentPos([random.randint(1, self.s-2),
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
 
+        # rendering / visualization
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
 
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
@@ -62,6 +64,8 @@ class ShapeDraw(object):
 
         :param agent_action: the index of the action to be executed
         :type agent_action: int
+        :param n_step: number of the current step
+        :type n_step: int
         :return: the data of the environment after the timestep (observation for the agent). It is containing an np array with
             `reference`, `canvas`, `distmap` and `colmap` another np array with
             `ref_patch` and `canvas_patch` and an int with the `reward`
@@ -154,8 +158,10 @@ class ShapeDraw(object):
         else:
             self.lastSim = similarity
 
+
         return reward
 
+        
 
     def set_agentPos(self, pos: list):
         """
