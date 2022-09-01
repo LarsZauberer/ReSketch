@@ -1,5 +1,6 @@
 from matplotlib.font_manager import json_dump
 import matplotlib.pyplot as mp
+import numpy as np
 import json
 
 
@@ -42,6 +43,8 @@ class Learn_Plotter():
         data = []
         with open(self.path, "r") as p:
             data = json.load(p)
+        mp.figure(dpi=200)
+        mp.grid()
         mp.plot(data[0], data[1])
         mp.show()
 
