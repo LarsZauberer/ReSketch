@@ -97,9 +97,10 @@ class Test_NN():
                     action = np.random.choice(self.n_actions)
                     
 
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action)
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, decrementor=1, rec_reward=0.1, without_rec=True)
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
+               
 
                 agent.counter += 1
 

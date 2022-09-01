@@ -9,17 +9,24 @@ from time import sleep
 
 def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions, episode_mem_size, save_training=True, vis_compare=12):
     # Initializing architecture
+    wo_rec = True
     replay_fill = True
     print("...filling Replay Buffer...")
 
     total_counter = 0
     scores = []
+    predicts = []
+    sims = []
     for epoch in range(n_epochs):
         data.shuffle()
         env.referenceData = data.pro_data
 
         # Main process
         for episode in range(n_episodes):
+
+            if episode > 2000+episode_mem_size: break
+
+            if not replay_fill: env.curEpisode += 1
             total_counter += 1
             global_obs, local_obs = env.reset()
             score = 0
@@ -41,7 +48,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                     action = np.random.choice(n_actions)
                     
 
-                next_gloabal_obs, next_local_obs, reward = env.step(action)
+                next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=0.1, without_rec=wo_rec)
 
                 
                 """ if total_counter % 5 == 0 and total_counter > 200: 
@@ -60,6 +67,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                 score += reward
 
                 if step % 4 == 0 and total_counter > episode_mem_size:
+                    wo_rec = False
                     replay_fill = False #finish filling replay buffer
                     agent.learn()
             
@@ -70,8 +78,12 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                 real_ep = total_counter - episode_mem_size
                 if real_ep % vis_compare == 0:
                     avg_score = np.mean(scores)
+                    avg_predicts = np.mean(predicts)
+                    avg_sims = np.mean(sims)
+                    predicts = []
+                    sims = []
                     scores = []
-                    print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
+                    print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, predictions: {'%.3f' % avg_predicts} sims: {'%.3f' % avg_sims} epsilon: {'%.3f' % agent.epsilon}")
 
                     env.render("Compare")
                     learn_plot.update_plot(real_ep, avg_score)
