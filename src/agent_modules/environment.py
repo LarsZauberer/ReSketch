@@ -1,8 +1,11 @@
+from configparser import Interpolation
 import os
 import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
+from models.mnist_model.models import EfficientCapsNet
+from time import sleep
 
 
 class ShapeDraw(object):
@@ -15,6 +18,8 @@ class ShapeDraw(object):
         self.canvas = np.zeros((self.s, self.s))
         self.distmap = np.zeros((self.s, self.s))
         self.colmap = np.zeros((self.s, self.s))
+        self.stepmap = np.zeros((self.s, self.s))
+        self.curStep = 0
 
         # Input local stream
         self.ref_patch = np.zeros((self.p, self.p))
@@ -23,6 +28,8 @@ class ShapeDraw(object):
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
         self.n_actions = self.p*self.p*2
+
+        self.curEpisode = 0
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
@@ -34,55 +41,128 @@ class ShapeDraw(object):
         self.set_agentPos([random.randint(1, self.s-2),
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
 
+        # rendering / visualization
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
+
+        # Mnist Model -> Recognition of symbol
+        self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
+        self.rec_model.load_graph_weights()
         
-    def step(self, agent_action: int):
+    def step(self, agent_action: int, decrementor : int, rec_reward : float, without_rec : bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
 
         :param agent_action: the index of the action to be executed
         :type agent_action: int
+        :param n_step: number of the current step
+        :type n_step: int
         :return: the data of the environment after the timestep (observation for the agent). It is containing an np array with
             `reference`, `canvas`, `distmap` and `colmap` another np array with
             `ref_patch` and `canvas_patch` and an int with the `reward`
         :rtype: tuple
         """
-        action = [0, 0]
+        
         self.isDrawing = 1
+        action = self.translate_action(agent_action)
 
+        self.set_agentPos(action)
+
+        # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
+        reward = self.reward(decrementor=decrementor, rec_reward=rec_reward, without_rec=without_rec) if self.isDrawing else 0.0
+
+        # Ending the timestep
+        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
+
+    def illegal_actions(self, illegal_list : np.array):
+        for action in range(self.n_actions):
+            if not self.move_isLegal(self.translate_action(action)):
+                illegal_list[action] = 1 # 1 == illegal, 0 == legal
+
+        return illegal_list
+
+    def move_isLegal(self, action):
+        """
+        move_isLegal Check if an action is legel.
+
+        :param action: The action to validate
+        :type action: list
+        :return: Wether it is legal or not
+        :rtype: bool
+        """
+        if action[0] > len(self.canvas[0])-1 or action[0] < 0:
+            return False
+        if action[1] > len(self.canvas)-1 or action[1] < 0:
+            return False
+        return True
+
+    def translate_action(self, agent_action: int):
         # Calculate the x and y position coordinates of action in the current patch
+        action = [0, 0]
         x = agent_action % self.p
         y = agent_action // self.p
         if y >= self.p:
             y -= self.p
             self.isDrawing = 0
-
         # Calculate the global aim location of the action
         ownpos = (self.p-1)/2
         action = [int(self.agentPos[0]+x-ownpos),
                   int(self.agentPos[1]+y-ownpos)]
 
-        # Penalty for being to slow
-        penalty = 0
-        """if abs(x) < ownpos or abs(y) < ownpos:
-            penalty = -0.0005 """
+        return action
 
-        # Draw if the move is legal
-        if self.move_isLegal(action):
-            self.set_agentPos(action)
+
+    def reward(self, decrementor = 1000, rec_reward = 1,  without_rec : bool = False):
+        """
+        reward Calculate the reward based on gained similarity and length of step
+
+        :return: The reward value
+        :rtype: float
+        """
+        reward = 0
+        similarity = 0
+        for i in range(self.s):
+            for j in range(self.s):
+                similarity += (self.canvas[i][j] - self.reference[i][j])**2
+        similarity /= self.maxScore
+
+        factor = 0.1
+        if without_rec:
+            factor = 1 
         else:
-            # Give a penalty for an illegal move
-            self.isDrawing = 0
-            penalty = -0.001
+            factor = 1 - self.curEpisode/decrementor
+        if factor < 0.1:
+            factor = 0.1
+        
 
-        # Calculate the reward for the action in this turn
-        # The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward() if self.isDrawing else 0.0
-        reward += penalty
+            
+        # Only use the newly found similar pixels for the reward
+        reward = (self.lastSim - similarity) * factor
+        if self.maxScore == 1:
+            self.maxScore = similarity
+            self.lastSim = 1
+        else:
+            self.lastSim = similarity
 
-        # Ending the timestep
-        return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
+    
+        rec_const_reward = 0
+        if  1 - similarity > 0.2 and (not without_rec):
+            a, b = self.predict_mnist()
+            if a == b:
+                rec_const_reward = rec_reward * (1 - factor)
+            else:
+                rec_const_reward = 0 
+        reward += rec_const_reward
+
+
+        return reward
+
+    def speed_reward(self, step : int):
+        if step == None:
+            return 1
+        return (2 - step/64)
+    
+
 
     def set_agentPos(self, pos: list):
         """
@@ -97,6 +177,7 @@ class ShapeDraw(object):
         self.update_distmap()
         self.update_patch()
         self.update_colmap()
+        #self.update_stepmap()
 
     def update_distmap(self):
         """
@@ -119,6 +200,16 @@ class ShapeDraw(object):
             for x in range(self.s):
                 self.colmap[y][x] = self.isDrawing
 
+    def update_stepmap(self):
+        """
+        update_colmap Calculate a new colmap
+        The colmap tells the agent if he is drawing or not
+        """
+        rel_speed = self.curStep/64
+        for y in range(self.s):
+            for x in range(self.s):
+                self.stepmap[y][x] = rel_speed
+
     def update_patch(self):
         """
         update_patch Calculate a local input patch of the agent
@@ -138,49 +229,33 @@ class ShapeDraw(object):
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
-    def reward(self):
-        """
-        reward Calculate the reward based on gained similarity and length of step
 
-        :return: The reward value
-        :rtype: float
-        """
-        # calculates reward of action based on gained similarity and length of step
-        reward = 0
-        similarity = 0
-        for i in range(self.s):
-            for j in range(self.s):
-                similarity += (self.canvas[i][j] - self.reference[i][j])**2
-                
-        similarity /= self.maxScore
-
-        # Only use the newly found similar pixels for the reward
-        reward = (self.lastSim - similarity) 
+    def predict_mnist(self):
+        # Format the input for the model
+        ref_inp = self.reference.reshape(self.s, self.s, 1)
+        canv_inp = self.canvas.reshape(self.s, self.s, 1)
+        inp = np.array([ref_inp, canv_inp])
         
-        if self.maxScore == 1:
-            self.maxScore = similarity
-            self.lastSim = 1
-        else:
-            self.lastSim = similarity
+        # Predict
+        out = self.rec_model.predict(inp)
+        # Get index of max
+        ref = np.argmax(out[0][0])
+        canv = np.argmax(out[0][1])
+        
+        # Too unsure. Should not be validated
+        if out[0][1][canv] < 0.6:
+            canv = -1
+        
+        return ref, canv
 
-        return reward
 
+    def agent_is_done(self, done_accuracy : float):
+        if (1 - self.lastSim) > done_accuracy:
+            ref, canv = self.predict_mnist()
+            if ref == canv:
+                return True
+        return False
 
-
-    def move_isLegal(self, action):
-        """
-        move_isLegal Check if an action is legel.
-
-        :param action: The action to validate
-        :type action: list
-        :return: Wether it is legal or not
-        :rtype: bool
-        """
-        if action[0] > len(self.canvas[0])-2 or action[0] < 1:
-            return False
-        if action[1] > len(self.canvas)-2 or action[1] < 1:
-            return False
-        return True
 
     def reset(self):
         """
@@ -193,6 +268,7 @@ class ShapeDraw(object):
         self.curRef += 1
         self.curRef = self.curRef % len(self.referenceData)
         self.reference = self.referenceData[self.curRef]
+        self.isDrawing = 0
         
         # Reset canvas and agent position
         self.canvas = np.zeros((self.s, self.s))
@@ -202,7 +278,7 @@ class ShapeDraw(object):
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward()
+        self.reward(without_rec=True)
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
@@ -236,7 +312,7 @@ class ShapeDraw(object):
             # Original image
             rendRef = rendRef.reshape(28,28)
             self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
-                       label='Original', vmin=0, vmax=255)
+                       interpolation = 'none', label='Original', vmin=0, vmax=255)
             self.axs[0].set_title('Original')
             self.axs[0].axis("off")
             
@@ -245,12 +321,13 @@ class ShapeDraw(object):
             rendCanv = rendCanv.reshape(28, 28)
             if realtime:
                 rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
-            self.axs[1].imshow(rendCanv, cmap='gray',
+            self.axs[1].imshow(rendCanv, cmap='gray', interpolation='none',
                        label='AI Canvas', vmin=0, vmax=255)
             self.axs[1].set_title('AI Canvas')
             self.axs[1].axis('off')
 
-            plt.pause(0.01)
+            plt.pause(0.005)
+            plt.pause(0.005)
         else:
             plt.imshow(self.canvas, interpolation='none', cmap='gray')
             plt.pause(0.01)
@@ -322,6 +399,8 @@ def drawline(setpos, pos, canvas):
                 if pix[1]+weight-y >= len(canvas) or pix[1]+weight-y < 0:
                     continue
                 canvas[pix[1]+weight-y][pix[0]] = 1
+                
+                    
     
     # The same procedure for the y-position
     else:
