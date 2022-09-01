@@ -7,9 +7,14 @@ from agent_modules.environment import ShapeDraw
 from data.ai_data import AI_Data
 
 
+current_best = None
+
+
 def create_runner(args):
     def runner(gamma, epsilon, alpha, replace_target, episode_mem_size):
         parameters = locals()
+        global current_best
+
         log = logging.getLogger("optimizer-runner")
         
         # Fix parameters
@@ -57,6 +62,18 @@ def create_runner(args):
         
         log.info(f"Testing score on criteria: {args.criteria} - {scores[args.criteria]}")
         
+        # Check if should save the agent
+        if current_best is None:
+            log.info(f"New best score. Saving model...")
+            agent.save_models()
+            log.info(f"Model saved!")
+            current_best = scores[args.criteria]
+        elif scores[args.criteria] > current_best:
+            log.info(f"New best score. Saving model...")
+            agent.save_models()
+            log.info(f"Model saved!")
+            current_best = scores[args.criteria]
+        
         return scores[args.criteria]
     
     return runner
@@ -65,7 +82,7 @@ def create_runner(args):
 def main(args):
     # Hyperparameters to optimize
     bounds = {"gamma": (0.1, 1), "epsilon": (0, 1), "alpha": (
-        0.00001, 0.001), "replace_target": (1000, 10000), "episode_mem_size": (100, 2000)}
+        0.00001, 0.001), "replace_target": (1000, 10000), "episode_mem_size": (100, 200)}
 
     runner = create_runner(args)
 
