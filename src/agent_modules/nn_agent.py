@@ -158,6 +158,11 @@ class Agent(object):
         self.new_global_state_memory[index] = next_gloabal_state
         self.new_local_state_memory[index] = next_local_state
 
+    def update_speedreward(self, reward = 1.1):
+        start_i = (self.counter % self.mem_size) - 64
+        for i in range(64):
+            index = start_i+i
+            self.reward_memory[index] *= reward
 
 
     def choose_action(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
