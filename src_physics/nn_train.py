@@ -8,9 +8,9 @@ import json
 from time import sleep
 
 
-def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions, episode_mem_size, save_training=True, vis_compare=12):
+def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions, episode_mem_size, save_training=True, vis_compare=12, mnist=False, speed=False):
     # Initializing architecture
-    wo_rec = True
+    wo_rec = mnist
     replay_fill = True
     print("...filling Replay Buffer...")
 
@@ -79,10 +79,10 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                     replay_fill = False #finish filling replay buffer
                     agent.learn()
             
-            
-            speed_reward = env.speed_reward(done_step)
-            #if not replay_fill: print(speed_reward)
-            agent.update_speedreward(speed_reward)
+            if speed:
+                speed_reward = env.speed_reward(done_step)
+                #if not replay_fill: print(speed_reward)
+                agent.update_speedreward(speed_reward)
                 
 
         
@@ -113,6 +113,10 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
     
 
 if __name__ == '__main__':
+    # Options
+    mnist = False
+    speed = False
+    
     # Hyper parameters
     canvas_size = 28
     patch_size = 5
@@ -142,4 +146,17 @@ if __name__ == '__main__':
     agent = Agent(**agent_args)
     
     # Start training
-    train(env=env, agent=agent, data=data, learn_plot=learn_plot, n_steps=n_steps, n_episodes=n_episodes, n_epochs=n_epochs, n_actions=n_actions, episode_mem_size=episode_mem_size, save_training=True, vis_compare=12)
+    train(env=env,
+          agent=agent,
+          data=data,
+          learn_plot=learn_plot,
+          n_steps=n_steps,
+          n_episodes=n_episodes,
+          n_epochs=n_epochs,
+          n_actions=n_actions,
+          episode_mem_size=episode_mem_size,
+          save_training=True,
+          vis_compare=12,
+          mnist=mnist,
+          speed=speed,
+          )
