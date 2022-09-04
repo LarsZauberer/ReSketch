@@ -10,7 +10,7 @@ from time import sleep
 
 def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions, episode_mem_size, save_training=True, vis_compare=12, mnist=False, speed=False):
     # Initializing architecture
-    wo_rec = mnist
+    wo_rec = True
     replay_fill = True
     print("...filling Replay Buffer...")
 
@@ -75,7 +75,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                 score += reward
 
                 if step % 4 == 0 and total_counter > episode_mem_size:
-                    wo_rec = False
+                    wo_rec = mnist
                     replay_fill = False #finish filling replay buffer
                     agent.learn()
             
