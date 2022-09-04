@@ -58,7 +58,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                 score += reward
 
                 if step % 4 == 0 and total_counter > episode_mem_size:
-                    wo_rec = mnist
+                    wo_rec = not mnist
                     replay_fill = False #finish filling replay buffer
                     agent.learn()
             
