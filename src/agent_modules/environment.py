@@ -147,6 +147,7 @@ class ShapeDraw(object):
     
         rec_const_reward = 0
         if  1 - similarity > 0.2 and (not without_rec):
+            print("yo")
             a, b = self.predict_mnist()
             if a == b:
                 rec_const_reward = rec_reward * (1 - factor)
