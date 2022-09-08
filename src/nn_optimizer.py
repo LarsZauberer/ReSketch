@@ -50,7 +50,20 @@ def create_runner(args):
         
         # Training
         log.debug(f"Start training")
-        train(env=env, agent=agent, data=data, learn_plot=learn_plot, n_episodes=n_episodes, n_steps=n_steps, n_epochs=n_epochs, n_actions=n_actions, episode_mem_size=episode_mem_size, save_training=False, vis_compare=100)
+        train(env=env,
+              agent=agent,
+              data=data,
+              learn_plot=learn_plot,
+              n_episodes=n_episodes,
+              n_steps=n_steps,
+              n_epochs=n_epochs,
+              n_actions=n_actions,
+              episode_mem_size=episode_mem_size,
+              save_training=False,
+              vis_compare=100,
+              mnist=args.mnist,
+              speed=args.speed,
+              )
         log.info(f"Training finished")
         
         log.debug(f"Run Tests")
@@ -121,6 +134,8 @@ if __name__ == '__main__':
     parser.add_argument("-i", help="Number of iterations", action="store", type=int, default=5)
     parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist")
     parser.add_argument("-c", "--criteria", help="Criteria to improve the test on", action="store", type=str, default="accuracy")
+    parser.add_argument("-m", "--mnist", help="Weather to use mnist training or not", action="store_true", default=False)
+    parser.add_argument("-s", "--speed", help="Weather to use speed training or not", action="store_true", default=False)
     # parser.add_argument("-t", help="Number of episodes in training", action="store", type=int, default=1000)
 
     args = parser.parse_args()
