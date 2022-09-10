@@ -208,24 +208,20 @@ stabiler macht.
 
 \section{Verwandte Arbeiten und Themen}
 \label{chap:t_verwandt}
-Es gibt verschiedene Ansätze, um ein Computerprogramm die menschliche Tätigkeit
-des Nachzeichnens verrichten zu lassen. Diese Ansätze werden in verschiedenen
-wissenschaftlichen Arbeiten verfolgt. Ein häufiger Ansatz ist ``Stroke-Based
-Rendering'', wobei Bilder durch das Platzieren von Elementen wie Strichen
-gezeichnet werden. Beispiele für Arbeiten, die diesen Ansatz verwenden sind\dots % TODO: Quelle anfügen
-Stroke-Based Rendering unterscheidet sich von menschlichem Zeichnen dadurch,
-dass kein Stift geführt wird. Stattdessen können die Elemente zu jedem Zeitpunkt
-an einer willkürlichen Position auf der Zeichenfläche platziert werden.
-
-Andere Ansätze simulieren die Führung eines Stiftes. Das Computerprogramm kann
-also nicht zu jedem Zeitpunkt an jedem Ort Zeichnen. Stattdessen ist es an eine
-Position (einen Stift) gebunden, welche mit einer gewissen Geschwindigkeit
-bewegt werden kann. Das ist eine Einschränkung, die auch auf menschliches
-Zeichnen mit einem Stift zutrifft. Ein Beipiel von diesem Programm ist Doodle-SDQ von Tao Zhou et Al (2018)
+Das Nachzeichnen von Strichbildern hängt allgemein mit dem Zeichnen von Bildern
+durch einen Computer zusammen Es gibt verschiedene Ansätze, um einen Computer
+zeichnen zu lassen. Ein häufiger Ansatz ist \emph{Stroke-Based Rendering}.
+Stroke-Based Rendering ist das Zeichnen von Bilder durch das Platzieren von
+Elementen wie Strichen. Beispiele für Arbeiten, die diesen Ansatz verfolgen
+sind\dots     % TODO: Quelle anfügen 
+Andere Ansätze simulieren die Führung eines Stiftes. Ein Beispiel dafür ist das
+Programm Doodle-SDQ (ref). Doodle-SDQ beschäftigt sich auch spezifischer mit dem
+Nachzeichnen von Strichbildern und wird deswegen im nächsten Abschnitt weiter
+behandelt. %Todo: Doodle-SDQ Quelle
 
 \subsection*{Doodle-SDQ}
-Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt hat, Strichbilder
-aus dem Google Quick-Draw Datenset nachzuzeichnen. Das Programm stammt aus der
+Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt, Strichbilder
+aus dem Google Quick-Draw Datenset nachzuzeichnen. Das Programm stammt aus der    %todo: ref quickdraw
 Arbeit `Learning to Doodle with Deep Q-Networks and Demonstration Strokes' von
 Tao Zhou et Al. aus dem Jahr 2018. Wie der Titel beschreibt basiert das Programm
 auf dem Deep Q-Learning Algorithmus (siehe \nameref{chap:t_rl}). `Demonstration
