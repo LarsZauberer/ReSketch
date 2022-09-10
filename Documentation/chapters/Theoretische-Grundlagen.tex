@@ -108,7 +108,7 @@ Layers und Convolutional Layers. In Fully Connected Layers dient jedes Neuron
 als Input für jedes Neuron in der nächsten Layer. In Convolutional Layers trifft
 das nicht zu. Die Funktion von Convolutional Layers ist es, wichtige Merkmale
 aus dem Input hervorzuheben. Machine Learning Modelle werden ab mehr als einer
-Hidden Layer Deep Learning Modelle genannnt.
+Hidden Layer als Deep Learning Modelle bezeichnet.
 
 
 Ein Machine Learning Modell passt während der Trainingsphase (siehe
@@ -144,42 +144,67 @@ wodurch das reinforcement Learning Modell learnt ist dabei häufig nicht nicht
 echte Welt, sondern eine simulierte Umgebung.
 
 
-
 \subsection*{Aufbau und Funktionsweise}
 Dieser Abschnitt umfasst eine genauere Erklärung eines Reinforcement Learning
-Algorithmus (in diesem Fall Deep Q-Learning) unter der Verwendung der korrekten
+Modelles (in diesem Fall Deep Q-Learning) unter der Verwendung der korrekten
 Fachbegriffe.
 
-Ein Reinforcement Learning Algorithmus umfasst eine Umgebung und einen Agenten.
-Der Agent ist dasjenige Element in der Umgebung, welches mit dieser interagiert
-und daraus lernt. Der Agent umfasst ein Neuronales Netz. Die Eingabe in dieses
-Netz ist die \textbf{Beobachtung} der Umgebung, also diejenigen aktuellen Daten
-aus der Umgebung, die für den Agenten relevant sind. Die Ausgabe des Netzes
-entspricht einer gewissen Anzahl Neuronen, die alle einen bestimmten Wert (den
-\textbf{Q-Wert}) haben, der jeweils von der Eingabe abhängt. Jedes Neuron
-repräsentiert eine Aktion, wobei jenes Neuron mit dem höchsten Q-Wert als die
-`beste' Aktion angesehen wird. Der Agent kann somit nur eine festgelegte Anzahl
-verschiedener Aktionen ausführen, die durch die Anzahl der Neuronen der Ausgabe
-definiert ist. Der Agent führt in den meisten Fällen diejenige Aktion aus, die
-als die beste definiert ist. Mit einer kleinen Wahrscheinlichkeit führt er
-allerdings eine zufällige Aktion aus. Die Hoffnung dahinter ist, dass sich die
-zufällige Aktion schlussendlich als noch besser herausstellt 
+% Todo: Umgebung -> Environment
+Ein Reinforcement Learning Agent umfasst eine \emph{Umgebung} und einen
+\emph{Agent}. Der Agent ist dasjenige Element in der Umgebung, welches mit
+dieser interagiert und daraus lernt. Die Umgebung verändert sich in
+Zeitschritten, genannt \emph{Steps}. In jedem Step führt der Agent eine
+\emph{Action} aus, die die Umgebung beeinflusst. Die Entscheidung, welche Action
+der Agent ausführt basiert auf einer \emph{Observation} der Umgebung. Die
+Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
+relevant sind. Die Entscheidung, welche Aktion der Agent ausführt, basiert auf
+einem neuronalen Netz. Der Input in dieses neuronale Netz ist die Observation
+der Umgebung und der Output beschreibt die action, die der Agent ausführt. Jedes
+Neuron des Outputs beschreibt eine spezifische Action des Agents. Der Agent kann
+somit nur eine feste Anzahl Actions ausführen. Diese Actions zusammen werden
+\emph{Action-Space} genannt. Jede Action im Action-Space besitzt einen
+\emph{Q-Value}, der dem Output des zugehörigen neurons entspricht. Die
+Entscheidung, welche Action ausgeführt wird basiert auf der
+\emph{Epsilon-Greedy} Strategie. Diese Strategie sieht vor, dass die
+Entscheidung mit einer Wahrscheinlichkeit von $\epsilon$ auf eine zufällige
+Action fällt. Ansonsten Fällt die Entscheidung auf diejenige Action mit dem
+höchsten Q-Value. Die zufälligen Aktionen des Agents stellen eine Erkundung der
+Umgebung dar.
 
-Nachdem der Agent eine Aktion ausführt, wird der Einfluss dieser Aktion auf die
-Umgebung gemessen. Dabei bestimmt eine \textbf{Reward-funciton}, ob die Aktion
-positiv oder negativ auf die Umgebung wirkt. Das wird durch eine Zahl
-ausgedrückt. Umso grösser die Zahl, desto positiver ist der Effekt auf die
-Umgebung und umgekehrt. Diese Zahl wird Belohnung oder \textbf{Reward} genannt.
-Der Q-Wert der ausgeführten Aktion wird schliesslich bezogen auf den Reward
-angepasst (Durch die Bellman Gleichung). Ein Kleinerer Reward führt zu einem
-kleineren Q-Wert für die Aktion, wodurch diese in Zukunft weniger wahrscheinlich
-gewählt wird. Umgekehrt macht ein grösserer Reward die Aktion, die diesen
-ausgelöst hat, in Zukunft wahrscheinlicher. Nach der Anpassung des Q-Werts wird
-das Neuronale Netz auf diese neue Ausgabe trainiert. Die Gewichte im Neuronalen
-Netz werden also so angepasst, dass die Ausgabe einer ähnliche Eingabe in
-Zukunft näher an den neu angepassten Q-Werten ist als an den alten.
+Die Umgebung und somit auch der Agent werden durch die Actions des Agenten
+beeinflusst. Dieser Einfluss wird durch die \emph{Reward-Function} gemessen. Die
+Reward-Function gibt eine rationale Zahl, den \emph{Reward} aus. Umso grösser
+der Reward, desto positiver ist der Effekt auf die Umgebung und umgekehrt. Ein
+positiver Einfluss auf die Umgebung durch eine Action ist so definiert, dass der
+Agent durch die Action das gewünschte Verhalten vorzeigt. Die Reward-Function
+definiert, welches Verhalten welchen Reward erzielt. Der Q-Value der gewählten
+Action wird mit dem Reward (und dem Maximalen Q-Value aus den nächsten möglichen
+Actions) addiert. Diese Formel nennt sich Bellman-Gleichung. Der neue Q-Value          % Todo Ref Bellman Gleichung, Ref Sutton-Barto
+nimmt somit einen kleineren Wert an wenn der Reward negativ ist und einen
+grösseren Wert wenn der Reward positiv ist. Die Gewichte des neuronalen Netzes
+werden nachfolgend so angepasst, dass der Output für das Neuron, dessen Action
+ausgeführt wurde, näher am neu berechneten Q-Value ist. Der schlussendliche
+Effekt ist, dass Actions, die in einem gewissen Zustand der Umgebung einen
+positiven Reward auslösen wahrscheinlicher werden und umgekehrt Actions mit
+negativen Rewards unwahrscheinlicher werden. Der Agent versucht insgesamt durch
+seine Actions einen möglichst hohen akkumulierten reward zu erzielen. Der
+akkumulierte Reward entsprich der Summe der Rewards aus jedem Step
 
-% TODO: Reward oder Belohnung
+
+Das Trainingsphase läuft in \emph{Episodes}. Eine Episode umfasst eine gewisse
+Anzahl Steps und am Anfang jeder Episode wird die Umgebung in einen Startzustand
+zurückgesetzt. Die Resultate eines Steps, also Die Zustände der Umgebung, die
+Actions und der Reward, werden in dem \emph{Replay-Buffer} gespeichert. Dieser
+Enthält Speicherplatz für eine bestimmte Anzahl Steps. Während dem Training
+werden zufällige Steps aus dem Replay-Buffer gewählt, auf die das neuronale Netz
+trainiert. Das neurnale Netz trainiert also auf Daten aus der Vergangenheit
+der Umgebung und des Agents. Ausserdem trainiert das neuronale Netz jeweils mit
+einem \emph{Batch} an Steps, also mit einer gewissen Anzahl an Steps
+gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
+Netz mit einer grossen Varianz an Steps trainiert, was das Lernverhalten
+stabiler macht.
+
+
 
 \section{Verwandte Arbeiten und Themen}
 \label{chap:t_verwandt}
