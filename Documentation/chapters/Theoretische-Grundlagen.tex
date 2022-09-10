@@ -1,182 +1,154 @@
 \chapter{Theoretische Grundlagen}
 \section{Machine Learning}
 \label{chap:t_ml}
-Machine Learning ist ein Teilbereich der künstlichen Intelligenz. Der Begriff
-`künstliche Intelligenz' beschreibt eine Maschine, die menschliche Tätigkeiten
-nachahmt. Mit Maschine ist in den aller meisten Fällen ein Computer,
-beziehungsweise das Computerprogramm, das diesen steuert, gemeint. Bei Machine
-Learning handelt es sich ebenfalls um Computerprogramme. Es sind also eine
-spezifische Form von Algorithmen. Machine Learning Algorithmen entwickeln (oder
-erlernen) eine Mustererkennung durch die Analyse von Daten. Mustererkennung
-bedeutet hier, dass der Algorithmus Kriterien entwickelt, wonach er bezogen auf
-die gegebenen Daten Aussagen oder Vorhersagen treffen kann.
+Machine Learning ist ein Teilbereich der künstlichen Intelligenz. "Der Begriff
+`künstliche Intelligenz' beschreibt menschenähnliches Verhalten von Maschinen
+oder Systemen". (ZITAT) Mit Maschinen und Systemen sind in den allermeisten Fällen       %Todo: Zitat quelle
+Computer, beziehungsweise die steurenden Computerprogramme gemeint. Diese
+Computerprogramme bilden ein Modell von menschlichem Verhalten. Machine Learning
+Modelle entwickeln (oder erlernen) eine Mustererkennung durch die Analyse von
+Daten. Mustererkennung bedeutet hier, dass der Algorithmus Zusammenhänge
+zwischen den analysierten Daten erkennt und auf dieser Basis vorhersagen treffen
+kann. Vereinfacht gesagt erlernt ein Machine Learning Modell menschliches Urteilsvermögen
 
-Ein Beispielproblem für einen Machine Learning Algorithmus ist die Erkennung von
-handschriftlichen Zahlen. Ein Algorithmus soll also mit der Eingabe eines Bildes
-mit einer handschriftlichen Zahl eine korrekte Aussage treffen, um welche Zahl
-es sich handelt. Mit anderen Worten soll die Ausgabe des Algorithmus der Zahl
-entsprechen, die auf dem Bild der Eingabe zu sehen ist.
+Ein Beispielproblem für ein Machine Learning Modell ist die Erkennung von
+handschriftlichen Zahlen. Ein Computerprogramm soll durch den Input eines
+Bildes mit einer handschriftlichen Zahl eine korrekte Beurteilung treffen, um welche
+Zahl es sich handelt. Mit anderen Worten soll der Output des Computerprogrammes
+der Zahl entsprechen, die auf dem Bild der Eingabe zu sehen ist. Jedes
+Computerprogramm, das dieses Problem löst, fällt in den Bereich der künstlichen
+Intelligenz. Machine Learning Modelle geben einen Ansatz für die Umsetzung eines
+solchen Computerprogrammes.
 
-Jeder Algorithmus, der dieses Problem löst, gehört zum Überbegriff der
-küntlichen Intelligenz. Die Erkennung und Einordnung von handschriftlichen
-Zahlen ist eine menschliche Tätigkeit, beziehungsweise eine Leistung der
-menschlichen Intelligenz. [Quelle]. Machine Learning Algorithmen sind ein Ansatz
-für die Umsetzung eines solchen Algorithmus.
+Machine Learning Modelle, die das Beispielproblem lösen basieren üblicherweie
+auf Supervised Learning. Das ist ein Teilbereich von Machine Learning, wobei das
+Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung als Reaktion
+auf ihre eigenen Beurteilungen lernt. Weitere Teilbereiche von Machine Learning
+sind Unsupervised Learning und Reinforcement Learning. Reinforcement Learning
+wird in dieser Arbeit noch weiter geschrieben.
 
-\subsection*{Funktionsweise eines Machine Learning Algorithmus}
+\subsection*{Funktionsweise eines Machine Learning Modelles}
 \label{sub:funktionsweise}
-Dieser Abschnitt beschreibt die Funktionsweise einen Machine Learning
-Algorithmus, der das im letzen Abschnitt genannte Problem (siehe
-\nameref{chap:t_ml}) löst. Vorerst benötigt der Algorithmus die Daten, die
-analysiert werden. Die allermeisten Machine Learning Algorithmen die dieses
-Problem lösen verwenden das MNIST Datenset. Das MNIST Datenset wurde vom NIST
-(National Institute of Standards and Technology) in Amerika erstellt und
-beinhaltet $70'000$ Bilder von hangeschriebenen Zahlen. Jedes Bild hat eine
-auflösung von $28\times28$ Pixeln.
+Dieser Abschnitt erklärt die Funktionsweise eines Machine Learning Modelles,
+basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe
+\nameref{chap:t_ml}). 
 
-Ein Machine Learning Algorithmus durchläuft eine Trainingsphase, bevor er das
-Problem erfolgreich lösen kann. Vor dieser Trainingsphase kann der Algorithmus
-keine verlässlichen Aussagen über die Eingabedaten treffen. Nach der
-Trainingsphase folgt eine Testphase. Dabei wird die Genauigkeit gemessen, also
-die Wahrscheinlichkeit, mit der der Algorithmus die richige Lösung zur Eingabe
-liefert. Nur in den seltensten Fällen erreicht diese Genauigkeit $100\%$. Der
-Algorithmus garantiert somit nicht die richtige Lösung.
+Bei den Daten, die das Machine Learning Modell analysiert handelt es sich in
+diesem Fall um das MNIST Datenset. Dieses wurde vom NIST (National Institute of
+Standards and Technology) in Amerika kreiert und beinhaltet $70'000$ Bilder von
+hangeschriebenen Zahlen. Jedes Bild hat eine auflösung von $28\times28$ Pixeln.
+(MNIST datenset)                                 %Todo: ref
 
-Während der Trainingsphase werden einem Machine Learning Algorithmus immer
-wieder Bilder als Eingabe übergeben, aus denen der Algorithmus eine Aussage
-trifft. Zu der übergebenen Eingabe ist die korrekte Lösung bereits
-im Voraus bekannt. Falls die Vorhersage, die vom Algorithmus getroffen wurde,
-nicht mit der korrekten Lösung übereinstimmt, passt sich der Algorithmus
-automatisch und selbstständig an. Durch diese Anpassung wird es bei einer % ? Automatisch ist wahrscheinlich etwas falsch gewählt
-nächsten, ähnlichen Eingabe wahrscheinlicher, dass der Algorithmus die korrekte
-Vorhersage trifft. 
+Ein Machine Learning Modell durchläuft eine Trainingsphase gefolgt von einer
+Testphase. In der Trainingsphase erlernt das Modell die Mustererkennung, um
+verlässliche Aussagen zu den Daten der Eingabe zu treffen. Die Testphase misst
+die Genauigkeit des Modelles, also die Wahrscheinlichkeit, mit der das Modell
+die richige Lösung zur Eingabe liefert. Nur in den seltensten Fällen erreicht
+diese Genauigkeit $100\%$. Das Modell garantiert somit nicht die richtige
+Lösung.Das Machine Learning Modell erlert die Mustererkennung während der
+Trainingsphase durch die Analyse von Daten aus dem Datenset. Das Modell gibt zu
+jedem Datenpunkt die Beurteilung, um welche Zahl es sich handelt. Die korrekte
+Lösung ist zu jedem Datenpunkt bereits im Voraus bekannt (Das Datenset ist
+labeled). Falls die Beurteilung des Modelles nicht mit der bekannten, korrekten
+Lösung übereinstimmt, passt sich das Modell automatisch auf eine bestimmte Weise
+an. Dadurch soll die Beurteilungen für zukünftige Datenpunkte genauer werden.
 
-Ein Machine Learning Algorithmus trifft also Vorhersagen bezogen auf eine
-Eingabe und kann sich selbst während der Trainingsphase automatisch Anpassen.
-Diese Funktionalität erhalten Machine Learning Algorithmen durch künstliche
-neuronale Netze.
+Machine Learning Modelle unfassen verschiedene Hyperparameter. Diese beschreiben
+unter anderem wie lange die Trainingsphase läuft oder wie stark sich das Modell
+nach einer falschen Beurteilung anpasst. Diese Hyperparamter haben einen grossen
+Einfluss auf das Lernverhalten des Modelles aber ihr optimaler Wert ist im
+Voraus nicht bekannt. Hyperparamter können durch Algorithmen, wie den Baysian
+Algorithmus optimiert werden.
 
-% TODO: Kann man wahrscheinlich kürzen. Wird sehr viel wiederholt
+Ein Machine Learning Modell kann also Daten Beurteilen und sich selbst Anpassen,
+um die Beurteilungen zu verbessern. Künstliche Neuronale Netze umfassen diese
+Funktionalität, und finden daher in Machine Learning Modellen Anwendung.
+
 
 \subsection*{künstliche neuronale Netze}
 
 Ein neuronales Netz ist, im biologischen Sinne, "eine beliebige Anzahl Neuronen,
 die miteinander Verbunden sind" (Wikipedia). Ein Beispiel für ein neuronales
-Netz ist das menschliche Gehirn, worauf die kognitive Fähigkeit des Menschen
-beruht. Künstliche Neuronale Netze stellen ein Modell von neuronalen Netzen dar.
-Sie sind somit theoretische Abbildungen der Realität, die in Programmcode
-überführt werden können. Dadurch simuliert ein Computer eine vereinfachte Form
-eines neuronalen Netz. In anderen Worten simuliert der Computer eine
-vereinfachte Form der menschlichen Intelligenz. Diese Arbeit behandelt nur
-künsltiche neuronale Netze, nicht aber biologische. Somit handelt es sich bei
-jedem erwähnten neuronalen Netz, um ein künstliches neuronales Netz.
+Netz ist das menschliche Gehirn. Künstliche Neuronale Netze modellieren
+neuronale Netze in der Form von Programmcode. Diese Arbeit behandelt künstliche
+neuronale Netze, nicht aber biologische. Somit handelt es sich bei jedem
+erwähnten neuronalen Netz, um ein künstliches neuronales Netz.
 
 Der Grundbaustein eines neuronalen Netzes ist das Neuron. Im Modell stellt
-dieses ein Objekt dar, das eine beliebiege Anzahl \textbf{Eingaben} hat und
-daraus eine einzige \textbf{Ausgabe} macht. Eingaben und Ausgaben sind hierbei
-immer rationale Zahlen. Die Ausgabe des Neurons ist grundsätzlich entweder 0
-oder 1. Die Ausgabe ist 1, wenn die Summe der Eingaben einen vorgegebenen
-\textbf{Schwellenwert} des Neurons überschreiten. Ansonsten ist die Ausgabe
-gleich 0. Jede Eingabe hat ein \textbf{Gewicht}, das Ebenfalls durch eine
-rationale Zahl repräsentiert ist. Bevor die Eingaben addiert werden, wird jede
-Eingabe mit dem zugehörigen Gewicht multipliziert. Die Grösse des Gewichts
-bestimmt somit den Einfluss der zugehörigen Eingabe auf die Ausgabe des Neurons.
-Es gibt verschiedene Arten von Neuronen. Diese Erklärung bezieht sich auf die
-einfachste Form, das Perceptron. Neuronale Netze verwenden kompliziertere
-Varianten, wie das Sigmoid-Neuron.
-
-% Bin mir nicht sicher, ob das mit dem Schwellwert wirklich stimmt. Es gibt doch
-% die ganzen Activation Functions. Diese verändern diese Ausgabe des Neurons in
-% dem Layer.
+dieses ein Objekt dar, das eine beliebiege Anzahl Inputs, aber nur einen Output
+hat. Input und Output sind hierbei rationale Zahlen. Die Ausgabe des Neurons ist
+im einfachsten Modell, dem Perceptron, grundsätzlich entweder 0 oder 1. Die
+Ausgabe ist 1, wenn die Summe der Eingaben einen vorgegebenen Wert, den
+\emph{Bias} des Neurons überschreiten. Ansonsten ist die Ausgabe gleich 0. Jede
+Eingabe hat ein \textbf{Gewicht}, das einer rationalen Zahl entspricht. Vor der
+Addition der Inputs wird jeder Input mit seinem Gewicht multipliziert.  Die
+Grösse des Gewichts bestimmt somit den Einfluss der zugehörigen Eingabe auf die
+Ausgabe des Neurons. Neuronale Netze in Machine Learning Modellen verwenden
+kompliziertere Neuronen als das Perceptron, wie zum Beispiel das Sigmoid-Neuron.
+Der Hauptunterschied liegt dabei im Output. So kann im Sigmoid-Neuron der Output
+zum Beispiel auch zwischen 0 und 1 sein.
 
 Neuronale Netze sind Verbindungen dieser Neuronen. Dabei dient die Ausgabe eines
-Neurons als eine Eingabe in ein anderes Neuron. Da ein Neuron mehrere Eingaben
-haben kann, bilden sich sehr unterschiedliche Anordnungen. Die Neuronen sind in
-Ebenen geordnet. Es gibt die \textbf{Eingabe-Ebene}. Es handelt sich dabei um
-die eigentliche Eingabe des Problems, das der Machine Learning Algrorithmus
-lösen sollte. Im Beispielproblem (siehe \nameref{chap:t_ml}) bestände die Eingabe-Ebene aus
-$28\times28$ Neuronen, wobei jedes Neuron die Graustufe (durch einen Wert von 0
-bis $255$) eines Pixels im Bild beschreibt. Die letzte Ebene ist die
-\textbf{Ausgabe-Ebene} Im Beispielproblem soll der Machine Learning Algorithmus
-die korrekte Zahl zwischen $0$ und $9$ ausgeben. Die Ausgabe-Ebene hat im Beispiel
-10 Neuronen, wobei jedes Neuron eine der Lösungen (also eine Zahl von 0 bis 9)
-repräsentiert. Dasjenige Neuron der Ausgabe mit dem höchsten Wert entspricht der  % Eben mit der Erklärung des Schwellwertes von oben passt der Satz hier nicht ganz dazu.
-Entscheidung des Algorithmus. (Die letzte Entscheidung gehört also nicht mehr
-zum neuronalen Netz, basiert aber auf dessen Ergebnis). Zwischen der
-Eingabe-Ebene und der Ausgabe-Ebene gibt es häufig weitere Ebenen an Neuronen,
-genannt \textbf{versteckte-Ebenen}. Mehr Neuronen und mehr Ebenen bedeuten
-komplexere neuronale Netze, die in der Lage sind, komplexere Vorhersagen zu
-treffen. Ab mehr als einer versteckten Ebene werden Machine Learning Algorithmen
-als Deep Learning Algorithmen bezeichnet.
+Neurons als eine Eingabe in ein anderes Neuron. Die Neuronen sind in
+\emph{Layers} geordnet. Neuronale Netze haben mindestens eine \emph{Input Layer}
+und eine \emph{Output Layer}. Die Input Layer umfasst die Daten, zu dem das
+neuronale Netz eine Beurteilung liefert sollte. Im Beispielproblem (siehe
+\nameref{chap:t_ml}) bestände die Eingabe-Ebene aus $28\times28$ Neuronen, wobei
+jedes Neuron die Graustufe (durch einen Wert von 0 bis $255$) eines Pixels im
+Bild beschreibt. Der Input ist in diesem Fall zweidimensional. Die Dimensionen
+sind allerdings flexibel. Die Output layer besteht im Beispiel auf 10 Neuronen,
+wobei jedes Neuron einer Beurteilung entspricht (das fünfte Neuron beschreibt
+zum Beispiel die Beurteilung als eine Fünf). So entspricht dasjenige Neuron, das
+den höchsten Output hat, der Beurteilung vom neuronalen Netz.
 
-% ? Was hat Herr Ruh nochmals genau zu den denglischen Ausdrücken gesagt?
-% ? Sollen wir nicht vielleicht auf die englischen Begriffe zurückgreifen?
+Zwischen der Input Layer und der Output Layers kann es weitere \emph{Hidden
+Layers} geben. Es gibt verschiedene Arten von Hidden Layers, die verschidene
+Funktionen haben. Zwei der meist verwendeten Layers sind Fully Connected (Dense)
+Layers und Convolutional Layers. In Fully Connected Layers dient jedes Neuron
+als Input für jedes Neuron in der nächsten Layer. In Convolutional Layers trifft
+das nicht zu. Die Funktion von Convolutional Layers ist es, wichtige Merkmale
+aus dem Input hervorzuheben. Machine Learning Modelle werden ab mehr als einer
+Hidden Layer Deep Learning Modelle genannnt.
 
-Ein Machine Learning Algorithmus passt während der Trainingsphase (siehe
-\nameref{sub:funktionsweise}) einzelne Gewichte im neuronalen Netz an.
-Dadurch wird die Ausgabe verändert.
 
-\subsection*{Arten von Machine Learning}
+Ein Machine Learning Modell passt während der Trainingsphase (siehe
+\nameref{sub:funktionsweise}) einzelne Gewichte im neuronalen Netz in der
+Hoffnung an, dass die Genauigkeit der Beurteilung mit den angepassten Gewichten
+grösser ist. Die Genaue Anpassung erfolgt in den meisten Machine Learning
+Modellen durch den Backpropagation Algorithmus
 
-Es gibt drei Arten von Machine Learning Algorithmen: Supervised Learning
-(überwachtes Lernen), Unsupervised Learning (unüberwachtes Lernen) und
-Reinforcement learning (bestärktes Lernen). Nachfolgend werden supervised
-Learnig und unsupervised learning kurz erklärt. Die Erklärung vom Reinforcement
-learning folgt im nächsten Kapitel (siehe \nameref{chap:t_rl}).
 
-Das Beispielproblem (siehe \nameref{chap:t_ml}) wird durch einen Supervised Learning
-Algorithmus gelöst. Typisch sind dabei Trainingsdaten, bei denen die korrekte
-Lösung bereits im Voraus bekannt ist. Der Algorithmus trainiert also auf
-Vorhersagen, die zuvor als richtig definiert wurden. Der Algorithmus passt sich
-somit den Vorstellungen derjenigen Person an, die die Daten präpariert und die
-Lösungen definiert hat.
-
-Unsupervised learning ist das Gegenteil von Supervised Learning. Bei den
-Trainingsdaten ist keine vorgegebene Lösung bekannt. Stattdessen soll der
-Algorithmus selbstständig Muster in den Daten erkennen. So soll der Algorithmus
-eine Einordnung der Daten nach selbstdefinierten Kriterien vornehmen. Im
-Gegensatz zu Supervised Learning versucht der Entwickler hier nicht, den
-Algorithmus nach seinen eigenen Vorstellungen anzupassen. Stattdessen versucht
-der Entwickler aus den Ergebnisen des Algorithmus neue Schlüsse zu ziehen.
-Beispiele für Unsupervised Learning sind einige Algorithmen hinter der
-Personalisierung von Werbung. Diese Algorithmen versuchen Personen anhand von
-gesammelten Benutzerdaten in Gruppen zu zuordnen, die gewisse Produkte
-interessieren. Den Entwicklern ist dabei im Voraus unklar, nach welchen
-Kriterien diese Einteilung vorgenommen wird. 
 
 \section{Reinforcement Learning}
 \label{chap:t_rl}
-Reinforcement Learning bedeutet vereinfacht Lernen durch Interaktion mit der
-Umgebung. (Sutten, Barto) Genauer lernt ein Machine Learning Algorithmus durch
-die Interaktion mit einer Umgebung, wie er sich in dieser Verhalten soll.
+Reinforcement Learning bedeutet Lernen durch Interaktion mit der Umgebung.
+(Sutten, Barto). Genauer gesagt soll ein Machine Learning Modell durch
+Rückmeldungen aus einer Umgebung ein bestimmtes Verhalten erlernen.
 
-Reinforcement Learning Algorithmen führen also die Umgebung ein. In Supervised
-Learning und Unsupervised Learning werden Daten bereitgestellt, aus denen der
-Machine Learning Algorithmus "lernt". Bei einer Umgebung sind diese Daten
-allerdings im Voraus nicht bekannt. Das kommt daher, dass eine Umgebung häufig
-zu viele verschiedene Zustände einnehmen kann, als dass diese im Vorraus erfasst
-werden könnten. Der Machine Learning Algorithmus kann trotzdem aus der Umgebung
-lernen, indem dieser selbt als Element der Umgebung angesehen wird und so mit
-ihr interagieren kann.
+Reinforcement Learning Modelle führen somit die Umgebung ein. Anders als bei
+Supervised Learning und Unsupervised Learning sind die Daten, aus denen das
+Modell lernen soll, im Voraus nicht bekannt. Das liegt in der Natur in der
+Umgebung, die häufig zu viele verschiedene Zustände einnehmen kann, als dass
+diese in einem Datenset gesammelt werden könnten. Ein Machine Learning Modell
+kann trotzdem aus einer Umgebung lernen, indem es selbst mit dieser interagiert
+und dadurch Erfahrungen sammelt. 
 
 Die echte Welt kann ebenfalls als eine Umgebung angesehen werden. Der Mensch
-wäre in diesem Fall der Machine learning Algorithmus. Der Mensch erlernt zum
-Beispiel das Laufen, indem er mit der Welt interagiert. Eine Interaktion wäre
-hier zum Beispiel das Hinfallen. Dadurch erlernt der Mensch das Verhalten der
-Schwerkraft, welches zu diesem Fall geführt hat. Der Mensch lernt dieses
-Verhalten durch eigene Erfahrungen, ohne dass ihm vorher bereits Daten über die
-Welt gezeigt wurden. 
+wäre in diesem Fall der Machine learning Algorithmus. Der Mensch lernt durch
+Interaktion mit seiner Umgebung die Eigenschaften dieser kennen. So lernt ein
+Mensch die Schwerkraft durch das Hinfallen kennen. Durch diese Erfahrungen kann
+der Mensch ein gewissen Verhalten, zum Beispiel das Laufen, erlernen.
+Reinforcement Learning Modelle stellen dieses Lernverhalten nach. So verwendet
+die Robotik häufig diesen Ansatz um einen Roboter laufen zu lassen. Die Umgebung
+wodurch das reinforcement Learning Modell learnt ist dabei häufig nicht nicht
+echte Welt, sondern eine simulierte Umgebung.
 
-Reinforcement Learning Algorithmen stellen dieses Lernverhalten nach. So
-verwenden Roboter, die das Laufen lernen sollen häufig diesen Ansatz. Die
-Umgebung ist für den Reinforcement Learning Algorithmus im Roboter tatsächlich
-die echte Welt, beziehungsweise die vorverarbeiteten Daten die von der echten
-Welt gesammelt werden. Bei der Umgebung kann es sich aber auch um eine
-Computersimulation handeln.
+
 
 \subsection*{Aufbau und Funktionsweise}
 Dieser Abschnitt umfasst eine genauere Erklärung eines Reinforcement Learning
-Algorithmus (Deep Q-Learning) unter der Verwendung der korrekten Fachbegriffe.
+Algorithmus (in diesem Fall Deep Q-Learning) unter der Verwendung der korrekten
+Fachbegriffe.
 
 Ein Reinforcement Learning Algorithmus umfasst eine Umgebung und einen Agenten.
 Der Agent ist dasjenige Element in der Umgebung, welches mit dieser interagiert
