@@ -102,6 +102,7 @@ def save_model(args, agent, scores):
     with open("src_physics/opti.json", "r") as f:
         data = json.load(f)
     
+    # Save the hyperparameter data in the corresponding variant key
     if args["args"].mnist and args["args"].speed:
         log.debug(f"Saving mnist speed")
         del(args["args"])
@@ -119,6 +120,7 @@ def save_model(args, agent, scores):
         del(args["args"])
         data["base"] = args
     
+    # Save the file
     log.debug(f"Saving data: {data}")
     with open("src_physics/opti.json", "w") as f:
         json.dump(data, f)
