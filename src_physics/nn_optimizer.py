@@ -78,9 +78,9 @@ def create_runner(args):
         
         # Check if should save the agent
         if current_best is None:
-            save_model(args, agent, scores)
+            save_model(parameters, agent, scores)
         elif scores[args.criteria] > current_best:
-            save_model(args, agent, scores)
+            save_model(parameters, agent, scores)
         
         return scores[args.criteria]
     
@@ -94,7 +94,7 @@ def save_model(args, agent, scores):
     log.info(f"New best score. Saving model...")
     agent.save_models()
     log.info(f"Model saved!")
-    current_best = scores[args.criteria]
+    current_best = scores[args["args"].criteria]
     log.debug(f"New best score: {current_best}")
     
     # Save hyperparameters
