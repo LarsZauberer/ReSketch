@@ -107,8 +107,10 @@ Funktionen haben. Zwei der meist verwendeten Layers sind Fully Connected (Dense)
 Layers und Convolutional Layers. In Fully Connected Layers dient jedes Neuron
 als Input für jedes Neuron in der nächsten Layer. In Convolutional Layers trifft
 das nicht zu. Die Funktion von Convolutional Layers ist es, wichtige Merkmale
-aus dem Input hervorzuheben. Machine Learning Modelle werden ab mehr als einer
-Hidden Layer als Deep Learning Modelle bezeichnet.
+aus dem Input hervorzuheben. Concatenation Layers sind eine weitere Form von
+hidden Layers, die zwei verschiedene Layers als Input haben und diese somit
+verbinden. Machine Learning Modelle werden ab mehr als einer Hidden Layer als
+Deep Learning Modelle bezeichnet.
 
 
 Ein Machine Learning Modell passt während der Trainingsphase (siehe
@@ -190,7 +192,6 @@ negativen Rewards unwahrscheinlicher werden. Der Agent versucht insgesamt durch
 seine Actions einen möglichst hohen akkumulierten reward zu erzielen. Der
 akkumulierte Reward entsprich der Summe der Rewards aus jedem Step
 
-
 Das Trainingsphase läuft in \emph{Episodes}. Eine Episode umfasst eine gewisse
 Anzahl Steps und am Anfang jeder Episode wird die Umgebung in einen Startzustand
 zurückgesetzt. Die Resultate eines Steps, also Die Zustände der Umgebung, die
@@ -203,7 +204,6 @@ einem \emph{Batch} an Steps, also mit einer gewissen Anzahl an Steps
 gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
 Netz mit einer grossen Varianz an Steps trainiert, was das Lernverhalten
 stabiler macht.
-
 
 
 \section{Verwandte Arbeiten und Themen}
@@ -220,25 +220,30 @@ Nachzeichnen von Strichbildern und wird deswegen im nächsten Abschnitt weiter
 behandelt. %Todo: Doodle-SDQ Quelle
 
 \subsection*{Doodle-SDQ}
-Doodle-SDQ ist ein Programm, das durch Deep Q Learning erlernt, Strichbilder
-aus dem Google Quick-Draw Datenset nachzuzeichnen. Das Programm stammt aus der    %todo: ref quickdraw
-Arbeit `Learning to Doodle with Deep Q-Networks and Demonstration Strokes' von
-Tao Zhou et Al. aus dem Jahr 2018. Wie der Titel beschreibt basiert das Programm
-auf dem Deep Q-Learning Algorithmus (siehe \nameref{chap:t_rl}). `Demonstration
-Strokes' ist ein weiteres verfolgtes Konzept in der Arbeit. Dieses gehört
-allerdings nicht zum Bereich von Reinforcement learning, sondern ist vereinfacht
-gesagt eine Methode zur Optimierung des Algorithmus. Die Folgende Erklärung
-bezieht sich daher nur auf den Deep Q-Learning Algorithmus.
+Doodle-SDQ ist ein Computerprogramm, das durch ein Reinforcement Learning
+Modell, spezifischer Deep Q-Learning, erlernt, Strichbilder aus dem Google
+QuickDraw Datenset nachzuzeichnen. Nachfolgend sind die Aspekte von Doodle-SDQ
+beschrieben, die für diese Arbeit relevant sind.
 
-Das Quick-Draw Datenset von Google beinhaltet Bilder von verschiedenen,
-menschlichen Strichzeichnungen. Das Programm versucht, diese Bilder
-nach\hyp{}zuzeichnen. Dazu werden die Bilder zuerst auf eine einheitliche Grösse von
-$84\times84$ Pixeln komprimiert. Der Agent kann sich auf dieser Fläche bewegen und
-Zeichnen. Es handelt sich bei dieser Zeichenfläche um die Umgebung des Agenten
-Der Agent kann sich mit einer Aktion auf einen beliebigen Pixel in einem $11\times11$
-Feld, in dessen Zentrum er ist, bewegen. Dabei kann der Agent entweder zwischen
-seiner alten und seiner neuen Position Zeichnen oder nicht. Der Agent kann somit
-insgesamt $2\times11\times11$ Aktionen ausführen. Diese Anzahl Aktionen entspricht
+Die QuickDraw Bilder, die das Programm nachzeichnen soll, sind zu einer
+einheitliche Grösse von $84\times84$ Pixeln verarbeiteitet. Der Agent kann sich
+auf einer leeren Zeichenfläche von der selben Grösse bewegen und zeichnen. Die
+Umgebung umfasst diese Zeichenfläche, den Agent und das abzuzeichnende Bild. Der
+Agent kann sich durch eine Action auf einen beliebigen Pixel in einem
+$11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann ausserdem
+jede dieser Bewegungen im zeichnenden Zustand oder im nicht zeichnenden Zustand
+machen. Der Action-Space hat somit insgesamt eine Grösse von $2\times11\times11$
+Actions. Im zeichnenden Zustand wird ein Strich auf der Zeichenfläche zwischen
+der alten und der neuen Position des Agenten gezeichnet.
+
+Der Input und der Output des neuronalen Netzes
+hat folgende Form: Der Input ist in zwei Teile gegliedert: den global channel
+und den local channel. Der global Channel hat eine Form von $28\times28\times4$. Der Input des global channels ist somit dreidimensional. Die Form kann als 4 aufeindandergestapelte Bilder angesehen werden, die jeweils eine Grösse von $28\times28\times4$ haben
+
+
+das nachzuzeichnende Bild, die Zeichenfläche 
+
+
 gleichzeitig der Anzahl Neuronen in der Ausgabe des neuronalen Netzes. Die
 Eingabe in das Netz, also die Beobachtung der Umgebung wird in zwei Teile
 gegliedert: Ein globaler Teil (global channel) und ein lokaler Teil (local
