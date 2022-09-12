@@ -78,9 +78,9 @@ def create_runner(args):
         
         # Check if should save the agent
         if current_best is None:
-            save_model(parameters, agent, scores)
+            current_best = save_model(parameters, agent, scores)
         elif scores[args.criteria] > current_best:
-            save_model(parameters, agent, scores)
+            current_best = save_model(parameters, agent, scores)
         
         return scores[args.criteria]
     
@@ -122,6 +122,8 @@ def save_model(args, agent, scores):
     log.debug(f"Saving data: {data}")
     with open("src_physics/opti.json", "w") as f:
         json.dump(data, f)
+        
+    return current_best
 
 
 def main(args):
