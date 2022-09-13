@@ -61,7 +61,7 @@ class ShapeDraw(object):
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
         self.rec_model.load_graph_weights()
         
-    def step(self, agent_action: int, decrementor : int, rec_reward : float, without_rec : bool = False):
+    def step(self, agent_action: int, decrementor : int, rec_reward : float, min_decrement : float, without_rec : bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
@@ -88,7 +88,7 @@ class ShapeDraw(object):
             self.phy.velocity = [0, 0]
 
         # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(decrementor=decrementor, rec_reward=rec_reward, without_rec=without_rec) if self.isDrawing else 0.0
+        reward = self.reward(decrementor=decrementor, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=without_rec) if self.isDrawing else 0.0
         reward += penalty
 
         # Ending the timestep
@@ -137,7 +137,7 @@ class ShapeDraw(object):
         return x, y
 
 
-    def reward(self, decrementor = 1000, rec_reward = 1,  without_rec : bool = False):
+    def reward(self, decrementor = 1000, rec_reward = 1, min_decrement = 0.3, without_rec : bool = False):
         """
         reward Calculate the reward based on gained similarity and length of step
 
@@ -151,13 +151,13 @@ class ShapeDraw(object):
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
         similarity /= self.maxScore
 
-        factor = 0.1
+     
         if without_rec:
             factor = 1 
         else:
             factor = 1 - self.curEpisode/decrementor
-        if factor < 0.1:
-            factor = 0.1
+        if factor < min_decrement:
+            factor = min_decrement
         
 
             

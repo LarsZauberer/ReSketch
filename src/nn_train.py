@@ -8,7 +8,7 @@ import json
 from time import sleep
 
 
-def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions, episode_mem_size, save_training=True, vis_compare=12, mnist=False, speed=False):
+def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions, episode_mem_size, save_training=True, vis_compare=12, rec_reward=0.1, min_decrement=0.3, mnist=False, speed=False):
     # Initializing architecture
     wo_rec = True
     replay_fill = True
@@ -16,16 +16,12 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
 
     total_counter = 0
     scores = []
-    predicts = []
-    sims = []
     for epoch in range(n_epochs):
         data.shuffle()
         env.referenceData = data.pro_data
 
         # Main process
         for episode in range(n_episodes):
-
-            if episode > 2000+episode_mem_size: break
 
             if not replay_fill: env.curEpisode += 1
             total_counter += 1
@@ -42,7 +38,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                 env.curStep = step
 
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=0.1, without_rec=wo_rec)
+                next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=wo_rec)
                 #env.render("Compare", realtime=True)
 
                 if done_step == None and not replay_fill: 
@@ -72,16 +68,11 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
             # Learn Process visualization
             if total_counter > episode_mem_size:
                 real_ep = total_counter - episode_mem_size
-                if real_ep % vis_compare == 0:
+                if real_ep % abs(vis_compare) == 0:
                     avg_score = np.mean(scores)
-                    avg_predicts = np.mean(predicts)
-                    avg_sims = np.mean(sims)
-                    predicts = []
-                    sims = []
                     scores = []
-                    print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, predictions: {'%.3f' % avg_predicts} sims: {'%.3f' % avg_sims} epsilon: {'%.3f' % agent.epsilon}")
-
-                    env.render("Compare")
+                    print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
+                    if vis_compare > 0: env.render("Compare")
                     learn_plot.update_plot(real_ep, avg_score)
                 else:
                     print(f"episode: {real_ep}, score: {score}")
@@ -121,9 +112,13 @@ if __name__ == '__main__':
     n_actions = 2*(patch_size**2)
     episode_mem_size = int(hyp_data["episode_mem_size"])
     batch_size = 64
-    n_episodes = int(hyp_data["n_episodes"])
+    n_episodes = int(hyp_data["n_episodes"]) + episode_mem_size
     n_steps = 64
-    n_epochs = 3
+    n_epochs = 1
+
+    # Mnist Train parameters
+    min_decrement = hyp_data.get("min_decrement", 0.3)
+    rec_reward = hyp_data.get("rec_reward", 0.1)
 
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
@@ -136,7 +131,7 @@ if __name__ == '__main__':
     data.sample(n_episodes)
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
-    agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": hyp_data["replace_target"], 
+    agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
@@ -157,4 +152,6 @@ if __name__ == '__main__':
           vis_compare=12,
           mnist=mnist,
           speed=speed,
+          min_decrement=min_decrement,
+          rec_reward=rec_reward
           )
