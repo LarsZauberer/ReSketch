@@ -5,6 +5,7 @@ from bayes_opt import BayesianOptimization
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from agent_modules.environment import ShapeDraw
 from data.ai_data import AI_Data
+import json
 
 
 current_best = None
@@ -77,19 +78,54 @@ def create_runner(args):
         
         # Check if should save the agent
         if current_best is None:
-            log.info(f"New best score. Saving model...")
-            agent.save_models()
-            log.info(f"Model saved!")
-            current_best = scores[args.criteria]
+            current_best = save_model(parameters, agent, scores)
         elif scores[args.criteria] > current_best:
-            log.info(f"New best score. Saving model...")
-            agent.save_models()
-            log.info(f"Model saved!")
-            current_best = scores[args.criteria]
+            current_best = save_model(parameters, agent, scores)
         
         return scores[args.criteria]
     
     return runner
+
+
+def save_model(args, agent, scores):
+    log = logging.getLogger("optimizer-save")
+    
+    # Same trained model weights
+    log.info(f"New best score. Saving model...")
+    agent.save_models()
+    log.info(f"Model saved!")
+    current_best = scores[args["args"].criteria]
+    log.debug(f"New best score: {current_best}")
+    
+    # Save hyperparameters
+    log.info(f"Saving hyperparameters...")
+    with open("src/opti.json", "r") as f:
+        data = json.load(f)
+    
+    # Save the hyperparameter data in the corresponding variant key
+    if args["args"].mnist and args["args"].speed:
+        log.debug(f"Saving mnist speed")
+        del(args["args"])
+        data["mnist_speed"] = args
+    elif args["args"].mnist:
+        log.debug(f"Saving mnist")
+        del(args["args"])
+        data["mnist"] = args
+    elif args["args"].speed:
+        log.debug(f"Saving speed")
+        del(args["args"])
+        data["speed"] = args
+    else:
+        log.debug(f"Saving base")
+        del(args["args"])
+        data["base"] = args
+    
+    # Save the file
+    log.debug(f"Saving data: {data}")
+    with open("src/opti.json", "w") as f:
+        json.dump(data, f)
+        
+    return current_best
 
 
 def main(args):
