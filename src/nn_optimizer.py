@@ -131,7 +131,13 @@ def save_model(args, agent, scores):
 def main(args):
     # Hyperparameters to optimize
     bounds = {"gamma": (0.1, 1), "epsilon": (0, 1), "alpha": (
-        0.00001, 0.001), "replace_target": (1000, 10000), "episode_mem_size": (100, 1000), "n_episodes": (100, 4000)}
+        0.00001, 0.001), "replace_target": (1000, 10000), "episode_mem_size": (100, 1000), "n_episodes": (100, 4000),
+        "min_decrement": (0.1, 0.5), "rec_reward": (0.05, 0.25)
+        }
+    
+    if not args.mnist:
+        del bounds["min_decrement"]
+        del bounds["rec_reward"]
 
     runner = create_runner(args)
 
