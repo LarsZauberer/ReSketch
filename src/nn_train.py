@@ -100,13 +100,28 @@ if __name__ == '__main__':
     mnist = False
     speed = False
     
+    # Load Hyperparameter data
+    with open("src/opti.json", "r") as f:
+        hyp_data = json.load(f)
+        
+    if mnist and speed:
+        hyp_data = hyp_data["mnist_speed"]
+    elif mnist:
+        hyp_data = hyp_data["mnist"]
+    elif speed:
+        hyp_data = hyp_data["speed"]
+    else:
+        hyp_data = hyp_data["base"]
+    
+    print(f"Hyperparameters: {hyp_data}")
+    
     # Hyper parameters
     canvas_size = 28
     patch_size = 7
     n_actions = 2*(patch_size**2)
-    episode_mem_size = 700
+    episode_mem_size = int(hyp_data["episode_mem_size"])
     batch_size = 64
-    n_episodes = 4000
+    n_episodes = int(hyp_data["n_episodes"])
     n_steps = 64
     n_epochs = 3
 
@@ -121,7 +136,7 @@ if __name__ == '__main__':
     data.sample(n_episodes)
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
-    agent_args = {"gamma": 0.66, "epsilon": 0.2, "alpha": 0.00075, "replace_target": 8000, 
+    agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": hyp_data["replace_target"], 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, 
                   "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
