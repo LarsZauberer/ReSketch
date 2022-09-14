@@ -43,7 +43,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                     action = np.random.choice(n_actions)
                     
 
-                next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=min_decrement, min_decrement=min_decrement, without_rec=wo_rec)
+                next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=wo_rec)
 
                 if done_step == None and not replay_fill: 
                     if env.agent_is_done(done_accuracy): done_step = step
