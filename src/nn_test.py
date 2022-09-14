@@ -94,7 +94,8 @@ class Test_NN():
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
-                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, decrementor=1, rec_reward=0.1, without_rec=True)
+                # TODO: Parametrize the min_decrement and the rec_reward value
+                next_gloabal_obs, next_local_obs, reward = self.envir.step(action, decrementor=1, rec_reward=0.1, without_rec=True, min_decrement=0.3)
                 
                 if t_vis:
                     self.envir.render("Compare", realtime=True)
