@@ -41,7 +41,7 @@ def create_runner(args):
         
         # Creating environment and agent
         env = ShapeDraw(canvas_size, patch_size, data.pro_data)
-        agent_args = {"gamma": gamma, "epsilon": epsilon, "alpha": alpha, "replace_target": replace_target, 
+        agent_args = {"gamma": gamma, "epsilon": epsilon, "alpha": alpha, "replace_target": int(replace_target), 
                     "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                     "mem_size": mem_size, "batch_size": batch_size, 
                     "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
