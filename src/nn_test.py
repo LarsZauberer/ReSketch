@@ -196,7 +196,7 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(dataset="mnist")
+    test = Test_NN(n_test=2000, dataset="mnist")
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
