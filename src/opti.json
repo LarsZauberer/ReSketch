@@ -1,1 +1,1 @@
-{"base": {"gamma": 0.66, "epsilon": 0.2, "alpha": 0.00075, "replace_target": 8000, "episode_mem_size": 700, "n_episodes": 4000}}
+{"base": {"gamma": 0.703420759160562, "epsilon": 0.027387593197926163, "alpha": 0.00021240772723420226, "replace_target": 6028.208456011765, "episode_mem_size": 890.3056927518509, "n_episodes": 1727.488729231795}}
