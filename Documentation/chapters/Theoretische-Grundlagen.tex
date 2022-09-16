@@ -228,34 +228,40 @@ beschrieben, die für diese Arbeit relevant sind.
 Die QuickDraw Bilder, die das Programm nachzeichnen soll, sind zu einer
 einheitliche Grösse von $84\times84$ Pixeln verarbeiteitet. Der Agent kann sich
 auf einer leeren Zeichenfläche von der selben Grösse bewegen und zeichnen. Die
-Umgebung umfasst diese Zeichenfläche, den Agent und das abzuzeichnende Bild. Der
-Agent kann sich durch eine Action auf einen beliebigen Pixel in einem
-$11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann ausserdem
-jede dieser Bewegungen im zeichnenden Zustand oder im nicht zeichnenden Zustand
-machen. Der Action-Space hat somit insgesamt eine Grösse von $2\times11\times11$
-Actions. Im zeichnenden Zustand wird ein Strich auf der Zeichenfläche zwischen
-der alten und der neuen Position des Agenten gezeichnet.
+Umgebung umfasst diese Zeichenfläche, den Agent und das abzuzeichnende Bild.
 
-Der Input und der Output des neuronalen Netzes
-hat folgende Form: Der Input ist in zwei Teile gegliedert: den global channel
-und den local channel. Der global Channel hat eine Form von $28\times28\times4$. Der Input des global channels ist somit dreidimensional. Die Form kann als 4 aufeindandergestapelte Bilder angesehen werden, die jeweils eine Grösse von $28\times28\times4$ haben
+Der Agent kann sich durch eine Action in jedem Step auf einen beliebigen Pixel
+in einem $11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann
+ausserdem jede dieser Bewegungen im zeichnenden Zustand oder im nicht
+zeichnenden Zustand machen. Der Action-Space hat somit insgesamt eine Grösse von
+$2\cdot11\cdot11 = 242$ Actions. Im zeichnenden Zustand wird ein Strich auf der
+Zeichenfläche zwischen der alten und der neuen Position des Agenten gezeichnet.
+Der Agent begeht 100 Steps pro Episode. Eine neue Episdoe entspricht dabei einem
+neuen Bild, das abgezeichnet werden soll
 
+Der Input und der Output des neuronalen Netzes hat folgende Form: Der Input ist
+in zwei Teile gegliedert: den Global Channel und den Local Channel. 
+Der global Channel hat eine Form von $28\times28\times4$. Der Input ist somit
+dreidimensional. Die Form kann als 4 aufeindandergestapelte Bilder angesehen
+werden, die jeweils eine Grösse von $28\times28$ Pixeln haben. Dabei beschreibt
+eine relle Zahl den Wert von jedem Pixel in einem Bild. Das erste Bild im global
+Channel ist die Vorlage, die abgezeichnet werden soll. Das zweite Bild ist die
+Zeichenfläche im aktuellen Zustand. Das dritte Bild beschreibt die Position des
+Agents durch seine relative Entfernung zu jedem Punkt auf der Zeichenfläche. Das
+vierte Bild beschreibt, ob der Agent im zeichnenden Zustand ist oder nicht. Wenn
+alle Pixel dieses letzten Bildes den Wert 1 haben, ist der Agent im zeichnenden
+Zustand. Wenn Umgekehrt alle Pixel den Wert 0 haben, ist der Agent nicht im
+zeichnenden Zustand. 
+Der local Channel hat eine Form von $11\times11\times2$ und ist somit auch
+dreidimensional und beschreibt zwei gestapelte Bilder. Das erste Bild umfasst
+die Vorlage in dem $11\times11$ Bereich, in dem sich der Agent in einem Schritt
+bewegen kann. Das zweite Bild beschreibt den selben Bereich von der Zeichenfläche.
 
-das nachzuzeichnende Bild, die Zeichenfläche 
-
-
-gleichzeitig der Anzahl Neuronen in der Ausgabe des neuronalen Netzes. Die
-Eingabe in das Netz, also die Beobachtung der Umgebung wird in zwei Teile
-gegliedert: Ein globaler Teil (global channel) und ein lokaler Teil (local
-channel). Der Globale Teil umfasst das vorgegebene Bild (die Vorlage), das bis
-anhin gezeichnete Bild, die aktuelle Position des Agenten und die Angabe, ob der
-Agent gerade am Zeichnen ist oder nicht. Der Lokale Teil umfasst nur noch das
-$11\times11$ Feld vom vorgegebenen und dem bis anhin gezeichneten Bild, das sich direkt
-um den Agenten befindet. Diese erneute Eingabe des kleineren Feldes in das Netz
-ist notwendig, weil die unmittelbare Umgebung des Agenten für die Entscheidung
-der nächsten Aktion sehr relevant ist. Der Reward wird durch die Anzahl der neu
-übereinstimmenden Pixeln zwischen der Vorlage und dem bis anhin
-gezeichneten Bild bestimmt.
+Die Reward-Function bezieht sich auf die Differenz der Anzahl der
+übereinstimmenden Pixel zwischen der Vorlage und Zeichenfläche zwischen zwei
+Steps. Viele neu übereinstimmende Pixel entsprechen so einem hohen Reward für
+einen Step. Wenn nach einem Step weniger Pixel übereinstimmen zuvor, entspricht
+das einem negativen Reward. 
 
 \section{Git und GitHub}
 \label{chap:git_github}
