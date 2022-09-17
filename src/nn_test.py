@@ -196,7 +196,7 @@ class Test_NN():
         for ax, im in zip(grid, sorted_images):
             # Iterating over the grid returns the Axes.
             ax.axis("off")
-            ax.imshow(im, cmap="cubehelix", vmin=0, vmax=255)
+            ax.imshow(im, cmap="bone", vmin=0, vmax=255)
 
         plt.savefig(f"src/images/{title}.png", bbox_inches='tight')
         plt.pause(5)
