@@ -40,17 +40,17 @@ nachgezeichnet werden sollen, stammen aus dem MNIST Datenset und haben somit
 eine Grösse von $28\times28$ Pixeln. Die Fläche, worauf sich der Agent bewegen   
 kann, hat somit auch eine Grösse von $28\times28$ Pixeln. Die `globale' Eingabe
 in das Neuronale Netz ändert sich bis auf diese neue Grösse der Bilder nicht.
-Die genaue Architektur des neuronalen Netzes sieht folgendermassen aus (siehe
-Abbildung NN Architektur). Jeder Block in der Abbildung repräsentiert Eine Layer
-des neuronalen Netzes, wobei die Form des Inputs und die Form des Outputs von
-jeder Layer angegeben ist. 
+Die Pixel der Bilder, wie auch die Zeichenfläche, nehmen den Wert von einem Bit
+an. Eine Null repräsentiert einen schwarzen (nicht gezeichneten) Pixel an dieser
+Stelle im Bild und eine Eins einen weissen (gezeichneten) Pixel. Die genaue
+Architektur des neuronalen Netzes sieht folgendermassen aus (siehe Abbildung NN
+Architektur). Jeder Block in der Abbildung repräsentiert Eine Layer des
+neuronalen Netzes, wobei die Form des Inputs und die Form des Outputs von jeder
+Layer angegeben ist. 
 
 (Bild Architektur NN) %TODO Bild
 
-Die Bilder, wie auch die Zeichenfläche, haben die Datenstruktur einer Bitmap. Es
-handelt sich also um eine $28\times28$ Matrix, wobei jedes Element eine Null oder eine 
-Eins ist. Eine Null repräsentiert einen schwarzen (nicht gezeichneten) Pixel an
-dieser Stelle im Bild und eine Eins einen weissen (gezeichneten) Pixel.
+
 
 Die lokale Eingabe, also das nahe Umfeld um den Agenten schrumpft von
 $11\times11$ Pixeln auf $7\times7$ Pixeln. Somit schrumpft gleichzeitig der
@@ -71,7 +71,7 @@ Zeichenfläche leer, also vollkommen Schwarz.
 Aktionen des Agenten, die ihn über die vorgegebene Zeichenfläche hinaus
 positionieren würden, sind nicht zulässig. Diese Aktionen können vom Agenten
 nicht gewählt werden und ihr optimaler Q-Wert ist als $0$ definiert. Das hat zur
-Folge, dass nach der Trainingsphase die allermeisten unzulässigen Aktionen einen
+Folge, dass nach der Training die allermeisten unzulässigen Aktionen einen
 tiefen Q-Wert haben. Das senkt die Wahrscheinlichkeit, dass der Agent versucht,
 eine unzulässige Aktion auszuführen.
 
@@ -85,14 +85,14 @@ mit einem Wert über 0 übernimmt den Wert 1, wodurch die Bilder nur noch aus
 Einsen und Nullen bestehen. So stimmen die Bilder mit den Zeichnungen, die der
 Agent produzieren kann, überein.
 
+%Todo remove epoch
 Das Grundprogramm trainiert mit $4000$ Bildern, von denen jede Ziffer $400$
 Bilder ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche
-Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder insgesamt
-zwei Mal. Mit anderen Worten Läuft die Trainingsphase für $2$ Epochen mit
-jeweils $4000$ Episoden. Der Agent macht $64$ Schritte pro Episode. Er kann sich
-also pro Zeichnung $64$ mal bewegen. Das Training (des Neuronalen Netz) findet
-in jedem vierten Schritt statt mit einem Batch von $64$ zufällig gewählten
-Schritten aus dem Replay Buffer.
+Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder ein Mal und
+trainiert somit für $4000$ Episodes. Der Agent macht $64$ Steps pro Episode.
+Er kann sich also pro Zeichnung $64$ mal bewegen. Das Training (des Neuronalen
+Netzes) findet in jedem vierten Schritt statt mit einem Batch von $64$ zufällig
+gewählten Steps aus dem Replay Buffer.
 % TODO: Parameter in Zukunft ändern
 
 \subsection{Hyperparameteroptimierung}
@@ -100,18 +100,16 @@ Schritten aus dem Replay Buffer.
 Die genauen Hyperparameter des Reinforcement Learning Modells, wie auch die der     
 Variationen (siehe Variation) stehen im Anhang. Alle diese Hyperparameter sind    %todo ref
 durch eine Implementierung des Baysian Algorithmus \cite{fernando_bayesian_2022}
-(siehe Theorie Baysian) optimiert. Der Baysian Algorithmus ändert sich für
+(siehe Theorie Baysian) optimiert. Der Algorithmus ändert sich für
 verschiedene Variationen der künstlichen Intelligenz nicht. Somit ist der
 Baysian Algorithmus Teil des Grundprogrammes, wobei er zu der optimalen Leistung
 der künstlichen Intelligenz beiträgt. 
 
 Mit jeder Iteration des Baysian Algorithmus trainiert das Reinforcement Learning
-Modell für eine Epoch und $4000$ Episodes. Das Training läuft dabei in jeder
-Iteration mit den selben $4000$ Bildern als Vorlagen in der selben Reihenfolge
-ab. Das schliesst einen willkürlichen Einfluss der Trainingsdaten während der
-Optimierung aus. Der Wert, der durch den Baysian Algorithmus maximiert werden
-soll, wird am Ende jedes Trainings berechnet. Dieser Wert wird in der
-Testumgebung (siehe Auswertung) mit der gerade trainierten künstlichen    %TODO ref auswertung 
+Modell für eine vom Algorithmus selbst bestimmte Anzahl Episodes. Der Wert, der
+durch den Baysian Algorithmus maximiert werden soll, wird am Ende jedes
+Trainings berechnet. Dieser Wert wird in der Testumgebung (siehe Auswertung) mit
+der gerade trainierten künstlichen    %TODO ref auswertung 
 Intelligenz berechnet. Das Kriterium, wonach die Leistung in der Testumgebung
 berechnet wird, ist frei wählbar.
 
