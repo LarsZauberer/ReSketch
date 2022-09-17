@@ -42,7 +42,10 @@ class ShapeDraw(object):
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
 
         # rendering / visualization
+        self.renderCanvas = np.zeros((self.s, self.s))
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
+
+
 
         # Mnist Model -> Recognition of symbol
         self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
@@ -173,6 +176,7 @@ class ShapeDraw(object):
         """
         if self.isDrawing:
             self.canvas = drawline(self.agentPos, pos, self.canvas)
+            self.renderCanvas = drawline(self.agentPos, pos, self.renderCanvas, color=0.3+0.7*self.curStep/64)
         self.agentPos = pos
         self.update_distmap()
         self.update_patch()
@@ -272,6 +276,7 @@ class ShapeDraw(object):
         
         # Reset canvas and agent position
         self.canvas = np.zeros((self.s, self.s))
+        self.renderCanvas = np.zeros((self.s, self.s))
         self.set_agentPos((random.randint(1, self.s-2),
                           random.randint(1, self.s-2)))
         
@@ -282,56 +287,67 @@ class ShapeDraw(object):
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
-    def render(self, mode="None", realtime=False):
-        """
-        render Renders the current canvas state in matplotlib to visualize the
-        state. It has two modes. Compare (value=Compare) and default
-        (value=None). In the compare mode it shows the reference and the
-        rendered image and visualizes which pixels are the same. In the default
-        option it renders only the canvas state without any comparements to the
-        reference image.
 
-        :param mode: The mode how to render the canvas, defaults to "None"
-        :type mode: str, optional
-        :param realtime: If the canvas should render in realtime, defaults to False
-        :type realtime: bool, optional
-        """
-        if mode == "Compare":
-            rendCanv = self.canvas.copy().reshape(self.s**2,)
-            rendRef = self.reference.copy().reshape(self.s**2,)
-            for index, item in enumerate(zip(rendCanv, rendRef)):
-                i, e = item
-                if i == e and i == 1:
-                    rendCanv[index] = 255
-                    rendRef[index] = 255
-                elif i == 1:
-                    rendCanv[index] = 50
-                elif e == 1:
-                    rendRef[index] = 50
+    def compare_render(self, realtime=False):
+        rendCanv = self.canvas.copy().reshape(self.s**2,)
+        rendRef = self.reference.copy().reshape(self.s**2,)
+        for index, item in enumerate(zip(rendCanv, rendRef)):
+            i, e = item
+            if i == e and i == 1:
+                rendCanv[index] = 255
+                rendRef[index] = 255
+            elif i == 1:
+                rendCanv[index] = 50
+            elif e == 1:
+                rendRef[index] = 50
 
-            # Original image
-            rendRef = rendRef.reshape(28,28)
-            self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
-                       interpolation = 'none', label='Original', vmin=0, vmax=255)
-            self.axs[0].set_title('Original')
-            self.axs[0].axis("off")
+        # Original image
+        rendRef = rendRef.reshape(28,28)
+        self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
+                    interpolation = 'none', label='Original', vmin=0, vmax=255)
+        self.axs[0].set_title('Original')
+        self.axs[0].axis("off")
+        
+        # AI Generated Image
+        rendCanv = rendCanv.reshape(28, 28)
+        if realtime:
+            rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
+        self.axs[1].imshow(rendCanv, cmap='gray', interpolation='none',
+                    label='AI Canvas', vmin=0, vmax=255)
+        self.axs[1].set_title('AI Canvas')
+        self.axs[1].axis('off')
+
+        plt.pause(0.005)
+        plt.pause(0.005)
+
+
+    def gradient_render(self, mode="None", realtime=False):
+        rendRef = self.reference.copy().reshape(self.s**2,)
+        rendCanv = self.renderCanvas.copy().reshape(self.s**2,)
+        
+        for i in range(rendRef.shape[0]):
+            rendCanv[i] *= 255
+            rendRef[i] *= 255
+
+
+        self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
+                    interpolation = 'none', label='Original', vmin=0, vmax=255)
+        self.axs[0].set_title('Original')
+        self.axs[0].axis("off")
+
+        self.axs[1].imshow(rendCanv.reshape(28,28), cmap='gray', interpolation='none',
+                    label='AI Canvas', vmin=0, vmax=255)
+        self.axs[1].set_title('AI Canvas')
+        self.axs[1].axis('off')
+
+        plt.pause(0.005)
+        plt.pause(0.005)
+
+
+       
+       
+
             
-            
-            # AI Generated Image
-            rendCanv = rendCanv.reshape(28, 28)
-            if realtime:
-                rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
-            self.axs[1].imshow(rendCanv, cmap='gray', interpolation='none',
-                       label='AI Canvas', vmin=0, vmax=255)
-            self.axs[1].set_title('AI Canvas')
-            self.axs[1].axis('off')
-
-            plt.pause(0.005)
-            plt.pause(0.005)
-        else:
-            plt.imshow(self.canvas, interpolation='none', cmap='gray')
-            plt.pause(0.01)
-
 
 ###############################################################################
 
@@ -341,7 +357,7 @@ class ShapeDraw(object):
 
 
 # draws Line directly on bitmap to save convert
-def drawline(setpos, pos, canvas):
+def drawline(setpos, pos, canvas, color : float = 1):
     """
     drawline Draw a line on a specified canvas.
 
@@ -398,7 +414,7 @@ def drawline(setpos, pos, canvas):
                 # Check out of bounds
                 if pix[1]+weight-y >= len(canvas) or pix[1]+weight-y < 0:
                     continue
-                canvas[pix[1]+weight-y][pix[0]] = 1
+                canvas[pix[1]+weight-y][pix[0]] = color
                 
                     
     
@@ -425,7 +441,7 @@ def drawline(setpos, pos, canvas):
                 # Check out of bounds
                 if pix[0]+weight-x >= len(canvas) or pix[0]+weight-x < 0:
                     continue
-                canvas[pix[1]][pix[0]+weight-x] = 1
+                canvas[pix[1]][pix[0]+weight-x] = color
 
     return canvas
 
