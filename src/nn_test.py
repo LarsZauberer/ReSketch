@@ -28,15 +28,11 @@ class Test_NN():
         self.batch_size = 64
         
 
-        self.done_accuracy = 0.6
+        self.done_accuracy = 0.75
 
         self.dataset = dataset
         self.data = AI_Data(dataset)
         self.data.sample(n_test)
-
-        
-
-
 
         self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data)
 
@@ -77,6 +73,7 @@ class Test_NN():
         """
         self.data.shuffle()
         self.envir.referenceData = self.data.pro_data
+        ep_counter = 0
 
         reward_scores = []
         accuracy_scores = []
@@ -87,23 +84,23 @@ class Test_NN():
             global_obs, local_obs = self.envir.reset()
             score = 0
             done_step = 64
+            ep_counter += 1
 
             for j in range(self.num_steps):
                 # Run the timestep
                 illegal_moves = np.zeros(self.n_actions)
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
+                self.envir.curStep = j
                 # Run the timestep
                 action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
                 # TODO: Parametrize the min_decrement and the rec_reward value
                 next_gloabal_obs, next_local_obs, reward = self.envir.step(action, decrementor=1, rec_reward=0.1, without_rec=True, min_decrement=0.3)
                 
-                if t_vis:
-                    self.envir.render("Compare", realtime=True)
-                    sleep(0.1)
 
                 global_obs = next_gloabal_obs
                 local_obs = next_local_obs
                 agent.counter += 1
+                
 
                 if t_reward:
                     score += reward
@@ -133,6 +130,10 @@ class Test_NN():
                 datarec_scores.append(int(ref == canv))
             if t_speed:
                 speed_scores.append(done_step)
+            if t_vis:
+                if ep_counter % 12 == 0: 
+                    self.envir.gradient_render()
+                    print(self.envir.renderCanvas)
 
         scores = []
         if t_reward: scores.append(np.mean(reward_scores))
@@ -188,7 +189,7 @@ class Test_NN():
         elif mode == "vis":
             score = self.test(agent, t_vis=True)
         else:
-            score = self.test(agent, t_reward=True, t_accuracy=True, t_datarec=True, t_speed=True)
+            score = self.test(agent, t_reward=True, t_accuracy=True, t_datarec=True, t_speed=True, t_vis=True)
 
         score = [float('%.3f' % s) for s in score]
         return score
@@ -196,7 +197,7 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(n_test=2000, dataset="mnist")
+    test = Test_NN(n_test=100, dataset="mnist")
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
