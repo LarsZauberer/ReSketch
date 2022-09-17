@@ -72,7 +72,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
                     avg_score = np.mean(scores)
                     scores = []
                     print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
-                    if vis_compare > 0: env.render("Compare")
+                    if vis_compare > 0: env.gradient_render()
                     learn_plot.update_plot(real_ep, avg_score)
                 else:
                     print(f"episode: {real_ep}, score: {score}")

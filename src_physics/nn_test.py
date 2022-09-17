@@ -28,7 +28,7 @@ class Test_NN():
         self.batch_size = 64
         
 
-        self.done_accuracy = 0.6
+        self.done_accuracy = 0.75
 
         self.dataset = dataset
         self.data = AI_Data(dataset)
@@ -73,16 +73,19 @@ class Test_NN():
         """
         self.data.shuffle()
         self.envir.referenceData = self.data.pro_data
+        ep_counter = 0
 
         reward_scores = []
         accuracy_scores = []
         datarec_scores = []
         speed_scores = []
 
+
         for i in track(range(self.n_test), description="testing"):
             global_obs, local_obs = self.envir.reset()
             score = 0
             done_step = 64
+            ep_counter += 1
 
             for j in range(self.num_steps):
                 # Run the timestep
@@ -117,7 +120,7 @@ class Test_NN():
                         if ref == canv: 
                             if done_step == 64:
                                 done_step = j
-
+        
             if t_reward: 
                 reward_scores.append(score)
             if t_accuracy: 
@@ -132,6 +135,8 @@ class Test_NN():
                 datarec_scores.append(int(ref == canv))
             if t_speed:
                 speed_scores.append(done_step)
+            if t_vis:
+                if ep_counter % 12 == 0: self.envir.gradient_render()
 
         scores = []
         if t_reward: scores.append(np.mean(reward_scores))
@@ -187,7 +192,7 @@ class Test_NN():
         elif mode == "vis":
             score = self.test(agent, t_vis=True)
         else:
-            score = self.test(agent, t_reward=True, t_accuracy=True, t_datarec=True, t_speed=True)
+            score = self.test(agent, t_reward=True, t_accuracy=True, t_datarec=True, t_speed=True, t_vis=True)
 
         score = [float('%.3f' % s) for s in score]
         return score

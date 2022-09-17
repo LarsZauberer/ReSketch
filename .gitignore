@@ -150,3 +150,11 @@ dmypy.json
 
 /Documentation/main.pdf
 *.npy
+
+
+src/nn_memory/q_eval/checkpoint
+src/nn_memory/q_eval/deepqnet.ckpt.data-00000-of-00001
+src/nn_memory/q_eval/deepqnet.ckpt.index
+src/nn_memory/q_next/checkpoint
+src/nn_memory/q_next/deepqnet.ckpt.data-00000-of-00001
+src/nn_memory/q_next/deepqnet.ckpt.index
