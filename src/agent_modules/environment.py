@@ -176,7 +176,7 @@ class ShapeDraw(object):
         """
         if self.isDrawing:
             self.canvas = drawline(self.agentPos, pos, self.canvas)
-            self.renderCanvas = drawline(self.agentPos, pos, self.renderCanvas, color=0.3+0.7*self.curStep/64)
+            self.renderCanvas = drawline(self.agentPos, pos, self.renderCanvas, color=0.25+0.75*self.curStep/64)
         self.agentPos = pos
         self.update_distmap()
         self.update_patch()
