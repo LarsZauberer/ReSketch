@@ -178,14 +178,14 @@ class Test_NN():
         num = len(self.images)
         rows = int(num/colums)
 
-        fig = plt.figure(figsize=(6., 6.))
+        fig = plt.figure(figsize=(10., 10.))
         fig.suptitle(title)
         grid = ImageGrid(fig, 111,  
                         nrows_ncols=(rows, colums*2+1), 
                         axes_pad=0.1,  
                         )
 
-        interval = np.full(30, 255).reshape((10,3))
+        interval = np.full(3, 255).reshape((1,3))
         sorted_images = []
         for index, item in enumerate(self.images):
             ref, canv = item
@@ -196,9 +196,11 @@ class Test_NN():
         for ax, im in zip(grid, sorted_images):
             # Iterating over the grid returns the Axes.
             ax.axis("off")
-            ax.imshow(im, cmap="gray", vmin=0, vmax=255)
+            ax.imshow(im, cmap="cubehelix", vmin=0, vmax=255)
 
+        plt.savefig(f"src/images/{title}.png", bbox_inches='tight')
         plt.pause(5)
+        
         
     
     
@@ -240,7 +242,7 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(n_test=100, dataset="mnist")
+    test = Test_NN(n_test=20, dataset="mnist")
     agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
                   "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
                   "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
