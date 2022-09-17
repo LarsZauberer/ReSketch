@@ -288,7 +288,7 @@ class ShapeDraw(object):
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
 
-    def compare_render(self, realtime=False):
+    def compare_render(self):
         rendCanv = self.canvas.copy().reshape(self.s**2,)
         rendRef = self.reference.copy().reshape(self.s**2,)
         for index, item in enumerate(zip(rendCanv, rendRef)):
@@ -300,28 +300,10 @@ class ShapeDraw(object):
                 rendCanv[index] = 50
             elif e == 1:
                 rendRef[index] = 50
-
-        # Original image
-        rendRef = rendRef.reshape(28,28)
-        self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
-                    interpolation = 'none', label='Original', vmin=0, vmax=255)
-        self.axs[0].set_title('Original')
-        self.axs[0].axis("off")
         
-        # AI Generated Image
-        rendCanv = rendCanv.reshape(28, 28)
-        if realtime:
-            rendCanv[self.agentPos[1]][self.agentPos[0]] = 150
-        self.axs[1].imshow(rendCanv, cmap='gray', interpolation='none',
-                    label='AI Canvas', vmin=0, vmax=255)
-        self.axs[1].set_title('AI Canvas')
-        self.axs[1].axis('off')
+        return rendRef, rendCanv
 
-        plt.pause(0.005)
-        plt.pause(0.005)
-
-
-    def gradient_render(self, mode="None", realtime=False):
+    def gradient_render(self):
         rendRef = self.reference.copy().reshape(self.s**2,)
         rendCanv = self.renderCanvas.copy().reshape(self.s**2,)
         
@@ -329,6 +311,13 @@ class ShapeDraw(object):
             rendCanv[i] *= 255
             rendRef[i] *= 255
 
+        return rendRef, rendCanv
+
+    def render(self, mode="Gradient"):
+        if mode == "Compare":
+            rendRef, rendCanv = self.compare_render()
+        else:
+            rendRef, rendCanv = self.gradient_render()
 
         self.axs[0].imshow(rendRef.reshape(28, 28), cmap='gray',
                     interpolation = 'none', label='Original', vmin=0, vmax=255)
@@ -342,7 +331,6 @@ class ShapeDraw(object):
 
         plt.pause(0.005)
         plt.pause(0.005)
-
 
        
        
