@@ -13,6 +13,9 @@ import json
 
 from keras.models import model_from_json
 
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import ImageGrid
+
 
 class Test_NN():
     def __init__(self, n_test: int = 260, num_steps: int = 64, dataset : str = "mnist"):
@@ -29,6 +32,11 @@ class Test_NN():
         
 
         self.done_accuracy = 0.75
+        image_num = 10
+        self.image_indexes = iter(sorted(np.random.choice(n_test, image_num, replace=False)) + [0])
+        self.curInd = next(self.image_indexes)
+        self.images = []
+
 
         self.dataset = dataset
         self.data = AI_Data(dataset)
@@ -84,7 +92,7 @@ class Test_NN():
             global_obs, local_obs = self.envir.reset()
             score = 0
             done_step = 64
-            ep_counter += 1
+            
 
             for j in range(self.num_steps):
                 # Run the timestep
@@ -131,15 +139,19 @@ class Test_NN():
             if t_speed:
                 speed_scores.append(done_step)
             if t_vis:
-                if ep_counter % 12 == 0: 
-                    self.envir.gradient_render()
-                    print(self.envir.renderCanvas)
+                    if ep_counter == self.curInd:
+                        self.images.append(self.envir.gradient_render())
+                        self.curInd = next(self.image_indexes)
+            
+            ep_counter += 1
+                    
 
         scores = []
         if t_reward: scores.append(np.mean(reward_scores))
         if t_accuracy: scores.append(np.mean(accuracy_scores))
         if t_datarec: scores.append(np.mean(datarec_scores))
         if t_speed: scores.append(np.mean(speed_scores))
+        if t_vis: self.generate_image(colums=2)
                 
         return scores
 
@@ -160,6 +172,37 @@ class Test_NN():
         canv = self.emnist_model(np.array([canvas], dtype=np.float32))
         ref = self.emnist_model(np.array([reference], dtype=np.float32))
         return (np.argmax(ref[0]), np.argmax(canv[0]))
+
+
+    def generate_image(self, colums=2, title="Grundversion"):
+        num = len(self.images)
+        rows = int(num/colums)
+
+        fig = plt.figure(figsize=(6., 6.))
+        fig.suptitle(title)
+        grid = ImageGrid(fig, 111,  
+                        nrows_ncols=(rows, colums*2+1), 
+                        axes_pad=0.1,  
+                        )
+
+        interval = np.full(30, 255).reshape((10,3))
+        sorted_images = []
+        for index, item in enumerate(self.images):
+            ref, canv = item
+            sorted_images.append(ref.reshape((28,28)))
+            sorted_images.append(canv.reshape((28,28)))
+            if index % 2 == 0: sorted_images.append(interval.copy())
+      
+        for ax, im in zip(grid, sorted_images):
+            # Iterating over the grid returns the Axes.
+            ax.axis("off")
+            ax.imshow(im, cmap="gray", vmin=0, vmax=255)
+
+        plt.pause(5)
+        
+    
+    
+
         
 
     def test_from_loaded(self, agent_args : dict, mode : str = "all"):
