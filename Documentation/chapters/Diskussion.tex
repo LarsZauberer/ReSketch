@@ -1,40 +1,83 @@
 \chapter{Diskussion}
-
-\section{Beantwortung der Fragestellung}
 % - Einleitung
-% - Allgemeine Festellungen
-% - Nochmals wiederholen, was die Fragestellung ist.
 
-% TODO: Fazit zur Fragestellung nach oder vor deer Bantwortung der Unterfragen
+\section{Fragestellung und Unterfragen}
+% - Allgemeine Festellungen
+% - Transition: Beantwortung der Unterfragen aus der Einleitung -> Das ermöglicht Beantwortung der eigentlichen Fragestellung
+
+
 
 \subsection{Beantwortung der Unterfragen}
-% TODO: Nochmals gucken wegen der Fromulierung der Unterfragen
-% - Kurze Einführung in die Unterfragen
+% - 6 Unterfragen
+% - Teilweise Beantwortbar durch: Statistiken, Bilder, Erkenntnisse aus der Methode
 
 \subsubsection*{Wie kann die Architektur einer KI aussehen, die das Nachzeichnen erlernt?}
+% - Unter der Annahme, dass die künstliche Intelligenz dieser Arbeit das
+%   Nachzeichnen erlernt, <siehe Fragestellung>, kann die Architektur genau so
+%   aussehen, wie sie in dieser Arbeit beschrieben ist. Das bedeutet durch
+%   Reinforcement Learning und spezifischer durch Deep Q-Learning. Die genaue
+%   Architektur ist in der Abbildung <abb> erkennbar.
 
 \subsubsection*{Wie lässt sich die Leistung der KI in dieser Aufgabe beurteilen?}
-% - Sind die Kriterien sinnvoll gewählt?
+% - Die Leistung der künstlichen Intelligenz lässt sich durch die definierten
+%   Kriterien beurteilen. Diese wären Übereinstimmung, Erkennbarkeit und
+%   Geschwindigkeit. Die Übereinstimmung ist ein objektiver und Absoluter Wert,
+%   und somit das Aussagekräftigste Kriterium. die Kriterien der Erkennbarkeit
+%   und Geschwindigkeit sind an subjektive Annahmen und an die Beurteilung durch
+%   eine zweite künstlichen Intelligenz gebunden. Dadurch sinkt ihre
+%   Aussagekraft. Allerdings ändern sich die subjektiven annahmen nicht und die
+%   Kriterien sind in jedem Fall durch einen Zahlenwert repräsentiert. somit
+%   eignen sich die Kriterien als vergleichbare Variablen zwischen Versionen der künstlichen Intelligenz
+
 
 \subsubsection*{Wie lässt sich die Leistung der KI verbessern?}
-% - Beurteilung der Variationen und woran die Verbesserungen liegen
+% - Bezogen auf die definierten Kriterien erreicht die Grundversion Werte, die
+%   durch die implementierten Variationen nicht oder nur marginal verbessert
+%   werden. Die Grundversion erlebte allerdings in dessen Entwicklung
+%   signifikante verbesserungen. Die grössten Verbesserungen stammen aus der
+%   Optimierung der Hyperparamter durch den Baysian Algorithmus. Zum Beispiel
+%   hat die Grösse des Replay Buffers einen erheblichen Effekt auf die Leistung.
 
-\subsubsection*{Welche Einflüsse haben die Integration von einfachen physischen Rahmenbedingungen auf die Leistung der KI?}
-% - Beurteilen in welchen Bereichen, Welche Variation hier am besten
 
-\subsubsection*{Unterschiedliche Testdaten}
-% TODO: Unterfrage formulieren
-% - Was verändern die Testdaten und wieso bewirken sie so andere Ergebnisse
+
+\subsubsection*{Welche Einflüsse haben Physiksimulationen auf die Leistung der KI?}
+% -Bezogen auf die definierten Kriterien verschlechtert sich die Leistung. Die
+% Implementierung von Physiksimulationen definiert die Rahemenbedingungen des
+% Nachzeichnens neu und stellt den Versuch dar, die Bewegungen realistischer zu
+% gestalten. In diesem Bereich kann der Einfluss nicht objektiv bestimmt werden,
+% da er nicht aus den Zahlenwerten der Kriterien hervorgeht. Der Vergleich
+% zwischen nachgezeichneten Bildern aus der Grundversion und der physikalischen Version führt zu
+% folgenden Aussagen:
+
+
+\subsubsection*{Wie ändert sich die Leistung der KI bei Strichbildern, die sich von den Trainingsdaten unterscheidenn}
 % - Wieso sind einige Versionen besser als andere
 
 \subsubsection*{Inwiefern lässt sich das Zeichnen der KI mit menschlichem Zeichnen vergleichen?}
-% TODO: Formulierung überprüfen
-% - Was ist der Unterschied zwischen menschlichem Zeichnen und KI Zeichnen
+% Die Antwort auf diese Frage leitet sich nicht aus den objektiven Resultaten
+% ab, sondern basiert auf subjektiven Beobachtungen. Die Bewegungen in der
+% Physik-Version der künstlichen Intelligenz basieren grundsätzlich auf den
+% selben Gesetzen wie die Bewegungen in der echten Welt. Allerdings sind die
+% Bewegungen stark vereinfacht. So kann auf den Agent in einer Zeichnung nur 64
+% eine Kraft (hier eine Beschleunigung) wirken, während die Krafzufuhr durch den
+% menschlichen Körper bedeutend vielseitiger ist. Ausserdem ist für die
+% künstliche Intelligenz der Druck des Stiftes nicht veränderbar. Zumindest
+% Konzeptuell aber nähert die künstliche Intelligenz menschliches Zeichnen,
+% Bezogen auf die physischen Einschränkungen, an. Einige menschliche
+% Gewohnheiten sind bei der künstlichen Intelligenz allerdings nicht
+% beobachtbar. Zum Beispiel beginnen Menschen in der Regel bei dem Zeichnen
+% einer Ziffer immer an der selben Stelle, oder zeichnen die Zahl von oben nach
+% unten. Die künstliche Intelligenz beginnt für jede Zeichnung an einem anderen
+% Ort. Aus Beobachtungen lässt sich schliessen, dass die künstliche Intelligenz
+% in der Regel an der Stelle mit dem geringsten Abstand zu der zufälligen
+% Startpostion mit dem Zeichnen beginnt.
+
+
 % - Speed
 % - Zahlen sind menschlich
 % - Start Punkt der Zeichnung uns menschen vorgegeben
 
-\subsection{Fazit zur Hauptfrage}
+\subsection{Beantwortung der Fragestellung}
 
 \section{Fazit und Ausblick}
 % - Hauptfragen Fazit kurz zusammenfassen
@@ -45,35 +88,6 @@
 % - Roboter % TODO: Sollen wir den hier überhaupt nennen, wenn er vielleicht sowieso entsteht?
 % - Wörter
 
-% Old version
-% -------------
-% \section{Interpretation der Resultate}
-% Warum funktionieren einige Versionen besser als andere
-
-% \subsection*{Ergebnisse des Trainings mit Schrifterkennung}
-% - Wurde KI besser? In welchen Kriterien?
-% - Warum nicht?
-% - läuft es besser auf Basisversion oder Physik
-
-% - Hilfreich für Speed? (Vergleich Speed Training, Basisversion Speed Test)
-
-% \subsection*{Ergebnisse der Physikalischen Umgebung}
-% - Vergleich zu Basisversion: Schlechter oder besser
-% - Vergleich durchschnittsspeed. Wie kann Verglichen werden (andere Skala)
-% - Probleme der Physikalischen Umgebung: Bump in Wand
-
-% \section{Vergleich zu menschlichem Zeichnen}
-% - Einziger Anhaltspunkt in Gifs, Videos
-
-% - Stiftbewegungen realistischer durch Physik?
-% Physikalische Entfernung von Realität? -> 2D Kein Druck auf Stift -> mögliche Erweiterung
-
-% - Geschwindigkeit der Bewegung
-%     (Möglich: Zwar schnell aber nicht realistisch, Springt hin und her, Physik prioritiert Geschwindigkeit in gerader Linie über Pixelgenauigkeit)
-
-% - Limitierungen
-%     Unfähig, andere Symbole zu zeichnen. Nur Zahlenwerte
-%     Sehr unterschiedliche Ergebnisse
 
 
 \section{Selbstreflexion}
