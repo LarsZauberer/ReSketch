@@ -168,8 +168,6 @@ if __name__ == '__main__':
 
     # Initiate argparsing
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-f", help="Specify your excel spreadsheed", action="store")
     parser.add_argument("-v", help="Verbose",
                         action="store_true", default=False)
     parser.add_argument("-r", help="Number of random iterations", action="store", type=int, default=3)
