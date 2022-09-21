@@ -3,7 +3,7 @@
 \label{chap:t_ml}
 Machine Learning ist ein Teilbereich der künstlichen Intelligenz. ``Künstliche
 Intelligenz (KI) bezieht sich im Allgemeinen auf jedes menschenähnliche
-Verhalten durch eine Maschine oder ein System'' [ZITAT] Mit Maschinen und                %Todo: Zitat quelle
+Verhalten durch eine Maschine oder ein System'' [ZITAT] Mit Maschinen und                
 Systemen sind in den allermeisten Fällen Computer, beziehungsweise die
 steurenden Computerprogramme gemeint. Diese Computerprogramme bilden ein Modell
 von menschlichem Verhalten. Machine Learning Modelle entwickeln (oder erlernen)
@@ -187,7 +187,7 @@ positiver Einfluss auf die Umgebung durch eine Action ist so definiert, dass der
 Agent durch die Action das gewünschte Verhalten vorzeigt. Die Reward-Function
 definiert, welches Verhalten welchen Reward erzielt. Der Q-Value der gewählten
 Action wird mit dem Reward (und dem Maximalen Q-Value aus den nächsten möglichen
-Actions) addiert. Diese Formel nennt sich Bellman-Gleichung [DQN s.3]. Der neue Q-Value          % Todo Ref Bellman Gleichung, Ref Sutton-Barto
+Actions) addiert. Diese Formel nennt sich Bellman-Gleichung [DQN s.3]. Der neue Q-Value          
 nimmt somit einen kleineren Wert an wenn der Reward negativ ist und einen
 grösseren Wert wenn der Reward positiv ist. Die Gewichte des neuronalen Netzes
 werden daraufhin so angepasst, dass der Output für das Neuron, dessen Action
@@ -206,7 +206,7 @@ gespeichert. Dieser Enthält Speicherplatz für eine bestimmte Anzahl Steps.
 Während dem Training werden zufällige Steps aus dem Replay-Buffer gewählt, auf
 die das neuronale Netz trainiert. Das neurnale Netz trainiert also auf Daten aus
 der Vergangenheit der Umgebung und des Agents. Diese Strategie nennt sich
-experience replay [DQN s.5][DQL] Ausserdem trainiert das neuronale Netz jeweils mit
+experience replay. [DQN s.5][DQL] Ausserdem trainiert das neuronale Netz jeweils mit
 einem \emph{Batch} an Steps, also mit einer gewissen Anzahl an Steps
 gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
 Netz mit einer grossen Varianz an Steps trainiert, was das Lernverhalten
