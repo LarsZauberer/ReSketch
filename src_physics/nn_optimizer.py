@@ -12,7 +12,7 @@ current_best = None
 
 
 def create_runner(args):
-    def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, n_episodes, friction, vel_1, vel_2):
+    def runner(gamma, epsilon, alpha, replace_target, episode_mem_size, n_episodes, friction, vel_1, vel_2, min_decrement=0.3, rec_reward=0.1):
         parameters = locals()
         global current_best
 
@@ -64,6 +64,8 @@ def create_runner(args):
               vis_compare=-100,
               mnist=args.mnist,
               speed=args.speed,
+              min_decrement=min_decrement,
+              rec_reward=rec_reward,
               )
         log.info(f"Training finished")
         
