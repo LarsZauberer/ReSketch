@@ -148,3 +148,4 @@ dmypy.json
 *.synctex.gz
 *.thm
 /Documentation/main.pdf
+*.npy
