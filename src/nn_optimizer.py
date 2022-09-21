@@ -61,7 +61,7 @@ def create_runner(args):
               n_actions=n_actions,
               episode_mem_size=episode_mem_size,
               save_training=False,
-              vis_compare=100,
+              vis_compare=-100,
               mnist=args.mnist,
               speed=args.speed,
               min_decrement=min_decrement,
