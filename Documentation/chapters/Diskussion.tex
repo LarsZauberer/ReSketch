@@ -1,86 +1,86 @@
 \chapter{Diskussion}
-% - Einleitung
+- Einleitung
 
 \section{Fragestellung und Unterfragen}
-% - Allgemeine Festellungen
-% - Transition: Beantwortung der Unterfragen aus der Einleitung -> Das ermöglicht Beantwortung der eigentlichen Fragestellung
+- Allgemeine Festellungen
+- Transition: Beantwortung der Unterfragen aus der Einleitung -> Das ermöglicht Beantwortung der eigentlichen Fragestellung
 
 
 
 \subsection{Beantwortung der Unterfragen}
-% - 6 Unterfragen
-% - Teilweise Beantwortbar durch: Statistiken, Bilder, Erkenntnisse aus der Methode
+- 6 Unterfragen
+- Teilweise Beantwortbar durch: Statistiken, Bilder, Erkenntnisse aus der Methode
 
 \subsubsection*{Wie kann die Architektur einer KI aussehen, die das Nachzeichnen erlernt?}
-% - Unter der Annahme, dass die künstliche Intelligenz dieser Arbeit das
-%   Nachzeichnen erlernt, <siehe Fragestellung>, kann die Architektur genau so
-%   aussehen, wie sie in dieser Arbeit beschrieben ist. Das bedeutet durch
-%   Reinforcement Learning und spezifischer durch Deep Q-Learning. Die genaue
-%   Architektur ist in der Abbildung <abb> erkennbar.
+Unter der Annahme, dass die künstliche Intelligenz dieser Arbeit das
+Nachzeichnen erlernt, <siehe Fragestellung>, kann die Architektur genau so
+aussehen, wie sie in dieser Arbeit beschrieben ist. Das bedeutet durch
+Reinforcement Learning und spezifischer durch Deep Q-Learning. Die genaue
+Architektur ist in der Abbildung <abb> erkennbar.
 
 \subsubsection*{Wie lässt sich die Leistung der KI in dieser Aufgabe beurteilen?}
-% - Die Leistung der künstlichen Intelligenz lässt sich durch die definierten
-%   Kriterien beurteilen. Diese wären Übereinstimmung, Erkennbarkeit und
-%   Geschwindigkeit. Die Übereinstimmung ist ein objektiver und Absoluter Wert,
-%   und somit das Aussagekräftigste Kriterium. die Kriterien der Erkennbarkeit
-%   und Geschwindigkeit sind an subjektive Annahmen und an die Beurteilung durch
-%   eine zweite künstlichen Intelligenz gebunden. Dadurch sinkt ihre
-%   Aussagekraft. Allerdings ändern sich die subjektiven annahmen nicht und die
-%   Kriterien sind in jedem Fall durch einen Zahlenwert repräsentiert. somit
-%   eignen sich die Kriterien als vergleichbare Variablen zwischen Versionen der künstlichen Intelligenz
+Die Leistung der künstlichen Intelligenz lässt sich durch die definierten
+Kriterien beurteilen. Diese wären Übereinstimmung, Erkennbarkeit und
+Geschwindigkeit. Die Übereinstimmung ist ein objektiver und Absoluter Wert,
+und somit das Aussagekräftigste Kriterium. die Kriterien der Erkennbarkeit
+und Geschwindigkeit sind an subjektive Annahmen und an die Beurteilung durch
+eine zweite künstlichen Intelligenz gebunden. Dadurch sinkt ihre
+Aussagekraft. Allerdings ändern sich die subjektiven annahmen nicht und die
+Kriterien sind in jedem Fall durch einen Zahlenwert repräsentiert. somit
+eignen sich die Kriterien als vergleichbare Variablen zwischen Versionen der künstlichen Intelligenz
 
 
 \subsubsection*{Wie lässt sich die Leistung der KI verbessern?}
-% - Bezogen auf die definierten Kriterien erreicht die Grundversion Werte, die
-%   durch die implementierten Variationen nicht oder nur marginal verbessert
-%   werden. Die Grundversion erlebte allerdings in dessen Entwicklung
-%   signifikante verbesserungen. Die grössten Verbesserungen stammen aus der
-%   Optimierung der Hyperparamter durch den Baysian Algorithmus. Zum Beispiel
-%   hat die Grösse des Replay Buffers einen erheblichen Effekt auf die Leistung.
+Bezogen auf die definierten Kriterien erreicht die Grundversion Werte, die
+durch die implementierten Variationen nicht oder nur marginal verbessert
+werden. Die Grundversion erlebte allerdings in dessen Entwicklung
+signifikante verbesserungen. Die grössten Verbesserungen stammen aus der
+Optimierung der Hyperparamter durch den Baysian Algorithmus. Zum Beispiel
+hat die Grösse des Replay Buffers einen erheblichen Effekt auf die Leistung.
 
 
 
 \subsubsection*{Welche Einflüsse haben Physiksimulationen auf die Leistung der KI?}
-% -Bezogen auf die definierten Kriterien verschlechtert sich die Leistung. Die
-% Implementierung von Physiksimulationen definiert die Rahemenbedingungen des
-% Nachzeichnens neu und stellt den Versuch dar, die Bewegungen realistischer zu
-% gestalten. In diesem Bereich kann der Einfluss nicht objektiv bestimmt werden,
-% da er nicht aus den Zahlenwerten der Kriterien hervorgeht. Der Vergleich
-% zwischen nachgezeichneten Bildern aus der Grundversion und der physikalischen Version führt zu
-% folgenden Aussagen:
+Bezogen auf die definierten Kriterien verschlechtert sich die Leistung. Die
+Implementierung von Physiksimulationen definiert die Rahemenbedingungen des
+Nachzeichnens neu und stellt den Versuch dar, die Bewegungen realistischer zu
+gestalten. In diesem Bereich kann der Einfluss nicht objektiv bestimmt werden,
+da er nicht aus den Zahlenwerten der Kriterien hervorgeht. Der Vergleich
+zwischen nachgezeichneten Bildern aus der Grundversion und der physikalischen Version führt zu
+folgenden Aussagen:
 
 
 \subsubsection*{Wie ändert sich die Leistung der KI bei Strichbildern, die sich von den Trainingsdaten unterscheidenn}
-% - Wieso sind einige Versionen besser als andere
+- Wieso sind einige Versionen besser als andere %Todo
 
 \subsubsection*{Inwiefern lässt sich das Zeichnen der KI mit menschlichem Zeichnen vergleichen?}
-% Die Antwort auf diese Frage leitet sich nicht aus den objektiven Resultaten
-% ab, sondern basiert auf subjektiven Beobachtungen. Die Bewegungen in der
-% Physik-Version der künstlichen Intelligenz basieren grundsätzlich auf den
-% selben Gesetzen wie die Bewegungen in der echten Welt. Allerdings sind die
-% Bewegungen stark vereinfacht. So kann auf den Agent in einer Zeichnung nur 64
-% eine Kraft (hier eine Beschleunigung) wirken, während die Krafzufuhr durch den
-% menschlichen Körper bedeutend vielseitiger ist. Ausserdem ist für die
-% künstliche Intelligenz der Druck des Stiftes nicht veränderbar. Zumindest
-% Konzeptuell aber nähert die künstliche Intelligenz menschliches Zeichnen,
-% Bezogen auf die physischen Einschränkungen, an. Einige menschliche
-% Gewohnheiten sind bei der künstlichen Intelligenz allerdings nicht
-% beobachtbar. Zum Beispiel beginnen Menschen in der Regel bei dem Zeichnen
-% einer Ziffer immer an der selben Stelle, oder zeichnen die Zahl von oben nach
-% unten. Die künstliche Intelligenz beginnt für jede Zeichnung an einem anderen
-% Ort. Aus Beobachtungen lässt sich schliessen, dass die künstliche Intelligenz
-% in der Regel an der Stelle mit dem geringsten Abstand zu der zufälligen
-% Startpostion mit dem Zeichnen beginnt.
+Die Antwort auf diese Frage leitet sich nicht aus den objektiven Resultaten
+ab, sondern basiert auf subjektiven Beobachtungen. Die Bewegungen in der
+Physik-Version der künstlichen Intelligenz basieren grundsätzlich auf den
+selben Gesetzen wie die Bewegungen in der echten Welt. Allerdings sind die
+Bewegungen stark vereinfacht. So kann auf den Agent in einer Zeichnung nur 64
+eine Kraft (hier eine Beschleunigung) wirken, während die Krafzufuhr durch den
+menschlichen Körper bedeutend vielseitiger ist. Ausserdem ist für die
+künstliche Intelligenz der Druck des Stiftes nicht veränderbar. Zumindest
+Konzeptuell aber nähert die künstliche Intelligenz menschliches Zeichnen,
+Bezogen auf die physischen Einschränkungen, an. Einige menschliche
+Gewohnheiten sind bei der künstlichen Intelligenz allerdings nicht
+beobachtbar. Zum Beispiel beginnen Menschen in der Regel bei dem Zeichnen
+einer Ziffer immer an der selben Stelle, oder zeichnen die Zahl von oben nach
+unten. Die künstliche Intelligenz beginnt für jede Zeichnung an einem anderen
+Ort. Aus Beobachtungen lässt sich schliessen, dass die künstliche Intelligenz
+in der Regel an der Stelle mit dem geringsten Abstand zu der zufälligen
+Startpostion mit dem Zeichnen beginnt.
 
 
 \subsection{Beantwortung der Fragestellung}
-Die Fragestellung, wie in der Einleitung lautet: in wiefern kann eine künstliche
-Intelligenz lernen, Strichbilder auf eine physische Weise nachzuzeichnen, sodass
-diese durch ein automatisches System erkannt werden? Diese Frage hat mehrere
+Die Fragestellung lautet: in wiefern kann eine künstliche Intelligenz lernen,
+Strichbilder auf eine physische Weise nachzuzeichnen, sodass diese durch ein
+automatisches System erkannt werden? {siehe Einleitung} Diese Frage hat mehrere
 Aspekte, die teilweise bereits durch die Unterfragen erfasst werden. Für die
 schlussendliche Antwort folgt eine genauere Ausführung dieser Aspekte.
 
-Die künstliche Intelligenz zeichnet durch Physiksimulationen und allgemeinen
+Die künstliche Intelligenz zeichnet durch Physiksimulationen und durch allgemeine
 Einschränkungen der Bewegungsfreiheit auf eine annähernd physische Weise. Das
 Zeichnen ist nur annähernd physisch, da alle Bewegungen simuliert und in
 keiner phyischen Umgebung umgesetzt sind. Ausserdem sind die Simulationen
@@ -94,10 +94,11 @@ Kriterium der Erkennbarkeit bestätigen ausserdem, dass die Zeichnungen der
 künstlichen Intelligenz von einem automatischen System erkannt werden, zumindest
 in der Mehrheit der Fälle und für das Zeichnen von Ziffern.
 
-% Lernt die künstliche Intelligenz das Nachzeichnen von Strichbildern Allgemein?
-% -> Vergleich MNIST, EMNIST, QuickDraw. Durch grosse Varianz in Quickdraw kann
-% die Annahme getroffen werden, die künstliche Intelligenz das Nachzeichnen von
-% Strichbildern allgemein lernt.
+%TODO vergleich mnist
+Lernt die künstliche Intelligenz das Nachzeichnen von Strichbildern Allgemein?
+-> Vergleich MNIST, EMNIST, QuickDraw. Durch grosse Varianz in Quickdraw kann
+die Annahme getroffen werden, die künstliche Intelligenz das Nachzeichnen von
+Strichbildern allgemein lernt.
 
 Die zusammenfassende Antwort auf die Frage lautet somit: Eine künstliche
 Intelligenz kann das Nachzeichnen von Strichbildern auf annähernd physiche Weise
@@ -123,19 +124,28 @@ Nachzeichnen ist eine menschliche Tätigkeit. Dadurch spielt die menschliche
 Wahrnehmung eine grosse Rolle, vor allem bei den genauen Bewegungsabläufen und
 den Pfaden, auf denen gezeichnet wird. Der künstlichen Intelligenz fehlt eine
 derartige Wahrnehmung, wodurch sich dessen Bewegungen im Vergleich zu einem
-Menschen stark unterscheiden.
+Menschen stark unterscheiden. {siehe vergleich menschliches Zeichnen}.
+Kriterien, die sich auf diesen menschlichen Aspekt des Nachzeichnens beziehen
+wären eine mögliche Weiterführung dieser Arbeit. Dabei stellt sich allerdings
+die Frage, wie die künstliche Intelligenz die Leistung dieser teilweise
+subjektiven Kriterien maximieren kann.
 
-Die physichen Rahmenbedingungen unterscheiden sich ebenfalls von denjenigen, die
-ein Mensch erfährt. Das kommt daher, dass die phyischen Rahmenbedingungen im
-Falle der künstlichen Intelligenz lediglich simuliert sind. Durch einen Roboter
-könnte die künstliche Intelligenz in eine reale, phyische Umgebung überführt
-werden. Der Roboter könnte somit verschiedenste Strichbilder auf einem echten
-Stück Papier nachzeichnen. 
-Aktuell sind die Bewegungen der künstlichen
-Intelligenz in gewissen Belangen eingeschränkt. So kann sie zum Beispiel die
-Druckstärke nicht variieren. Ausserdem zeichnet die künstliche Intelligenz
-vorwiegend kleine Strichbilder. Experimente mit grösseren Konstrukten, wie ganze
-Wörter, wären eine mögliche Variation
+Die physichen Rahmenbedingungen unterscheiden sich von denjenigen, die ein
+Mensch erfährt. Das kommt daher, dass die phyischen Rahmenbedingungen im Falle
+der künstlichen Intelligenz lediglich simuliert sind. Das verunmöglicht eine
+umfassende Antwort auf die Frage, ob die künstliche Intelligenz auf eine
+physische Weise zeichnet. Dieses Problem könnte mit einem Roboter gelöst werden,
+der die künstliche Intelligenz in eine reale, phyische Umgebung überführt. Der
+Roboter könnte somit verschiedenste Strichbilder auf einem echten Stück Papier,
+und somit zwangsläufig auf physische Weise nachzeichnen. 
+Aktuell sind die Bewegungen der künstlichen Intelligenz in gewissen Belangen
+eingeschränkt. So ist beispielsweise die Druckstärke nicht variiierbar. Ausserdem
+zeichnet die künstliche Intelligenz vorwiegend kleine Strichbilder. Experimente
+mit grösseren Konstrukten, wie ganze Wörter, wären eine mögliche Variation.
+
+Alles in allem sind eine Vielzahl an denkbaren Fragen und Ideen möglich, die auf
+ReSketch, der künstlichen Intelligenz hinter dieser Arbeit, beruhen.
+
 
 
 
@@ -153,11 +163,11 @@ Technologien eingesetzt wurden. Dennoch wurden diese schnell entdeckt und
 verbessert. Ausserdem bleiben diese Art von Problemen bei einer solchen Arbeit
 nicht aus.
 
-% BUG: Präteritum?
+BUG: Präteritum?
 
 \subsection*{Verwendung von Git und GitHub}
 In diesem Teil dieser Arbeit war es das Ziel möglichst gut Git und GitHub (siehe
-theorie git+github)  % TODO: Ref setzen
+theorie git+github)  TODO: Ref setzen
 als eine Möglichkeit zur Organisation und zur Kommunikation des Projektes zu
 nutzen. Dabei soll Git und GitHub möglichst konsequent und umfangreich genutzt
 werden.
@@ -177,19 +187,19 @@ Branches vermischt. Dadurch hat immer eine zweite Person den Code oder den neuen
 Text der Dokumentation angeschaut. So konnte eine gute Qualität garantiert
 werden.
 
-% Die Empfohlene Branch Struktur (siehe theorie git) wurde zwar grösstenteils  % TODO: Ref setzen
-% eingehalten, war aber in dieser Art Arbeit eher weniger brauchbar. Das liegt
-% daran, dass die Struktur vor allem gut für Produkte und nicht für
-% wissenschaftliche Arbeiten ist. In dieser Arbeit gibt es mehrere Versionen, die
-% Gleichberechtigt sind und nicht miteinander kompatibel sind. Somit können sie
-% eigentlich nicht in eine einzelne Version zusammengemischt werden.
-% TODO: Die Branch Struktur wird glaube ich nicht im Theorieteil erwähnt.
+Die Empfohlene Branch Struktur (siehe theorie git) wurde zwar grösstenteils  TODO: Ref setzen
+eingehalten, war aber in dieser Art Arbeit eher weniger brauchbar. Das liegt
+daran, dass die Struktur vor allem gut für Produkte und nicht für
+wissenschaftliche Arbeiten ist. In dieser Arbeit gibt es mehrere Versionen, die
+Gleichberechtigt sind und nicht miteinander kompatibel sind. Somit können sie
+eigentlich nicht in eine einzelne Version zusammengemischt werden.
+TODO: Die Branch Struktur wird glaube ich nicht im Theorieteil erwähnt.
 
 Zu verbessern wäre noch eine verstärktere Nutzung der Issues und der Project
 Boards von GitHub. Diese hätten vielleicht noch etwas mehr genutzt werden
 können, um eine noch organisierte Struktur zu erhalten.
 
-% TODO: Sollen hier auch noch ein paar GitHub Features aufgezählt werden, welche wir nicht genutzt haben.
+TODO: Sollen hier auch noch ein paar GitHub Features aufgezählt werden, welche wir nicht genutzt haben.
 
 
 \subsection*{Optimierung der KI}
@@ -197,13 +207,13 @@ In diesem Ziel geht es darum, wie gross die Bemühungen/Erfolge die KI zu
 optimieren waren.
 
 In dieser Arbeit wurde sehr viel Wert auf die Verbesserung der Leistung der KI
-gelegt. Es wurden verschiedene Messwerte (siehe resultate Messwerte) erarbeitet,  % TODO: Ref setzen - Ref zu Resultaten oder in die Methode?
+gelegt. Es wurden verschiedene Messwerte (siehe resultate Messwerte) erarbeitet,  TODO: Ref setzen - Ref zu Resultaten oder in die Methode?
 wie die Leistung der KI Beurteilt werden kann.
 
-Auch durch die Hyperparameteroptimierung (siehe methode Hyperparameteroptimierung) % TODO: Ref setzen
+Auch durch die Hyperparameteroptimierung (siehe methode Hyperparameteroptimierung) TODO: Ref setzen
 konnte die Leistung der KI stark verbessert werden.
 
-Am Ende hat die Arbeit die Leistung der Vorgängerarbeit (DoodleSDQ) (siehe theorie  % TODO: Ref setzen
+Am Ende hat die Arbeit die Leistung der Vorgängerarbeit (DoodleSDQ) (siehe theorie  TODO: Ref setzen
 DoodleSDQ) übertroffen. Allerdings ist hier wichtig zu erwähnen, dass im
 DoodleSDQ die Aufgabe schwieriger war und nicht ganz die selben Ziele verfolgt
 wurden. Beispielsweise sind in dieser Arbeit die Zeichnungen kleiner und weniger
@@ -222,4 +232,4 @@ der KI. Schlussfolgerungen und Beschreibungen des Verhaltens können in Folgende
 \begin{itemize}
     \item 
 \end{itemize}
-% TODO: Refs setzen
+TODO: Refs setzen
