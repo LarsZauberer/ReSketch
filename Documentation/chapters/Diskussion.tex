@@ -20,10 +20,10 @@ aus der Methode selbst.
 
 \subsubsection*{Wie kann die Architektur einer KI aussehen, die das Nachzeichnen erlernt?}
 Unter der Annahme, dass die künstliche Intelligenz dieser Arbeit das
-Nachzeichnen erlernt, <siehe Fragestellung>, kann die Architektur genau so
+Nachzeichnen erlernt, {siehe Fragestellung}, kann die Architektur genau so
 aussehen, wie sie in dieser Arbeit beschrieben ist. Das bedeutet durch
 Reinforcement Learning und spezifischer durch Deep Q-Learning. Die genaue
-Architektur ist in der Abbildung <abb> erkennbar.
+Architektur ist in der Abbildung {abb} erkennbar.
 
 \subsubsection*{Wie lässt sich die Leistung der KI in dieser Aufgabe beurteilen?}
 Die Leistung der künstlichen Intelligenz lässt sich durch die definierten
@@ -147,26 +147,63 @@ zeichnet die künstliche Intelligenz vorwiegend kleine Strichbilder. Experimente
 mit grösseren Konstrukten, wie ganze Wörter, wären eine mögliche Variation.
 
 Alles in allem sind eine Vielzahl an denkbaren Fragen und Ideen möglich, die auf
-ReSketch, der künstlichen Intelligenz hinter dieser Arbeit, beruhen.
-
-
+ReSketch, der künstlichen Intelligenz hinter dieser Arbeit, basieren.
 
 
 
 
 \section{Selbstreflexion}
-In der Selbstreflexion sollen verschiedene Aspekte in der Entwicklung dieses
-Projektes betrachtet und reflektiert werden. Es wird ein besonderer Wert auf 3
-Nachfolgende Teilgebeite dieser Arbeit gelegt, welche zu beginn des Projektes in
-der Projektvereinbarung mit der Neuen Kantonsschule Aarau festgelegt wurden.
+Die Selbstreflexion gibt genauere Einblicke in die Vorangehensweise hinter
+dieser Arbeit. Die Arbeit ist grundsätzlich eine Zusammenfassung der wichtigsten
+Ereignisse. Viele Aspekte, wie auch die Arbeitsweise bleiben verschwiegen. Die
+selbstreflexion geht näher auf drei wichitige Aspekte ein, die in der
+zusammengefassten Arbeit nicht genug betont sind.
 
-Allgemein betrachtet verlief das Projekt relativ reibungslos und ohne grosse
-Schwierigkeiten. Teilweise gab es Verzögerungen, weil nicht so gute Ansätze oder
-Technologien eingesetzt wurden. Dennoch wurden diese schnell entdeckt und
-verbessert. Ausserdem bleiben diese Art von Problemen bei einer solchen Arbeit
-nicht aus.
+\subsection*{Optimierung der künstlichen Intelligenz}
 
-BUG: Präteritum?
+Insgesamt sind acht Versionen der KI präsentiert Im Verlaufe des Projektes gab
+es viele weitere Versuche, die Leistung der künstlichen Intelligenz zu
+verbessern. Diese Versuche führten Allerdings häufig dazu, dass die künsltiche
+Intelligenz garnicht mehr lernt. In der Arbeit sind deswegen nur diejenigen
+Versuche vermerkt, die tatsächlich funktionieren. Ein Beispiel für einen
+gescheiterten Versuch wäre die Anpassung der Reward-Function, sodass diese nur
+bei der korrekten Erkennung einer Zahl einen Reward auslöst. Keine
+ausprobierte Anpassung in der Architektur der künstlichen Intelligenz macht
+diesen Versuch funktionstüchtig. Das Problem hinter solchen Versuchen liegt
+darin, dass die Ursache hinter ihrem Scheitern oder ihrem Erfolg häufig nicht
+erkennbar ist. Das macht die Optimierung der künstlichen Intelligenz allgemein
+schwierig. 
+
+Die Strategie hinter der Optimierung besteht in den meisten Fällen aus
+wiederholtem Ausprobieren mit Anpassungen zwischen jedem Versuch. Hilfsmittel,
+wie der Baysian Algorithmus {siehe Hyperparameteroptimierung}, vereinfachen
+diese Aufgabe stark. Tatsächlich ermöglichte der Baysian Algorithmus eine
+Verbesserung der künstlichen Intelligenz von ungefähr $20-30\%$ Übereinstimmung
+auf die maximalen Werte, die sie schlussendlich erreicht. Diese Strategie der
+Optimierung ist für einen Computer sehr ressourcenintensiv. In den längsten
+Optimierungsarbeiten liefen die beiden Computer, auf denen die Arbeit
+verrichtet wurde, jeweils länger als $24$ Stunden.
+
+
+
+\subsection*{Analyse der KI}
+Das Ziel beim Teilgebiet der Analyse der KI ist es möglichst genau
+nachvollziehen zu können, wieso die KI ein bestimmtes Verhalten hat und diese
+genau in der Dokumentation zu beschreiben. Zusätzlich wie gut aus diesen
+Informationen dann Schlussfolgerungen gezogen wurden.
+
+Diese Arbeit bemühte sich sehr um eine möglichst genaue Beschreibung und Analyse
+der KI. Schlussfolgerungen und Beschreibungen des Verhaltens können in Folgenden Kapiteln erfasst werden.
+
+\begin{itemize}
+    \item 
+\end{itemize}
+TODO: Refs setzen
+
+
+
+
+
 
 \subsection*{Verwendung von Git und GitHub}
 In diesem Teil dieser Arbeit war es das Ziel möglichst gut Git und GitHub (siehe
@@ -205,34 +242,11 @@ können, um eine noch organisierte Struktur zu erhalten.
 TODO: Sollen hier auch noch ein paar GitHub Features aufgezählt werden, welche wir nicht genutzt haben.
 
 
-\subsection*{Optimierung der KI}
-In diesem Ziel geht es darum, wie gross die Bemühungen/Erfolge die KI zu
-optimieren waren.
-
-In dieser Arbeit wurde sehr viel Wert auf die Verbesserung der Leistung der KI
-gelegt. Es wurden verschiedene Messwerte (siehe resultate Messwerte) erarbeitet,  TODO: Ref setzen - Ref zu Resultaten oder in die Methode?
-wie die Leistung der KI Beurteilt werden kann.
-
-Auch durch die Hyperparameteroptimierung (siehe methode Hyperparameteroptimierung) TODO: Ref setzen
-konnte die Leistung der KI stark verbessert werden.
-
-Am Ende hat die Arbeit die Leistung der Vorgängerarbeit (DoodleSDQ) (siehe theorie  TODO: Ref setzen
-DoodleSDQ) übertroffen. Allerdings ist hier wichtig zu erwähnen, dass im
-DoodleSDQ die Aufgabe schwieriger war und nicht ganz die selben Ziele verfolgt
-wurden. Beispielsweise sind in dieser Arbeit die Zeichnungen kleiner und weniger
-komplex. Es wurde sich in dieser Arbeit nur auf Zahlen fokusiert.
 
 
-\subsection*{Analyse der KI}
-Das Ziel beim Teilgebiet der Analyse der KI ist es möglichst genau
-nachvollziehen zu können, wieso die KI ein bestimmtes Verhalten hat und diese
-genau in der Dokumentation zu beschreiben. Zusätzlich wie gut aus diesen
-Informationen dann Schlussfolgerungen gezogen wurden.
 
-Diese Arbeit bemühte sich sehr um eine möglichst genaue Beschreibung und Analyse
-der KI. Schlussfolgerungen und Beschreibungen des Verhaltens können in Folgenden Kapiteln erfasst werden.
-
-\begin{itemize}
-    \item 
-\end{itemize}
-TODO: Refs setzen
+%Allgemein betrachtet verlief das Projekt relativ reibungslos und ohne grosse
+%Schwierigkeiten. Teilweise gab es Verzögerungen, weil nicht so gute Ansätze oder
+%Technologien eingesetzt wurden. Dennoch wurden diese schnell entdeckt und
+%verbessert. Ausserdem bleiben diese Art von Problemen bei einer solchen Arbeit
+%nicht aus.
