@@ -107,7 +107,7 @@ def save_model(args, agent, scores):
     if args["args"].mnist and args["args"].speed:
         log.debug(f"Saving mnist speed")
         del(args["args"])
-        data["mnist_speed"] = args
+        data["mnist-speed"] = args
     elif args["args"].mnist:
         log.debug(f"Saving mnist")
         del(args["args"])
