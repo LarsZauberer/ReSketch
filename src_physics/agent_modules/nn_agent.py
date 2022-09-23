@@ -10,7 +10,7 @@ from time import sleep
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions: int, batch_size: int, name: str,
-                 global_input_dims: int, local_input_dims: int, fc1_dims: int = 512, chkpt_dir='tmp/dqn'):
+                 global_input_dims: int, local_input_dims: int, fc1_dims: int = 512, model: str = "current"):
         self.lr = lr  # The optimization learning rate of the network model
         self.n_actions = n_actions  # How many actions the agent has available -> Index of the action to execute
         self.name = name  # The identification name of the agent
@@ -22,7 +22,23 @@ class DeepQNetwork(object):
         self.batch_size = batch_size  # How many inputs sending into the network
 
         # saving / memory
-        self.checkpoint_file = os.path.join(chkpt_dir, 'deepqnet.ckpt')  # Where the model should be saved
+        if model == "base":
+            directory = f"pretrained_model\physics-base\{name}" 
+        elif model == "mnist":
+            directory = f"pretrained_models\physics-mnist\{name}"  
+        elif model == "speed":
+            directory = f"pretrained_models\physics-speed\{name}"
+        elif model == "mnist-speed": 
+            directory = f"pretrained_models\physics-mnist-speed\{name}"
+        else:
+            directory = f"pretrained_models\{model}\{name}"
+            try:
+                os.mkdir(directory)
+            except OSError as error:
+                print(error)   
+        self.checkpoint_file = os.path.join(directory, 'deepqnet.ckpt')  # Where the model should be saved
+
+        
 
         # Generate the network
         self.build_network()
@@ -92,8 +108,7 @@ class DeepQNetwork(object):
 
 class Agent(object):
     def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size, n_actions,
-                 replace_target=1000,
-                 q_next_dir='src/nn_memory/q_next', q_eval_dir='src/nn_memory/q_eval'):
+                 replace_target=1000, model='current'):
 
         self.n_actions = n_actions  # How many action options the agent has. -> Index of the action to choose
         self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
@@ -107,9 +122,9 @@ class Agent(object):
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated patch of the canvas
 
         self.q_next = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_next', chkpt_dir=q_next_dir)  # The QNetwork to compute the q-values on the next state of the canvas
+                                   local_input_dims=local_input_dims, name='q_next', model=model)  # The QNetwork to compute the q-values on the next state of the canvas
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_eval', chkpt_dir=q_eval_dir) # The QNetwork to compute the q-values on the current state of the canvas
+                                   local_input_dims=local_input_dims, name='q_eval', model=model) # The QNetwork to compute the q-values on the current state of the canvas
 
         # Dimensions of Replay buffer memory
         glob_mem_shape = (

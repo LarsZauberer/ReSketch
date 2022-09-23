@@ -96,12 +96,16 @@ if __name__ == '__main__':
         hyp_data = json.load(f)
         
     if mnist and speed:
+        model = "mnist-speed"
         hyp_data = hyp_data["mnist_speed"]
     elif mnist:
+        model = "mnist"
         hyp_data = hyp_data["mnist"]
     elif speed:
+        model = "speed"
         hyp_data = hyp_data["speed"]
     else:
+        model = "base"
         hyp_data = hyp_data["base"]
     
     print(f"Hyperparameters: {hyp_data}")
@@ -133,11 +137,10 @@ if __name__ == '__main__':
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
     agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
-                  "mem_size": mem_size, "batch_size": batch_size, 
-                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval"}
+                  "mem_size": mem_size, "batch_size": batch_size, "model": model}
     agent = Agent(**agent_args)
     
-    # Start training
+
     # Start training
     train(env=env,
           agent=agent,

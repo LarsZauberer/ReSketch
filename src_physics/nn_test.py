@@ -18,30 +18,48 @@ from mpl_toolkits.axes_grid1 import ImageGrid
 
 
 class Test_NN():
-    def __init__(self, n_test: int = 260, num_steps: int = 64, dataset : str = "mnist"):
+    def __init__(self, n_test: int = 260, num_steps: int = 64, image_num=10, version="base", dataset : str = "mnist"):
         self.n_test = n_test
         self.num_steps = num_steps
+        self.version = version
+        self.dataset = dataset
 
+        # Load Hyperparameter data
+        with open("src_physics/opti.json", "r") as f:
+            hyp_data = json.load(f)
+            
+        if version == "mnist-speed":
+            hyp_data = hyp_data["mnist_speed"]
+        elif version == "mnist":
+            hyp_data = hyp_data["mnist"]
+        elif version == "speed":
+            hyp_data = hyp_data["speed"]
+        else:
+            hyp_data = hyp_data["base"]
+        
+        print(f"Hyperparameters: {hyp_data}")
+
+        #initialize environment
         canvas_size = 28
         patch_size = 5
-        self.glob_in_dims = (4, canvas_size, canvas_size)
-        self.loc_in_dims = (2, patch_size, patch_size)
         self.n_actions = 42
-        self.episode_mem_size = 700
-        self.batch_size = 64
-        
+        self.dataset = dataset
+        self.data = AI_Data(dataset)
+        self.data.sample(n_test)
+        self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, n_actions=self.n_actions)
 
-        self.done_accuracy = 0.75
-        image_num = 10
+        #initialize agent
+        self.agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
+                            "global_input_dims": (4, canvas_size, canvas_size) , "local_input_dims": (2, patch_size, patch_size), 
+                            "mem_size": int(int(hyp_data["episode_mem_size"])*num_steps), "batch_size": 64, "n_actions": self.n_actions, "model": f"physics-{version}"}
+
+        #images
         self.image_indexes = iter(sorted(np.random.choice(n_test, image_num, replace=False)) + [0])
         self.curInd = next(self.image_indexes)
         self.images = []
 
-        self.dataset = dataset
-        self.data = AI_Data(dataset)
-        self.data.sample(n_test)
-
-        self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, n_actions=self.n_actions)
+        #for speed test
+        self.done_accuracy = 0.75
 
         #for mnist test
         self.mnist_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
@@ -176,12 +194,12 @@ class Test_NN():
         return (np.argmax(ref[0]), np.argmax(canv[0]))
 
 
-    def generate_image(self, colums=2, title="Pyhsikversion"):
+    def generate_image(self, colums=2):
         num = len(self.images)
         rows = int(num/colums)
 
         fig = plt.figure(figsize=(10., 10.))
-        fig.suptitle(title)
+        fig.suptitle(self.version)
         grid = ImageGrid(fig, 111,  
                         nrows_ncols=(rows, colums*2+1), 
                         axes_pad=0.1,  
@@ -200,7 +218,7 @@ class Test_NN():
             ax.axis("off")
             ax.imshow(im, cmap="bone", vmin=0, vmax=255)
 
-        plt.savefig(f"src/images/{title}.png", bbox_inches='tight')
+        plt.savefig(f"src_physics/images/{self.version}.png", bbox_inches='tight')
         plt.pause(5)
         
     
@@ -223,6 +241,8 @@ class Test_NN():
         agent = Agent(**agent_args)
         agent.load_models()
 
+        print(agent.gamma)
+
         if mode == "reward":
             score = self.test(agent, t_reward=True)
         elif mode == "accuracy":
@@ -242,12 +262,9 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(n_test=2000, dataset="mnist")
-    agent_args = {"gamma": 0.66, "epsilon": 0, "alpha": 0.00075, "replace_target": 8000, 
-                  "global_input_dims": test.glob_in_dims , "local_input_dims": test.loc_in_dims, 
-                  "mem_size": test.episode_mem_size*test.num_steps, "batch_size": test.batch_size, 
-                  "q_next_dir": "src/nn_memory/q_next", "q_eval_dir": "src/nn_memory/q_eval", "n_actions": test.n_actions}
+    test = Test_NN(n_test=100, dataset="mnist", version="base")
 
-    reward, accuracy, datarec, speed = test.test_from_loaded(agent_args, mode="all")
+
+    reward, accuracy, datarec, speed = test.test_from_loaded(test.agent_args, mode="all")
     print(f'reward: {reward}, accuracy: {accuracy}, {test.dataset} recognition: {datarec}, speed {speed}')
 

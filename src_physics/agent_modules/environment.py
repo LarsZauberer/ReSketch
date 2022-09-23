@@ -300,6 +300,7 @@ class ShapeDraw(object):
         
         # Reset canvas 
         self.canvas = np.zeros((self.s, self.s))
+        self.renderCanvas = np.zeros((self.s, self.s))
 
         #reset Agent position
         self.isDrawing = 0
