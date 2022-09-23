@@ -199,7 +199,6 @@ class Test_NN():
         rows = int(num/colums)
 
         fig = plt.figure(figsize=(10., 10.))
-        fig.suptitle(self.version)
         grid = ImageGrid(fig, 111,  
                         nrows_ncols=(rows, colums*2+1), 
                         axes_pad=0.1,  
@@ -218,7 +217,7 @@ class Test_NN():
             ax.axis("off")
             ax.imshow(im, cmap="bone", vmin=0, vmax=255)
 
-        plt.savefig(f"src_physics/images/{self.version}.png", bbox_inches='tight')
+        plt.savefig(f"src_physics/images/{self.version}-{self.dataset}.png", bbox_inches='tight')
         plt.pause(5)
         
     

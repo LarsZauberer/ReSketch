@@ -83,7 +83,7 @@ class DeepQNetwork(object):
         self.dqn.compile(loss="mean_squared_error", optimizer=tf.keras.optimizers.Adam(
             learning_rate=self.lr), metrics=["accuracy"])
 
-        plot_model(self.dqn, to_file=f"{self.name}.png", show_shapes=True)
+        plot_model(self.dqn, to_file=f"src_physics/images/{self.name}.png", show_shapes=True)
 
         #calling: dqn([global_state_batch, local_state_batch])
         #training: dqn.train_on_batch(x=[global_state_batch, local_state_batch], y=q_target)

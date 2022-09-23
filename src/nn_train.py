@@ -95,19 +95,11 @@ if __name__ == '__main__':
     with open("src/opti.json", "r") as f:
         hyp_data = json.load(f)
         
-    if mnist and speed:
-        model = "mnist-speed"
-        hyp_data = hyp_data["mnist_speed"]
-    elif mnist:
-        model = "mnist"
-        hyp_data = hyp_data["mnist"]
-    elif speed:
-        model = "speed"
-        hyp_data = hyp_data["speed"]
-    else:
-        model = "base"
-        hyp_data = hyp_data["base"]
-    
+    if mnist and speed: model ="mnist-speed"
+    elif mnist: model = "mnist"  
+    elif speed: model = "speed"
+    else: model = "base"
+    hyp_data = hyp_data[model]
     print(f"Hyperparameters: {hyp_data}")
     
     # Hyper parameters
