@@ -2,6 +2,10 @@ from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
 from data.ai_data import AI_Data
 from models.mnist_model.models import EfficientCapsNet
+
+
+
+
 from time import sleep
 
 from rich.progress import track
@@ -196,7 +200,6 @@ class Test_NN():
         rows = int(num/colums)
 
         fig = plt.figure(figsize=(10., 10.))
-        fig.suptitle(self.version)
         grid = ImageGrid(fig, 111,  
                         nrows_ncols=(rows, colums*2+1), 
                         axes_pad=0.1,  
@@ -215,7 +218,7 @@ class Test_NN():
             ax.axis("off")
             ax.imshow(im, cmap="bone", vmin=0, vmax=255)
 
-        plt.savefig(f"src/images/{self.version}.png", bbox_inches='tight')
+        plt.savefig(f"src/images/{self.version}-{self.dataset}.png", bbox_inches='tight')
         plt.pause(5)
         
         
