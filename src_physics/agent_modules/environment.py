@@ -41,8 +41,6 @@ class ShapeDraw(object):
             angle = ma.pi/6*i
             self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_2)) , float('%.2f' % (ma.sin(angle)*vel_2))) )
 
-        print(self.actions)
-
         self.curEpisode = 0
 
         # initializes rest
