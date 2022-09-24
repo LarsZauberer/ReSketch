@@ -160,8 +160,7 @@ selbstreflexion geht näher auf drei wichitige Aspekte ein, die in der
 zusammengefassten Arbeit nicht genug betont sind.
 
 \subsection{Optimierung der künstlichen Intelligenz}
-
-Insgesamt sind acht Versionen der KI präsentiert Im Verlaufe des Projektes gab
+Insgesamt sind acht Versionen der KI präsentiert. Im Verlaufe des Projektes gab
 es viele weitere Versuche, die Leistung der künstlichen Intelligenz zu
 verbessern. Diese Versuche führten Allerdings häufig dazu, dass die künsltiche
 Intelligenz garnicht mehr lernt. In der Arbeit sind deswegen nur diejenigen
@@ -169,10 +168,16 @@ Versuche vermerkt, die tatsächlich funktionieren. Ein Beispiel für einen
 gescheiterten Versuch wäre die Anpassung der Reward-Function, sodass diese nur
 bei der korrekten Erkennung einer Zahl einen Reward auslöst. Keine
 ausprobierte Anpassung in der Architektur der künstlichen Intelligenz macht
-diesen Versuch funktionstüchtig. Das Problem hinter solchen Versuchen liegt
+diesen Versuch funktionstüchtig. Das Problem von derartigen Versuchen liegt
 darin, dass die Ursache hinter ihrem Scheitern oder ihrem Erfolg häufig nicht
 erkennbar ist. Das macht die Optimierung der künstlichen Intelligenz allgemein
 schwierig. 
+
+Interessanterweise übertrifft keine präsentierte Variation der künstlichen
+Intelligenz das Grundprogramm. Die Variationen können somit die Leistung der
+künstlichen Intelligenz nicht optimieren. Die simpelste Version stellt sich als
+die leistungsfähigste heraus. Das hat unter anderem damit zu tun, dass die
+Leistung des Grundprogrammes bereits nahe am erreichbaren Maximum ist.
 
 Die Strategie hinter der Optimierung besteht in den meisten Fällen aus
 wiederholtem Ausprobieren mit Anpassungen zwischen jedem Versuch. Hilfsmittel,
@@ -187,25 +192,40 @@ verrichtet wurde, jeweils länger als $24$ Stunden.
 
 
 \subsection{Analyse der künstlichen Intelligenz}
+Eine Analyse der künstlichen Intelligenz ist notwendig, um die Fragestellung und
+die Unterfragen zu beantworten. Aber auch während der Entwicklung der
+künsltichen Intelligenz ist eine stetige Analyse nötig, um dise zu verstehen und
+zu verbessern.
 
-% Analyse der Resultate: Vorteil von messbaren Kriterien. Kriterien, die zwischen Versionen vergleichbar sind.
-% z.B akkumulierter Reward nicht gleich. nicht für Analyse verwendet.
+Die Analyse besteht hauptsächlich darin, die Leistung der künstlichen
+Intelligenz zu beurteilen. Das geschieht mittels den Kriterien, die für diesen
+Zweck definiert sind {siehe Kriterien}. Die Kriterien sind dabei so definiert,
+dass sie für jede mögliche Variation gleich gemessen werden. Der durchnittliche
+akkumulierte Reward wird Beispielsweise bewusst nicht als Kriterium verwendet.
+Der akkumulierte Reward {siehe Theorie reinf} ist abhängig von der Reward-Function und unterscheidet
+sich somit zwischen Variationen. Dieser ist somit nicht für einen Vergleich
+zwischen Variationen geeignet.
 
-% Akkumulierter Reward doch nutzen. Zeigt, wie künstliche Intelligenz lernt. (nur in Resultaten nicht vorhanden)
+Einzelne Variationen vergleichbar zu halten ist ein allgemeines Ziel der
+Analyse. Deswegen basieren alle Variationen auf der gleichen Architektur der
+künstlichen Intelligenz. Die Funktionalität des Grundprogrammes {siehe
+Grundprogramm} ist gründlich getestet. Zum Beispiel sind die Testdaten darauf
+überprüft, dass diese keine Datenpunkte aus den Trainingsdaten beinhalten. Diese
+Tests eliminieren mögliche Fehlerquellen salls die künstliche Intelligenz
+unerwartetes Verhalten aufzeigt.
 
-% Alle Varianten basieren auf der selben Architektur der künstlichen Intelligenz -> vereinfacht Veränderungen, weil Verhalten besser einschätzbar.
-
-% Ziel, möglichst viele Fehlerquellen zu vernichten. Testdaten mit Trainingsdaten verglichen, damit keine Übereinstimmung
-
-% Allerdings bei Analyse ähnliches Problem wie bei Optimierung. Man weiss nicht genau, warum die KI macht, was sie macht.
-
-
-
-
+Eine weitere Form von Analyse stammt aus der Sammlung von Daten über das
+Lernverhalten der künstlichen Intelligenz. So wird aus jedem Training ein Graph
+erstellt, der die durchschnittliche Leistung der künstlichen Intelligenz in
+jeder Episode erfasst {Siehe Abbildungen Graphen}. Die Leistung ist dabei durch
+den akkumulierten Reward pro Episode repräsentiert. Wie erwähnt können Versionen
+der künsltihcen Intelligenz nicht anhand ihres akkumulierten Rewards verglichen
+werden. Der akkumulierte Reward zeigt allerdings für einzelne Versionen am
+präzistesten, in wiefern diese ihren Reward maximieren können.
 
 \subsection{Verwendung von Git und GitHub}
-Ohne die Verwendung von Git und Github wäre das Projekt in diesem Ausmass nicht
-möglich gewesen. Die Programme ermöglichen einfache Zusammenarbeit am
+Ohne die Verwendung von Git und Github ist ein Projekt von diesem Ausmass nur
+schwer umsetzbar. Die Programme ermöglichen einfache Zusammenarbeit am
 Programmcode und an der Dokumentation. GitHub dient dabei zusätzlich als
 Hilfsmiitel zur Organisation durch die integrierte Funktion der Project Boards.
 Diese Funktion hätte allerdings zu grösserem Ausmass Verwendung finden können.
