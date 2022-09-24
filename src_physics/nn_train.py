@@ -129,7 +129,7 @@ if __name__ == '__main__':
     mem_size = episode_mem_size*n_steps
 
     # load Data
-    learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
+    learn_plot = Learn_Plotter(path="src_physics/result_stats/plotlearn_data.json")
     data = AI_Data(dataset="mnist")
     data.sample(n_episodes)
 

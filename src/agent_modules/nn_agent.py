@@ -32,11 +32,12 @@ class DeepQNetwork(object):
         elif model == "mnist-speed": 
             directory = f"pretrained_models\mnist-speed\{name}"
         else:
+            directory = f"pretrained_models\{model}"
+            try: os.mkdir(directory)
+            except OSError as error: print(error, "Attempted mkdir")   
             directory = f"pretrained_models\{model}\{name}"
-            try:
-                os.mkdir(directory)
-            except OSError as error:
-                print(error)   
+            try: os.mkdir(directory)
+            except OSError as error: print(error, "Attempted mkdir")   
         self.checkpoint_file = os.path.join(directory, 'deepqnet.ckpt')  # Where the model should be saved
 
         
