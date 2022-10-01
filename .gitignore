@@ -147,4 +147,5 @@ dmypy.json
 *.run.xml
 *.synctex.gz
 *.thm
+*.npy
 /Documentation/main.pdf
