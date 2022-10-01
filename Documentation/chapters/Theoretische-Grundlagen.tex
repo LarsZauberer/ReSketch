@@ -3,11 +3,11 @@
 \label{chap:t_ml}
 Machine Learning ist ein Teilbereich der künstlichen Intelligenz. ``Künstliche
 Intelligenz (KI) bezieht sich im Allgemeinen auf jedes menschenähnliche
-Verhalten durch eine Maschine oder ein System'' [ZITAT] Mit Maschinen und                
+Verhalten durch eine Maschine oder ein System'' [What is Artificial Intelligence] Mit Maschinen und                
 Systemen sind in den allermeisten Fällen Computer, beziehungsweise die
 steurenden Computerprogramme gemeint. Diese Computerprogramme bilden ein Modell
 von menschlichem Verhalten. Machine Learning Modelle entwickeln (oder erlernen)
-eine Mustererkennung durch die Analyse von Daten [What is Machine Learning].
+eine Mustererkennung durch die Analyse von Daten. [What is Machine Learning]
 Mustererkennung bedeutet hier, dass der Algorithmus Zusammenhänge zwischen den
 analysierten Daten erkennt und auf dieser Basis vorhersagen treffen kann.
 Vereinfacht gesagt versucht ein Machine Learning Modell menschliches
@@ -28,7 +28,7 @@ Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung, der
 Zielvariable, als Reaktion auf ihre eigenen Beurteilungen lernt. [datasolut] Die
 Zielvariable muss dabei im Voraus bekannt und durch Menschen festgelegt sein.
 [ML 3.1] Weitere Teilbereiche von Machine Learning sind Unsupervised Learning
-und Reinforcement Learning [supervised vs. unsupervised vs. reinforce].
+und Reinforcement Learning. [supervised vs. unsupervised vs. reinforce]
 Reinforcement Learning wird in dieser Arbeit noch weiter geschrieben.
 
 \subsection{Funktionsweise eines Machine Learning Modelles}
@@ -44,8 +44,8 @@ $70'000$ Bilder von hangeschriebenen Zahlen. [NIST EMNIST] Jedes Bild hat eine
 auflösung von $28\times28$ Pixeln.
                 
 
-Ein Machine Learning Modell durchläuft ein Training gefolgt von einer Testphase
-[Train test split]. Während dem Training erlernt das Modell die Mustererkennung,
+Ein Machine Learning Modell durchläuft ein Training gefolgt von einer Testphase.
+[Train test split] Während dem Training erlernt das Modell die Mustererkennung,
 um verlässliche Aussagen zu den Daten der Eingabe zu treffen. Die Testphase
 misst die Genauigkeit des Modelles, also die Wahrscheinlichkeit, mit der das
 Modell die richige Lösung zur Eingabe liefert. Nur in den seltensten Fällen
@@ -54,7 +54,7 @@ richtige Lösung. Das Machine Learning Modell erlert die Mustererkennung währen
 dem Training durch die Analyse von Daten aus dem Datenset. Das Modell gibt zu
 jedem Datenpunkt die Beurteilung, um welche Zahl es sich handelt. Die korrekte
 Lösung ist zu jedem Datenpunkt bereits im Voraus bekannt (Das Datenset ist
-labeled) [2.1 labeled]. Falls die Beurteilung des Modelles nicht mit der
+labeled). [2.1 labeled] Falls die Beurteilung des Modelles nicht mit der
 bekannten, korrekten Lösung übereinstimmt, passt sich das Modell automatisch auf
 eine bestimmte Weise an. Dadurch soll die Beurteilungen für zukünftige
 Datenpunkte genauer werden.
@@ -75,7 +75,7 @@ Anwendung.
 \subsection{künstliche neuronale Netze}
 
 Ein neuronales Netz ist, im biologischen Sinne, "eine beliebige Anzahl Neuronen,
-die miteinander Verbunden sind" [Neuro Wikipedia]. Ein Beispiel für ein
+die miteinander Verbunden sind". [Neuro Wikipedia] Ein Beispiel für ein
 neuronales Netz ist das menschliche Gehirn. Künstliche Neuronale Netze
 modellieren neuronale Netze in der Form von Programmcode [artificial neural
 network]. Diese Arbeit behandelt künstliche neuronale Netze, nicht aber
@@ -88,7 +88,7 @@ hat. Input und Output sind hierbei rationale Zahlen. Die Ausgabe des Neurons ist
 im einfachsten Modell, dem Perceptron, grundsätzlich entweder 0 oder 1. Die
 Ausgabe ist 1, wenn die Summe der Eingaben einen vorgegebenen Wert, den
 \emph{Bias} des Neurons überschreiten. Ansonsten ist die Ausgabe gleich 0. Jede
-Eingabe hat ein \textbf{Gewicht}, das einer rationalen Zahl entspricht. Vor der
+Eingabe hat ein \emph{Gewicht}, das einer rationalen Zahl entspricht. Vor der
 Addition der Inputs wird jeder Input mit seinem Gewicht multipliziert.  Die
 Grösse des Gewichts bestimmt somit den Einfluss der zugehörigen Eingabe auf die
 Ausgabe des Neurons. [neural networks deep learning][What is Perceptron]
@@ -96,7 +96,7 @@ Neuronale Netze in Machine Learning Modellen verwenden kompliziertere Neuronen
 als das Perceptron, wie zum Beispiel das Sigmoid-Neuron. Die Neuronen
 unterscheiden sich in ihrer Activation Function und somit im Verhalten ihres
 Outputs [activation function]. So nimmt der Output im Sigmoid-Neuron
-beispielsweise auch Werte zwischen 0 und 1 an in einem stetigen Übergang
+beispielsweise auch Werte zwischen $0$ und $1$ an in einem stetigen Übergang
 zwischen den beiden Grenzen [sigmoid Neuron].
 
 
@@ -107,15 +107,15 @@ und eine \emph{Output Layer}. [neural network deep learning][Neural network
 backprop] Die Input Layer umfasst die Daten, zu dem das neuronale Netz eine
 Beurteilung liefert sollte. Im Beispielproblem (siehe \nameref{chap:t_ml})
 bestände die Eingabe-Ebene aus $28\times28$ Neuronen, wobei jedes Neuron die
-Graustufe (durch einen Wert von 0 bis $255$) eines Pixels im Bild beschreibt.
+Graustufe (durch einen Wert von $0$ bis $255$) eines Pixels im Bild beschreibt.
 Der Input ist in diesem Fall zweidimensional. Die Dimensionen sind allerdings
-flexibel. Die Output layer besteht im Beispiel auf 10 Neuronen, wobei jedes
+flexibel. Die Output layer besteht im Beispiel auf $10$ Neuronen, wobei jedes
 Neuron einer Beurteilung entspricht (das fünfte Neuron beschreibt zum Beispiel
 die Beurteilung als eine Fünf). So entspricht dasjenige Neuron, das den höchsten
 Output hat, der Beurteilung vom neuronalen Netz.
 
 Zwischen der Input Layer und der Output Layers kann es weitere \emph{Hidden
-Layers} geben [What are hidden layers]. Es gibt verschiedene Arten von Hidden
+Layers} geben. [What are hidden layers] Es gibt verschiedene Arten von Hidden
 Layers, die verschidene Funktionen haben. Zwei der meist verwendeten Layers sind
 Fully Connected (Dense) Layers und Convolutional Layers. [conv vs. fully
 connected] In Fully Connected Layers dient jedes Neuron als Input für jedes
@@ -131,7 +131,7 @@ Ein Machine Learning Modell passt während der Trainingsphase (siehe
 \nameref{sub:funktionsweise}) einzelne Gewichte im neuronalen Netz in der
 Hoffnung an, dass die Genauigkeit der Beurteilung mit den angepassten Gewichten
 grösser ist. Die Genaue Anpassung erfolgt in den meisten Machine Learning
-Modellen durch den Backpropagation Algorithmus [Backpropagation][backpropagation]
+Modellen durch den Backpropagation Algorithmus. [Backpropagation][backpropagation]
 
 
 
@@ -171,7 +171,7 @@ Ein Reinforcement Learning Agent umfasst eine \emph{Umgebung} und einen
 dieser interagiert und daraus lernt. [S.B. s.53] Die Umgebung verändert sich in
 Zeitschritten, genannt \emph{Steps}. In jedem Step führt der Agent eine
 \emph{Action} aus, die die Umgebung beeinflusst. Die Entscheidung, welche Action
-der Agent ausführt basiert auf einer \emph{Observation} [DQN s.2]der Umgebung. Die
+der Agent ausführt basiert auf einer \emph{Observation} [DQN s.2] der Umgebung. Die
 Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
 relevant sind. Die Entscheidung, welche Aktion der Agent ausführt, basiert auf
 einem neuronalen Netz. Der Input in dieses neuronale Netz ist die Observation
@@ -242,7 +242,7 @@ QuickDraw Datenset [Quickdraw Image rec] nachzuzeichnen. Nachfolgend sind die As
 beschrieben, die für diese Arbeit relevant sind.
 
 Die QuickDraw Bilder, die das Programm nachzeichnen soll, sind zu einer
-einheitliche Grösse von $84\times84$ Pixeln verarbeiteitet [Dood s.7]. Der Agent kann sich
+einheitliche Grösse von $84\times84$ Pixeln verarbeiteitet. [Dood s.7] Der Agent kann sich
 auf einer leeren Zeichenfläche von der selben Grösse bewegen und zeichnen. Die
 Umgebung umfasst diese Zeichenfläche, den Agent und das abzuzeichnende Bild.
 
@@ -250,7 +250,7 @@ Der Agent kann sich durch eine Action in jedem Step auf einen beliebigen Pixel
 in einem $11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann
 ausserdem jede dieser Bewegungen im zeichnenden Zustand oder im nicht
 zeichnenden Zustand machen. Der Action-Space hat somit insgesamt eine Grösse von
-$2\cdot11\cdot11 = 242$ Actions [Dood s.5]. Im zeichnenden Zustand wird ein Strich auf der
+$2\cdot11\cdot11 = 242$ Actions. [Dood s.5] Im zeichnenden Zustand wird ein Strich auf der
 Zeichenfläche zwischen der alten und der neuen Position des Agenten gezeichnet.
 Der Agent begeht 100 Steps pro Episode. Eine neue Episdoe entspricht dabei einem
 neuen Bild, das abgezeichnet werden soll
@@ -275,7 +275,7 @@ bewegen kann. Das zweite Bild beschreibt den selben Bereich von der Zeichenfläc
 
 Die Reward-Function bezieht sich auf die Differenz der Anzahl der
 übereinstimmenden Pixel zwischen der Vorlage und Zeichenfläche zwischen zwei
-Steps [Dood s.6]. Viele neu übereinstimmende Pixel entsprechen so einem hohen Reward für
+Steps. [Dood s.6] Viele neu übereinstimmende Pixel entsprechen so einem hohen Reward für
 einen Step. Wenn nach einem Step weniger Pixel übereinstimmen zuvor, entspricht
 das einem negativen Reward. 
 
@@ -295,7 +295,7 @@ Control. [Version Control] Das Programm wurde 2005 von Linus Torvald entwickelt.
 Versionen des Projektes werden manuell durch einen Commit gespeichert. Es wird
 empfohlen, nur jeweils ein bestimmtes Problem oder eine bestimmte Funktion pro
 Commit anzugehen. Für grössere Funktionen oder Probleme kann ein Branch erstellt
-werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines Projektes [Git Branch]. Zum
+werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines Projektes. [Git Branch] Zum
 Beispiel kann das Projekt in mehreren Branches gleichzeitig und unabhängig von
 einander entwickelt werden. Das übliche Vorgehen mit Branches sieht so aus, dass
 aus einem Main Branch für jede grössere Funktion ein Branch erstellt wird.
@@ -323,11 +323,3 @@ Branch nicht die gewünschte Aufgabe erfüllt, kann die Pull Request abgelehnt
 werden. Erst wenn eine Pull Request angonommen wird, kann der Branch wieder in
 den Main Branch zurückgeführt werden. [Pull Request]
 
-
-
-
-
-
-
-
-U
