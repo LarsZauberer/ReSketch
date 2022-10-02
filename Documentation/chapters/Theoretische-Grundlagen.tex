@@ -267,7 +267,7 @@ im nächsten Abschnitt weiter behandelt.
 %todo bild strokebased vs stife
 
 \subsection{Doodle-SDQ}
-\label{chap:t_ver_dood}
+\label{sub:t_ver_dood}
 Doodle-SDQ ist ein Computerprogramm, das durch ein Reinforcement Learning
 Modell, spezifischer Deep Q-Learning (siehe \nameref{sub:t_rl_func}), erlernt,
 Strichbilder aus dem Google QuickDraw Datenset [Quickdraw Image rec]
@@ -319,10 +319,8 @@ Zeichenfläche zwischen zwei Steps. [Dood s.6] Eine grosse Menge an neu
 übereinsimmende Pixel. Wenn nach einem Step weniger Pixel übereinstimmen als
 zuvor, entspricht das einem negativen Reward. 
 
-%todo ---------------------------------------------------------------------------------------------------------------
-
 \section{Git und GitHub}
-\label{chap:git_github}
+\label{chap:t_git}
 Git und Github sind weit verbreitete Hilfsmittel für Software Entwickler. Git
 ist ein Programm, während GitHub ein Service ist, der dieses Programm in der
 Cloud zugänglich macht. GitHub hat zusätzliche Funktionen, die die Zusammenarbeit
@@ -330,23 +328,28 @@ zwischen mehreren Entwicklern erleichtern. Die genaue Funktion und das
 Zusammenspiel dieser beiden Hilfsmittel wird nachfolgend erläutert.
 
 \subsection{Git}
+\label{sub:t_git_git}
 Git erkennt Veränderungen im Code eines Projektes und speichert diese
 Veränderungen in einer neuen Version ab. Die einzelnen Versionen des Projektes
 bleiben dabei zu jedem Zeitpunkt abrufbar. Dieses Konzept nennt sich Version
-Control. [Version Control] Das Programm wurde 2005 von Linus Torvald entwickelt. 
-Versionen des Projektes werden manuell durch einen Commit gespeichert. Es wird
-empfohlen, nur jeweils ein bestimmtes Problem oder eine bestimmte Funktion pro
-Commit anzugehen. Für grössere Funktionen oder Probleme kann ein Branch erstellt
-werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines Projektes. [Git Branch] Zum
-Beispiel kann das Projekt in mehreren Branches gleichzeitig und unabhängig von
-einander entwickelt werden. Das übliche Vorgehen mit Branches sieht so aus, dass
-aus einem Main Branch für jede grössere Funktion ein Branch erstellt wird.
-Die Entwicklung der Funktion findet nur in dem zugehörigen Branch statt. Erst
-wenn die Funktion fertig ist, wird der zugehörige Branch wieder mit dem Main
+Control. [Version Control] Das Programm wurde 2005 von Linus Torvald entwickelt.
+[Git] Versionen des Projektes werden manuell durch einen Commit gespeichert. Es
+wird empfohlen, nur jeweils ein bestimmtes Problem oder eine bestimmte Funktion
+pro Commit anzugehen. [Git best practic] Für grössere Funktionen oder Probleme
+kann ein Branch erstellt werden. Ein Branch ermöglicht eine abgekapselte
+Entwicklung eines Projektes. [Git Branch] Zum Beispiel kann das Projekt in
+mehreren Branches gleichzeitig und unabhängig von einander entwickelt werden.
+Das übliche Vorgehen mit Branches sieht so aus, dass aus einem Main Branch für
+jede grössere Funktion ein Branch erstellt wird (siehe autoref{branch
+structure}). Die Entwicklung der Funktion findet nur in dem zugehörigen Branch
+statt. Erst wenn die Funktion fertig ist, wird der Branch wieder mit dem Main
 Branch zusammengeführt. Wenn die Arbeit in einem Branch scheitert, kann dieser
 gelöscht werden, ohne den Main Branch zu beeinflussen. [Git How Branch]
 
+%todo bild branch structure
+
 \subsection{GitHub}
+\label{sub:t_git_gh}
 GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
 Preston-Werner entwickelt \cite{noauthor_github_2021}. 2018 wurde das
 Unternehmen von Microsoft gekauft. GitHub ist ein Service, der Projekte, die mit
