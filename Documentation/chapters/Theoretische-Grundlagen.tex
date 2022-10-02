@@ -32,7 +32,7 @@ solchen Computerprogrammes.
 
 %todo Bild recognition machine
 
-Machine Learning Modelle, die das Beispielproblem lösen, basieren üblicherweie
+Machine Learning Modelle, die das Beispielproblem lösen, basieren üblicherweise 
 auf Supervised Learning. Das ist ein Teilbereich von Machine Learning, wobei das
 Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung, der
 Zielvariable, als Reaktion auf ihre eigenen Beurteilungen lernt. [datasolut] Die
@@ -72,17 +72,48 @@ für zukünftige Datenpunkte genauer werden. Die Testphase misst die Genauigkeit
 des Modelles auf Testdaten. Die Testdaten bestehen aus Datenpunkten, die in den
 Trainingsdaten nicht enthalten sind.
 
+Zusammengefasst kann Ein Machine Learning Modell Daten Beurteilen und sich
+selbst Anpassen, um die Beurteilungen zu verbessern. Künstliche Neuronale Netze
+(siehe \nameref{sub:t_ml_nn}) umfassen diese Funktionalität, und finden daher in
+Machine Learning Modellen Anwendung.
+
+
+\subsection{Hyperparamter}
+\label{sub:t_ml_hyper}
 Machine Learning Modelle unfassen verschiedene Hyperparameter. Diese beschreiben
 unter anderem wie lange das Training läuft oder wie stark sich das Modell nach
 einer falschen Beurteilung anpasst. Diese Hyperparamter beeinflussen das
 Lernverhalten des Modelles [Hyperparameter] aber ihr optimaler Wert ist im
-Voraus nicht bekannt. Hyperparamter können durch Algorithmen, wie den Baysian
-Algorithmus optimiert werden.
+Voraus nicht bekannt. 
 
-Zusammengefasst kann Ein Machine Learning Modell Daten Beurteilen und sich
-selbst Anpassen, um die Beurteilungen zu verbessern. Künstliche Neuronale Netze
-umfassen diese Funktionalität, und finden daher in Machine Learning Modellen
-Anwendung.
+Hyperparameter können unter anderem durch den Baysian Optimization Algorithmus
+optimiert werden. [bay Optimization][exploring bayop] Dieser Algorithmus
+versucht den Output einer BlackBox Funktion zu maximieren oder zu minimieren.
+[bayesopt book s.15] Eine BlackBox ist ein häufig komplexes System, dessen inneren
+Vorgänge nicht betrachtet werden. [Blackbox Wikipedia] Bei einer Blackbox
+Funktion ist folglich der Input und der Output bekannt, während die Verarbeitung
+des Inputs zum Output nicht betrachtet wird (siehe autoref{Blackbox}).
+
+%todo bild Blackbox
+
+Machine Learning Modelle werden häufig als BlackBox Funktionen angesehen, da die
+Vorgänge mit hohem rechnerischen Aufwand verbunden sind, wodurch sie von einem
+aussenstehenden Betrachter nicht oder nur schwer erfassbar sind. [how black] Um ein Machine
+Learning Modell als eine BlackBox Funktion für den Baysian Optimization
+Algorithmus zu verwenden, werden die zu optimierenden Hyperparameter als Input
+und eine Zielvariable als Output definiert. Die Zielvarible des Outputs
+entspricht dabei einem Wert, der die Leistung des Modelles widerspiegelt. Ein
+Beispiel für die Zielvarible wäre die Genauigkeit des Machine Learning Modelles
+(siehe \nameref{sub:t_ml_func}) Die inneren Vorgänge in der BlackBox Funktion
+entsprechen dabei einem Training des Modelles
+
+Der Baysian Optimization Algorithmus kann bis zu 20 Hyperparameter zuverlässig
+optimieren. [high-dim bay] Der Algorithmus führt die Blackbox Funktion für eine
+bestimmte Anzahl Iterationen mit jeweils verschiedenen Parametern durch. Die
+Wahl der Parameter basiert dabei auf Bayes' Theorem [bayesopt book s.7].
+Diejenigen Parameter, die den höchsten gefundenen Wert der Zielvariable
+auslösen, werden gespeichert.
+
 
 \subsection{künstliche neuronale Netze}
 \label{sub:t_ml_nn}
