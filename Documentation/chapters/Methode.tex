@@ -15,104 +15,106 @@ verschiedenen Arten von Strichbildern erfasst.
 
 \section{Grundprogramm}
 \label{chap:m_grund}
-Die künstliche Intelligenz ist abhängig von den Kriterien, die dessen Leistung
-definieren (siehe Eval). Mit anderen Worten trainiert die künstliche Intelligenz
-auf diese Kriterien. Das Ziel des Grundprogrammes ist, eine Trainingsumgebung
-für die künstliche Intelligenz bereitzustellen. Dieses Grundprogramm ist
-unabhängig von einem spezifischen Kriterium und kann stattdessen auf ein
-ausgewählte Kriterium trainiert werden. Reinforcement Learning Modelle mit einer
-momentan undefinierten Reward Function haben diese Eigenschaften. Die
-Implementierung eines spezifischen Kriteriums in die Reward Function ermöglicht
-das Training auf dieses Kriterium. 
+Die KI ist abhängig von den Kriterien, die dessen Leistung definieren (siehe
+\nameref{chap:m_eval}). Mit anderen Worten trainiert die KI auf diese Kriterien.
+Das Ziel des Grundprogrammes ist, die allgemeine Trainingsumgebung für die KI
+bereitzustellen. Dieses Grundprogramm ist unabhängig von einem spezifischen
+Kriterium und kann stattdessen auf ein ausgewähltes Kriterium trainiert werden.
+Reinforcement Learning Modelle mit einer undefinierten Reward Function (siehe
+\nameref{\label{sub:t_rl_func}}) stellen diese Eigenschaften bereit. Eine Reward
+function, basierend auf einem spezifischen Kriterium, ermöglicht das Training
+auf dieses Kriterium. Das Grundprogramm ist in Python unter der Verwendung des
+Keras Frameworks implementiert (siehe \nameref{chap:t_ml}). 
 
 \subsection{Doodle-SDQ als Basis}
 \label{sub:m_grund_dood}
-Das Reinforcement Learning Modell von dem Grundprogramm basiert auf Doodle-SDQ
-von Das Grundprogramm basiert auf dem Reinforcement Algorithmus aus dem Programm
-Doodle-SDQ [Doodle SDQ]. Ausser dem
-Reinforcement Learning Modell, hauptsächlich bezogen auf die Form des Inputs,
-des Outputs und den hidden Layers, sind keine weiteren Konzepte von Doodle-SDQ
-übernommen. Die relevanten Anpassungen von Doodle-SDQ für das Grundprogramm
+Das Reinforcement Learning Modell des Grundprogrammes basiert auf Doodle-SDQ.
+(siehe \nameref{sub:t_ver_dood}) Von Doodle-SDQ ist das neuronale Netz, bezogen
+auf die Form des Inputs, des Outputs und den Hidden Layers, zu grossem Teil
+übernommen. Die relevanten Anpassungen zwischen Doodle-SDQ und dem Grundprogramm
 dieser Arbeit sind nachfolgend erläutert.
 
-%TODO ref theorie Doodle-sdq
 Bei der Umgebung handelt es sich, wie bei Doodle-SDQ, um eine Zeichenfläche,
 worauf sich der Agent frei bewegen kann. Die Ziffern, die während dem Training
-nachgezeichnet werden sollen, stammen aus dem MNIST Datenset und haben somit
-eine Grösse von $28\times28$ Pixeln. Die Fläche, worauf sich der Agent bewegen   
-kann, hat somit auch eine Grösse von $28\times28$ Pixeln. Die `globale' Eingabe
-in das Neuronale Netz ändert sich bis auf diese neue Grösse der Bilder nicht.
-Die Pixel der Bilder, wie auch die Zeichenfläche, nehmen den Wert von einem Bit
-an. Eine Null repräsentiert einen schwarzen (nicht gezeichneten) Pixel an dieser
-Stelle im Bild und eine Eins einen weissen (gezeichneten) Pixel. Die genaue
-Architektur des neuronalen Netzes sieht folgendermassen aus (siehe Abbildung NN
-Architektur). Jeder Block in der Abbildung repräsentiert Eine Layer des
-neuronalen Netzes, wobei die Form des Inputs und die Form des Outputs von jeder
-Layer angegeben ist. 
+nachgezeichnet werden sollen, stammen aus dem MNIST Datenset (siehe
+\nameref{chap:t_ml}) und haben somit eine Grösse von $28\times28$ Pixeln. Die
+Fläche, worauf sich der Agent bewegen   
+kann, hat somit auch eine Grösse von $28\times28$ Pixeln. Der global Stream
+(siehe \nameref{sub:t_ver_dood}) des Inputs in das Neuronale Netz ändert sich
+bis auf die neue Grösse der Bilder nicht. Die Pixel der Bilder, wie auch die
+Zeichenfläche, nehmen den Wert von einem Bit an. Eine Null repräsentiert einen
+schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild und eine Eins
+einen weissen (gezeichneten) Pixel. Die genaue Architektur des neuronalen Netzes
+ist im Schema autoref{architecture} angegeben. Jeder Block in der Abbildung
+repräsentiert Eine Layer des neuronalen Netzes, wobei die Form des Inputs und
+die Form des Outputs von jeder Layer angegeben ist. 
 
-(Bild Architektur NN) %TODO Bild
+%TODO Bild architecture
 
-Die lokale Eingabe, also das nahe Umfeld um den Agenten schrumpft von
-$11\times11$ Pixeln auf $7\times7$ Pixeln. Somit schrumpft gleichzeitig der
-Actionspace des Agenten von $2\cdot11\cdot11 = 242$ Aktionen auf $2\cdot7\cdot7
-= 98$ Aktionen. Das bedeutet für den Agenten, dass er sich pro Schritt um
-maximal drei Pixel von seiner Position wegbewegen kann. Diese Bewegung
-kann der Agent entweder zeichnend oder nicht zeichnend
-ausführen.
+Der Local Stream, also das nahe Umfeld um den Agent schrumpft von $11\times11$
+Pixel auf $7\times7$ Pixel. Somit schrumpft gleichzeitig der Action-Space (siehe
+\nameref{sub:t_rl_func}) des Agenten von $2\cdot11\cdot11 = 242$ Actions auf
+$2\cdot7\cdot7 = 98$ Actions. Das bedeutet für den Agent, dass er sich pro Step
+um maximal drei Pixel von seiner Position wegbewegen kann. Diese Bewegung kann
+der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe autoref{zeich
+vs nicht zeich}).
 
-Falls der Agent die Aktion zeichnend ausführt, zieht das Programm einen Strich
+%todo bild zeichnend vs nicht zeichnend
+
+Falls der Agent die Action zeichnend ausführt, zieht das Programm einen Strich
 zwischen der alten und der neuen Position. Mit anderen Worten werden alle Pixel
-in der Zeichenfläche zwischen den beiden Positionen weiss. Der Strich hat eine
+der Zeichenfläche zwischen den beiden Positionen weiss. Der Strich hat eine
 festgelegte Breite von $3$ Pixeln. Am Anfang jeder Episode, also bei jeder neuen
 Ziffer, die gezeichnet werden soll, startet der Agent in einer zufälligen
 Position im nicht zeichnenden Zustand. Am Anfang jeder Episode ist die
 Zeichenfläche leer, also vollkommen Schwarz.
 
-Aktionen des Agenten, die ihn über die vorgegebene Zeichenfläche hinaus
-positionieren würden, sind nicht zulässig. Diese Aktionen können vom Agenten
-nicht gewählt werden und ihr optimaler Q-Wert ist als $0$ definiert. Das hat zur
-Folge, dass nach der Training die allermeisten unzulässigen Aktionen einen
-tiefen Q-Wert haben. Das senkt die Wahrscheinlichkeit, dass der Agent versucht,
-eine unzulässige Aktion auszuführen.
+Actions des Agents, die ihn über die vorgegebene Zeichenfläche hinaus
+positionieren würden, sind nicht zulässig. Diese Actions können vom Agent nicht
+gewählt werden und ihr optimaler Q-Value (siehe autoref{zeich vs nicht zeich})
+ist in jedem Fall $0$. Das hat zur Folge, dass nach dem Training die
+allermeisten unzulässigen Actions einen Q-Value nahe oder gleich $0$ haben. Das
+senkt die Wahrscheinlichkeit, dass der Agent versucht, eine unzulässige Action
+auszuführen.
 
 \subsection{Präparierung der Daten und Training}
 \label{sub:m_grund_data}
-Das für das Training der künstlichen Intelligenz verwendete MNIST Datenset
-besteht aus $36000$ Bildern von handgeschriebenen Ziffern. Die Bilder im
-Datenset sind als Bitmap dargestellt, wobei jedes Element (jeder Pixel) einen
-Wert zwischen $0$ und $255$ annimmt. Die Zahl räpresentiert einen Graustufe,
-wobei 0 Schwarz ist und 255 Weiss. Diese Graustufen werden entfernt. Jeder Pixel
-mit einem Wert über 0 übernimmt den Wert 1, wodurch die Bilder nur noch aus
-Einsen und Nullen bestehen. So stimmen die Bilder mit den Zeichnungen, die der
-Agent produzieren kann, überein.
+Die Trainingsdaten bestehen aus $36'000$ Bildern von handgeschriebenen Ziffern
+aus dem MNIST Datenset (siehe \nameref{chap:t_ml}). Die restlichen Bilder des
+MNIST Datensets machen die Testdaten aus. Die Bilder im Datenset sind als Bitmap
+dargestellt, wobei jedes Element (jeder Pixel) einen Wert zwischen $0$ und $255$
+annimmt. Die Zahl repräsentiert eine Graustufe, wobei $0$ Schwarz ist und $255$
+Weiss. Diese Graustufen werden entfernt. Jeder Pixel mit einem Wert über $0$
+übernimmt den Wert $1$, wodurch die Bilder nur noch aus Einsen und Nullen
+bestehen. Dabei ist $0$ Schwarz und $1$ Weiss (siehe autoref{norm vs. nogray}).
+So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
+überein.
 
-%Todo remove epoch
+%todo Parameter in Zukunft ändern
 Das Grundprogramm trainiert mit $4000$ Bildern, von denen jede Ziffer $400$
 Bilder ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche
 Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder ein Mal und
-trainiert somit für $4000$ Episodes. Der Agent macht $64$ Steps pro Episode.
-Er kann sich also pro Zeichnung $64$ mal bewegen. Das Training (des Neuronalen
-Netzes) findet in jedem vierten Schritt statt mit einem Batch von $64$ zufällig
-gewählten Steps aus dem Replay Buffer.
-% TODO: Parameter in Zukunft ändern
+trainiert somit für $4000$ Episodes. Der Agent macht $64$ Steps pro Episode. Er
+kann sich also pro Zeichnung $64$ Mal bewegen. Das neuronale Netz passt sich in
+jedem vierten Step an, mit einem Batch von $64$ zufällig ausgewählten Steps aus
+dem Replay Buffer.
 
-\subsection{Hyperparameteroptimierung}
+\subsection{Hyperparameter Optimierung}
 \label{sub:m_grund_hyper}
-Die genauen Hyperparameter des Reinforcement Learning Modells, wie auch die der     
-Variationen (siehe Variation) stehen im Anhang. Alle diese Hyperparameter sind    %todo ref
-durch eine Implementierung des Baysian Algorithmus \cite{fernando_bayesian_2022}
-(siehe Theorie Baysian) optimiert. Der Algorithmus ändert sich für verschiedene
-Variationen der künstlichen Intelligenz nicht. Somit ist der Baysian Algorithmus
-Teil des Grundprogrammes, wobei er zu der optimalen Leistung der künstlichen
-Intelligenz beiträgt. 
+Die Hyperparameter (siehe \nameref{sub:t_ml_func}) des Grundprogrammes, wie auch
+der Variationen (siehe \nameref{chap:m_var}) sind durch den Bayesian
+Optimization Algorithmus optimiert Bayes Algorithmus optimiert. Die
+Implementierung des Algorithmus in Python stammt von
+\cite{fernando_bayesian_2022}. Der Algorithmus ändert sich für verschiedene
+Variationen der KI nicht und ist somit Teil des Grundprogrammes, wobei er zu der
+optimalen Leistung der künstlichen Intelligenz beiträgt. 
 
-Mit jeder Iteration des Baysian Algorithmus trainiert das Reinforcement Learning
-Modell für eine vom Algorithmus selbst bestimmte Anzahl Episodes. Der Wert, der
-durch den Baysian Algorithmus maximiert werden soll, wird am Ende jedes
-Trainings berechnet. Dieser Wert wird in der Testumgebung (siehe Auswertung) mit
-der gerade trainierten künstlichen    %TODO ref auswertung 
-Intelligenz berechnet. Das Kriterium, wonach die Leistung in der Testumgebung
-berechnet wird, ist frei wählbar.
+Mit jeder Iteration des Baysian Optimization Algorithmus trainiert das
+Reinforcement Learning Modell für eine vom Algorithmus selbst bestimmte Anzahl
+Episodes. Die Zielvariable, die durch den Baysian Optimization Algorithmus
+maximiert werden soll, wird am Ende jeder Iteration des Trainings in der
+Testumgebung berechnet (siehe \nameref{chap:m_auswert}). Das Kriterium, wonach
+die Leistung in der Testumgebung berechnet wird, ist frei wählbar.
 
 
 \section{Evaluierung der Leistung}
