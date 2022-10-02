@@ -1,19 +1,20 @@
 \chapter{Methode}
+\label{chap:m}
 Die Methode dieser Untersuchung besteht darin, die in der Fragestellung
-beschriebene künstliche zu entwickeln und die Leistung davon auszuwerten. Die
-Diskusssion dieser Resultate führt schliesslich zu einer Antwort auf die
-Fragestellung. 
-Die Entwicklung der künstlichen Intelligenz besteht aus zwei Teilen. Der eine
-Teil umfasst die Definition der Kriterien, nach denen die Leistung der
-künstlichen Intelligenz evaluiert wird. Der zweite Teil umfasst die Entwicklung
-der künstlichen Intelligenz, zusammen mit verschiedenen Variationen. Die
-Variationen haben jeweils einen unterschiedlichen Fokus auf die definierten
-Kriterien. Die Auswertung bezieht sich ebenfalls auf die definierten Kriterien.
-Die Leistung der künstlichen Intelligenz wird dabei in einer Testumgebung für
-das Zeichnen von verschiedenen Arten von Strichbildern gemessen.
+beschriebene künstliche Intelligenz (KI) zu entwickeln und dessen Leistung
+auszuwerten. Die Diskussion dieser Resultate führt schlussendlich zu einer
+Antwort auf die Fragestellung. Die Entwicklung der KI besteht aus zwei Teilen.
+Der eine Teil umfasst die Definition der Kriterien, nach denen die Leistung der
+KI evaluiert wird (siehe \nameref{chap:m_eval}). Der andere Teil umfasst die
+Entwicklung der KI (siehe \nameref{chap:m_grund}), zusammen mit verschiedenen
+Variationen (siehe \nameref{chap:m_var}). Die Variationen haben jeweils einen
+unterschiedlichen Fokus auf die definierten Kriterien. Die Auswertung (siehe
+\nameref{chap:m_auswert}) bezieht sich ebenfalls auf die definierten Kriterien.
+Die Leistung der KI wird dabei in einer Testumgebung für das Zeichnen von
+verschiedenen Arten von Strichbildern erfasst.
 
 \section{Grundprogramm}
-\label{chap:m_grundprogramm}
+\label{chap:m_grund}
 Die künstliche Intelligenz ist abhängig von den Kriterien, die dessen Leistung
 definieren (siehe Eval). Mit anderen Worten trainiert die künstliche Intelligenz
 auf diese Kriterien. Das Ziel des Grundprogrammes ist, eine Trainingsumgebung
@@ -25,9 +26,10 @@ Implementierung eines spezifischen Kriteriums in die Reward Function ermöglicht
 das Training auf dieses Kriterium. 
 
 \subsection{Doodle-SDQ als Basis}
+\label{sub:m_grund_dood}
 Das Reinforcement Learning Modell von dem Grundprogramm basiert auf Doodle-SDQ
 von Das Grundprogramm basiert auf dem Reinforcement Algorithmus aus dem Programm
-Doodle-SDQ (Tao Zhou et Al (2018) \cite{zhou_learning_2018}). Ausser dem
+Doodle-SDQ [Doodle SDQ]. Ausser dem
 Reinforcement Learning Modell, hauptsächlich bezogen auf die Form des Inputs,
 des Outputs und den hidden Layers, sind keine weiteren Konzepte von Doodle-SDQ
 übernommen. Die relevanten Anpassungen von Doodle-SDQ für das Grundprogramm
@@ -49,8 +51,6 @@ neuronalen Netzes, wobei die Form des Inputs und die Form des Outputs von jeder
 Layer angegeben ist. 
 
 (Bild Architektur NN) %TODO Bild
-
-
 
 Die lokale Eingabe, also das nahe Umfeld um den Agenten schrumpft von
 $11\times11$ Pixeln auf $7\times7$ Pixeln. Somit schrumpft gleichzeitig der
@@ -76,6 +76,7 @@ tiefen Q-Wert haben. Das senkt die Wahrscheinlichkeit, dass der Agent versucht,
 eine unzulässige Aktion auszuführen.
 
 \subsection{Präparierung der Daten und Training}
+\label{sub:m_grund_data}
 Das für das Training der künstlichen Intelligenz verwendete MNIST Datenset
 besteht aus $36000$ Bildern von handgeschriebenen Ziffern. Die Bilder im
 Datenset sind als Bitmap dargestellt, wobei jedes Element (jeder Pixel) einen
@@ -96,14 +97,14 @@ gewählten Steps aus dem Replay Buffer.
 % TODO: Parameter in Zukunft ändern
 
 \subsection{Hyperparameteroptimierung}
-\label{chap:Hyperparameter Optimierung}
+\label{sub:m_grund_hyper}
 Die genauen Hyperparameter des Reinforcement Learning Modells, wie auch die der     
 Variationen (siehe Variation) stehen im Anhang. Alle diese Hyperparameter sind    %todo ref
 durch eine Implementierung des Baysian Algorithmus \cite{fernando_bayesian_2022}
-(siehe Theorie Baysian) optimiert. Der Algorithmus ändert sich für
-verschiedene Variationen der künstlichen Intelligenz nicht. Somit ist der
-Baysian Algorithmus Teil des Grundprogrammes, wobei er zu der optimalen Leistung
-der künstlichen Intelligenz beiträgt. 
+(siehe Theorie Baysian) optimiert. Der Algorithmus ändert sich für verschiedene
+Variationen der künstlichen Intelligenz nicht. Somit ist der Baysian Algorithmus
+Teil des Grundprogrammes, wobei er zu der optimalen Leistung der künstlichen
+Intelligenz beiträgt. 
 
 Mit jeder Iteration des Baysian Algorithmus trainiert das Reinforcement Learning
 Modell für eine vom Algorithmus selbst bestimmte Anzahl Episodes. Der Wert, der
@@ -115,6 +116,7 @@ berechnet wird, ist frei wählbar.
 
 
 \section{Evaluierung der Leistung}
+\label{chap:m_eval}
 In diesem Unterkapitel sind die Kriterien definiert, die die Leistung der
 künstlichen Intelligenz evaluieren. Mit anderen Worten beschreiben die
 Kriterien, wie gut die künstliche Intelligenz nachzeichnet. Für eine präzise
@@ -123,6 +125,7 @@ Zahlenwert geht direkt aus Berechnungen im Computerprogramm hervor. Die
 Kriterien und ihre jeweiligen Berechnungen werden nachfolgend beschrieben.
 
 \subsection{Erkennbarkeit}
+\label{sub:m_eval_rec}
 Das Kriterium der Erkennbarkeit beschreibt, ob in der Vorlage das gleiche Motiv
 wie in der Zeichnung der künstlichen Intelligenz erkannt wird. Wenn
 Beispielsweise in beiden Fällen eine Fünf erkannt wird, hat das Kriterium den
@@ -142,6 +145,8 @@ Tabelle ... ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die
 in der Testumgebung dieser Arbeit (siehe auswertung) als Vorlage zum Abzeichnen
 dienen. %TODO ref
 
+
+%todo Tabelle
 Tabelle:
 Art       |       Entwickler      |     Trainiert mit     |      Genauigkeit 
 
@@ -156,6 +161,7 @@ weitere Kriterien, die andere Facetten der Leistung der künstlichen Intelligenz
 betreffen.
 
 \subsection{Prozentuale Übereinstimmung}
+\label{sub:m_eval_proc}
 Dieses Kriterium ist durch die die prozentuale Übereinstimmung der weissen
 (gezeichneten) Pixel zwischen der Vorlage und der Zeichnung der künstlichen
 Intelligenz definiert. Der Wert $K$ dieses Kriteriums zu einem bestimmten
@@ -174,6 +180,7 @@ dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
 einer Genauigkeit von $100\%$ entspricht.
 
 \subsection{Geschwindigkeit}
+\label{sub:m_eval_speed}
 Dieses Kriterium beschreibt, wie schnell die Zeichnung der künstlichen
 Intelligenz fertig ist. Der Wert dieses Kriteriums entspricht der Anzahl Steps,
 die die künstliche Intelligenz macht, bis die Zeichnung fertig ist. Eine
@@ -189,6 +196,7 @@ Zeichnung begeht.
 
 
 \section{Variationen}
+\label{chap:m_var}
 Dieses Kapitel beschreibt Variationen vom Grundprogramm (siehe Grundprogramm).
 Bei einigen dieser Variationen handelt es sich um konkrete Implementierungen der
 definierten Kriterien in die Reward Function. Die Variationen überschneiden sich
@@ -202,6 +210,7 @@ Intelligenz.
 
 %TODO ref
 \subsection{Basis Reward Function}
+\label{sub:m_var_base}
 Die Basis Reward Function ist die einfachste Erweiterung des Grundprogrammes zu
 einer funktionierenden künstlichen Intelligenz. Diese Reward Function
 implementiert das Kriterium der prozentualen Übereinstimmung (ref proz
@@ -217,6 +226,7 @@ prozentualen Übereinstimmung.
 
 
 \subsection{Training auf Geschwindigkeit}
+\label{sub:m_var_speed}
 Der numerische Wert für die Zeit bis zur Fertigstellung der Zeichnung (die
 Geschwindigkeit) kann in die Reward-Function integriert werden. Dadurch
 trainiert die künstliche Intelligenz auf die kürzeste Zeit bis zur
@@ -245,6 +255,7 @@ erhöht.
 
 
 \subsection{Training auf Erkennbarkeit}
+\label{sub:m_var_rec}
 Das Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
 teilweise in die Reward Function integriert werden. Das Kriterium strebt eine
 Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe eval
@@ -291,6 +302,8 @@ wodurch sie nur in seltenen Fällen einen positiven Reward erreichen würde.
 
 
 \subsection{Physikalische Umgebung}
+\label{sub:m_var_phy}
+
 Diese Variation spezialisiert auf kein Kriterium. Stattdessen ist die Umgebung,
 in der sich der Agent bewegt, verändert. Auch der Input und der Output des
 neuronalen Netzes sind angepasst. Durch diese Veränderungen unterscheidet sich die
@@ -362,6 +375,7 @@ Positionen auf der zeichenfläche vermeiden.
 
 
 \section{Auswertung}
+\label{chap:m_auswert}
 Die Auswertung der Daten über die Leistung der künstlichen Intelligenz liefert
 das Resultat der Methode. Die Auswertung berechnet den Zahlenwert der
 definierten Kriterien für verschiedene Variationen der künstlichen Intelligenz.
@@ -393,7 +407,8 @@ Folgende Variationen der künstlichen Intelligenz werden ausgewertet:
 
 %Bild von Quickdraw
 
-\subsection*{Testumgebung}
+\subsection{Testumgebung}
+\label{sub:m_auswert_test}
 
 Die Leistungen der verschiedenen Variationen der künstlichen Intelligenz werden
 in einem Test, in einer Testumgebung ausgewertet. Die Testumgebung unterscheidet
@@ -402,7 +417,7 @@ Erstens trainiert die künstliche Intelligenz in der Testumgebung nicht. Die
 Testumgebung übernimmt eine trainierte künstliche Intelligenz und verändert
 diese während dem Test nicht. Zweitens wählt der Agent in keinem Fall mehr eine
 zufälligen Aktion. Stattdessen wählt er immer die Aktion mit dem höchsten
-Q-Value ($\epsilon = 0$). Der Dritte Unterschied liegt in den Strichbildern, die
+Q-Value (gleichbedeutend mit $\epsilon = 0$). Der Dritte Unterschied liegt in den Strichbildern, die
 für die künstliche Intelligenz als Vorlage dienen. Im Test zeichnet das
 Computerprogramm $1040$ Bilder aus einem der drei zur Verfügung stehenden
 Datensets. Am Ende jeder Episode (d.h jeder Zeichnung) wird der Zahlenwert für
