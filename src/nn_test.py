@@ -53,7 +53,7 @@ class Test_NN():
         self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data)
 
         # initialize agent
-        self.agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
+        self.agent_args = {"gamma": hyp_data["gamma"], "epsilon": 0, "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                             "global_input_dims": (4, canvas_size, canvas_size) , "local_input_dims": (2, patch_size, patch_size), 
                             "mem_size": int(int(hyp_data["episode_mem_size"])*num_steps), "batch_size": 64, "model": f"base-{self.version}"}
 
