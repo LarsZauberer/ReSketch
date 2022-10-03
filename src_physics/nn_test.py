@@ -218,7 +218,7 @@ class Test_NN():
             ax.axis("off")
             ax.imshow(im, cmap="bone", vmin=0, vmax=255)
 
-        plt.savefig(f"src_physics/images/{self.version}-{self.dataset}.png", bbox_inches='tight')
+        plt.savefig(f"src_physics/images/physics-{self.version}-{self.dataset}.png", bbox_inches='tight')
         plt.pause(5)
         
     
