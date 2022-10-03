@@ -77,7 +77,7 @@ allermeisten unzulässigen Actions einen Q-Value nahe oder gleich $0$ haben. Das
 senkt die Wahrscheinlichkeit, dass der Agent versucht, eine unzulässige Action
 auszuführen.
 
-\subsection{Präparierung der Daten und Training}
+\subsection{Präparierung der Daten und Optimierung}
 \label{sub:m_grund_data}
 Die Trainingsdaten bestehen aus $36'000$ Bildern von handgeschriebenen Ziffern
 aus dem MNIST Datenset (siehe \nameref{chap:t_ml}). Die restlichen Bilder des
@@ -99,22 +99,20 @@ kann sich also pro Zeichnung $64$ Mal bewegen. Das neuronale Netz passt sich in
 jedem vierten Step an, mit einem Batch von $64$ zufällig ausgewählten Steps aus
 dem Replay Buffer.
 
-\subsection{Hyperparameter Optimierung}
-\label{sub:m_grund_hyper}
-Die Hyperparameter (siehe \nameref{sub:t_ml_func}) des Grundprogrammes, wie auch
-der Variationen (siehe \nameref{chap:m_var}) sind durch den Bayesian
-Optimization Algorithmus optimiert Bayes Algorithmus optimiert. Die
-Implementierung des Algorithmus in Python stammt von
-\cite{fernando_bayesian_2022}. Der Algorithmus ändert sich für verschiedene
-Variationen der KI nicht und ist somit Teil des Grundprogrammes, wobei er zu der
-optimalen Leistung der künstlichen Intelligenz beiträgt. 
+Die Hyperparameter des Grundprogrammes, wie auch der Variationen (siehe
+\nameref{chap:m_var}) sind durch den Bayesian Optimization Algorithmus optimiert
+(siehe \nameref{sub:t_ml_hyper}). Die Implementierung des Algorithmus in Python
+stammt von \cite{fernando_bayesian_2022}. Der Algorithmus ändert sich für
+verschiedene Variationen der KI nicht und ist somit Teil des Grundprogrammes,
+wobei er zu der optimalen Leistung der KI beiträgt. 
 
 Mit jeder Iteration des Baysian Optimization Algorithmus trainiert das
 Reinforcement Learning Modell für eine vom Algorithmus selbst bestimmte Anzahl
 Episodes. Die Zielvariable, die durch den Baysian Optimization Algorithmus
 maximiert werden soll, wird am Ende jeder Iteration des Trainings in der
-Testumgebung berechnet (siehe \nameref{chap:m_auswert}). Das Kriterium, wonach
-die Leistung in der Testumgebung berechnet wird, ist frei wählbar.
+Testumgebung berechnet (siehe \nameref{chap:m_auswert}). Auf welchem Kriterium
+die Zielvariable basiert, ist frei wählbar.
+
 
 
 \section{Evaluierung der Leistung}
