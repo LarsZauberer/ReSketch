@@ -136,7 +136,7 @@ if __name__ == '__main__':
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)
     agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
-                  "mem_size": mem_size, "batch_size": batch_size, "model": model}
+                  "mem_size": mem_size, "batch_size": batch_size, "model": f"base-{model}"}
     agent = Agent(**agent_args)
     
 
