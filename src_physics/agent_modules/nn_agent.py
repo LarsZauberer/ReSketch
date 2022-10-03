@@ -6,6 +6,7 @@ from tensorflow.keras.utils import plot_model
 
 import numpy as np
 from time import sleep
+from pathlib import Path
 
 
 class DeepQNetwork(object):
@@ -23,21 +24,21 @@ class DeepQNetwork(object):
 
         # saving / memory
         if model == "base":
-            directory = f"pretrained_models\physics-base\{name}" 
+            directory = Path(f"pretrained_models/physics-base/{name}")
         elif model == "mnist":
-            directory = f"pretrained_models\physics-mnist\{name}"  
+            directory = Path(f"pretrained_models/physics-mnist/{name}")
         elif model == "speed":
-            directory = f"pretrained_models\physics-speed\{name}"
+            directory = Path(f"pretrained_models/physics-speed/{name}")
         elif model == "mnist-speed": 
-            directory = f"pretrained_models\physics-mnist-speed\{name}"
+            directory = Path(f"pretrained_models/physics-mnist-speed/{name}")
         else:
-            directory = f"pretrained_models\{model}"
+            directory = Path(f"pretrained_models/{model}")
             try: os.mkdir(directory)
             except OSError as error: print(error, "Attempted mkdir")   
-            directory = f"pretrained_models\{model}\{name}"
+            directory = Path(f"pretrained_models/{model}/{name}")
             try: os.mkdir(directory)
             except OSError as error: print(error, "Attempted mkdir")   
-        self.checkpoint_file = os.path.join(directory, 'deepqnet.ckpt')  # Where the model should be saved
+        self.checkpoint_file = directory / 'deepqnet.ckpt'  # Where the model should be saved
 
         
 
