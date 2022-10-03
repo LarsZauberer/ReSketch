@@ -94,7 +94,7 @@ So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 
 %todo Parameter in Zukunft ändern
 Das Grundprogramm trainiert mit $4000$ Bildern, von denen jede Ziffer $400$
-Bilder ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche
+Bilder ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche  
 Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder ein Mal und
 trainiert somit für $4000$ Episodes. Der Agent macht $64$ Steps pro Episode. Er
 kann sich also pro Zeichnung $64$ Mal bewegen. Das neuronale Netz passt sich in
@@ -135,15 +135,15 @@ Wert $1$. Wird in der Vorlage eine Fünf erkannt, aber in der Zeichnung eine
 Vier, hat das Kriterium den Wert $0$
 
 Welches Motiv in der Zeichnung erkannt wird, ist durch eine zweite künstliche
-Intelligenz bestimmt. Diese künstliche Intelligenz beurteilt ein Motiv nur als
-erkannt, wenn das zugehörige Neuron im Output des neuronalen Netzen einen Wert
-von über $0.9$ hat. Das entspricht mit einer hohen  Wahrscheinlichkeit der
-korrekten Beurteilung.
+Intelligenz bestimmt (siehe \nameref{sub:t_ml_func}). Diese künstliche
+Intelligenz beurteilt ein Motiv nur als erkannt, wenn das zugehörige Neuron im
+Output des neuronalen Netzen einen Wert von über $0.75$ hat. Das entspricht mit
+einer hohen Wahrscheinlichkeit der korrekten Beurteilung.
 
-Um die verschiedenene Arten von Strichbildern, die die KI
-zeichnen soll, zu erkennen, existieren vortrainierte Machine Learning Modelle. 
-Die in dieser Arbeit implementierten vortrainierten Modelle sind in der Tabelle
-{...} ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die in der
+Um die verschiedenene Arten von Strichbildern, die die KI zeichnen soll, zu
+erkennen, existieren vortrainierte Machine Learning Modelle. Die in dieser
+Arbeit implementierten vortrainierten Modelle sind in der Tabelle {...}
+ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die in der
 Testumgebung (siehe \nameref{sub:m_auswert_test}) als Vorlage zum Abzeichnen
 dienen.
 
@@ -164,8 +164,8 @@ Intelligenz betreffen.
 \label{sub:m_eval_proc}
 Dieses Kriterium ist durch die die prozentuale Übereinstimmung der weissen
 (gezeichneten) Pixel zwischen der Vorlage und der Zeichnung der künstlichen
-Intelligenz definiert. Der Wert $K$ dieses Kriteriums zu einem bestimmten
-Schritt $t$ berechnet sich aus folgender Formel:
+Intelligenz definiert. Der Wert $K$ dieses Kriteriums zu einem bestimmten Step
+$t$ berechnet sich aus folgender Formel:
 \begin{equation}
   \label{eq:m_reward}
   K(t) = \frac{G(t)}{G_{max}}
@@ -198,108 +198,121 @@ die von der KI pro Zeichnung begangen werden.
 
 \section{Variationen}
 \label{chap:m_var}
-Dieses Kapitel beschreibt Variationen vom Grundprogramm (siehe Grundprogramm).
-Bei einigen dieser Variationen handelt es sich um konkrete Implementierungen der
-definierten Kriterien in die Reward Function. Die Variationen überschneiden sich
-teilweise in den Kriterien, die sie Implementieren. Der Unterschied der
-Variationen liegt im Fokus auf die verschiedenen Kriterien. Einige Variationen
-sind auch untereinander kombinierbar. Variationen können auch strukturelle
-Änderungen an der künsltichen Intelligenz, abgesehen von der Reward Function
-haben. Das Ziel dieser strukturellen Änderungen ist eine grundsätzliche
-Verbesserung, oder zumindest eine Veränderung der Leistung der künstlichen
-Intelligenz. 
+Dieses Kapitel beschreibt verschiedene Variationen ausgehend vom Grundprogramm
+(siehe \nameref{chap:m_grund}). Bei einigen dieser Variationen handelt es sich
+um konkrete Implementierungen der definierten Kriterien in die Reward Function
+(siehe \nameref{sub:t_rl_func}). Die Reward Function kann dabei auch auf
+mehreren Kriterien basieren. Der Unterschied zwischen den Variationen liegt im
+Fokus auf die Kriterien. Einige Variationen sind untereinander kombinierbar.
+Andere Variationen führen Strukturelle Änderungen an der KI ein, die über die
+Reward Function hinaus gehen. Das Ziel der strukturellen Änderungen ist eine
+grundsätzliche Verbesserung, oder zumindest eine Anpassung des Verhaltens und
+der Leistung der künstlichen Intelligenz. 
 
-%TODO ref
-\subsection{Basis Reward Function}
+\subsection{Basis Reward-Function}
 \label{sub:m_var_base}
-Die Basis Reward Function ist die einfachste Erweiterung des Grundprogrammes zu
-einer funktionierenden künstlichen Intelligenz. Diese Reward Function
-implementiert das Kriterium der prozentualen Übereinstimmung (ref proz
-Übereinstimmung). Der Reward für eine Aktion berechnet sich aus der Differenz
-zwischen der prozentualen Übereinstimmung vor dem Ausführen der Aktion und der
-prozentualen Übereinstimmung nach dem Ausführen der Aktion. Somit wird der
-Reward $R$ zum Schritt $t$ durch folgende Formel berechnet. (Für $K(t)$: siehe eval)
-$$R(t) = K(t) - K(t-1)$$
-Der Reward eines Schrittes entspricht dadurch nicht der gesamten prozentualen
-Übereinstimmung, sondern lediglich der Veränderung dieser, die durch den Schritt
-auslöst. Der addierte Reward aller Schritte enstspricht dem absoluten Wert der
+Die Basis Reward Function ist die einfachste Erweiterung des Grundprogrammes
+(siehe \nameref{chap:m_grund}) zu einer funktionierenden künstlichen
+Intelligenz. Diese Reward Function implementiert das Kriterium der prozentualen
+Übereinstimmung (siehe \nameref{sub:m_eval_proc}). Der Reward für eine Action
+berechnet sich aus der Differenz zwischen der prozentualen Übereinstimmung vor
+dem Ausführen der Action, und und der prozentualen Übereinstimmung nach dem
+Ausführen der Action (also $K(t-1)$ und $K(t)$). Somit wird der Reward $R$ zum
+Step $t$ durch folgende Formel berechnet. 
+$$R(t) = K(t) - K(t-1)$$ 
+Der Reward eines Steps entspricht somit nicht der gesamten prozentualen
+Übereinstimmung zu diesem Step. Stattdessen Entspricht der Reward der
+Veränderung der prozentualen Übereinstimmung, ausgelöst durch die Action zu diesem
+Step. Der addierte Reward aller Steps enstspricht dem absoluten Wert der
 prozentualen Übereinstimmung.
 
 
 \subsection{Training auf Geschwindigkeit}
 \label{sub:m_var_speed}
-Der numerische Wert für die Zeit bis zur Fertigstellung der Zeichnung (die
-Geschwindigkeit) kann in die Reward-Function integriert werden. Dadurch
-trainiert die künstliche Intelligenz auf die kürzeste Zeit bis zur
-Fertigstellung. Die Variation verwendet die grundsätzlich die Basis Reward
-Function. Die Anpassung davon sieht folgendermassen aus: Am Ende jeder Zeichnung
-wird der Reward jedes Schrittes mit einem Faktor $F$ multipliziert. Dieser
-Faktor berechnet sich aus folgender Formel:
-$$ F = 2 - \frac{S}{S_{max}}$$
-$S_{max}$ entspricht der Anzahl Schritte, die der Agent pro Zeichnung (Episode) begeht (siehe Grundprogramm). %TODO: ref setzen.
-$S$ Entspricht der Anzahl Schritte zur Fertigstellung der Zeichnung. Der Faktor
-nimmt einen Wert zwischen $1$ und $2$ an. Wenn der Agent die Zeichnung bis zum
-Ende einer Episode nicht fertigstellen kann, ist $F = 1$. In diesem Fall wird
-der Reward also nicht angepasst. Der Agent zeichnet immer $S_{max}$ Schritte pro
-Episode. Das verhindert eine ungleichmässige Verteilung der verschiedenen
-Episoden im replay-buffer. $S$ wird bis an das Ende der Episode gespeichert,
-wenn die Anforderungen für die Fertigstellung einer Zeichnung das erste Mal
-erfüllt sind. 
-Die Anpassung der Bedingung für eine fertige Zeichnung während dem Training
-ermöglicht eine weitere Verbesserung der Geschwindigkeit. Die minimale
-prozentuale Übereinstimmung einer fertigen Zeichnung ist als $80\%$ definiert.
-Zu beginn des Trainings wird dieser Wert auf $30\%$ heruntergesetzt, und über
-das Training hinweg linear bis auf $80\%$ erhöht. Dadurch löst die Reward
-Function bereits bei einer unfertigen Zeichnung positive Rewards für die
-Geschwindigkeit aus, was den Fokus auf eine maximale Geschwindigkeit weiter
-erhöht.
+Der numerische Wert für die Zeit bis zur Fertigstellung der Zeichnung (siehe
+\nameref{sub:m_eval_speed}) kann in die Reward-Function integriert werden.
+Dadurch trainiert die künstliche Intelligenz auf eine minimale Zeit bis zur
+Fertigstellung. Die Variation verwendet die grundsätzlich die Basis
+Reward-Function (siehe \nameref{sub:m_var_base}). Die Anpassung davon sieht
+folgendermassen aus: Am Ende jeder Zeichnung wird der Reward jedes Steps mit
+einem Faktor $f$ multipliziert. Dieser Faktor berechnet sich aus folgender
+Formel:
+$$f = 2 - \frac{S}{S_{max}}$$ 
+
+$S_{max}$ entspricht der Anzahl Steps, die der Agent pro Zeichnung (Episode)
+begeht (siehe \nameref{sub:m_grund_data}). $S$ Entspricht der Anzahl Steps
+bis zur Fertigstellung der Zeichnung. Der Faktor nimmt einen Wert zwischen $1$
+und $2$ an. Ein grösserer Faktor $f$ entspricht einer schnellen Fertigstellung
+und deswegen einem hohen Reward. Wenn der Agent die Zeichnung bis zum Ende einer
+Episode nicht fertigstellen, ist $f = 1$ (siehe \nameref{sub:m_eval_speed}). In
+diesem Fall unterscheidet sich die Reward-Function nicht von der Basis
+Reward-Function. Wenn die Zeichnung früher fertiggestellt wird, zeichnet der
+Agent trotzdem $S_{max}$ Steps. Das verhindert eine ungleichmässige Verteilung
+zwischen verschiedenen Episodes im Replay-Buffer (siehe \nameref{sub:t_rl_func}).
+In diesem Fall wird $S$ nur in dem Step gespeichert, in dem die Zeichnung zum
+ersten Mal die Bedingung einer Fertigstellung erfüllt.   
+
+Der Fokus des Trainings auf eine maximale Geschwindigkeit erfährt einen weiteren
+anstieg, durch eine Anpassung der Bedingung für eine fertige Zeichnung während
+dem Training. Die minimale prozentuale Übereinstimmung einer fertigen Zeichnung
+ist als $75\%$ definiert. Zu beginn des Trainings wird dieser Wert auf $25\%$  %Todo code präzision
+heruntergesetzt, und über das Training hinweg linear bis auf $75\%$ erhöht.
+Dadurch löst die Reward Function bei einer unfertigen Zeichnung bereits positive
+Rewards für die Geschwindigkeit aus.
 
 
 \subsection{Training auf Erkennbarkeit}
 \label{sub:m_var_rec}
 Das Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
 teilweise in die Reward Function integriert werden. Das Kriterium strebt eine
-Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe eval
-erkennbarkeit). Die künstliche Intelligenz trainiert allerdings nur auf das
-Nachzeichnen von Ziffern. Aus diesem Grund trainiert diese Variation nur auf die
-Erkennbarkeit von Ziffern, und lässt die anderen Arten von Strichbildern ausser
-vor. 
+Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe
+\nameref{sub:m_eval_rec}). Die künstliche Intelligenz trainiert allerdings nur
+auf das Nachzeichnen von Ziffern. Aus diesem Grund trainiert diese Variation nur
+auf die Erkennbarkeit von Ziffern, und lässt die anderen Arten von Strichbildern
+ausser vor. 
 
-Die Reward Function beinhaltet die künstliche Intelligenz, die handgeschriebene
-Ziffern erkennt (siehe eval erkennbarkeit). Diese künstliche Intelligenz
-beurteilt in jedem Schritt, welche Ziffern in der Vorlage und der aktuellen
-Zeichnung erkannt werden. Wenn die erkannte Zahl in der Vorlage und der
-Zeichnung gleich ist, erhält der Agent einen Reward von $0.1$. In diesem Zustand     %TODO Code präzision
-funktioniert die Reward-Funktion nicht. Das heisst, der Agent kann den
-akkumulierten Reward nicht vergrössern. Zwei Ansätze lösen dieses Problem. Beide
-Ansätze sind Teil dieser Variation
+Die Reward-Function dieser Variation beinhaltet eine zweite KI, die
+handgeschriebene Ziffern erkennt (siehe \nameref{sub:m_eval_rec}). Diese zweite KI
+beurteilt in jedem Step, welche Ziffern sie in der Vorlage und in der aktuellen  %TODO Code präzision
+Zeichnung erkennt. Wenn die erkannte Zahl in der Vorlage und der Zeichnung
+gleich ist, erhält der Agent einen Reward von $0.1$. In diesem Zustand
+funktioniert die Reward-Function allerdings nicht nicht. Das heisst, der Agent
+kann den akkumulierten Reward nicht vergrössern. Zwei Ansätze gehen auf dieses
+Problem ein. Beide Ansätze sind Teil dieser Variation.
 
-Der erste Ansatz ist es, die künstliche Intelligenz, die Ziffern erkennt, erst
-ab einer gewissen prozenutalen Übereinstimmung (siehe prozentuale
-Übereinstimmung) einzusetzen. Das heisst, dass die korrekte Erkennung erst ab
-einer prozentualen Übereinstimmung von $20\%$ einen positiven Reward auslöst.
-Diese zusätzliche Bedingung ist notwendig, weil die Einschätzung der Ziffern
-durch die künstlichen Intelligenz teilweise für einen menschlichen Betrachter
-fragwürdig ist. Zum Beispiel schätzt die Schrifterkennungssoftware eine leere
-Zeichenfläche mit einer hohen Wahrscheinlichkeit als eine Eins ein. Das ist in
-diesem Fall ein Problem, weil dadurch der Agent einen positiven Reward (eine
-Belohnung) für eine leere Zeichenfläche erhält. Das stört das weitere
-Lernverhalten, indem es wahrscheinlicher wird, dass der Agent nicht mehr
-zeichnet. 
+Der erste Ansatz schlägt vor, die zweite KI erst ab einer gewissen prozenutalen
+Übereinstimmung (siehe \nameref{sub:m_eval_proc}) einzusetzen.Für diese
+Variation löst die korrekte Erkennung erst ab einer prozentualen Übereinstimmung
+von $20\%$ einen positiven Reward aus. Diese zusätzliche Bedingung ist
+notwendig, weil die Beurteilungen der zweiten KI teilweise für einen
+menschlichen Betrachter fragwürdig sin. Zum Beispiel schätzt die zweite KI eine
+leere Zeichenfläche mit einer hohen Wahrscheinlichkeit als eine Eins ein. Das
+ist ein Problem, weil dadurch der Agent einen positiven Reward für eine leere
+Zeichenfläche erhält. Das stört das weitere Lernverhalten, weil es die
+Wahrscheinlichkeit erhöht, dass die KI nicht mehr zeichnet
 
-Der zweite Ansatz beinhaltet ebenfalls das Kriterium der prozentualen
+Der zweite Ansatz verwendet ebenfalls das Kriterium der prozentualen
 Übereinstimmung. Dieses Kriterium ist in dieser Variation gleich wie in der
-Basis Reward Function implementiert. Der Unterschied ist, dass der Reward durch
-diese Reward Function über das Training hinweg linear kleiner wird. Das Training
-startet mit 100\% dieses Rewards und sinkt bis zur letzten Episode des Trainings
-auf 10\%. Gleichzeitig nimmt der Reward durch die korrekte Erkennung der Ziffer
-linear zu. Die Reward Function ändert sich somit über den Verlauf des Trainings
-hinweg. Das hat den Vorteil, dass die künstliche Intelligenz am Anfang des
-Trainings durch das Kriterium der prozentualen Übereinstimmung bereits für
-kleine Erfolge positive Rewards bekommt. Das Kriterium der Erkennbarkeit
-ermöglichst erst bei einer korrekten Erkennung einen Reward. Diese korrekte
-Erkennung ist für eine untrainierte künstliche Intelligenz schwer zu erreichen,
-wodurch sie nur in seltenen Fällen einen positiven Reward erreichen würde.
+Basis Reward-Function (siehe \nameref{sub:m_var_base}) implementiert. Der
+Unterschied liegt darin, dass in dieser Version der Reward, ausgelöst durch die
+Basis Reward-Function, über das Training hinweg linear kleiner wird. Damit nimmt
+die Relevanz der Basis Reward-Function kontinuierlich ab. Gleichzeitig nimmt der
+Reward für eine korrekte Erkennung der Ziffer linear zu. Die Reward Function
+ändert sich somit über den Verlauf des Trainings hinweg. Die folgende Abbildung
+(autoref{decrementor graph}) stellt dar, wie sich die Grösse des Rewards der
+beiden Reward-Functions, beschrieben durch einen Faktor, über das Training
+hinweg verändert.
+
+%todo Bild Decrementor
+
+Das Zusammenspiel der beiden Reward-Functions hat den Vorteil, dass die
+künstliche Intelligenz am Anfang des Trainings bereits für kleine Erfolge
+positive Rewards erzielt. Die Reward-Function der Erkennbarkeit ermöglichst im
+Gegensatz zu der Basis Reward-Function erst bei einer korrekten Erkennung einen
+Reward. Diese korrekte Erkennung ist für eine untrainierte KI schwer zu
+erreichen. Deswegen muss die KI durch die Basis Reward-Function gewissermassen
+vortrainiert werden, um von der Reward-Function der Erkennbarkeit zu
+profitieren.
 
 
 \subsection{Physikalische Umgebung}
