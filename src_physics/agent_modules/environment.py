@@ -3,7 +3,7 @@ import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
 from agent_modules.physics import Physic_Engine
-from mnist_model.models import EfficientCapsNet
+from models.mnist_model.models import EfficientCapsNet
 from time import sleep
 
 
@@ -40,8 +40,6 @@ class ShapeDraw(object):
         for i in range(12):
             angle = ma.pi/6*i
             self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_2)) , float('%.2f' % (ma.sin(angle)*vel_2))) )
-
-        print(self.actions)
 
         self.curEpisode = 0
 

@@ -262,7 +262,16 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(n_test=100, dataset="mnist", version="speed")
-    reward, accuracy, datarec, speed = test.test_from_loaded(test.agent_args, mode="all")
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--test", help="Numer of test episodes", action="store", type=int, default=100)
+    parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist")
+    parser.add_argument("-c", "--criterion", help="The criterion to test on", action="store", type=str, default="all")
+    parser.add_argument("-v", "--version", help="The version to test", action="store", type=str, default="base")
+    args = parser.parse_args()
+
+    test = Test_NN(n_test=args.test, dataset=args.dataset, version=args.version)
+    reward, accuracy, datarec, speed = test.test_from_loaded(test.agent_args, mode=args.criterion)
     print(f'reward: {reward}, accuracy: {accuracy}, {test.dataset} recognition: {datarec}, speed {speed}')
 
