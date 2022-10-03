@@ -91,9 +91,16 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
     
 
 if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-m", "--mnist", help="Weather to use mnist training or not", action="store_true", default=False)
+    parser.add_argument("-s", "--speed", help="Weather to use speed training or not", action="store_true", default=False)
+    args = parser.parse_args()
+
     # Options
-    mnist = False
-    speed = False
+    mnist = args.mnist
+    speed = args.speed
     
     # Load Hyperparameter data
     with open("src_physics/opti.json", "r") as f:
@@ -129,7 +136,7 @@ if __name__ == '__main__':
     mem_size = episode_mem_size*n_steps
 
     # load Data
-    learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
+    learn_plot = Learn_Plotter(path="src_physics/result_stats/plotlearn_data.json")
     data = AI_Data(dataset="mnist")
     data.sample(n_episodes)
 
