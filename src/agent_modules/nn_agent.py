@@ -23,14 +23,8 @@ class DeepQNetwork(object):
         self.batch_size = batch_size  # How many inputs sending into the network
 
         # saving / memory
-        if model == "base":
-            directory = Path(f"pretrained_model/base/{name}")
-        elif model == "mnist":
-            directory = Path(f"pretrained_models/mnist/{name}")
-        elif model == "speed":
-            directory = Path(f"pretrained_models/speed/{name}")
-        elif model == "mnist-speed": 
-            directory = Path(f"pretrained_models/mnist-speed/{name}")
+        if model == "base-base" or model == "base-mnist" or model == "base-speed" or model == "base-mnist-speed":
+            directory = Path(f"pretrained_models/{model}/{name}")
         else:
             directory = Path(f"pretrained_models/{model}")
             try: os.mkdir(directory)
