@@ -1,0 +1,1 @@
+reward: 0.868, accuracy: 0.868, emnist recognition: 0.745, speed 38.16
