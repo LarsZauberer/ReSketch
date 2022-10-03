@@ -29,7 +29,7 @@ class Test_NN():
             hyp_data = json.load(f)
             
         if version == "mnist-speed":
-            hyp_data = hyp_data["mnist_speed"]
+            hyp_data = hyp_data["mnist-speed"]
         elif version == "mnist":
             hyp_data = hyp_data["mnist"]
         elif version == "speed":
