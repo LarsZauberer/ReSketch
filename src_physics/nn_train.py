@@ -143,7 +143,7 @@ if __name__ == '__main__':
     env = ShapeDraw(canvas_size, patch_size, data.pro_data, n_actions=n_actions, max_action_strength=max_action_strength, friction=hyp_data["friction"], vel_1=hyp_data["vel_1"], vel_2=hyp_data["vel_2"])
     agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
-                  "mem_size": mem_size, "batch_size": batch_size, "model": model, "n_actions": n_actions}
+                  "mem_size": mem_size, "batch_size": batch_size, "model": f"physics-{model}", "n_actions": n_actions}
     agent = Agent(**agent_args)
     
     # Start training
