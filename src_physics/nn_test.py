@@ -46,6 +46,7 @@ class Test_NN():
         self.dataset = dataset
         self.data = AI_Data(dataset)
         self.data.sample(n_test)
+
         self.envir = ShapeDraw(canvas_size, patch_size, self.data.pro_data, n_actions=self.n_actions)
 
         #initialize agent
@@ -115,7 +116,7 @@ class Test_NN():
                 # Run the timestep
                 illegal_moves = np.zeros(self.n_actions)
                 illegal_moves = self.envir.illegal_actions(illegal_moves)
-
+                self.envir.curStep = j
                 
 
                 if not all(a == 1 for a in illegal_moves):
@@ -240,8 +241,6 @@ class Test_NN():
         agent = Agent(**agent_args)
         agent.load_models()
 
-        print(agent.gamma)
-
         if mode == "reward":
             score = self.test(agent, t_reward=True)
         elif mode == "accuracy":
@@ -261,9 +260,16 @@ class Test_NN():
 
 
 if __name__ == '__main__':  
-    test = Test_NN(n_test=100, dataset="mnist", version="base")
+    import argparse
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--test", help="Numer of test episodes", action="store", type=int, default=100)
+    parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist")
+    parser.add_argument("-c", "--criterion", help="The criterion to test on", action="store", type=str, default="all")
+    parser.add_argument("-v", "--version", help="The version to test", action="store", type=str, default="base")
+    args = parser.parse_args()
 
-    reward, accuracy, datarec, speed = test.test_from_loaded(test.agent_args, mode="all")
+    test = Test_NN(n_test=args.test, dataset=args.dataset, version=args.version)
+    reward, accuracy, datarec, speed = test.test_from_loaded(test.agent_args, mode=args.criterion)
     print(f'reward: {reward}, accuracy: {accuracy}, {test.dataset} recognition: {datarec}, speed {speed}')
 
