@@ -90,6 +90,8 @@ bestehen. Dabei ist $0$ Schwarz und $1$ Weiss (siehe autoref{norm vs. nogray}).
 So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 überein.
 
+%todo Bild normal num vs nogray num
+
 %todo Parameter in Zukunft ändern
 Das Grundprogramm trainiert mit $4000$ Bildern, von denen jede Ziffer $400$
 Bilder ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche
@@ -110,7 +112,7 @@ Mit jeder Iteration des Baysian Optimization Algorithmus trainiert das
 Reinforcement Learning Modell für eine vom Algorithmus selbst bestimmte Anzahl
 Episodes. Die Zielvariable, die durch den Baysian Optimization Algorithmus
 maximiert werden soll, wird am Ende jeder Iteration des Trainings in der
-Testumgebung berechnet (siehe \nameref{chap:m_auswert}). Auf welchem Kriterium
+Testumgebung berechnet (siehe \nameref{chap:m_auswert_test}). Auf welchem Kriterium
 die Zielvariable basiert, ist frei wählbar.
 
 
@@ -119,10 +121,10 @@ die Zielvariable basiert, ist frei wählbar.
 \label{chap:m_eval}
 In diesem Unterkapitel sind die Kriterien definiert, die die Leistung der
 künstlichen Intelligenz evaluieren. Mit anderen Worten beschreiben die
-Kriterien, wie gut die künstliche Intelligenz nachzeichnet. Für eine präzise
-Evaluierung sind alle Kriterien durch einen Zahlenwert repräsentierbar. Dieser
-Zahlenwert geht direkt aus Berechnungen im Computerprogramm hervor. Die
-Kriterien und ihre jeweiligen Berechnungen werden nachfolgend beschrieben.
+Kriterien, wie gut die KI nachzeichnet. Für eine präzise und objektive
+Evaluierung sind alle Kriterien durch einen Zahlenwert definiert. Dieser
+Zahlenwert geht direkt aus Berechnungen vom Computerprogramm hervor. Die
+Kriterien und ihre jeweilige Berechnung sind nachfolgend beschrieben.
 
 \subsection{Erkennbarkeit}
 \label{sub:m_eval_rec}
@@ -135,30 +137,28 @@ Vier, hat das Kriterium den Wert $0$
 Welches Motiv in der Zeichnung erkannt wird, ist durch eine zweite künstliche
 Intelligenz bestimmt. Diese künstliche Intelligenz beurteilt ein Motiv nur als
 erkannt, wenn das zugehörige Neuron im Output des neuronalen Netzen einen Wert
-von über $0.9$ hat. Das entspricht einer hohen Wahrscheinlichkeit zur korrekten
-Beurteilung.
+von über $0.9$ hat. Das entspricht mit einer hohen  Wahrscheinlichkeit der
+korrekten Beurteilung.
 
-Für die verschiedenene Arten von Strichbildern, die die künsltiche Intelligenz
-zeichnen soll, existieren vortrainierte Modelle von neuronalen Netzen. Die
-vortrainierten Modelle, die in dieser Arbeit verwendet wurden sind in der
-Tabelle ... ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die
-in der Testumgebung dieser Arbeit (siehe auswertung) als Vorlage zum Abzeichnen
-dienen. %TODO ref
-
+Um die verschiedenene Arten von Strichbildern, die die KI
+zeichnen soll, zu erkennen, existieren vortrainierte Machine Learning Modelle. 
+Die in dieser Arbeit implementierten vortrainierten Modelle sind in der Tabelle
+{...} ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die in der
+Testumgebung (siehe \nameref{sub:m_auswert_test}) als Vorlage zum Abzeichnen
+dienen.
 
 %todo Tabelle
 Tabelle:
 Art       |       Entwickler      |     Trainiert mit     |      Genauigkeit 
-
 Zahlen  
 Buchstaben
 Strichbilder von Objekten
 
-Dieses Kriterium ist in der Fragestellung dieser Untersuchung angedeutet. Die
-Frage kann bejaht werden, wenn die künstliche Intelligenz (ein automatisches
-System) dieses Kriterium der Erkennbarkeit konsequet erfüllt. Es gibt aber noch
-weitere Kriterien, die andere Facetten der Leistung der künstlichen Intelligenz
-betreffen.
+Dieses Kriterium ist in der Fragestellung (siehe \nameref{chap:einleit})
+angedeutet. Die Antwort auf die Frage fällt positiv aus, wenn die KI dieses
+Kriterium der Erkennbarkeit konsequet erfüllt. Neben der Erkennbarkeit
+existieren weitere Kriterien, die andere Aspekte der Leistung der künstlichen
+Intelligenz betreffen.
 
 \subsection{Prozentuale Übereinstimmung}
 \label{sub:m_eval_proc}
@@ -177,22 +177,23 @@ Vorlage und in der Zeichenfläche weiss ist, erhöht sich diese Anzahl um Eins.
 Wenn in der Zeichenfläche ein weisser Pixel gezeichnet ist, der in der Vorlage
 schwarz ist, sinkt die Anzahl um Eins. $G(t)$ und somit auch $K(t)$ können
 dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
-einer Genauigkeit von $100\%$ entspricht.
+einer Genauigkeit von $100\%$ entspricht (siehe autoref{über Pixel}).
+
+%todo bild übereinstimmende Pixel
 
 \subsection{Geschwindigkeit}
 \label{sub:m_eval_speed}
-Dieses Kriterium beschreibt, wie schnell die Zeichnung der künstlichen
-Intelligenz fertig ist. Der Wert dieses Kriteriums entspricht der Anzahl Steps,
-die die künstliche Intelligenz macht, bis die Zeichnung fertig ist. Eine
-kleinere Anzahl Steps entspricht einer schnelleren Fertigstellung der Zeichnung
-und somit einer besseren Leistung nach diesem Kriterium
+Dieses Kriterium beschreibt, wie schnell die Zeichnung der KI fertig ist. Der
+Wert dieses Kriteriums entspricht der Anzahl Steps bis zur Fertigstellung der
+Zeichnung. Eine kleinere Anzahl Steps entspricht einer schnelleren Fertigstellung
+der Zeichnung und somit einer besseren Leistung nach diesem Kriterium.
 
-Eine Zeichnung gilt als fertig, wenn die prozentuale Übereinstimmung (siehe proz
-Übereinstimmung) mindestens 70\% beträgt und die Zahl nach der Definition (siehe
-erkennbarkeit) erkannt wird. Wenn die Zeichnung bis zum Ende die Bedingungen
-einer fertigen Zeichnung nicht erfüllt, hat dieses Kriterium den Wert $64$. Das
-entspricht der maximalen Anzahl Steps, die die künstliche Intelligenz für eine
-Zeichnung begeht.
+Eine Zeichnung gilt als fertig, wenn die prozentuale Übereinstimmung (siehe
+\nameref{sub:m_eval_proc}) mindestens $70\%$ beträgt und die Zahl der Definition
+entsprechend erkannt wird (siehe \nameref{sub:m_eval_rec}). Wenn die Zeichnung
+bis zum Ende der Episode die Bedingungen einer fertigen Zeichnung nicht erfüllt,
+hat dieses Kriterium den Wert $64$. Das entspricht der maximalen Anzahl Steps,
+die von der KI pro Zeichnung begangen werden.
 
 
 \section{Variationen}
@@ -417,18 +418,24 @@ Erstens trainiert die künstliche Intelligenz in der Testumgebung nicht. Die
 Testumgebung übernimmt eine trainierte künstliche Intelligenz und verändert
 diese während dem Test nicht. Zweitens wählt der Agent in keinem Fall mehr eine
 zufälligen Aktion. Stattdessen wählt er immer die Aktion mit dem höchsten
-Q-Value (gleichbedeutend mit $\epsilon = 0$). Der Dritte Unterschied liegt in den Strichbildern, die
-für die künstliche Intelligenz als Vorlage dienen. Im Test zeichnet das
-Computerprogramm $1040$ Bilder aus einem der drei zur Verfügung stehenden
-Datensets. Am Ende jeder Episode (d.h jeder Zeichnung) wird der Zahlenwert für
-die verschiedenen Kriterien nach ihrer Definition ausgewertet und gespeichert.
-Der Durchschnitt aller gespeicherten Werte eines Kriteriums entspricht der
-Leistung der getesteten Variation in diesem Kriterium. Das Kriterium der
-Erkennbarkeit verwendet zur Auswertung je nach dem verwendeten Datenset im Test,
-dasjenige vortrainierte Modell, das auf dem selben Datenset trainiert ist. Da
-das Kriterium der Erkennbarkeit jeweils den Wert $0$ oder $1$ hat, ergibt der
-Durchschnitt aus allen Werten eine prozentuale Angabe (in Dezimalform) darüber,
-in wie vielen Fällen das richtige Motiv erkannt wird.
+Q-Value (gleichbedeutend mit $\epsilon = 0$). Der Dritte Unterschied liegt in
+den Strichbildern, die für die künstliche Intelligenz als Vorlage dienen. Im
+Test zeichnet das Computerprogramm $1040$ Bilder aus einem der drei zur
+Verfügung stehenden Datensets. 
+
+Am Ende jeder Episode (d.h jeder Zeichnung) wird der Zahlenwert für die
+verschiedenen Kriterien nach ihrer Definition ausgewertet und gespeichert. Die
+KI zeichnet auch in der Testumgebung für $64$ Steps. Wenn eine Zeichnung der
+Definition entsprechend früher fertig ist (siehe \nameref{sub:m_eval_speed}),
+wird die Anzahl Steps zu diesem Zeitpunkt als Wert des Kriteriums der
+Geschwindigkeit gespeichert und die KI zeichnet weiter. Der Durchschnitt aller
+gespeicherten Werte eines Kriteriums entspricht der Leistung der getesteten
+Variation in diesem Kriterium. Das Kriterium der Erkennbarkeit verwendet zur
+Auswertung je nach dem verwendeten Datenset im Test, dasjenige vortrainierte
+Modell, das auf dem selben Datenset trainiert ist. Da das Kriterium der
+Erkennbarkeit jeweils den Wert $0$ oder $1$ hat, ergibt der Durchschnitt aus
+allen Werten eine prozentuale Angabe (in Dezimalform) darüber, in wie vielen
+Fällen das richtige Motiv erkannt wird.
 
 
 
