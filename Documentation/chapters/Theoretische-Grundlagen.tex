@@ -344,14 +344,15 @@ beschreibt die Position des Agents durch seine relative Entfernung zu jedem
 Punkt auf der Zeichenfläche. Das vierte Bild beschreibt, ob der Agent im
 zeichnenden Zustand ist oder nicht. Wenn alle Pixel dieses letzten Bildes den
 Wert $1$ haben, ist der Agent im zeichnenden Zustand. Wenn umgekehrt alle Pixel
-den Wert $0$ haben, ist der Agent nicht im zeichnenden Zustand. 
-Der Local Stream hat eine Form von $11\times11\times2$. Er ist somit auch
-dreidimensional und beschreibt zwei gestapelte Bilder. Das erste Bild umfasst
-die Vorlage in dem $11\times11$ Bereich, in dem sich der Agent in einem Schritt
-bewegen kann. Das zweite Bild beschreibt den selben Bereich von der
-Zeichenfläche [Dood s.4 f.]. Der global Stream und der Local Stream werden durch
-eine Concatenation Layer zusammengeführt. Die genaue Architektur des neuronalen
-Netzes ist im Schema (autoref{dood architecture}) ersichtlich.  
+den Wert $0$ haben, ist der Agent nicht im zeichnenden Zustand. Der Local Stream
+hat eine Form von $11\times11\times2$. Er ist somit auch dreidimensional und
+beschreibt zwei gestapelte Bilder. Das erste Bild umfasst die Vorlage in dem
+$11\times11$ Bereich (bezeichnet als Local image patch [dood s.5]), in dem sich
+der Agent in einem Schritt bewegen kann. Das zweite Bild beschreibt den selben
+Bereich von der Zeichenfläche [Dood s.4 f.]. Der global Stream und der Local
+Stream werden durch eine Concatenation Layer zusammengeführt. Die genaue
+Architektur des neuronalen Netzes ist im Schema (autoref{dood architecture})
+ersichtlich.  
 
 %todo bild toodle Architektur
 
