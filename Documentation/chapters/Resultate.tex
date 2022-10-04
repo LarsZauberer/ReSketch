@@ -1,55 +1,55 @@
 \chapter{Resultate}
 Die Resultate bestehen aus drei Tabellen. Jede Tabelle beschreibt die Leistung
-der acht Versionen {siehe methode Variationen}, bezogen auf die drei definierten
-Kriterien {siehe methode Evaluation der Leistung}. Die Daten in den Tabellen
-stammen aus den Tests der künstlichen Intelligenz {siehe methode. Auswertung}
-Der unterschied in den Tabellen liegt im Datenset, mit denen die Versionen der
-künstlichen Intelligenz jeweils getestet sind. 
+der acht Versionen (siehe \nameref{chap:m_var), bezogen auf die drei definierten
+Kriterien (siehe \nameref{chap:m_eval}). Die Daten in den Tabellen
+stammen aus den Tests der KI (siehe \nameref{chap:m_auswert})
+Der Unterschied in den Tabellen liegt im Datenset, mit denen die Versionen der
+KI jeweils getestet sind. 
 Eine Sammlung von gezeichneten Strichbildern ergänzt die Resultate. Die
 Strichbilder sind dabei jeweils in Paaren angeordnet. Das linke Bild im Paar
 zeigt die Vorlage aus dem Datenset und das rechte Bild zeigt die nachgezeichnete
-Variante von der künstlichen Intelligenz. Die Zeichnungen, die in der Sammlung
+Variante von der KI. Die Zeichnungen, die in der Sammlung
 vertreten sind, sind zufällig ausgewählt aus dem Test der jeweiligen Version der
-künstlichen Intelligenz. Die Bilder haben einen Farbverlauf, der den zeitliche
+KI. Die Bilder haben einen Farbverlauf, der den zeitliche
 Verlauf des Zeichnens dargestellt. Die Helligkeit eines Striches ist
-proportional zu dem Step, in dem dieser gezeichnet wird. Das bedeutet, dass
+proportional zu dem Step, in dem dieser gezeichnet wurde. Das bedeutet, dass
 dunklere Striche früher gezeichnet werden als hellere Striche. Bewegungen des
-Agenten, in denen dieser nicht zeichnet, sind in den Bildern nicht erkennbar.
+Agents, in denen dieser nicht zeichnet, sind in den Bildern nicht erkennbar.
 
 \newpage
 \section{Tabellen}
 \begin{table}[!ht]
     \centering
-    \caption{Testen auf MNIST-Datenset | 2000 Tests}
+    \caption{Testen auf MNIST Datenset | 2000 Tests}
     \begin{tabular}{|l|l|l|l|}
         \hline
-            ~ & Genauigkeit \% & Mnist-Erkennung \% & Geschwindigkeit \\ \hline
-            Base-Base & 0.865 & 0.866 & 24.477 \\ \hline
-            Base-Mnist & 0.668 & 0.643 & 51.237 \\ \hline
-            Base-Speed & 0.862 & 0.866 & 25.504 \\ \hline
-            Base-Mnist-Speed & 0.614 & 0.551 & 56.778 \\ \hline
-            Physics-Base & 0.564 & 0.464 & 62.535 \\ \hline
-            Physics-Mnist & 0.384 & 0.357 & 63.908 \\ \hline
-            Physics-Speed & 0.63 & 0.582 & 61.217 \\ \hline
-            Physics-Mnist-Speed & 0.292 & 0.273 & 63.7 \\ \hline
+            ~ & Genauigkeit \% & MNIST-Erkennung \% & Geschwindigkeit \\ \hline
+            Grund-Basis & 0.865 & 0.866 & 24.477 \\ \hline
+            Grund-MNIST & 0.668 & 0.643 & 51.237 \\ \hline
+            Grund-Speed & 0.862 & 0.866 & 25.504 \\ \hline
+            Grund-MNIST-Speed & 0.614 & 0.551 & 56.778 \\ \hline
+            Physik-Basis & 0.564 & 0.464 & 62.535 \\ \hline
+            Physik-MNIST & 0.384 & 0.357 & 63.908 \\ \hline
+            Physik-Speed & 0.63 & 0.582 & 61.217 \\ \hline
+            Physik-MNIST-Speed & 0.292 & 0.273 & 63.7 \\ \hline
         \end{tabular}
     \label{tab:MNIST}
 \end{table}
 
 \begin{table}[!ht]
     \centering
-    \caption{Testen auf EMNIST-Datenset | 2000 Tests}
+    \caption{Testen auf EMNIST Datenset | 2000 Tests}
     \begin{tabular}{|l|l|l|l|}
     \hline
         ~ & Genauigkeit \% & Emnist-Erkennung \% & Geschwindigkeit \\ \hline
-        Base-Base & 0.868 & 0.745 & 38.16 \\ \hline
-        Base-Mnist & 0.652 & 0.45 & 57.367 \\ \hline
-        Base-Speed & 0.878 & 0.77 & 37.671 \\ \hline
-        Base-Mnist-Speed & 0.622 & 0.4 & 60.892 \\ \hline
-        Physics-Base & 0.576 & 0.324 & 63.547 \\ \hline
-        Physics-Mnist & 0.433 & 0.236 & 63.948 \\ \hline
-        Physics-Speed & 0.563 & 0.35 & 63.569 \\ \hline
-        Physics-Mnist-Speed & 0.302 & 0.139 & 63.984 \\ \hline
+        Grund-Basis & 0.868 & 0.745 & 38.16 \\ \hline
+        Grund-MNIST & 0.652 & 0.45 & 57.367 \\ \hline
+        Grund-Speed & 0.878 & 0.77 & 37.671 \\ \hline
+        Grund-MNIST-Speed & 0.622 & 0.4 & 60.892 \\ \hline
+        Physik-Basis & 0.576 & 0.324 & 63.547 \\ \hline
+        Physik-MNIST & 0.433 & 0.236 & 63.948 \\ \hline
+        Physik-Speed & 0.563 & 0.35 & 63.569 \\ \hline
+        Physik-MNIST-Speed & 0.302 & 0.139 & 63.984 \\ \hline
     \end{tabular}
     \label{tab:EMNIST}
 \end{table}
@@ -60,14 +60,14 @@ Agenten, in denen dieser nicht zeichnet, sind in den Bildern nicht erkennbar.
     \begin{tabular}{|l|l|l|l|}
     \hline
         ~ & Genauigkeit \% & Quickdraw-Erkennung \% & Geschwindigkeit \\ \hline
-        Base-Base & 0.791 & 0.805 & 39.142 \\ \hline
-        Base-Mnist & 0.573 & 0.625 & 59.944 \\ \hline
-        Base-Speed & 0.795 & 0.822 & 39.971 \\ \hline
-        Base-Mnist-Speed & 0.549 & 0.589 & 62.458 \\ \hline
-        Physics-Base & 0.481 & 0.557 & 63.764 \\ \hline
-        Physics-Mnist & 0.305 & 0.389 & 63.962 \\ \hline
-        Physics-Speed & 0.5 & 0.583 & 63.638 \\ \hline
-        Physics-Mnist-Speed & 0.224 & 0.311 & 64 \\ \hline
+        Grund-Basis & 0.791 & 0.805 & 39.142 \\ \hline
+        Grund-MNIST & 0.573 & 0.625 & 59.944 \\ \hline
+        Grund-Speed & 0.795 & 0.822 & 39.971 \\ \hline
+        Grund-MNIST-Speed & 0.549 & 0.589 & 62.458 \\ \hline
+        Physik-Basis & 0.481 & 0.557 & 63.764 \\ \hline
+        Physik-MNIST & 0.305 & 0.389 & 63.962 \\ \hline
+        Physik-Speed & 0.5 & 0.583 & 63.638 \\ \hline
+        Physik-MNIST-Speed & 0.224 & 0.311 & 64 \\ \hline
     \end{tabular}
     \label{tab:Quickdraw}
 \end{table}
