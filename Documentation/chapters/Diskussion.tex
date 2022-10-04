@@ -1,15 +1,19 @@
 \chapter{Diskussion}
-Die Diskussion analyisiert die Resultate der Methode, um daraus eine Antwort auf
-die Fragestellung zu bilden. Die Resultate, die Methode und auch die
-Fragestellung selbst sind komplex, weswegen die Analyse in mehrere Glieder
-geteilt ist. Auf ein paar allgemeine Feststellungen folgen die Antworten auf die
-Unterfragen. Diese Antworten ermöglichen schlussendlich eine abschliessende
-Antwort auf die Fragestellung. Darauf folgt ein Fazit, ein Ausblick und eine
-Selbstreflexion. Grundsätzlich verschiebt sich dabei der Fokus von der
-Fragestellung auf eine allgemeinere Betrachtung der Arbeit.
+Die Diskussion analyisiert die Resultate der Methode (siehe \nameref{chap:m}), um daraus eine Antwort auf
+die Fragestellung zu bilden. Zu diesem Zweck werden einige allgemeine
+Feststellungen getroffen und die Unterfragen beantworten. Im zweiten Teil der
+Diskussion folgt ein Fazit, ein Ausblick und eine Selbstreflexion. Dabei
+verschiebt sich der Fokus von der Fragestellung weg und auf eine allgemeinere
+Betrachtung der Arbeit.
+
 
 \section{Fragestellung und Unterfragen}
 - Allgemeine Festellungen
+
+Anzumerken ist, dass der
+Wert der Erkennbarkeit in allen Versionen für das EMNIST Datenset schlechter ist
+als für die restlichen Datensets. Das hängt allerdings vermutlich mit der künstlichen Intelligenz zusammen, die die EMNIST Buchstaben erkennt, und nicht mit 
+
 
 \subsection{Beantwortung der Unterfragen}
 Insgesamt sechs Unterfragen werden beantwortet {siehe Einleitung}. Diese
@@ -54,6 +58,22 @@ zwischen nachgezeichneten Bildern aus der Grundversion und der physikalischen Ve
 folgenden Aussagen:
 
 \subsubsection*{Wie ändert sich die Leistung der KI bei Strichbildern, die sich von den Trainingsdaten unterscheidenn}
+In allen acht Versionen bleibt die Leistung der KI zwischen den drei Datensets
+(siehe \autoref{tab:datasets}) vergleichbar. Die Tabellen {...} und {...} Zeigen
+die Leistung der Grund-Basis Version und der Physik-Basis Version in den drei
+definierten Kriterien, getestet auf die drei Datensets. Der Wert der
+Übereinstimmung zwischen dem MNIST Datenset und dem EMNIST Datenset ist beinahe
+identisch. Für beide Versionen ist der Wert der Übereinstimmung für das
+QuickDraw Datenset niedriger. Insgesamt ist die KI in diesem Kriterium jedoch
+kaum Beeinflusst durch die Wahl des Datensets. Die Analyse der anderen zwei
+Kriterien führt zu einer ähnlichen Schlussfolgerung. Interessant ist, dass vor
+allem die Grund-Basis Version eine viel höhere Geschwindigkeit im Zeichnen von
+MNIST Zahlen hat, als im Zeichnen von EMNIST Buchstaben. Obwohl die Formen zu
+grossem Teil ähnlich sind, scheint die KI durch das spezifische Training auf
+MNIST Ziffern eine höhere Geschwindigkeit zu entwickeln. 
+
+
+
 - Wieso sind einige Versionen besser als andere %Todo
 
 \subsubsection*{Inwiefern lässt sich das Zeichnen der KI mit menschlichem Zeichnen vergleichen?}
@@ -97,11 +117,15 @@ Kriterium der Erkennbarkeit bestätigen ausserdem, dass die Zeichnungen der
 künstlichen Intelligenz von einem automatischen System erkannt werden, zumindest
 in der Mehrheit der Fälle und für das Zeichnen von Ziffern.
 
-%TODO vergleich mnist, emnist, quickdraw
-Lernt die künstliche Intelligenz das Nachzeichnen von Strichbildern Allgemein?
--> Vergleich MNIST, EMNIST, QuickDraw. Durch grosse Varianz in Quickdraw kann
-die Annahme getroffen werden, die künstliche Intelligenz das Nachzeichnen von
-Strichbildern allgemein lernt.
+
+Laut der Fragestellung soll die KI das Nachzeichnen von Strichbildern erlernen.
+Damit ist implizit das Nachzeichnen von allen möglichen Arten von Strichbildern
+gemeint. Die Leistung der KI kann nicht auf alle möglichen Strichbilder
+überprüft werden, aber der Test mit drei verschiedenen Datensets ergibt
+vielversprechende Resultate. Die KI erlernt erfolgreich das Nachzeichnen von
+Ziffern, Kleinbuchstaben und zehn zufälligen Motiven aus dem QuickDraw Datenset.
+Durch die Vielfalt im QuickDraw Datenset kann die Annahme getroffen werden, dass
+die KI zumindest einen grossen Teil an Strichbildern nachzeichnen kann. 
 
 Die zusammenfassende Antwort auf die Frage lautet somit: Eine künstliche
 Intelligenz kann das Nachzeichnen von Strichbildern auf annähernd physiche Weise
@@ -130,8 +154,9 @@ derartige Wahrnehmung, wodurch sich dessen Bewegungen im Vergleich zu einem
 Menschen stark unterscheiden. {siehe vergleich menschliches Zeichnen}.
 Kriterien, die sich auf diesen menschlichen Aspekt des Nachzeichnens beziehen
 wären eine mögliche Weiterführung dieser Arbeit. Dabei stellt sich allerdings
-die Frage, wie die künstliche Intelligenz die Leistung dieser teilweise
-subjektiven Kriterien maximieren kann.
+die Frage, wie die künstliche Intelligenz die Leistung eines subjektiven
+Kriteriums maximieren kann.
+
 
 Die physichen Rahmenbedingungen unterscheiden sich von denjenigen, die ein
 Mensch erfährt. Das kommt daher, dass die phyischen Rahmenbedingungen im Falle
@@ -140,11 +165,11 @@ umfassende Antwort auf die Frage, ob die künstliche Intelligenz auf eine
 physische Weise zeichnet. Dieses Problem könnte mit einem Roboter gelöst werden,
 der die künstliche Intelligenz in eine reale, phyische Umgebung überführt. Der
 Roboter könnte somit verschiedenste Strichbilder auf einem echten Stück Papier,
-und somit zwangsläufig auf physische Weise nachzeichnen. 
-Aktuell sind die Bewegungen der künstlichen Intelligenz in gewissen Belangen
-eingeschränkt. So ist beispielsweise die Druckstärke nicht variiierbar. Ausserdem
-zeichnet die künstliche Intelligenz vorwiegend kleine Strichbilder. Experimente
-mit grösseren Konstrukten, wie ganze Wörter, wären eine mögliche Variation.
+und somit zwangsläufig auf physische Weise nachzeichnen. Aktuell sind die
+Bewegungen der künstlichen Intelligenz in gewissen Belangen eingeschränkt. So
+ist beispielsweise die Druckstärke nicht variiierbar. Ausserdem zeichnet die
+künstliche Intelligenz vorwiegend kleine Strichbilder. Experimente mit grösseren
+Konstrukten, wie ganze Wörter, wären eine mögliche Erweiterung. 
 
 Alles in allem sind eine Vielzahl an denkbaren Fragen und Ideen möglich, die auf
 ReSketch, der künstlichen Intelligenz hinter dieser Arbeit, basieren.
@@ -202,9 +227,9 @@ Intelligenz zu beurteilen. Das geschieht mittels den Kriterien, die für diesen
 Zweck definiert sind {siehe Kriterien}. Die Kriterien sind dabei so definiert,
 dass sie für jede mögliche Variation gleich gemessen werden. Der durchnittliche
 akkumulierte Reward wird Beispielsweise bewusst nicht als Kriterium verwendet.
-Der akkumulierte Reward {siehe Theorie reinf} ist abhängig von der Reward-Function und unterscheidet
-sich somit zwischen Variationen. Dieser ist somit nicht für einen Vergleich
-zwischen Variationen geeignet.
+Der akkumulierte Reward {siehe Theorie reinf} ist abhängig von der
+Reward-Function und unterscheidet sich somit zwischen Variationen. Dieser ist
+somit nicht für einen Vergleich zwischen Variationen geeignet.
 
 Einzelne Variationen vergleichbar zu halten ist ein allgemeines Ziel der
 Analyse. Deswegen basieren alle Variationen auf der gleichen Architektur der
