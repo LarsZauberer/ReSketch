@@ -51,13 +51,15 @@ Optimierung der Hyperparamter durch den Baysian Algorithmus. Zum Beispiel
 hat die Grösse des Replay Buffers einen erheblichen Effekt auf die Leistung.
 
 \subsubsection*{Welche Einflüsse haben Physiksimulationen auf die Leistung der KI?}
-Bezogen auf die definierten Kriterien verschlechtert sich die Leistung. Die
-Implementierung von Physiksimulationen definiert die Rahemenbedingungen des
-Nachzeichnens neu und stellt den Versuch dar, die Bewegungen realistischer zu
+Bezogen auf die definierten Kriterien verschlechtert sich die Leistung der KI.
+Alle Versionen, die auf der Grundumgebung basieren, erzielen höhere Werte als
+die gleichen Versionen basierend auf der phyiskalischen Umgebung. Die
+physikalische Umgebung hat zum Ziel, die Bewegungen der KI realistischer zu
 gestalten. In diesem Bereich kann der Einfluss nicht objektiv bestimmt werden,
-da er nicht aus den Zahlenwerten der Kriterien hervorgeht. Der Vergleich
-zwischen nachgezeichneten Bildern aus der Grundversion und der physikalischen Version führt zu
-folgenden Aussagen:
+da er nicht aus den Zahlenwerten der Kriterien hervorgeht. Aus Beobachtungen der
+Bilder, welche in der physikalischen Umgebung gezeichnet sind, gehen ebenfalls
+keine Erkenntnisse in diesem Bereich hervor. Die Bilder unterscheiden sich kaum
+von denjenigen aus der Grundumgebung.
 
 \subsubsection*{Wie ändert sich die Leistung der KI bei Strichbildern, die sich von den Trainingsdaten unterscheidenn}
 In allen acht Versionen bleibt die Leistung der KI zwischen den drei Datensets
@@ -75,8 +77,6 @@ grossem Teil ähnlich sind, scheint die KI durch das spezifische Training auf
 MNIST Ziffern eine höhere Geschwindigkeit zu entwickeln. 
 
 
-
-- Wieso sind einige Versionen besser als andere %Todo
 
 \subsubsection*{Inwiefern lässt sich das Zeichnen der KI mit menschlichem Zeichnen vergleichen?}
 Die Antwort auf diese Frage leitet sich nicht aus den objektiven Resultaten
