@@ -135,19 +135,20 @@ Wert $1$. Wird in der Vorlage eine Fünf erkannt, aber in der Zeichnung eine
 Vier, hat das Kriterium den Wert $0$
 
 Welches Motiv in der Zeichnung erkannt wird, ist durch eine zweite künstliche
-Intelligenz bestimmt (siehe \nameref{sub:t_ml_func}). Diese künstliche
-Intelligenz beurteilt ein Motiv nur als erkannt, wenn das zugehörige Neuron im
-Output des neuronalen Netzen einen Wert von über $0.75$ hat. Das entspricht mit
-einer hohen Wahrscheinlichkeit der korrekten Beurteilung.
+Intelligenz bestimmt (siehe \nameref{sub:t_ml_func}). Diese zweite KI beurteilt
+ein Motiv nur als erkannt, wenn das zugehörige Neuron im Output des neuronalen
+Netzen einen Wert von über $0.75$ hat. Das entspricht mit einer hohen
+Wahrscheinlichkeit der korrekten Beurteilung.
 
 Um die verschiedenene Arten von Strichbildern, die die KI zeichnen soll, zu
 erkennen, existieren vortrainierte Machine Learning Modelle. Die in dieser
 Arbeit implementierten vortrainierten Modelle sind in der Tabelle {...}
 ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die in der
-Testumgebung (siehe \nameref{sub:m_auswert_test}) als Vorlage zum Abzeichnen
+Testumgebung (siehe \nameref{sub:m_auswert}) als Vorlage zum Abzeichnen
 dienen.
 
 %todo Tabelle
+\label{tab:Datasets}
 Tabelle:
 Art       |       Entwickler      |     Trainiert mit     |      Genauigkeit 
 Zahlen  
@@ -273,7 +274,7 @@ ausser vor.
 
 Die Reward-Function (siehe \nameref{sub:t_rl_func}) dieser Variation beinhaltet
 eine zweite KI, die handgeschriebene Ziffern erkennt (siehe
-\nameref{sub:m_eval_rec}). Diese zweite KI beurteilt in jedem Step, welche
+\autoref{tab:Datasets}). Diese zweite KI beurteilt in jedem Step, welche
 Ziffern sie in der Vorlage und in der aktuellen  %TODO Code präzision
 Zeichnung erkennt. Wenn die erkannte Zahl in der Vorlage und der Zeichnung
 gleich ist, erhält der Agent einen Reward von $0.1$. In diesem Zustand
@@ -320,9 +321,9 @@ der Erkennbarkeit zu profitieren
 
 \subsection{Physikalische Umgebung}
 \label{sub:m_var_phy}
-Diese Variation spezialisiert sich auf kein Kriterium. Stattdessen verändert sie
-die Umgebung, in der sich der Agent bewegt (siehe \nameref{sub:t_rl_func}). Auch
-der Input und der Output des neuronalen Netzes sind angepasst. Durch diese
+Diese Variation spezialisiert sich auf kein Kriterium. Stattdessen verändert
+sich die Umgebung, in der sich der Agent bewegt (siehe \nameref{sub:t_rl_func}).
+Auch der Input und der Output des neuronalen Netzes sind angepasst. Durch diese
 Veränderungen unterscheidet sich die Variation vom Grundprogramm. Sie bleibt
 allerdings mit den anderen Variationen (siehe \nameref{sub:m_var_rec} und
 \nameref{sub:m_var_speed}) kompatibel, Da diese ausschliesslich die
@@ -403,63 +404,80 @@ aus. Der negative Reward soll die Häufigkeit dieser Vorfälle vermindern
 \label{chap:m_auswert}
 Die Auswertung der Daten über die Leistung der künstlichen Intelligenz liefert
 das Resultat der Methode. Die Auswertung berechnet den Zahlenwert der
-definierten Kriterien für verschiedene Variationen der künstlichen Intelligenz.
+definierten Kriterien (siehe \nameref{chap:m_eval}) für verschiedene Variationen
+der KI.
 
 Die Variationen werden auf ihre Leistung für drei verschiedene Datensets
 überprüft. Die drei Datensets beinhalten verschiedene Arten von handgemachten
-Strichbildern Das erste Datenset, MNIST (mnist ref),  beeinhaltet Ziffern, die
-in den Trainingsdaten nicht vorkommen. Das zweite Datenset, EMNIST letters
-(emnist ref), beeinhaltet die 26 Kleinbuchstaben des Alphabets. Das dritte
-Datenset, QuickDraw (quickdraw ref), beeinhaltet Zeichnungen von insgesamt 345
-verschiedenen Motiven. die Variationen werden allerdings nur auf das
-Nachzeichnen von zehn Motiven überprüft. Die zehn Motive sind: `Amboss',
-`Apfel', `Besen', `Eimer', `Bulldozer', `Uhr', `Wolke', `Computer', `Auge' und
-`Blume'. Die Bilder in den drei Datensets sind gleich verarbeitet wie die
-Trainingsdaten (siehe Prep daten). 
+Strichbildern. (siehe \autoref{tab:Datasets}) Das erste Datenset, MNIST,
+beeinhaltet Ziffern, die in den Trainingsdaten nicht vorkommen. Das zweite
+Datenset, EMNIST Letters, beeinhaltet die 26 Kleinbuchstaben des Alphabets. Das
+dritte Datenset, QuickDraw, beeinhaltet Zeichnungen von insgesamt 345
+verschiedenen Motiven. Die KI wird allerdings nur auf das Nachzeichnen von zehn
+Motiven überprüft. Die zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer',
+`Bulldozer', `Uhr', `Wolke', `Computer', `Auge' und `Blume' (siehe
+autoref{Dataset images} für Beispiele aus den Datensets). Die Bilder in den
+drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
+\nameref{sub:m_grund_data}). 
 
-Folgende Variationen der künstlichen Intelligenz werden ausgewertet:
+%todo Bild images dataset
 
+
+Die Variationen (siehe \nameref{chap:m_var}) der KI umfassen zwei Umgebungen und
+drei Reward-Functions \nameref{sub:t_rl_func}. Für jede Variation ist zur
+Vereinfachung eine Abkürzung definiert.
 \begin{itemize}
-  \item Grundumgebung + Basis Reward Functin
-  \item Grundumgebung + Erkennbarkeit
-  \item Grundumgebung + Geschwindigkeit
-  \item Grundumgebung + Erkennbarkeit + Geschwindigkeit
-  \item physikalische Umgebung + Basis Reward Functin
-  \item physikalische Umgebung + Erkennbarkeit
-  \item physikalische Umgebung + Geschwindigkeit
-  \item physikalische Umgebung + Erkennbarkeit + Geschwindigkeit
+  \item \nameref{chap:m_grund} Umgebung: Grund
+  \item \nameref{sub:m_var_phy}: Physik
+  \item \nameref{sub:m_var_rec}: Basis
+  \item \nameref{sub:m_var_speed}: Speed
+  \item \nameref{sub:m_var_rec} (von MNIST Ziffern): MNIST
 \end{itemize}
 
-%Bild von Quickdraw
+Die folgenden Kombinationen an Variationen der künstlichen Intelligenz werden
+ausgewertet. 
+\begin{itemize}
+  \item Grund-Basis
+  \item Grund-MNIST
+  \item Grund-Speed
+  \item Grund-MNIST-Speed 
+  \item Physik-Basis
+  \item Physik-MNIST
+  \item Physik-Speed
+  \item Physik-MNIST-Speed
+\end{itemize}
+
+
 
 \subsection{Testumgebung}
 \label{sub:m_auswert_test}
 
 Die Leistungen der verschiedenen Variationen der künstlichen Intelligenz werden
-in einem Test, in einer Testumgebung ausgewertet. Die Testumgebung unterscheidet
-sich kaum von der Trainingsumgebung. Es gibt im Wesentlichen drei Unterschiede.
-Erstens trainiert die künstliche Intelligenz in der Testumgebung nicht. Die
-Testumgebung übernimmt eine trainierte künstliche Intelligenz und verändert
-diese während dem Test nicht. Zweitens wählt der Agent in keinem Fall mehr eine
-zufälligen Aktion. Stattdessen wählt er immer die Aktion mit dem höchsten
-Q-Value (gleichbedeutend mit $\epsilon = 0$). Der Dritte Unterschied liegt in
-den Strichbildern, die für die künstliche Intelligenz als Vorlage dienen. Im
-Test zeichnet das Computerprogramm $1040$ Bilder aus einem der drei zur
-Verfügung stehenden Datensets. 
+in einer Testumgebung (siehe \nameref{sub:t_ml_func}) ausgewertet. zwischen der
+Trainingsumgebung und der Testumgebung sind drei relevante Unterschiede
+erkennbar. Erstens
+trainiert die KI in der Testumgebung nicht. Die Testumgebung
+übernimmt eine trainierte Version der KI und verändert diese während dem
+Test nicht. Zweitens wählt der Agent in keinem Fall mehr eine zufällige Action.
+Stattdessen wählt er immer die Action mit dem höchsten Q-Value (gleichbedeutend
+mit $\epsilon = 0$) (siehe \nameref{sub:t_rl_func}). Der Dritte Unterschied liegt in den Strichbildern, die für
+die künstliche Intelligenz als Vorlage dienen. Im Test zeichnet das
+Computerprogramm $2000$ Bilder aus einem der drei zur Verfügung stehenden
+Datensets (siehe \autoref{tab:datasets}). 
 
-Am Ende jeder Episode (d.h jeder Zeichnung) wird der Zahlenwert für die
-verschiedenen Kriterien nach ihrer Definition ausgewertet und gespeichert. Die
-KI zeichnet auch in der Testumgebung für $64$ Steps. Wenn eine Zeichnung der
-Definition entsprechend früher fertig ist (siehe \nameref{sub:m_eval_speed}),
-wird die Anzahl Steps zu diesem Zeitpunkt als Wert des Kriteriums der
-Geschwindigkeit gespeichert und die KI zeichnet weiter. Der Durchschnitt aller
-gespeicherten Werte eines Kriteriums entspricht der Leistung der getesteten
-Variation in diesem Kriterium. Das Kriterium der Erkennbarkeit verwendet zur
-Auswertung je nach dem verwendeten Datenset im Test, dasjenige vortrainierte
-Modell, das auf dem selben Datenset trainiert ist. Da das Kriterium der
-Erkennbarkeit jeweils den Wert $0$ oder $1$ hat, ergibt der Durchschnitt aus
-allen Werten eine prozentuale Angabe (in Dezimalform) darüber, in wie vielen
-Fällen das richtige Motiv erkannt wird.
+Am Ende jeder Episode (das heisst jeder Zeichnung), wird der Zahlenwert für die
+verschiedenen Kriterien (siehe \nameref{chap:m_eval}) nach ihrer Definition
+ausgewertet und gespeichert. Die KI zeichnet auch in der Testumgebung für $64$
+Steps. Wenn eine Zeichnung der Definition entsprechend früher fertig ist (siehe
+\nameref{sub:m_eval_speed}), wird die Anzahl Steps zu diesem Zeitpunkt als Wert
+des Kriteriums der Geschwindigkeit gespeichert und die KI zeichnet weiter. Der
+Durchschnitt aller gespeicherten Werte eines Kriteriums entspricht der Leistung
+der getesteten Variation in diesem Kriterium. Das Kriterium der Erkennbarkeit
+(siehe \nameref{sub:m_eval_rec}) verwendet zur Auswertung je nach dem
+verwendeten Datenset im Test, dasjenige vortrainierte Modell, das auf dem selben
+Datenset trainiert ist. Da das Kriterium der Erkennbarkeit jeweils den Wert $0$
+oder $1$ hat, ergibt der Durchschnitt aus allen Werten dieses Kriteriums eine prozentuale Angabe
+(in Dezimalform) darüber, in wie vielen Fällen das richtige Motiv erkannt wird.
 
 
 
