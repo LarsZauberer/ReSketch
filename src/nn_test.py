@@ -173,7 +173,7 @@ class Test_NN():
         if t_accuracy: scores.append(np.mean(accuracy_scores))
         if t_datarec: scores.append(np.mean(datarec_scores))
         if t_speed: scores.append(np.mean(speed_scores))
-        if t_vis: self.generate_image(colums=2)
+        if t_vis: self.generate_image(columns=2)
                 
         return scores
 
@@ -196,42 +196,47 @@ class Test_NN():
         return (np.argmax(ref[0]), np.argmax(canv[0]))
 
 
-    def generate_image(self, colums=2):
+    def generate_image(self, columns=2):
         num = len(self.images)
-        rows = int(num/colums)
+        rows = int(num/columns)
         
         labeled = 0
 
         fig = plt.figure(figsize=(10., 10.))
         grid = ImageGrid(fig, 111,  
-                        nrows_ncols=(rows, colums*2+1), 
+                        nrows_ncols=(rows, columns*3), 
                         axes_pad=0.1,  
                         )
 
-        interval = np.full(3, 255).reshape((1,3))
+        interval = np.full((28, 1), 255)
         sorted_images = []
         for index, item in enumerate(self.images):
             ref, canv = item
             sorted_images.append((ref.reshape((28,28)), False))
             sorted_images.append((canv.reshape((28,28)), True))
-            if index % 2 == 0: sorted_images.append(interval.copy())
+            sorted_images.append(interval.copy())
 
         for ax, im in zip(grid, sorted_images):
             # Iterating over the grid returns the Axes.
             ax.axis("off")
             if len(im) == 2:
                 ax.imshow(im[0], cmap="bone", vmin=0, vmax=255)
-                if labeled < 4:
+                if labeled < columns*2:
                     if im[1]:
                         ax.set_title("ReSketch")
                         labeled += 1
                     else:
-                        ax.set_title("Original")
+                        if labeled == 0:
+                            ax.set_title("MNIST")
+                        elif labeled == 2:
+                            ax.set_title("EMNIST")
+                        else:
+                            ax.set_title("QuickDraw")
                         labeled += 1
             else:
                 ax.imshow(im, cmap="bone", vmin=0, vmax=255)
         
-        fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="vertical", fraction=0.046, pad=0.04, label="Steps")
+        fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="horizontal", fraction=0.046, pad=0.04, label="Steps", location="bottom")
 
         plt.savefig(f"src/images/base-{self.version}-{self.dataset}.png", bbox_inches='tight')
         plt.pause(5)
@@ -286,7 +291,32 @@ if __name__ == '__main__':
     parser.add_argument("-c", "--criterion", help="The criterion to test on", action="store", type=str, default="all")
     parser.add_argument("-v", "--version", help="The version to test", action="store", type=str, default="base")
     parser.add_argument("-s", "--save", help="Save Results", action="store_true", default=False)
+    parser.add_argument("--image", help="Generate Image of all datasets", action="store_true", default=False)
     args = parser.parse_args()
+    
+    if args.image:
+        images = []
+        test = Test_NN(n_test=15, dataset="mnist", version=args.version)
+        test.test_from_loaded(agent_args=test.agent_args, mode="all")
+        images1 = test.images[:5]
+        
+        test = Test_NN(n_test=50, dataset="emnist", version=args.version)
+        test.test_from_loaded(agent_args=test.agent_args, mode="all")
+        images2 = test.images[:5]
+        
+        test = Test_NN(n_test=10, dataset="quickdraw", version=args.version)
+        test.test_from_loaded(agent_args=test.agent_args, mode="all")
+        images3 = test.images[:5]
+        
+        for i in range(5):
+            images.append(images1[i])
+            images.append(images2[i])
+            images.append(images3[i])
+        
+        print(len(images))
+        test.images = images
+        test.generate_image(columns=3)
+        exit()
 
     test = Test_NN(n_test=args.test, dataset=args.dataset, version=args.version)
     reward, accuracy, datarec, speed = test.test_from_loaded(test.agent_args, mode=args.criterion)
