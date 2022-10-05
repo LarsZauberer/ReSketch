@@ -1,18 +1,36 @@
 \chapter{Diskussion}
-Die Diskussion analyisiert die Resultate der Methode (siehe \nameref{chap:m}), um daraus eine Antwort auf
-die Fragestellung zu bilden. Zu diesem Zweck werden einige allgemeine
-Feststellungen getroffen und die Unterfragen beantworten. Im zweiten Teil der
-Diskussion folgt ein Fazit, ein Ausblick und eine Selbstreflexion. Dabei
-verschiebt sich der Fokus von der Fragestellung weg und auf eine allgemeinere
-Betrachtung der Arbeit.
+Die Diskussion analyisiert die Resultate der Methode (siehe \nameref{chap:m}),
+um daraus eine Antwort auf die Fragestellung zu bilden. Zu diesem Zweck werden
+einige allgemeine Feststellungen getroffen und die Unterfragen beantworten. Im
+zweiten Teil der Diskussion folgt ein Fazit, ein Ausblick und eine
+Selbstreflexion. Dabei verschiebt sich der Fokus von der Fragestellung weg und
+auf eine allgemeinere Betrachtung der Arbeit.
 
 
 \section{Fragestellung und Unterfragen}
-- Allgemeine Festellungen
+Die Fragestellung und den Unterfragen decken nicht alle Erkenntinne aus den
+Resultaten ab. Einige allgemeine Feststellungen geben Einblick, wie die
+Resultate zu verstehen sind. 
 
-Anzumerken ist, dass der
-Wert der Erkennbarkeit in allen Versionen für das EMNIST Datenset schlechter ist
-als für die restlichen Datensets. Das hängt allerdings vermutlich mit der künstlichen Intelligenz zusammen, die die EMNIST Buchstaben erkennt, und nicht mit 
+Die Grund-Basis Version und die Grund-Speed Version erreichen in allen Kriterien
+für alle Datensets die beste Leistung. Die Resultate zwischen den Versionen sind
+dabei fast ununterscheidbar. Vor allem im Kriterium der Geschwindigkeit zeigt
+die Speed Variation keine Verbesserung. Unter den Versionen, die auf der
+physikalischen Umgebung basieren, erreichen Ebenfalls die Physik-Basis und die
+Phyisk-Speed Versionen die beste Leistung. Die Grund-MNIST Version und die
+Physik-MNIST Version sind in allen Kriterien schlechter als die Basis und Speed
+Versionen. Auch im Kriterium der Erkennbarkeit bringt die Variation keinen
+Vorteil. Die Physik-MNIST-Speed Version erreicht die schlechteste Leistung.
+Diese Version stellt eine Kombination von allen Variationen dar und weicht somit
+am Stärksten von der besten Version, der Grund-Basis Version ab.
+
+Die Erkennbarkeit im Test auf das EMNIST Datenset ist schlechter als für die
+anderen Datensets. Das hängt allerdings vermutlich mit der Leistung der KI
+zusammen, welche die Buchstaben erkennt.
+
+Die Bildersammlung zeigt, dass die KI in vielen Fällen präzise der Linie folgt
+und selten willkürliche Sprünge begeht. Das ist interessant, weil der KI nie
+explizit mitgeteilt wird, wie genau sie zeichnen sollte.
 
 
 \subsection{Beantwortung der Unterfragen}
@@ -34,20 +52,30 @@ Architektur ist in der Abbildung {abb} erkennbar.
 \subsubsection*{Wie lässt sich die Leistung der KI in dieser Aufgabe beurteilen?}
 Die Leistung der künstlichen Intelligenz lässt sich durch die definierten
 Kriterien beurteilen. Diese wären Übereinstimmung, Erkennbarkeit und
-Geschwindigkeit. Die Übereinstimmung ist ein objektiver und Absoluter Wert,
-und somit das Aussagekräftigste Kriterium. die Kriterien der Erkennbarkeit
-und Geschwindigkeit sind an subjektive Annahmen und an die Beurteilung durch
-eine zweite künstlichen Intelligenz gebunden. Dadurch sinkt ihre
-Aussagekraft. Allerdings ändern sich die subjektiven annahmen nicht und die
-Kriterien sind in jedem Fall durch einen Zahlenwert repräsentiert. somit
-eignen sich die Kriterien als vergleichbare Variablen zwischen Versionen der künstlichen Intelligenz
+Geschwindigkeit. Die Übereinstimmung ist ein objektiver und Absoluter Wert, und
+somit das Aussagekräftigste Kriterium. Ausserdem ist der maximale Wert des
+Kriteriums, unabhängig vom gezeichneten Bild, gleich $1$. Dadurch ist das
+Kriterium geeignet für Vergleiche zwischen Versionen der KI.
+
+die Kriterien der Erkennbarkeit und der Geschwindigkeit sind an subjektive
+Annahmen gebunden. Zum Beispiel wird für das Kriterium der Geschwindigkeit ein
+subjektiver Punkt der Fertigstellung definiert. Dadurch sinkt ihre Aussagekraft.
+Allerdings ändern sich die subjektiven Annahmen nicht und die Kriterien sind in
+jedem Fall durch einen Zahlenwert repräsentiert. Somit eignen sich auch diese
+Kriterien für Vergleiche zwischen Versionen der KI. Aus der Annahme heraus, dass
+für Menschen beim Nachzeichnen Erkennbarkeit wichtiger als absolute Genauigkeit
+ist, ergibt sich das Kriterium der Erkennbarkeit als besonders wichtiges. Aus
+diesem Grund ist das Kriterium in der Fragestellung vermerkt.
+
+
 
 \subsubsection*{Wie lässt sich die Leistung der KI verbessern?}
-Bezogen auf die definierten Kriterien erreicht die Grundversion Werte, die
-durch die implementierten Variationen nicht oder nur marginal verbessert
-werden. Die Grundversion erlebte allerdings in dessen Entwicklung
-signifikante verbesserungen. Die grössten Verbesserungen stammen aus der
-Optimierung der Hyperparamter durch den Baysian Algorithmus. Zum Beispiel
+Bezogen auf die definierten Kriterien erreicht die Grundversion Werte, die durch
+die implementierten Variationen nicht oder nur marginal verbessert werden. Die
+Variationen der KI sind somit insgesamt ein gescheiterter Versuch der
+Verbesserung der Leistung. Die Grundversion erfuhr allerdings in dessen
+Entwicklung signifikante Verbesserungen. Die grössten Verbesserungen stammen aus
+der Optimierung der Hyperparamter durch den Baysian Algorithmus. Zum Beispiel
 hat die Grösse des Replay Buffers einen erheblichen Effekt auf die Leistung.
 
 \subsubsection*{Welche Einflüsse haben Physiksimulationen auf die Leistung der KI?}
