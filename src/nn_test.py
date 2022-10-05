@@ -19,6 +19,7 @@ from keras.models import model_from_json
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import ImageGrid
+from matplotlib import cm, colors
 
 
 class Test_NN():
@@ -198,6 +199,8 @@ class Test_NN():
     def generate_image(self, colums=2):
         num = len(self.images)
         rows = int(num/colums)
+        
+        labeled = 0
 
         fig = plt.figure(figsize=(10., 10.))
         grid = ImageGrid(fig, 111,  
@@ -209,14 +212,26 @@ class Test_NN():
         sorted_images = []
         for index, item in enumerate(self.images):
             ref, canv = item
-            sorted_images.append(ref.reshape((28,28)))
-            sorted_images.append(canv.reshape((28,28)))
+            sorted_images.append((ref.reshape((28,28)), False))
+            sorted_images.append((canv.reshape((28,28)), True))
             if index % 2 == 0: sorted_images.append(interval.copy())
-      
+
         for ax, im in zip(grid, sorted_images):
             # Iterating over the grid returns the Axes.
             ax.axis("off")
-            ax.imshow(im, cmap="bone", vmin=0, vmax=255)
+            if len(im) == 2:
+                ax.imshow(im[0], cmap="bone", vmin=0, vmax=255)
+                if labeled < 4:
+                    if im[1]:
+                        ax.set_title("ReSketch")
+                        labeled += 1
+                    else:
+                        ax.set_title("Original")
+                        labeled += 1
+            else:
+                ax.imshow(im, cmap="bone", vmin=0, vmax=255)
+        
+        fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="vertical", fraction=0.046, pad=0.04, label="Steps")
 
         plt.savefig(f"src/images/base-{self.version}-{self.dataset}.png", bbox_inches='tight')
         plt.pause(5)
