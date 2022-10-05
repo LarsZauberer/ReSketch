@@ -296,15 +296,15 @@ if __name__ == '__main__':
     
     if args.image:
         images = []
-        test = Test_NN(n_test=15, dataset="mnist", version=args.version)
+        test = Test_NN(n_test=200, dataset="mnist", version=args.version)
         test.test_from_loaded(agent_args=test.agent_args, mode="all")
         images1 = test.images[:5]
         
-        test = Test_NN(n_test=50, dataset="emnist", version=args.version)
+        test = Test_NN(n_test=200, dataset="emnist", version=args.version)
         test.test_from_loaded(agent_args=test.agent_args, mode="all")
         images2 = test.images[:5]
         
-        test = Test_NN(n_test=10, dataset="quickdraw", version=args.version)
+        test = Test_NN(n_test=200, dataset="quickdraw", version=args.version)
         test.test_from_loaded(agent_args=test.agent_args, mode="all")
         images3 = test.images[:5]
         
@@ -313,7 +313,6 @@ if __name__ == '__main__':
             images.append(images2[i])
             images.append(images3[i])
         
-        print(len(images))
         test.images = images
         test.generate_image(columns=3)
         exit()
