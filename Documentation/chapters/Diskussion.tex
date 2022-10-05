@@ -3,7 +3,7 @@
 Die Diskussion analyisiert die Resultate der Methode (siehe \nameref{chap:m}),
 um daraus eine Antwort auf die Fragestellung zu bilden. Zu diesem Zweck werden
 einige allgemeine Feststellungen getroffen  und die Unterfragen beantworten
-(siehe \nameref{chap:d_frage}). Im zweiten Teil der Diskussion folgt ein Fazit,
+(siehe \ref{chap:d_frage} \nameref{chap:d_frage}). Im zweiten Teil der Diskussion folgt ein Fazit,
 ein Ausblick (siehe \nameref{chap:d_faz-aus}), und eine Selbstreflexion (siehe
 \nameref{chap:d_reflex}). Dabei verschiebt sich der Fokus von der Fragestellung
 weg und auf eine allgemeinere Betrachtung der Arbeit.
@@ -30,7 +30,7 @@ Erklärung dafür ist, dass diese Version eine Kombination von allen Variationen
 (siehe \nameref{chap:m_var}) ist und somit von der besten Version, der
 Grund-Basis Version am stärksten abweicht.
 
-Die Bildersammlung (siehe \nameref{sub:r_bild}) zeigt, dass die KI in vielen
+Die Bildersammlung (siehe \nameref{chap:r_bild}) zeigt, dass die KI in vielen
 Fällen präzise der Linie folgt und selten willkürliche Sprünge begeht. Das ist
 interessant, weil der KI nie explizit mitgeteilt wird, wie genau sie zeichnen
 sollte.
@@ -87,13 +87,13 @@ Buffers einen erheblichen Effekt auf die Leistung.
 \label{subsub:d_frage_unter_4}
 Bezogen auf die definierten Kriterien verschlechtert sich die Leistung der KI.
 Alle Versionen, die auf der Grundumgebung basieren, erzielen höhere Werte als
-die gleichen Versionen basierend auf der phyiskalischen Umgebung. Die
-physikalische Umgebung hat zum Ziel, die Bewegungen der KI realistischer zu
-gestalten. In diesem Bereich kann der Einfluss nicht objektiv bestimmt werden.
-Aus Beobachtungen der Bilder, welche in der physikalischen Umgebung gezeichnet
-sind (siehe \nameref{sub:r_bild}), gehen ebenfalls keine Erkenntnisse in diesem
-Bereich hervor. Die Bilder unterscheiden sich kaum von denjenigen aus der
-Grundumgebung.
+die gleichen Versionen basierend auf der phyiskalischen Umgebung (siehe
+\nameref{sub:m_var_phy}). Die physikalische Umgebung hat zum Ziel, die
+Bewegungen der KI realistischer zu gestalten. In diesem Bereich kann der
+Einfluss nicht objektiv bestimmt werden. Aus Beobachtungen der Bilder, welche in
+der physikalischen Umgebung gezeichnet sind (siehe \nameref{chap:r_bild}), gehen
+ebenfalls keine Erkenntnisse in diesem Bereich hervor. Die Bilder unterscheiden
+sich kaum von denjenigen aus der Grundumgebung.
 
 \subsubsection*{Wie ändert sich die Leistung der KI bei Strichbildern, die sich von den Trainingsdaten unterscheidenn}
 \label{subsub:d_frage_unter_5}
@@ -134,32 +134,32 @@ ansetzen einer Ziffer immer an der selben Stelle
 Die Fragestellung lautet: in wiefern kann eine künstliche Intelligenz lernen,
 Strichbilder auf eine physische Weise nachzuzeichnen, sodass diese durch ein
 automatisches System erkannt werden? (siehe \nameref{chap:einleit}) Diese Frage
-hat mehrere Aspekte, die teilweise bereits durch die Unterfragen erfasst werden.
-Für die schlussendliche Antwort folgt eine genauere Ausführung der Aspekte.
+hat mehrere Aspekte, die teilweise bereits durch die Unterfragen (siehe
+\nameref{sub:d_frage_unter}) erfasst werden. Für die schlussendliche Antwort
+folgt eine genauere Ausführung der Aspekte.
 
-Die künstliche Intelligenz zeichnet durch Physiksimulationen und durch
-allgemeine Einschränkungen der Bewegungsfreiheit auf eine annähernd physische
-Weise. Das Zeichnen ist nur annähernd physisch, da alle Bewegungen simuliert und
-in keiner phyischen Umgebung umgesetzt sind. Ausserdem sind die Simulationen
-nicht vollkommen realitätsgetreu {siehe Diskussion -> Einflüsse Phyisk }
+Die KI zeichnet durch Physiksimulationen und durch allgemeine Einschränkungen
+der Bewegungsfreiheit auf eine annähernd physische Weise. Das Zeichnen ist nur
+annähernd physisch, da alle Bewegungen simuliert und in keiner phyischen
+Umgebung umgesetzt sind. Ausserdem sind die Simulationen nicht vollkommen
+realitätsgetreu (siehe \ref{sub:d_frage_unter} \nameref{subsub:d_frage_unter_4})
 
 Die künstliche intelligenz erlernt das Nachzeichnen bezogen auf die Kriterien,
-in denen es definiert ist, erfolgreich {Siehe Meth. Kriterien}. Dafür sprechen
-die Werte der besten Versionen für das Nachzeichnen von Ziffern, die teilweise
-an den Höchstwert grenzen {siehe Tabelle beste Versionen}. Die hohen Werte im
-Kriterium der Erkennbarkeit bestätigen ausserdem, dass die Zeichnungen der
-künstlichen Intelligenz von einem automatischen System erkannt werden, zumindest
-in der Mehrheit der Fälle und für das Zeichnen von Ziffern.
-
+nach denen es definiert ist, erfolgreich. Dafür sprechen die Werte der besten
+Versionen für das Nachzeichnen von Ziffern, die teilweise an den Höchstwert
+grenzen (siehe \nameref{chap:d_frage}). Die hohen Werte im Kriterium der
+Erkennbarkeit bestätigen ausserdem, dass die Zeichnungen der KI in den meisten
+Fällen von einem automatischen System erkannt werden.
 
 Laut der Fragestellung soll die KI das Nachzeichnen von Strichbildern erlernen.
 Damit ist implizit das Nachzeichnen von allen möglichen Arten von Strichbildern
 gemeint. Die Leistung der KI kann nicht auf alle möglichen Strichbilder
 überprüft werden, aber der Test mit drei verschiedenen Datensets ergibt
-vielversprechende Resultate. Die KI erlernt erfolgreich das Nachzeichnen von
-Ziffern, Kleinbuchstaben und zehn zufälligen Motiven aus dem QuickDraw Datenset.
-Durch die Vielfalt im QuickDraw Datenset kann die Annahme getroffen werden, dass
-die KI zumindest einen grossen Teil an Strichbildern nachzeichnen kann. 
+vielversprechende Resultate (siehe \nameref{chap:r_tab}). Die KI erlernt
+erfolgreich das Nachzeichnen von Ziffern, Kleinbuchstaben und zehn zufälligen
+Motiven aus dem QuickDraw Datenset. Durch die Vielfalt im QuickDraw Datenset
+kann die Annahme getroffen werden, dass die KI zumindest einen grossen Teil an
+Strichbildern nachzeichnen kann. 
 
 Die zusammenfassende Antwort auf die Frage lautet somit: Eine künstliche
 Intelligenz kann das Nachzeichnen von Strichbildern auf annähernd physiche Weise
@@ -172,36 +172,27 @@ Der nächste Abschnitt beurteilt die Frage durch die Erkenntnisse aus dieser
 Arbeit und geht auf mögliche Erweiterungen ein.
 
 
-
 \section{Fazit und Ausblick}
 \label{chap:d_faz-aus}
 Die Resultate erlauben eine positive Antwort auf die Fragestellung. Diese
 Antwort setzt allerdings einige Annahmen vorraus, die weiter diskutiert werden
-können. Die grösste Annahme bezieht sich auf die Definition von Nachzeichnen.
+können. Die grösste Annahme bezieht sich auf die Definition des Nachzeichnens.
 Diese Arbeit definiert Nachzeichnen durch drei Kriterien und durch physische
 Rahmenbedingungen. Die Kriterien sind für eine künstliche Intelligenz sinnvoll
-gewählt {siehe wie lässt sich Leistung beurteilen}. Allerdings wären auch
-andere, teilweise subjektive Kriterien möglich, die das Nachzeichnen definieren.
-Nachzeichnen ist eine menschliche Tätigkeit. Dadurch spielt die menschliche
-Wahrnehmung eine grosse Rolle, vor allem bei den genauen Bewegungsabläufen und
-den Pfaden, auf denen gezeichnet wird. Der künstlichen Intelligenz fehlt eine
-derartige Wahrnehmung, wodurch sich dessen Bewegungen im Vergleich zu einem
-Menschen stark unterscheiden. {siehe vergleich menschliches Zeichnen}.
-Kriterien, die sich auf diesen menschlichen Aspekt des Nachzeichnens beziehen
-wären eine mögliche Weiterführung dieser Arbeit. Dabei stellt sich allerdings
-die Frage, wie die künstliche Intelligenz die Leistung eines subjektiven
-Kriteriums maximieren kann.
+gewählt (siehe \nameref{subsub:d_frage_unter_2}), Allerdings wären auch ander
+Kriterien möglich. Nachzeichnen ist eine menschliche Tätigkeit. Dieser
+Menschliche Aspekt ist in den definierten Kriterien nicht enthalten.
 
 Die physichen Rahmenbedingungen unterscheiden sich von denjenigen, die ein
-Mensch erfährt. Das kommt daher, dass die phyischen Rahmenbedingungen im Falle
-der künstlichen Intelligenz lediglich simuliert sind. Das verunmöglicht eine
-umfassende Antwort auf die Frage, ob die künstliche Intelligenz auf eine
-physische Weise zeichnet. Dieses Problem könnte mit einem Roboter gelöst werden,
-der die künstliche Intelligenz in eine reale, phyische Umgebung überführt. Der
-Roboter könnte somit verschiedenste Strichbilder auf einem echten Stück Papier,
-und somit zwangsläufig auf physische Weise nachzeichnen. Aktuell sind die
-Bewegungen der künstlichen Intelligenz in gewissen Belangen eingeschränkt. So
-ist beispielsweise die Druckstärke nicht variiierbar. Ausserdem zeichnet die
+Mensch erfährt. Das kommt daher, dass die phyischen Rahmenbedingungen für die KI
+lediglich simuliert sind. Das verunmöglicht eine umfassende Antwort auf die
+Frage, ob die künstliche Intelligenz auf eine physische Weise zeichnet. Dieses
+Problem könnte mit einem Roboter gelöst werden, der die künstliche Intelligenz
+in eine reale, phyische Umgebung überführt. Der Roboter könnte somit
+verschiedenste Strichbilder auf einem echten Stück Papier, und somit
+zwangsläufig auf physische Weise nachzeichnen. Aktuell sind die Bewegungen der
+künstlichen Intelligenz in gewissen Belangen eingeschränkt. So ist
+beispielsweise die Druckstärke nicht variierbar. Ausserdem zeichnet die
 künstliche Intelligenz vorwiegend kleine Strichbilder. Experimente mit grösseren
 Konstrukten, wie ganze Wörter, wären eine mögliche Erweiterung. 
 
@@ -209,101 +200,90 @@ Alles in allem sind eine Vielzahl an denkbaren Fragen und Ideen möglich, die au
 ReSketch, der künstlichen Intelligenz hinter dieser Arbeit, basieren.
 
 
-
-
 \section{Selbstreflexion}
 \label{chap:d_reflex}
 Die Selbstreflexion gibt genauere Einblicke in die Vorangehensweise hinter
-dieser Arbeit. Die Arbeit ist grundsätzlich eine Zusammenfassung der wichtigsten
+dieser Arbeit. Diese Dokumentation ist grundsätzlich eine Zusammenfassung der wichtigsten
 Ereignisse. Viele Aspekte, wie auch die Arbeitsweise bleiben verschwiegen. Die
 selbstreflexion geht näher auf drei wichitige Aspekte ein, die in der
-zusammengefassten Arbeit nicht genug betont sind.
+zusammengefassten Dokumentation nicht genug betont sind.
 
-\subsection{Optimierung der künstlichen Intelligenz}
+\subsection{Optimierung der KI}
 \label{sub:d_reflex_opti}
 Insgesamt sind acht Versionen der KI präsentiert. Im Verlaufe des Projektes gab
 es viele weitere Versuche, die Leistung der künstlichen Intelligenz zu
-verbessern. Diese Versuche führten Allerdings häufig dazu, dass die künsltiche
-Intelligenz garnicht mehr lernt. In der Arbeit sind deswegen nur diejenigen
-Versuche vermerkt, die tatsächlich funktionieren. Ein Beispiel für einen
-gescheiterten Versuch wäre die Anpassung der Reward-Function, sodass diese nur
-bei der korrekten Erkennung einer Zahl einen Reward auslöst. Keine
-ausprobierte Anpassung in der Architektur der künstlichen Intelligenz macht
-diesen Versuch funktionstüchtig. Das Problem von derartigen Versuchen liegt
+verbessern. Diese Versuche führten allerdings häufig dazu, dass die KI den
+akkumulierten Reward (siehe \nameref{sub:t_rl_func}) nicht mehr maximieren
+konnte. In der Dokumentation sind deswegen nur diejenigen Versuche vermerkt, die
+tatsächlich funktionieren. Das Problem hinter den versuchten Variation liegt
 darin, dass die Ursache hinter ihrem Scheitern oder ihrem Erfolg häufig nicht
 erkennbar ist. Das macht die Optimierung der künstlichen Intelligenz allgemein
 schwierig. 
 
-Interessanterweise übertrifft keine präsentierte Variation der künstlichen
-Intelligenz das Grundprogramm. Die Variationen können somit die Leistung der
-künstlichen Intelligenz nicht optimieren. Die simpelste Version stellt sich als
-die leistungsfähigste heraus. Das hat unter anderem damit zu tun, dass die
-Leistung des Grundprogrammes bereits nahe am erreichbaren Maximum ist.
-
 Die Strategie hinter der Optimierung besteht in den meisten Fällen aus
 wiederholtem Ausprobieren mit Anpassungen zwischen jedem Versuch. Hilfsmittel,
-wie der Baysian Algorithmus {siehe Hyperparameteroptimierung}, vereinfachen
-diese Aufgabe stark. Tatsächlich ermöglichte der Baysian Algorithmus eine
-Verbesserung der künstlichen Intelligenz von ungefähr $20-30\%$ Übereinstimmung
-auf die maximalen Werte, die sie schlussendlich erreicht. Diese Strategie der
-Optimierung ist für einen Computer sehr ressourcenintensiv. In den längsten
-Optimierungsarbeiten liefen die beiden Computer, auf denen die Arbeit
-verrichtet wurde, jeweils länger als $24$ Stunden.
-
-
+wie der Baysian Optimization Algorithmus (siehe \nameref{sub:t_ml_hyper}),
+vereinfachen diese Aufgabe massgeblich. Tatsächlich ermöglichte der Baysian
+Optimization Algorithmus eine Verbesserung der KI von ungefähr $20-30\%$
+Übereinstimmung zu den Werten, die sie schlussendlich erreicht (siehe
+\nameref{chap:r_tab}). Diese Strategie der Optimierung ist für einen Computer
+sehr ressourcenintensiv. In den längsten Optimierungsarbeiten liefen die beiden
+Computer, auf denen die Arbeit verrichtet wurde, zusammen länger als $48$
+Stunden.
 
 \subsection{Analyse der künstlichen Intelligenz}
 \label{sub:d_reflex_analys}
 Eine Analyse der künstlichen Intelligenz ist notwendig, um die Fragestellung und
 die Unterfragen zu beantworten. Aber auch während der Entwicklung der
-künsltichen Intelligenz ist eine stetige Analyse nötig, um dise zu verstehen und
+KI ist eine stetige Analyse nötig, um dise zu verstehen und
 zu verbessern.
 
 Die Analyse besteht hauptsächlich darin, die Leistung der künstlichen
 Intelligenz zu beurteilen. Das geschieht mittels den Kriterien, die für diesen
-Zweck definiert sind {siehe Kriterien}. Die Kriterien sind dabei so definiert,
-dass sie für jede mögliche Variation gleich gemessen werden. Der durchnittliche
-akkumulierte Reward wird Beispielsweise bewusst nicht als Kriterium verwendet.
-Der akkumulierte Reward {siehe Theorie reinf} ist abhängig von der
-Reward-Function und unterscheidet sich somit zwischen Variationen. Dieser ist
-somit nicht für einen Vergleich zwischen Variationen geeignet.
+Zweck definiert sind (siehe \nameref{chap:m_eval}). Die Kriterien sind dabei so
+definiert, dass sie für jede mögliche Variation identisch bleiben. Der
+durchnittliche akkumulierte Reward ist beispielsweise absichtlich kein
+Kriterium. Der akkumulierte Reward  ist abhängig von der Reward-Function (siehe
+\nameref{sub:t_rl_func}) und unterscheidet sich somit zwischen Variationen.
+Dieser ist somit nicht für einen Vergleich zwischen Variationen geeignet.
 
-Einzelne Variationen vergleichbar zu halten ist ein allgemeines Ziel der
-Analyse. Deswegen basieren alle Variationen auf der gleichen Architektur der
-künstlichen Intelligenz. Die Funktionalität des Grundprogrammes {siehe
-Grundprogramm} ist gründlich getestet. Zum Beispiel sind die Testdaten darauf
-überprüft, dass diese keine Datenpunkte aus den Trainingsdaten beinhalten. Diese
-Tests eliminieren mögliche Fehlerquellen salls die künstliche Intelligenz
-unerwartetes Verhalten aufzeigt.
+Einzelne Variationen vergleichbar zu halten, ist ein allgemeines Ziel der
+Analyse. Deswegen basieren alle Variationen auf der gleichen Architektur der KI.
+Die Funktionalität des Grundprogrammes (siehe \nameref{chap:m_grund} ist
+gründlich getestet. Zum Beispiel sind die Testdaten darauf überprüft, dass sie
+keine Datenpunkte aus den Trainingsdaten beinhalten. Diese Tests eliminieren
+mögliche Fehlerquellen falls die künstliche Intelligenz unerwartetes Verhalten
+aufzeigt.
 
 Eine weitere Form von Analyse stammt aus der Sammlung von Daten über das
-Lernverhalten der künstlichen Intelligenz. So wird aus jedem Training ein Graph
-erstellt, der die durchschnittliche Leistung der künstlichen Intelligenz in
-jeder Episode erfasst {Siehe Abbildungen Graphen}. Die Leistung ist dabei durch
-den akkumulierten Reward pro Episode repräsentiert. Wie erwähnt können Versionen
-der künsltihcen Intelligenz nicht anhand ihres akkumulierten Rewards verglichen
-werden. Der akkumulierte Reward zeigt allerdings für einzelne Versionen am
-präzistesten, in wiefern diese ihren Reward maximieren können.
+Lernverhalten der KI. So wird aus jedem Training ein Graph erstellt, der die
+durchschnittliche Leistung der KI in jeder Episode erfasst (siehe
+autoref{lernkurve}). Die Leistung ist dabei durch den akkumulierten Reward in
+jeder Episode repräsentiert. Wie erwähnt können Versionen der KI nicht anhand
+ihres akkumulierten Rewards verglichen werden. Der akkumulierte Reward zeigt
+allerdings für einzelne Versionen am präzistesten, in wiefern diese ihren Reward
+maximieren können.
 
-
-
+%todo bild Lernkurve
 
 \subsection{Verwendung von Git und GitHub}
 \label{sub:d_reflex_git}
-Ohne die Verwendung von Git und Github ist ein Projekt von diesem Ausmass nur
-schwer umsetzbar. Die Programme ermöglichen einfache Zusammenarbeit am
-Programmcode und an der Dokumentation. GitHub dient dabei zusätzlich als
-Hilfsmiitel zur Organisation durch die integrierte Funktion der Project Boards.
-Diese Funktion hätte allerdings zu grösserem Ausmass Verwendung finden können.
+Die Verwendung von Git und Github (siehe \nameref{chap:t_git}) erleichtert die
+Arbeit an einem Projekt von diesem Ausmass sehr. Die Programme ermöglichen
+einfache Zusammenarbeit am Programmcode und an der Dokumentation. GitHub dient
+dabei zusätzlich als Hilfsmiitel zur Organisation durch die integrierte Funktion
+der Project Boards. Diese Funktion hätte allerdings zu grösserem Ausmass
+Verwendung finden können.
 
-Die Funktion der Branches und Commits von Git werden durch die Arbeit hindurch
-konsequent verwendet. So liegt der Ursprung jeder Variation der künstlichen
-Intelligenz auf einem eigenen Branch. Auch die verschiedenen Kapitel der
-Dokumentation sind jeweils in einem eigenen Branch verfasst. Die Verzweigung des
-Projektes in Branches ermöglicht eine bessere Ordnung und Strukturierung des
-Projektes. Wenn die Arbeit an einem Branch erledigt ist, wird dieser wieder mit
-dem Main Branch zusammengeführt. Für die wichtigsten Branches wird dabei das
-Prinzip der Pull Request angewendet. Die Pull Request muss für jeden Branch von
+Die Funktion der Branches und Commits von Git (siehe \nameref{sub:t_git_git})
+werden durch die Arbeit hindurch konsequent verwendet. So liegt der Ursprung
+jeder Variation der künstlichen Intelligenz auf einem eigenen Branch. Auch die
+verschiedenen Kapitel der Dokumentation sind jeweils in einem eigenen Branch
+verfasst. Die Verzweigung des Projektes in Branches ermöglicht eine bessere
+Ordnung und Strukturierung des Projektes. Wenn die Arbeit an einem Branch
+erledigt ist, wird dieser wieder mit dem Main Branch zusammengeführt. Für die
+wichtigsten Branches wird dabei das Prinzip der Pull Request (siehe
+\nameref{sub:t_git_gh}) angewendet. Die Pull Request muss für jeden Branch von
 beiden Autoren akzeptiert werden.
 
 Ein weiterer Vorteil von Git und Github ist die Zugänglichkeit des Projektes.
