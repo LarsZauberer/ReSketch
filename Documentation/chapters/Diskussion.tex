@@ -2,75 +2,74 @@
 \label{chap:d}
 Die Diskussion analyisiert die Resultate der Methode (siehe \nameref{chap:m}),
 um daraus eine Antwort auf die Fragestellung zu bilden. Zu diesem Zweck werden
-einige allgemeine Feststellungen getroffen und die Unterfragen beantworten. Im
-zweiten Teil der Diskussion folgt ein Fazit, ein Ausblick, und eine
-Selbstreflexion. Dabei verschiebt sich der Fokus von der Fragestellung weg und
-auf eine allgemeinere Betrachtung der Arbeit.
+einige allgemeine Feststellungen getroffen  und die Unterfragen beantworten
+(siehe \nameref{chap:d_frage}). Im zweiten Teil der Diskussion folgt ein Fazit,
+ein Ausblick (siehe \nameref{chap:d_faz-aus}), und eine Selbstreflexion (siehe
+\nameref{chap:d_reflex}). Dabei verschiebt sich der Fokus von der Fragestellung
+weg und auf eine allgemeinere Betrachtung der Arbeit.
 
 
 \section{Fragestellung und Unterfragen}
 \label{chap:d_frage}
 Die Fragestellung und die Unterfragen decken nicht alle Erkenntnisse aus den
 Resultaten ab. Einige allgemeine Feststellungen geben Einblick, wie die
-Resultate zu verstehen sind. 
+Resultate (siehe \nameref{chap:r}) zu verstehen sind. 
 
-Die Grund-Basis Version und die Grund-Speed Version erreichen in allen Kriterien
-für alle Datensets die beste Leistung. Die Resultate zwischen den Versionen sind
-dabei fast ununterscheidbar. Vor allem im Kriterium der Geschwindigkeit zeigt
-die Speed Variation keine Verbesserung. Unter den Versionen, die auf der
-physikalischen Umgebung basieren, erreichen Ebenfalls die Physik-Basis und die
-Phyisk-Speed Versionen die beste Leistung. Die Grund-MNIST Version und die
-Physik-MNIST Version sind in allen Kriterien schlechter als die Basis und Speed
-Versionen. Auch im Kriterium der Erkennbarkeit bringt die Variation keinen
-Vorteil. Die Physik-MNIST-Speed Version erreicht die schlechteste Leistung.
-Diese Version stellt eine Kombination von allen Variationen dar und weicht somit
-am Stärksten von der besten Version, der Grund-Basis Version ab.
+Die Grund-Basis Version und die Grund-Speed Version (siehe
+\nameref{chap:m_auswert}) erreichen in allen Kriterien für alle Datensets die
+beste Leistung. Die Resultate zwischen den Versionen sind dabei fast
+ununterscheidbar. Vor allem im Kriterium der Geschwindigkeit (siehe
+\nameref{sub:m_eval_speed}) zeigt die Speed Variation keine Verbesserung. Unter
+den Versionen, die auf der physikalischen Umgebung basieren, erreichen Ebenfalls
+die Physik-Basis und die Phyisk-Speed Versionen die beste Leistung. Die
+Grund-MNIST Version und die Physik-MNIST Version sind in allen Kriterien
+schlechter als die Basis und Speed Versionen. Auch im Kriterium der
+Erkennbarkeit (siehe \nameref{sub:m_eval_rec}) bringt die Variation keinen
+Vorteil. Die Physik-MNIST-Speed Version erbringt die schlechteste Leistung. Eine
+Erklärung dafür ist, dass diese Version eine Kombination von allen Variationen
+(siehe \nameref{chap:m_var}) ist und somit von der besten Version, der
+Grund-Basis Version am stärksten abweicht.
 
-Die Erkennbarkeit im Test auf das EMNIST Datenset ist schlechter als für die
-anderen Datensets. Das hängt allerdings vermutlich mit der Leistung der KI
-zusammen, welche die Buchstaben erkennt.
-
-Die Bildersammlung zeigt, dass die KI in vielen Fällen präzise der Linie folgt
-und selten willkürliche Sprünge begeht. Das ist interessant, weil der KI nie
-explizit mitgeteilt wird, wie genau sie zeichnen sollte.
+Die Bildersammlung (siehe \nameref{sub:r_bild}) zeigt, dass die KI in vielen
+Fällen präzise der Linie folgt und selten willkürliche Sprünge begeht. Das ist
+interessant, weil der KI nie explizit mitgeteilt wird, wie genau sie zeichnen
+sollte.
 
 
 \subsection{Beantwortung der Unterfragen}
 \label{sub:d_frage_unter}
-
-Insgesamt sechs Unterfragen werden beantwortet {siehe Einleitung}. Diese
-Unterfragen weiten die Fragestellung aus und tragen zu der schlussendlichen
-Antwort auf die Fragestellung bei. Die Antworten beruhen auf den Resultaten aus
-der Methode, also den Tabellen und Bildersammlungen, aber auch auf Erkenntnisen
-aus der Methode selbst.
+Insgesamt sechs Unterfragen werden beantwortet (siehe \nameref{chap:einleit).
+Diese Unterfragen weiten die Fragestellung aus und tragen zu der
+schlussendlichen Antwort auf die Fragestellung bei. Die Antworten beruhen auf
+den Resultaten, aber auch auf Erkenntnissen aus der Methode (siehe
+\nameref{chap:m}) selbst.
 
 \subsubsection*{Wie kann die Architektur einer KI aussehen, die das Nachzeichnen erlernt?}
 \label{subsub:d_frage_unter_1}
-Unter der Annahme, dass die künstliche Intelligenz dieser Arbeit das
-Nachzeichnen erlernt, {siehe Fragestellung}, kann die Architektur genau so
-aussehen, wie sie in dieser Arbeit beschrieben ist. Das bedeutet durch
-Reinforcement Learning und spezifischer durch Deep Q-Learning. Die genaue
-Architektur ist in der Abbildung {abb} erkennbar.
+Unter der Annahme, dass die KI dieser Arbeit das Nachzeichnen erlernt, (siehe
+\nameref{sub:d_frage_frag}), kann die Architektur genau so aussehen, wie sie in
+dieser Arbeit beschrieben ist (siehe \nameref{sub:m_grund_dood}).
 
 \subsubsection*{Wie lässt sich die Leistung der KI in dieser Aufgabe beurteilen?}
 \label{subsub:d_frage_unter_2}
-Die Leistung der künstlichen Intelligenz lässt sich durch die definierten
-Kriterien beurteilen. Diese wären Übereinstimmung, Erkennbarkeit und
-Geschwindigkeit. Die Übereinstimmung ist ein objektiver und Absoluter Wert, und
-somit das Aussagekräftigste Kriterium. Ausserdem ist der maximale Wert des
-Kriteriums, unabhängig vom gezeichneten Bild, gleich $1$. Dadurch ist das
-Kriterium geeignet für Vergleiche zwischen Versionen der KI.
+Die Leistung der KI lässt sich durch die definierten Kriterien (siehe
+\nameref{chap:m_eval}) beurteilen. Das Kriterium Die Übereinstimmung ist ein
+objektiver und Absoluter Wert, und somit das Aussagekräftigste Kriterium.
+Ausserdem ist der maximale Wert des Kriteriums, unabhängig vom gezeichneten
+Bild, gleich $1$. Dadurch ist das Kriterium geeignet für Vergleiche zwischen
+Versionen der KI.
 
 die Kriterien der Erkennbarkeit und der Geschwindigkeit sind an subjektive
 Annahmen gebunden. Zum Beispiel wird für das Kriterium der Geschwindigkeit ein
-subjektiver Punkt der Fertigstellung definiert. Dadurch sinkt ihre Aussagekraft.
-Allerdings ändern sich die subjektiven Annahmen nicht und die Kriterien sind in
-jedem Fall durch einen Zahlenwert repräsentiert. Somit eignen sich auch diese
-Kriterien für Vergleiche zwischen Versionen der KI. Aus der Annahme heraus, dass
-für Menschen beim Nachzeichnen Erkennbarkeit wichtiger als absolute Genauigkeit
-ist, ergibt sich das Kriterium der Erkennbarkeit als besonders wichtiges. Aus
-diesem Grund ist das Kriterium in der Fragestellung vermerkt.
-
+subjektiver Punkt der Fertigstellung definiert (siehe
+\nameref{sub:m_eval_speed}). Dadurch sinkt ihre Aussagekraft. Allerdings
+verändern sich die Annahmen nicht und die Kriterien sind in jedem Fall durch
+einen Zahlenwert repräsentiert. Somit eignen sich auch diese Kriterien für
+Vergleiche zwischen Versionen der KI. Aus der Annahme heraus, dass für Menschen
+beim Nachzeichnen Erkennbarkeit wichtiger als absolute Genauigkeit ist, ergibt
+sich das Kriterium der Erkennbarkeit als besonders wichtiges. Aus diesem Grund
+ist das Kriterium in der Fragestellung (siehe \nameref{sub:d_frage_frag})
+vermerkt.
 
 
 \subsubsection*{Wie lässt sich die Leistung der KI verbessern?}
@@ -80,8 +79,9 @@ die implementierten Variationen nicht oder nur marginal verbessert werden. Die
 Variationen der KI sind somit insgesamt ein gescheiterter Versuch der
 Verbesserung der Leistung. Die Grundversion erfuhr allerdings in dessen
 Entwicklung signifikante Verbesserungen. Die grössten Verbesserungen stammen aus
-der Optimierung der Hyperparamter durch den Baysian Algorithmus. Zum Beispiel
-hat die Grösse des Replay Buffers einen erheblichen Effekt auf die Leistung.
+der Optimierung der Hyperparamter durch den Baysian Optimization Algorithmus
+(siehe \nameref{sub:m_grund_data}). Zum Beispiel hat die Grösse des Replay
+Buffers einen erheblichen Effekt auf die Leistung.
 
 \subsubsection*{Welche Einflüsse haben Physiksimulationen auf die Leistung der KI?}
 \label{subsub:d_frage_unter_4}
@@ -89,11 +89,11 @@ Bezogen auf die definierten Kriterien verschlechtert sich die Leistung der KI.
 Alle Versionen, die auf der Grundumgebung basieren, erzielen höhere Werte als
 die gleichen Versionen basierend auf der phyiskalischen Umgebung. Die
 physikalische Umgebung hat zum Ziel, die Bewegungen der KI realistischer zu
-gestalten. In diesem Bereich kann der Einfluss nicht objektiv bestimmt werden,
-da er nicht aus den Zahlenwerten der Kriterien hervorgeht. Aus Beobachtungen der
-Bilder, welche in der physikalischen Umgebung gezeichnet sind, gehen ebenfalls
-keine Erkenntnisse in diesem Bereich hervor. Die Bilder unterscheiden sich kaum
-von denjenigen aus der Grundumgebung.
+gestalten. In diesem Bereich kann der Einfluss nicht objektiv bestimmt werden.
+Aus Beobachtungen der Bilder, welche in der physikalischen Umgebung gezeichnet
+sind (siehe \nameref{sub:r_bild}), gehen ebenfalls keine Erkenntnisse in diesem
+Bereich hervor. Die Bilder unterscheiden sich kaum von denjenigen aus der
+Grundumgebung.
 
 \subsubsection*{Wie ändert sich die Leistung der KI bei Strichbildern, die sich von den Trainingsdaten unterscheidenn}
 \label{subsub:d_frage_unter_5}
@@ -111,41 +111,36 @@ MNIST Zahlen hat, als im Zeichnen von EMNIST Buchstaben. Obwohl die Formen zu
 grossem Teil ähnlich sind, scheint die KI durch das spezifische Training auf
 MNIST Ziffern eine höhere Geschwindigkeit zu entwickeln. 
 
-
+%todo neue Tabellen
 
 \subsubsection*{Inwiefern lässt sich das Zeichnen der KI mit menschlichem Zeichnen vergleichen?}
 \label{subsub:d_frage_unter_6}
-Die Antwort auf diese Frage leitet sich nicht aus den objektiven Resultaten
-ab, sondern basiert auf subjektiven Beobachtungen. Die Bewegungen in der
-Physik-Version der künstlichen Intelligenz basieren grundsätzlich auf den
-selben Gesetzen wie die Bewegungen in der echten Welt. Allerdings sind die
-Bewegungen stark vereinfacht. So kann auf den Agent in einer Zeichnung nur 64
-eine Kraft (hier eine Beschleunigung) wirken, während die Krafzufuhr durch den
-menschlichen Körper bedeutend vielseitiger ist. Ausserdem ist für die
+Die Antwort auf diese Frage leitet sich nicht aus den objektiven Resultaten ab,
+sondern basiert auf subjektiven Beobachtungen. Die Bewegungen in der
+Physik-Version der künstlichen Intelligenz basieren grundsätzlich auf den selben
+Gesetzen wie die Bewegungen in der echten Welt. Allerdings sind die Bewegungen
+stark vereinfacht im Vergleich zu menschlichen Bewegungen Ausserdem ist für die
 künstliche Intelligenz der Druck des Stiftes nicht veränderbar. Zumindest
 Konzeptuell aber nähert die künstliche Intelligenz menschliches Zeichnen,
-Bezogen auf die physischen Einschränkungen, an. Einige menschliche
-Gewohnheiten sind bei der künstlichen Intelligenz allerdings nicht
-beobachtbar. Zum Beispiel beginnen Menschen in der Regel bei dem Zeichnen
-einer Ziffer immer an der selben Stelle, oder zeichnen die Zahl von oben nach
-unten. Die künstliche Intelligenz beginnt für jede Zeichnung an einem anderen
-Ort. Aus Beobachtungen lässt sich schliessen, dass die künstliche Intelligenz
-in der Regel an der Stelle mit dem geringsten Abstand zu der zufälligen
-Startpostion mit dem Zeichnen beginnt.
+bezogen auf die physischen Einschränkungen, an. Einige menschliche Gewohnheiten
+sind bei der künstlichen Intelligenz allerdings nicht beobachtbar. Zum Beispiel
+beginnt die künstliche Intelligenz beim Zeichnen von Ziffern an zufälligen
+Orten, während Menschen in der Regel für jede Ziffer an der selben Stelle
+ansetzen einer Ziffer immer an der selben Stelle
 
 
 \subsection{Beantwortung der Fragestellung}
 \label{sub:d_frage_frag}
 Die Fragestellung lautet: in wiefern kann eine künstliche Intelligenz lernen,
 Strichbilder auf eine physische Weise nachzuzeichnen, sodass diese durch ein
-automatisches System erkannt werden? {siehe Einleitung} Diese Frage hat mehrere
-Aspekte, die teilweise bereits durch die Unterfragen erfasst werden. Für die
-schlussendliche Antwort folgt eine genauere Ausführung dieser Aspekte.
+automatisches System erkannt werden? (siehe \nameref{chap:einleit}) Diese Frage
+hat mehrere Aspekte, die teilweise bereits durch die Unterfragen erfasst werden.
+Für die schlussendliche Antwort folgt eine genauere Ausführung der Aspekte.
 
-Die künstliche Intelligenz zeichnet durch Physiksimulationen und durch allgemeine
-Einschränkungen der Bewegungsfreiheit auf eine annähernd physische Weise. Das
-Zeichnen ist nur annähernd physisch, da alle Bewegungen simuliert und in
-keiner phyischen Umgebung umgesetzt sind. Ausserdem sind die Simulationen
+Die künstliche Intelligenz zeichnet durch Physiksimulationen und durch
+allgemeine Einschränkungen der Bewegungsfreiheit auf eine annähernd physische
+Weise. Das Zeichnen ist nur annähernd physisch, da alle Bewegungen simuliert und
+in keiner phyischen Umgebung umgesetzt sind. Ausserdem sind die Simulationen
 nicht vollkommen realitätsgetreu {siehe Diskussion -> Einflüsse Phyisk }
 
 Die künstliche intelligenz erlernt das Nachzeichnen bezogen auf die Kriterien,
