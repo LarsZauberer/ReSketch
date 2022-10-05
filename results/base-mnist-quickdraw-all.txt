@@ -1,0 +1,1 @@
+reward: 0.573, accuracy: 0.573, quickdraw recognition: 0.625, speed 59.944
