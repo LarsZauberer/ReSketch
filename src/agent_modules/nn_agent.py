@@ -46,29 +46,29 @@ class DeepQNetwork(object):
         """
         # global convolution
         glob_in = Input(shape=self.global_input_dims,
-                        batch_size=self.batch_size, name="global_input")
+                        batch_size=self.batch_size, name="Global_Stream")
         glob_conv1 = Conv2D(32, (8, 8), strides=2,  activation="relu", input_shape=self.global_input_dims,
-                            padding="same", name="glob_conv1", data_format='channels_first')(glob_in)
-        glob_conv2 = Conv2D(64, (4, 4), strides=2, activation="relu", name="glob_conv2",
+                            padding="same", name="Global_Conv_1", data_format='channels_first')(glob_in)
+        glob_conv2 = Conv2D(64, (4, 4), strides=2, activation="relu", name="Global_Conv_2",
                             padding="same", data_format='channels_first')(glob_conv1)
-        glob_conv3 = Conv2D(64, (3, 3), strides=1, activation="relu", name="glob_conv3",
+        glob_conv3 = Conv2D(64, (3, 3), strides=1, activation="relu", name="Global_Conv_3",
                             padding="same", data_format='channels_first')(glob_conv2)
 
         # local convolution
         loc_in = Input(shape=self.local_input_dims,
-                       name="local_input", batch_size=self.batch_size)
+                       name="Local_Stream", batch_size=self.batch_size)
         loc_conv1 = Conv2D(128, (11, 11), strides=1, activation="relu",
-                           name="loc_conv1", padding="same", data_format='channels_first')(loc_in)
+                           name="Local_Conv_1", padding="same", data_format='channels_first')(loc_in)
 
         # concat
-        concat_model = concatenate([glob_conv3, loc_conv1], axis=1)
+        concat_model = concatenate([glob_conv3, loc_conv1], name="Concatenation", axis=1)
 
         # Fully connected Layers
         concat_model = Flatten(
             name="Flatten", data_format="channels_first")(concat_model)
         dense1 = Dense(self.fc1_dims, activation="relu",
-                       name="dense1")(concat_model)
-        out = Dense(self.n_actions, activation="relu", name="output")(dense1)
+                       name="Fully_Connected_1")(concat_model)
+        out = Dense(self.n_actions, activation="relu", name="Action-Space")(dense1)
 
         # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
         # Output of the netword are Q-values. each Q-value represents an action
