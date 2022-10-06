@@ -45,7 +45,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
 
                 next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=wo_rec)
 
-                if done_step == None and not replay_fill: 
+                if done_step == None and not replay_fill and speed: 
                     if env.agent_is_done(done_accuracy): done_step = step
                 
                 # Save new information
@@ -130,6 +130,7 @@ if __name__ == '__main__':
     rec_reward = hyp_data.get("rec_reward", 0.1)
     
 
+
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
     loc_in_dims = (2, patch_size, patch_size)
@@ -157,7 +158,7 @@ if __name__ == '__main__':
           n_actions=n_actions,
           episode_mem_size=episode_mem_size,
           save_training=True,
-          vis_compare=12,
+          vis_compare=-12,
           rec_reward=rec_reward,
           min_decrement=min_decrement,
           mnist=mnist,
