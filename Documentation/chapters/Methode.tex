@@ -339,15 +339,15 @@ im zeichnenden Zustand. Die anderen $21$ Actions entsprechen den selben Vektoren
 im nicht zeichnenden Zustand. Die 21 verschiedenen Beschleunigungsvektoren haben
 folgende Form: Ein Vektor entspricht dem Nullvektor. Dieser verändert die
 Geschwindigkeit des Agents nicht. $8$ Vektoren sind um den Agent herum mit
-einer Länge von $0.8$ in gleichmässigem Abstand von einander angeordnet. %todo code präzision
+einer Länge von $0.9$ Pixeln in gleichmässigem Abstand von einander angeordnet. %todo code präzision
 Zusammen bilden diese Vektoren einen Kreis um den Agent. Die restlichen 12
 Vektoren sind in einem grösseren Kreis gleichmässig angeordnet. Die Vektoren
-haben dabei eine Länge von $1.2$ (siehe autoref{actionspace}).  Mit dem
+haben dabei eine Länge von $1.8$ Pixeln (siehe autoref{actionspace}).  Mit dem
 gewählten Beschleunigungsvektor $\vec{a}(t)$ berechnet sich die Geschwindigkeit
 im nächsten Step $t+1$ aus dem aktuellen Step $t$ durch folgende Formel:
 \[ \vec{v}(t+1) = \vec{v}(t) + \vec{a}(t) \] 
 Der Betrag der Geschwindigkeit $\vec{v}(t+1)$ des Agents wird, unabhängig von
-der gewählten Action, in jedem Step um $0.4$ verringert. Das simuliert eine
+der gewählten Action, in jedem Step um $0.2$ Pixel verringert. Das simuliert eine
 Reibungskraft, die auf den Agent einwirkt.
 
 %todo bild actionspace
@@ -400,7 +400,7 @@ dritte Datenset, QuickDraw, beeinhaltet Zeichnungen von insgesamt 345
 verschiedenen Motiven. Die KI wird allerdings nur auf das Nachzeichnen von zehn
 Motiven überprüft. Die zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer',
 `Bulldozer', `Uhr', `Wolke', `Computer', `Auge' und `Blume' (siehe
-autoref{Dataset images} für Beispiele aus den Datensets). Die Bilder in den
+autoref{Dataset images}). Die Bilder in den
 drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
 \nameref{sub:m_grund_data}). 
 
