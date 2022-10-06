@@ -340,11 +340,8 @@ beschreibt zwei gestapelte Bilder. Das erste Bild umfasst die Vorlage in dem
 $11\times11$ Bereich (bezeichnet als Local image patch [dood s.5]), in dem sich
 der Agent in einem Schritt bewegen kann. Das zweite Bild beschreibt den selben
 Bereich von der Zeichenfläche [Dood s.4 f.]. Der global Stream und der Local
-Stream werden durch eine Concatenation Layer zusammengeführt. Die genaue
-Architektur des neuronalen Netzes ist im Schema (autoref{dood architecture})
-ersichtlich.  
-
-%todo bild toodle Architektur
+Stream werden durch eine Concatenation Layer (siehe \nameref{sub:t_ml_nn})
+zusammengeführt.
 
 Die Reward-Function (siehe \nameref{sub:t_rl_func}) bezieht sich auf die
 Differenz der Anzahl der übereinstimmenden Pixel zwischen der Vorlage und
@@ -353,12 +350,12 @@ Zeichenfläche zwischen zwei Steps [Dood s.6]. Eine grosse Menge an neu
 übereinsimmende Pixel. Wenn nach einem Step weniger Pixel übereinstimmen als
 zuvor, entspricht das einem negativen Reward. 
 
-\section{Git und GitHub}\label{chap:t_git}
-Git und Github sind weit verbreitete Hilfsmittel für Software Entwickler. Git
-ist ein Programm, während GitHub ein Service ist, der dieses Programm in der
-Cloud zugänglich macht. GitHub hat zusätzliche Funktionen, die die
-Zusammenarbeit zwischen mehreren Entwicklern erleichtern. Die genaue Funktion
-und das Zusammenspiel dieser beiden Hilfsmittel wird nachfolgend erläutert.
+\section{Git und GitHub}\label{chap:t_git} Git und Github sind weit verbreitete
+Hilfsmittel für Software Entwickler. Git ist ein Programm, während GitHub ein
+Service ist, der dieses Programm in der Cloud zugänglich macht. GitHub hat
+zusätzliche Funktionen, die die Zusammenarbeit zwischen mehreren Entwicklern
+erleichtern. Die genaue Funktion und das Zusammenspiel dieser beiden Hilfsmittel
+wird nachfolgend erläutert.
 
 \subsection{Git}\label{sub:t_git_git}
 Git erkennt Veränderungen im Code eines Projektes und speichert diese
