@@ -142,6 +142,7 @@ dmypy.json
 *.blg
 *.idx
 *.lof
+*.lot
 *.fdb_latexmk
 *.fls
 *.run.xml
