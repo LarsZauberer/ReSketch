@@ -35,17 +35,20 @@ class Learn_Plotter():
             json.dump([self.episodes, self.averages], f)
 
     def plot(self):
-        """
-        Plots the collected data
-
-        :rtype: None
-        """
         data = []
         with open(self.path, "r") as p:
             data = json.load(p)
-        mp.figure(dpi=200)
-        mp.grid()
-        mp.plot(data[0], data[1])
+
+        
+        fig, ax = mp.subplots(dpi=200)
+
+        ax.grid()
+        ax.plot(data[0], data[1], color="navy") # "navy", "cornflowerblue"
+        ax.set(xlabel='Episode', ylabel='akkumulierter Reward',
+                title='Grund-Basis Lernverhalten')
+
+        fig.savefig(f"src/result_stats/learnplot.png", bbox_inches='tight')
+        
         mp.show()
 
 
