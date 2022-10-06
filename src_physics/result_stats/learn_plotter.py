@@ -35,18 +35,22 @@ class Learn_Plotter():
             json.dump([self.episodes, self.averages], f)
 
     def plot(self):
-        """
-        Plots the collected data
-
-        :rtype: None
-        """
         data = []
         with open(self.path, "r") as p:
             data = json.load(p)
-        mp.figure(dpi=200)
-        mp.grid()
-        mp.plot(data[0], data[1])
+
+        
+        fig, ax = mp.subplots(dpi=200)
+
+        ax.grid()
+        ax.plot(data[0], data[1], color="cornflowerblue") # "navy", "cornflowerblue"
+        ax.set(xlabel='Episode', ylabel='akkumulierter Reward',
+                title='Physik-Basis Lernverhalten')
+
+        fig.savefig(f"src_physics/result_stats/learnplot.png", bbox_inches='tight')
+        
         mp.show()
+
 
 
     
@@ -106,7 +110,7 @@ class Traintest_Learn_Plotter():
 
 
 if __name__ == '__main__':
-    lp = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
+    lp = Learn_Plotter(path="src_physics/result_stats/plotlearn_data.json")
     lp.plot()
 
 
