@@ -1,5 +1,4 @@
-\chapter{Theoretische Grundlagen}
-\label{chap:t}
+\chapter{Theoretische Grundlagen}\label{chap:t}
 Die theoretischen Grundlagen führen die Konzepte ein, die über die ganze Arbeit
 hinweg Anwendung finden. Es handelt sich dabei um Zusammenfassungen. Die Theorie
 wird auf den Teil reduziert, der für ein grundsätzliches Verständnis der Arbeit
@@ -7,8 +6,7 @@ nötig ist. Weitere Informationen werden sind in den referenzierten Quellen
 einsehbar. Auch die verwendeten Fachbegriffe werden in diesem Kapitel
 eingeführt. 
 
-\section{Machine Learning}
-\label{chap:t_ml}
+\section{Machine Learning}\label{chap:t_ml}
 Machine Learning ist ein Teilbereich der künstlichen Intelligenz. ``Künstliche
 Intelligenz (KI) bezieht sich im Allgemeinen auf jedes menschenähnliche
 Verhalten durch eine Maschine oder ein System'' [What is Artificial
@@ -52,8 +50,7 @@ Learning Modelle nötig sind. Keras ist ein weiteres Machine Learning Framework,
 das selbst mit Tensorflow funktioniert.
 
 
-\subsection{Funktionsweise eines Machine Learning Modelles}
-\label{sub:t_ml_func}
+\subsection{Funktionsweise eines Machine Learning Modelles}\label{sub:t_ml_func}
 Dieser Abschnitt erklärt die Funktionsweise eines Machine Learning Modelles,
 basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe\nameref{chap:t_ml}). 
 
@@ -87,8 +84,7 @@ selbst Anpassen, um die Beurteilungen zu verbessern. Künstliche Neuronale Netze
 Machine Learning Modellen Anwendung.
 
 
-\subsection{Hyperparameter}
-\label{sub:t_ml_hyper}
+\subsection{Hyperparameter}\label{sub:t_ml_hyper}
 Machine Learning Modelle unfassen verschiedene Hyperparameter. Diese beschreiben
 unter anderem wie lange das Training läuft oder wie stark sich das Modell nach
 einer falschen Beurteilung anpasst. Diese Hyperparameter beeinflussen das
@@ -125,8 +121,7 @@ Diejenigen Parameter, die den höchsten gefundenen Wert der Zielvariable
 auslösen, werden gespeichert.
 
 
-\subsection{künstliche neuronale Netze}
-\label{sub:t_ml_nn}
+\subsection{künstliche neuronale Netze}\label{sub:t_ml_nn}
 Ein neuronales Netz ist, im biologischen Sinne, "eine beliebige Anzahl Neuronen,
 die miteinander Verbunden sind" [Neuro Wikipedia]. Ein Beispiel für ein
 neuronales Netz ist das menschliche Gehirn. Künstliche Neuronale Netze
@@ -196,8 +191,7 @@ Hoffnung an, dass die Genauigkeit der Beurteilung mit den angepassten Gewichten
 grösser ist. Die Genaue Anpassung erfolgt in den meisten Machine Learning
 Modellen durch den Backpropagation Algorithmus [Backpropagation][backpropagation].
 
-\section{Reinforcement Learning}
-\label{chap:t_rl}
+\section{Reinforcement Learning}\label{chap:t_rl}
 Reinforcement Learning bedeutet Lernen durch Interaktion mit einer Umgebung.
 [complete guide]. Genauer gesagt soll ein Machine Learning Modell durch
 Rückmeldungen und Beobachtungen aus einer Umgebung ein bestimmtes Verhalten
@@ -222,13 +216,11 @@ So verwendet die Robotik häufig Reinforcement Learning, um einen Roboter laufen
 zu lassen. Die Umgebung, mit der das Reinforcement Learning Modell lernt, ist
 dabei häufig nicht echt, sondern simuliert.
 
-\subsection{Aufbau und Funktionsweise}
-\label{sub:t_rl_func}
+\subsection{Aufbau und Funktionsweise}\label{sub:t_rl_func}
 Dieser Abschnitt umfasst eine genauere Erklärung eines Reinforcement Learning
 Modelles, in diesem Fall Deep Q-Learning, unter der Verwendung der korrekten
 Fachbegriffe.
 
-% Todo: Umgebung -> Environment?
 Ein Reinforcement Learning Modell umfasst eine \emph{Umgebung} und einen
 \emph{Agent}. Der Agent ist dasjenige Element in der Umgebung, welches mit
 dieser interagiert und daraus lernt [S.B. s.53]. Die Umgebung verändert sich in
@@ -293,8 +285,7 @@ das Lernverhalten stabiler macht als ein chronologisches Training auf einzelne
 Steps [training with exp replay, batch].
 
 
-\section{Verwandte Arbeiten und Themen}
-\label{chap:t_ver}
+\section{Verwandte Arbeiten und Themen}\label{chap:t_ver}
 Das Nachzeichnen von Strichbildern hängt allgemein mit dem Zeichnen von Bildern
 durch einen Computer zusammen. Es gibt verschiedene Ansätze, um einen Computer
 zeichnen zu lassen. Ein häufiger Ansatz ist \emph{Stroke-Based Rendering}
@@ -309,8 +300,7 @@ im nächsten Abschnitt weiter behandelt.
 
 %todo bild strokebased vs stife
 
-\subsection{Doodle-SDQ}
-\label{sub:t_ver_dood}
+\subsection{Doodle-SDQ}\label{sub:t_ver_dood}
 Doodle-SDQ ist ein Computerprogramm, das durch ein Reinforcement Learning
 Modell, spezifischer Deep Q-Learning (siehe \nameref{sub:t_rl_func}), erlernt,
 Strichbilder aus dem Google QuickDraw Datenset [Quickdraw Image rec]
@@ -363,16 +353,14 @@ Zeichenfläche zwischen zwei Steps [Dood s.6]. Eine grosse Menge an neu
 übereinsimmende Pixel. Wenn nach einem Step weniger Pixel übereinstimmen als
 zuvor, entspricht das einem negativen Reward. 
 
-\section{Git und GitHub}
-\label{chap:t_git}
+\section{Git und GitHub}\label{chap:t_git}
 Git und Github sind weit verbreitete Hilfsmittel für Software Entwickler. Git
 ist ein Programm, während GitHub ein Service ist, der dieses Programm in der
 Cloud zugänglich macht. GitHub hat zusätzliche Funktionen, die die
 Zusammenarbeit zwischen mehreren Entwicklern erleichtern. Die genaue Funktion
 und das Zusammenspiel dieser beiden Hilfsmittel wird nachfolgend erläutert.
 
-\subsection{Git}
-\label{sub:t_git_git}
+\subsection{Git}\label{sub:t_git_git}
 Git erkennt Veränderungen im Code eines Projektes und speichert diese
 Veränderungen in einer neuen Version ab. Die einzelnen Versionen des Projektes
 bleiben dabei zu jedem Zeitpunkt abrufbar. Dieses Konzept nennt sich Version
@@ -392,8 +380,7 @@ gelöscht werden, ohne den Main Branch zu beeinflussen [Git How Branch].
 
 %todo bild branch structure
 
-\subsection{GitHub}
-\label{sub:t_git_gh}
+\subsection{GitHub}\label{sub:t_git_gh}
 GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
 Preston-Werner entwickelt \cite{noauthor_github_2021}. 2018 wurde das
 Unternehmen von Microsoft gekauft. GitHub ist ein Service, der Projekte, die mit
