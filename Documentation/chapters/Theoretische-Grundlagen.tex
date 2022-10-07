@@ -306,33 +306,33 @@ Strichen. Beispiele für Arbeiten in diesem Bereich sind Strokenet
 \cite{zheng_strokenet_2018} und ``Learning to Paint With Model-based Deep
 Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze simulieren
 die Führung eines Stiftes. (siehe autoref{stroke-based vs Stift}) Ein Beispiel
-dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}. Doodle-SDQ beschäftigt sich auch
-spezifischer mit dem Nachzeichnen von Strichbildern und wird deswegen im
-nächsten Abschnitt weiter behandelt.
+dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}. Doodle-SDQ
+beschäftigt sich auch spezifischer mit dem Nachzeichnen von Strichbildern und
+wird deswegen im nächsten Abschnitt weiter behandelt.
 
 %todo bild strokebased vs stife
 
-\subsection{Doodle-SDQ}\label{sub:t_ver_dood}
-Doodle-SDQ ist ein Computerprogramm, das durch ein Reinforcement Learning
-Modell, spezifischer Deep Q-Learning (siehe \nameref{sub:t_rl_func}), erlernt,
-Strichbilder aus dem Google QuickDraw Datenset \cite{noauthor_quick_2022} % TODO: Rec Quelle?
+\subsection{Doodle-SDQ}\label{sub:t_ver_dood} Doodle-SDQ ist ein
+Computerprogramm, das durch ein Reinforcement Learning Modell, spezifischer Deep
+Q-Learning (siehe \nameref{sub:t_rl_func}), erlernt, Strichbilder aus dem Google
+QuickDraw Datenset \cite{noauthor_quick_2022} % TODO: Rec Quelle?
 nachzuzeichnen. Nachfolgend sind die Aspekte von Doodle-SDQ beschrieben, die für
 diese Arbeit relevant sind.
 
 Die QuickDraw Bilder, die das Programm nachzeichnen soll, sind zu einer
-einheitliche Grösse von $84\times84$ Pixeln verarbeiteitet \cite[S. 7]{zhou_learning_2018}. Der Agent
-kann sich auf einer leeren Zeichenfläche von der selben Grösse bewegen und
-zeichnen. Die Umgebung umfasst diese Zeichenfläche, den Agent und das
-abzuzeichnende Bild.
+einheitliche Grösse von $84\times84$ Pixeln verarbeiteitet \cite[S.
+7]{zhou_learning_2018}. Der Agent kann sich auf einer leeren Zeichenfläche von
+der selben Grösse bewegen und zeichnen. Die Umgebung umfasst diese
+Zeichenfläche, den Agent und das abzuzeichnende Bild.
 
 Der Agent kann sich durch eine Action in jedem Step auf einen beliebigen Pixel
 in einem $11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann
 ausserdem jede dieser Bewegungen im zeichnenden Zustand oder im nicht
 zeichnenden Zustand machen. Der Action-Space hat somit insgesamt eine Grösse von
-$2\cdot11\cdot11 = 242$ Actions \cite[S. 5]{zhou_learning_2018}. Im zeichnenden Zustand wird ein Strich auf der
-Zeichenfläche zwischen der alten und der neuen Position des Agenten gezeichnet.
-Der Agent begeht 100 Steps pro Episode. Eine neue Episdoe entspricht dabei einem
-neuen Bild, das abgezeichnet werden soll.
+$2\cdot11\cdot11 = 242$ Actions \cite[S. 5]{zhou_learning_2018}. Im zeichnenden
+Zustand wird ein Strich auf der Zeichenfläche zwischen der alten und der neuen
+Position des Agenten gezeichnet. Der Agent begeht 100 Steps pro Episode. Eine
+neue Episdoe entspricht dabei einem neuen Bild, das abgezeichnet werden soll.
 
 Die Obervation der Umgebung, und somit der Input in das neuronale Netz (siehe
 \nameref{sub:t_rl_func}), ist in zwei Teile gegliedert: den Global Stream und
@@ -349,11 +349,11 @@ Wert $1$ haben, ist der Agent im zeichnenden Zustand. Wenn umgekehrt alle Pixel
 den Wert $0$ haben, ist der Agent nicht im zeichnenden Zustand. Der Local Stream
 hat eine Form von $11\times11\times2$. Er ist somit auch dreidimensional und
 beschreibt zwei gestapelte Bilder. Das erste Bild umfasst die Vorlage in dem
-$11\times11$ Bereich (bezeichnet als Local image patch \cite[S. 5]{zhou_learning_2018}), in dem sich
-der Agent in einem Schritt bewegen kann. Das zweite Bild beschreibt den selben
-Bereich von der Zeichenfläche \cite[S. 4 ff.]{zhou_learning_2018}. Der global Stream und der Local
-Stream werden durch eine Concatenation Layer (siehe \nameref{sub:t_ml_nn})
-zusammengeführt. 
+$11\times11$ Bereich (bezeichnet als Local image patch \cite[S.
+5]{zhou_learning_2018}), in dem sich der Agent in einem Schritt bewegen kann.
+Das zweite Bild beschreibt den selben Bereich von der Zeichenfläche \cite[S. 4
+ff.]{zhou_learning_2018}. Der global Stream und der Local Stream werden durch
+eine Concatenation Layer (siehe \nameref{sub:t_ml_nn}) zusammengeführt. 
 
 \section{Git und GitHub}\label{chap:t_git} Git und Github sind weit verbreitete
 Hilfsmittel für Software Entwickler. Git ist ein Programm, während GitHub ein
