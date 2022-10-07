@@ -135,7 +135,7 @@ Neuron ein Objekt dar, das eine beliebiege Anzahl Inputs, aber nur einen Output
 hat (siehe autoref{neuron}) [Concept artificial neuron]. Input und Output sind
 hierbei rationale Zahlen. Die Ausgabe des Neurons ist im einfachsten Modell, dem
 Perzeptron Neuron, grundsätzlich entweder 0 oder 1. Die Ausgabe ist 1, wenn die Summe
-der Eingaben einen vorgegebenen Wert, den \emph{Threshold} des Neurons überschreiten.
+der Eingaben einen vorgegebenen Wert, den \emph{Threshold}, überschreitet.
 Ansonsten ist die Ausgabe gleich 0. Jede Eingabe hat ein \emph{Gewicht}, das
 einer rationalen Zahl entspricht. Vor der Addition der Inputs wird jeder Input
 mit seinem Gewicht multipliziert.  Die Grösse des Gewichts bestimmt somit den
@@ -153,19 +153,20 @@ zwischen den beiden Grenzen (siehe autoref{sig vs perc}) [sigmoid Neuron].
 
 %todo Bild sigmoid - perceptron funktion
 
-Neuronale Netze sind Verbindungen dieser Neuronen. Dabei dient die Ausgabe eines
-Neurons als eine Eingabe in ein anderes Neuron. Die Neuronen sind in
-\emph{Layers} geordnet (siehe autoref{layers}). Neuronale Netze haben mindestens
-eine \emph{Input Layer} und eine \emph{Output Layer} [neural network deep
-learning][Neural network backprop]. Die Input Layer umfasst die Daten, zu dem das
-neuronale Netz eine Beurteilung liefert sollte. Im Beispielproblem (siehe
-\nameref{chap:t_ml}) bestände die Eingabe-Ebene aus $28\times28$ Neuronen, wobei
-jedes Neuron die Graustufe (durch einen Wert von $0$ bis $255$) eines Pixels im
-Bild beschreibt. Der Input ist in diesem Fall zweidimensional. Die Dimensionen
-sind allerdings flexibel. Die Output Layer besteht im Beispiel aus $10$
-Neuronen, wobei jedes Neuron einer Beurteilung entspricht (das fünfte Neuron
-beschreibt zum Beispiel die Ziffer Fünf als Beurteilung). Dasjenige Neuron mit
-dem höchsten Output entspricht der Beurteilung des neuronalen Netzes.
+Neuronale Netze sind Verbindungen dieser Neuronen. Dabei dient der Output eines
+Neurons als Input in ein anderes Neuron. Der Output eines Neurons kann gleich
+für mehrere Neuronen ein Input sein. Die Neuronen sind in \emph{Layers} geordnet
+(siehe autoref{layers}). Neuronale Netze haben mindestens eine \emph{Input
+Layer} und eine \emph{Output Layer} [neural network deep learning][Neural
+network backprop]. Die Input Layer umfasst die Daten, zu dem das neuronale Netz
+eine Beurteilung liefert sollte. Im Beispielproblem (siehe \nameref{chap:t_ml})
+bestände die Eingabe-Ebene aus $28\times28$ Neuronen, wobei jedes Neuron die
+Graustufe (durch einen Wert von $0$ bis $255$) eines Pixels im Bild beschreibt.
+Der Input ist in diesem Fall zweidimensional. Die Dimensionen sind allerdings
+flexibel. Die Output Layer besteht im Beispiel aus $10$ Neuronen, wobei jedes
+Neuron einer Beurteilung entspricht (das fünfte Neuron beschreibt zum Beispiel
+die Ziffer Fünf als Beurteilung). Dasjenige Neuron mit dem höchsten Output
+entspricht der Beurteilung des neuronalen Netzes.
 
 %todo Bild Layers
 

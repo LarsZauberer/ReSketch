@@ -189,40 +189,42 @@ Alles in allem sind eine Vielzahl an denkbaren Fragen und Ideen möglich, die au
 ReSketch, der künstlichen Intelligenz hinter dieser Arbeit, basieren.
 
 
-\section{Selbstreflexion}\label{chap:d_reflex}
-Die Selbstreflexion gibt genauere Einblicke in die Vorangehensweise hinter
-dieser Arbeit. Diese Dokumentation ist grundsätzlich eine Zusammenfassung der wichtigsten
-Ereignisse. Viele Aspekte, wie auch die Arbeitsweise bleiben verschwiegen. Die
-selbstreflexion geht näher auf drei wichitige Aspekte ein, die in der
-zusammengefassten Dokumentation nicht genug betont sind.
+\section{Selbstreflexion}\label{chap:d_reflex} Die Selbstreflexion gibt genauere
+Einblicke in die Vorangehensweise hinter dieser Arbeit. Diese Dokumentation ist
+grundsätzlich eine Zusammenfassung der wichtigsten Ereignisse. Viele Aspekte,
+wie auch die Arbeitsweise bleiben verschwiegen. Die selbstreflexion geht näher
+auf drei wichitige Aspekte ein, die in der zusammengefassten Dokumentation nicht
+genug betont sind.
 
-\subsection{Optimierung der KI}\label{sub:d_reflex_opti}
-Insgesamt sind acht Versionen der KI präsentiert. Im Verlaufe des Projektes gab
-es viele weitere Versuche, die Leistung der künstlichen Intelligenz zu
-verbessern. Diese Versuche führten allerdings häufig dazu, dass die KI den
-akkumulierten Reward (siehe \nameref{sub:t_rl_func}) nicht mehr maximieren
-konnte. In der Dokumentation sind deswegen nur diejenigen Versuche vermerkt, die
-tatsächlich funktionieren. Das Problem hinter den versuchten Variation liegt
-darin, dass die Ursache hinter ihrem Scheitern oder ihrem Erfolg häufig nicht
-erkennbar ist. Das macht die Optimierung der künstlichen Intelligenz allgemein
-schwierig. 
+Die Dokumentation ist mit Latex und spezifischer der ETH Thesis Formatvorlage
+[ETH template] formatiert. Ein Grossteil der Abbildungen stammt von den Autoren
+und ist in Adobe Illustrater [adobe ill] oder der Python Library Matplotlib
+[matplotlib] erstellt
+
+\subsection{Optimierung der KI}\label{sub:d_reflex_opti} Insgesamt sind acht
+Versionen der KI präsentiert. Im Verlaufe des Projektes gab es viele weitere
+Versuche, die Leistung der künstlichen Intelligenz zu verbessern. Diese Versuche
+führten allerdings häufig dazu, dass die KI den akkumulierten Reward (siehe
+\nameref{sub:t_rl_func}) nicht mehr maximieren konnte. In der Dokumentation sind
+deswegen nur diejenigen Versuche vermerkt, die tatsächlich funktionieren. Das
+Problem hinter den versuchten Variation liegt darin, dass die Ursache hinter
+ihrem Scheitern oder ihrem Erfolg häufig nicht erkennbar ist. Das macht die
+Optimierung der künstlichen Intelligenz allgemein schwierig. 
 
 Die Strategie hinter der Optimierung besteht in den meisten Fällen aus
 wiederholtem Ausprobieren mit Anpassungen zwischen jedem Versuch. Hilfsmittel,
 wie der Baysian Optimization Algorithmus (siehe \nameref{sub:t_ml_hyper}),
 vereinfachen diese Aufgabe massgeblich. Tatsächlich ermöglichte der Baysian
-Optimization Algorithmus eine Verbesserung der KI von ungefähr $20-30\%$
-Übereinstimmung zu den Werten, die sie schlussendlich erreicht (siehe
-\nameref{chap:r_tab}). Diese Strategie der Optimierung ist für einen Computer
-sehr ressourcenintensiv. In den längsten Optimierungsarbeiten liefen die beiden
-Computer, auf denen die Arbeit verrichtet wurde, zusammen länger als $48$
-Stunden.
+Optimization Algorithmus eine Verbesserung der KI von ungefähr $40-50\%$ mehr im
+Kriterium der Übereinstimmung \nameref{sub:m_eval_proc}). Diese Strategie der
+Optimierung ist für einen Computer sehr ressourcenintensiv. In den längsten
+Optimierungsarbeiten liefen die beiden Computer, auf denen die Arbeit verrichtet
+wurde, zusammen länger als $48$ Stunden.
 
-\subsection{Analyse der künstlichen Intelligenz}\label{sub:d_reflex_analys}
-Eine Analyse der künstlichen Intelligenz ist notwendig, um die Fragestellung und
-die Unterfragen zu beantworten. Aber auch während der Entwicklung der
-KI ist eine stetige Analyse nötig, um dise zu verstehen und
-zu verbessern.
+\subsection{Analyse der künstlichen Intelligenz}\label{sub:d_reflex_analys} Eine
+Analyse der künstlichen Intelligenz ist notwendig, um die Fragestellung und die
+Unterfragen zu beantworten. Aber auch während der Entwicklung der KI ist eine
+stetige Analyse nötig, um dise zu verstehen und zu verbessern.
 
 Die Analyse besteht hauptsächlich darin, die Leistung der künstlichen
 Intelligenz zu beurteilen. Das geschieht mittels den Kriterien, die für diesen
@@ -234,7 +236,7 @@ Kriterium. Der akkumulierte Reward  ist abhängig von der Reward-Function (siehe
 Dieser ist somit nicht für einen Vergleich zwischen Variationen geeignet.
 
 % Abschnitt wäre Streichbar
-Einzelne Variationen vergleichbar zu halten, ist ein allgemeines Ziel der 
+Einzelne Variationen vergleichbar zu halten, ist ein allgemeines Ziel der
 Analyse. Deswegen basieren alle Variationen auf der gleichen Architektur der KI.
 Die Funktionalität des Grundprogrammes (siehe \nameref{chap:m_grund}) ist
 gründlich getestet. Zum Beispiel sind die Testdaten darauf überprüft, dass sie
