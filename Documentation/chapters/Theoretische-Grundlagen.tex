@@ -172,7 +172,7 @@ zweidimensional. Die Dimensionen sind allerdings flexibel. Die Output Layer
 besteht im Beispiel aus $10$ Neuronen, wobei jedes Neuron einer Beurteilung
 entspricht (das fünfte Neuron beschreibt zum Beispiel die Ziffer Fünf als
 Beurteilung). Dasjenige Neuron mit dem höchsten Output entspricht der
-Beurteilung des neuronalen Netzes.
+Beurteilung des neuronalen Netzes. (siehe autoref{layers}).
 
 %todo Bild Layers
 
@@ -262,18 +262,16 @@ möglicherweise zufällig auf bessere Optionen für zukünftige Steps
 Die Umgebung und somit auch der Agent werden durch die Actions des Agenten
 beeinflusst. Dieser Einfluss wird durch die \emph{Reward-Function} gemessen. Die
 Reward-Function gibt eine rationale Zahl, den \emph{Reward} aus \cite[S.
-75]{sutton_reinforcement_2014}. Umso grösser der Reward, desto positiver ist der
-Effekt auf die Umgebung und umgekehrt. Ein positiver Einfluss auf die Umgebung
-durch eine Action ist so definiert, dass der Agent durch die Action das
-gewünschte Verhalten vorzeigt. Die Reward-Function definiert, welches Verhalten
-welchen Reward erzielt. Der Q-Value der gewählten Action wird mit dem Reward
-(und dem maximalen Q-Value aus den nächsten möglichen Actions) addiert. Diese
-Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_nodate}. Der neue
-Q-Value          
-nimmt somit einen kleineren Wert an, wenn der Reward negativ ist, und einen
-grösseren Wert, wenn der Reward positiv ist. Die Gewichte des neuronalen Netzes
-werden daraufhin so angepasst, dass der Output für das Neuron, dessen Action
-ausgeführt wurde, näher am neu berechneten Q-Value ist (siehe autoref{schema2}).
+75]{sutton_reinforcement_2014}. Umso grösser
+der Reward, desto positiver ist der Effekt auf die Umgebung und umgekehrt. Ein
+positiver Einfluss auf die Umgebung durch eine Action ist so definiert, dass der
+Agent durch die Action das gewünschte Verhalten vorzeigt. Die Reward-Function
+definiert, welches Verhalten welchen Reward erzielt. Der Q-Value der gewählten
+Action wird mit dem Reward (und dem maximalen Q-Value aus den nächsten möglichen
+Actions) addiert. Diese Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_nodate}. Der neue Q-Value hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen
+grösseren Wert, wenn der Reward positiv ist. Die das neuronalen Netz
+wird daraufhin so trainiert, dass der Output für das Neuron, dessen Action
+ausgeführt wurde, näher am neu berechneten, besseren Q-Value ist (siehe autoref{schema2}).
 Der schlussendliche Effekt ist, dass Actions, die einen positiven Reward
 auslösen, wahrscheinlicher gewählt werden, und umgekehrt Actions, die einen
 negativen Rewards auslösen, unwahrscheinlicher gewählt werden. Der Agent
@@ -299,19 +297,18 @@ das Lernverhalten stabiler macht als ein chronologisches Training auf einzelne
 Steps \cite{phd_how_2021}.
 
 
-\section{Verwandte Arbeiten und Themen}\label{chap:t_ver}
-Das Nachzeichnen von Strichbildern hängt allgemein mit dem Zeichnen von Bildern
-durch einen Computer zusammen. Es gibt verschiedene Ansätze, um einen Computer
-zeichnen zu lassen. Ein häufiger Ansatz ist \emph{Stroke-Based Rendering}
-[stroke based rendering]. Stroke-Based Rendering ist das Zeichnen von Bilder % TODO: Quelle?
-durch das Platzieren von Elementen wie Strichen. Beispiele für Arbeiten in
-diesem Bereich sind Strokenet \cite{zheng_strokenet_2018} und ``Learning to
-Paint With Model-based Deep Reinforcement Learning'' \cite{huang_learning_2019}
-Andere Ansätze simulieren die Führung eines Stiftes. (siehe autoref{stroke-based
-vs Stift}) Ein Beispiel dafür ist das Programm Doodle-SDQ
-\cite{zhou_learning_2018}. Doodle-SDQ beschäftigt sich auch spezifischer mit dem
-Nachzeichnen von Strichbildern und wird deswegen im nächsten Abschnitt weiter
-behandelt.
+\section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
+Strichbildern ist ein Teilbereich von dem Zeichnen allgemein. Es gibt
+verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger Ansatz
+ist \emph{Stroke-Based Rendering} [stroke based rendering]. Stroke-Based % TODO: Quelle?
+Rendering ist das Zeichnen von Bilder durch das Platzieren von Elementen wie
+Strichen. Beispiele für Arbeiten in diesem Bereich sind Strokenet
+\cite{zheng_strokenet_2018} und ``Learning to Paint With Model-based Deep
+Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze simulieren
+die Führung eines Stiftes. (siehe autoref{stroke-based vs Stift}) Ein Beispiel
+dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}. Doodle-SDQ beschäftigt sich auch
+spezifischer mit dem Nachzeichnen von Strichbildern und wird deswegen im
+nächsten Abschnitt weiter behandelt.
 
 %todo bild strokebased vs stife
 
@@ -356,14 +353,7 @@ $11\times11$ Bereich (bezeichnet als Local image patch \cite[S. 5]{zhou_learning
 der Agent in einem Schritt bewegen kann. Das zweite Bild beschreibt den selben
 Bereich von der Zeichenfläche \cite[S. 4 ff.]{zhou_learning_2018}. Der global Stream und der Local
 Stream werden durch eine Concatenation Layer (siehe \nameref{sub:t_ml_nn})
-zusammengeführt.
-
-Die Reward-Function (siehe \nameref{sub:t_rl_func}) bezieht sich auf die
-Differenz der Anzahl der übereinstimmenden Pixel zwischen der Vorlage und
-Zeichenfläche zwischen zwei Steps \cite[S. 6]{zhou_learning_2018}. Eine grosse Menge an neu
-übereinstimmenden Pixel entsprechen somit einem höheren Reward als wenige neu
-übereinsimmende Pixel. Wenn nach einem Step weniger Pixel übereinstimmen als
-zuvor, entspricht das einem negativen Reward. 
+zusammengeführt. 
 
 \section{Git und GitHub}\label{chap:t_git} Git und Github sind weit verbreitete
 Hilfsmittel für Software Entwickler. Git ist ein Programm, während GitHub ein
