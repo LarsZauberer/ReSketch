@@ -143,11 +143,16 @@ dienen.
 
 %todo Tabelle
 \label{tab:Datasets}
-Tabelle:
-Art       |       Entwickler      |     Trainiert mit     |      Genauigkeit 
-Zahlen  
-Buchstaben
-Strichbilder von Objekten
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|l|l|l|}
+  \hline
+      Art & Entwickler & Trainiert mit \\ \hline
+      Zahlen & \cite{mazzia__2022} & MNIST \\ \hline
+      Buchstaben & \cite{mor_emnist_2022} & EMNIST Letters \\ \hline
+      \makecell{Strichbilder\\von Objekten} & \cite{lam_linus_keras_2022} & Auswahl aus QuickDraw \\ \hline
+  \end{tabular}
+\end{table}
 
 Dieses Kriterium ist in der Fragestellung (siehe \nameref{chap:einleit})
 angedeutet. Die Antwort auf die Frage fällt positiv aus, wenn die KI dieses
