@@ -216,8 +216,8 @@ wiederholtem Ausprobieren mit Anpassungen zwischen jedem Versuch. Hilfsmittel,
 wie der Baysian Optimization Algorithmus (siehe \nameref{sub:t_ml_hyper}),
 vereinfachen diese Aufgabe massgeblich. Tatsächlich ermöglichte der Baysian
 Optimization Algorithmus eine Verbesserung der KI von ungefähr $40-50\%$ mehr im
-Kriterium der Übereinstimmung \nameref{sub:m_eval_proc}). Diese Strategie der
-Optimierung ist für einen Computer sehr ressourcenintensiv. In den längsten
+Kriterium der Übereinstimmung (siehe \nameref{sub:m_eval_proc}). Diese Strategie
+der Optimierung ist für einen Computer sehr ressourcenintensiv. In den längsten
 Optimierungsarbeiten liefen die beiden Computer, auf denen die Arbeit verrichtet
 wurde, zusammen länger als $48$ Stunden.
 
@@ -255,24 +255,22 @@ maximieren können.
 
 %todo bild Lernkurve
 
-\subsection{Verwendung von Git und GitHub}\label{sub:d_reflex_git}
-Die Verwendung von Git und Github (siehe \nameref{chap:t_git}) erleichtert die
+\subsection{Verwendung von Git und GitHub}\label{sub:d_reflex_git} Die
+Verwendung von Git und Github (siehe \nameref{chap:t_git}) erleichtert die
 Arbeit an einem Projekt von diesem Ausmass sehr. Die Programme ermöglichen
 einfache Zusammenarbeit am Programmcode und an der Dokumentation. GitHub dient
-dabei zusätzlich als Hilfsmiitel zur Organisation durch die integrierte Funktion
+dabei zusätzlich als Hilfsmitel zur Organisation durch die integrierte Funktion
 der Project Boards. Diese Funktion hätte allerdings zu grösserem Ausmass
 Verwendung finden können.
 
-Die Funktion der Branches und Commits von Git (siehe \nameref{sub:t_git_git})
-werden durch die Arbeit hindurch konsequent verwendet. So liegt der Ursprung
-jeder Variation der künstlichen Intelligenz auf einem eigenen Branch. Auch die
-verschiedenen Kapitel der Dokumentation sind jeweils in einem eigenen Branch
-verfasst. Die Verzweigung des Projektes in Branches ermöglicht eine bessere
-Ordnung und Strukturierung des Projektes. Wenn die Arbeit an einem Branch
-erledigt ist, wird dieser wieder mit dem Main Branch zusammengeführt. Für die
-wichtigsten Branches wird dabei das Prinzip der Pull Request (siehe
-\nameref{sub:t_git_gh}) angewendet. Die Pull Request muss für jeden Branch von
-beiden Autoren akzeptiert werden.
+Die Funktion der Branches und Commits von Git werden durch die Arbeit hindurch
+konsequent verwendet. Dabei wird die Giflow Arbeitsweise, abgesehen von den
+Release Branches und den Hotfix Branches, angewendet (siehe
+\nameref{sub:t_git_git}) Neben den Feature Branches werden ausserdem
+Dokumentation Branches eingeführt, in denen jeweils ein Kapitel der
+Dokumentation verfasst wird. Für die Zusammenführungen der wichtigsten Branches
+wird das Prinzip der Pull Request (siehe \nameref{sub:t_git_gh}) angewendet. Die
+Pull Request muss für jeden Branch von beiden Autoren akzeptiert werden.
 
 Ein weiterer Vorteil von Git und Github ist die Zugänglichkeit des Projektes.
 Das gesamte Projekt ist unter folgendem Link einsehbar:

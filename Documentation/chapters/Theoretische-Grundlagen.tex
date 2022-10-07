@@ -358,23 +358,27 @@ zusätzliche Funktionen, die die Zusammenarbeit zwischen mehreren Entwicklern
 erleichtern. Die genaue Funktion und das Zusammenspiel dieser beiden Hilfsmittel
 wird nachfolgend erläutert.
 
-\subsection{Git}\label{sub:t_git_git}
-Git erkennt Veränderungen im Code eines Projektes und speichert diese
-Veränderungen in einer neuen Version ab. Die einzelnen Versionen des Projektes
-bleiben dabei zu jedem Zeitpunkt abrufbar. Dieses Konzept nennt sich Version
-Control [Version Control]. Das Programm wurde 2005 von Linus Torvald entwickelt
-[Git]. Versionen des Projektes werden manuell durch einen Commit gespeichert. Es
-wird empfohlen, nur jeweils ein bestimmtes Problem oder eine bestimmte Funktion
-pro Commit anzugehen [Git best practic]. Für grössere Funktionen oder Probleme
-kann ein Branch erstellt werden. Ein Branch ermöglicht eine abgekapselte
-Entwicklung eines Projektes [Git Branch]. Zum Beispiel kann das Projekt in
-mehreren Branches gleichzeitig und unabhängig von einander entwickelt werden.
-Das übliche Vorgehen mit Branches sieht so aus, dass aus einem Main Branch für
-jede grössere Funktion ein Branch erstellt wird (siehe autoref{branch
-structure}). Die Entwicklung der Funktion findet nur in dem zugehörigen Branch
-statt. Erst wenn die Funktion fertig ist, wird der Branch wieder mit dem Main
-Branch zusammengeführt. Wenn die Arbeit in einem Branch scheitert, kann dieser
-gelöscht werden, ohne den Main Branch zu beeinflussen [Git How Branch].
+\subsection{Git}\label{sub:t_git_git} Git erkennt Veränderungen im Code eines
+Projektes und speichert diese Veränderungen in einer neuen Version ab. Die
+einzelnen Versionen des Projektes bleiben dabei zu jedem Zeitpunkt abrufbar.
+Dieses Konzept nennt sich Version Control [Version Control]. Das Programm wurde
+2005 von Linus Torvald entwickelt [Git]. Versionen des Projektes werden manuell
+durch einen Commit gespeichert. Es wird empfohlen, nur jeweils ein bestimmtes
+Problem oder eine bestimmte Funktion pro Commit anzugehen [Git best practic].
+Für grössere Funktionen oder Probleme kann ein Branch erstellt werden. Ein
+Branch ermöglicht eine abgekapselte Entwicklung eines Projektes [Git Branch].
+Zum Beispiel kann das Projekt in mehreren Branches gleichzeitig und unabhängig
+von einander entwickelt werden [Git How Branch]. Eine weit verbreitete
+Arbeitsweise und Branch Struktur mit Git ist Gitflow [What is Git Flow]. Gitflow
+schlägt grundsätzlich einen Main Branch, einen Develop Branch und verschiedene
+Feature Branches vor [Git-flow-workflow]. Professionelle Anwendungen von Gitflow
+verwenden ausserdem so genannte Release Branches und Hotfix Branches [Gitflow
+release].  Im Main Branch sind offizielle Versionen des Projektes gespeichert,
+Im Develop Branch wird das Projekt als ganzes entwickelt, und in jedem Feature
+Branch wird eine Funktionalität in das Projektes implementiert (siehe
+autoref{Branch Structure} für die genaue Branch Struktur). 
+
+
 
 %todo bild branch structure
 
