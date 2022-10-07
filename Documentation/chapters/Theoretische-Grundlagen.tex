@@ -34,11 +34,12 @@ auf Supervised Learning. Das ist ein Teilbereich von Machine Learning, wobei das
 Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung, der
 Zielvariable, als Reaktion auf ihre eigenen Beurteilungen lernt
 \cite{noauthor_was_nodate-1}. Die Zielvariable muss dabei im Voraus für jeden
-Datenpunkt in den analysierten Daten durch einen Menschen festgelegt sein [ML
-3.1]. Ausgedrückt durch den Fachbegriff müssen die Daten labeled sein [2.1
-labeled]. Weitere Teilbereiche von Machine Learning sind Unsupervised Learning
-und Reinforcement Learning \cite{arora_supervised_2020}. Beachte
-\nameref{chap:t_rl} für eine ausgeprägtere Einführung in Reinforcement Learning.
+Datenpunkt in den analysierten Daten durch einen Menschen festgelegt sein
+\cite{trahasch_31_nodate}. Ausgedrückt durch den Fachbegriff müssen die Daten
+labeled sein \cite{noauthor_21_nodate}. Weitere Teilbereiche von Machine
+Learning sind Unsupervised Learning und Reinforcement Learning
+\cite{arora_supervised_2020}. Beachte \nameref{chap:t_rl} für eine ausgeprägtere
+Einführung in Reinforcement Learning.
 % TODO: Quellen Referenz?
 
 Machine Learning Modelle sind hauptsächlich in der programmiersprache Python
@@ -188,8 +189,7 @@ Layers ist es, wichtige Merkmale aus dem Input hervorzuheben
 \cite{jayawardana_concatenating_2021} sind eine weitere Form von hidden Layers,
 die zwei verschiedene Layers als Input haben und diese somit verbinden. Machine
 Learning Modelle werden ab mehr als einer Hidden Layer als Deep Learning Modelle
-bezeichnet [deep learning].
-% TODO: Quelle?
+bezeichnet \cite{jan-dirk_kranz_deep_2019}.
 
 %todo Bild conv vs full
 %file:///C:/Users/robin/Zotero/storage/PAZJPWRZ/convolutional-layers-vs-fully-connected-layers-364f05ab460b.html
@@ -234,12 +234,13 @@ Fachbegriffe.
 
 Ein Reinforcement Learning Modell umfasst eine \emph{Umgebung} und einen
 \emph{Agent}. Der Agent ist dasjenige Element in der Umgebung, welches mit
-dieser interagiert und daraus lernt \cite[S. 53]{sutton_reinforcement_2014}. Die Umgebung verändert sich in  % TODO: Quelle?
-Zeitschritten, genannt \emph{Steps}. In jedem Step führt der Agent eine
-\emph{Action} aus, die die Umgebung beeinflusst. Die Entscheidung, welche Action
-der Agent ausführt, basiert auf einer \emph{Observation} \cite[S. 2]{mnih_playing_nodate} der Umgebung.  % TODO: Quelle?
-Die Observation umfasst alle Daten der Umgebung, die für die Entscheidung des
-Agents relevant sind. Der Agent trifft seine Entscheidung auf der Basis eines
+dieser interagiert und daraus lernt \cite[S. 53]{sutton_reinforcement_2014}. Die
+Umgebung verändert sich in Zeitschritten, genannt \emph{Steps}. In jedem Step
+führt der Agent eine \emph{Action} aus, die die Umgebung beeinflusst. Die
+Entscheidung, welche Action der Agent ausführt, basiert auf einer
+\emph{Observation} \cite[S. 2]{mnih_playing_nodate} der Umgebung. Die
+Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
+relevant sind. Der Agent trifft seine Entscheidung auf der Basis eines
 neuronalen Netzes (siehe \nameref{sub:t_ml_nn}). Der Input in dieses neuronale
 Netz ist die Observation der Umgebung und der Output beschreibt die Action, die
 der Agent ausführt. Jedes Neuron des Outputs beschreibt eine spezifische Action
@@ -262,16 +263,17 @@ möglicherweise zufällig auf bessere Optionen für zukünftige Steps
 Die Umgebung und somit auch der Agent werden durch die Actions des Agenten
 beeinflusst. Dieser Einfluss wird durch die \emph{Reward-Function} gemessen. Die
 Reward-Function gibt eine rationale Zahl, den \emph{Reward} aus \cite[S.
-75]{sutton_reinforcement_2014}. Umso grösser
-der Reward, desto positiver ist der Effekt auf die Umgebung und umgekehrt. Ein
-positiver Einfluss auf die Umgebung durch eine Action ist so definiert, dass der
-Agent durch die Action das gewünschte Verhalten vorzeigt. Die Reward-Function
-definiert, welches Verhalten welchen Reward erzielt. Der Q-Value der gewählten
-Action wird mit dem Reward (und dem maximalen Q-Value aus den nächsten möglichen
-Actions) addiert. Diese Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_nodate}. Der neue Q-Value hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen
-grösseren Wert, wenn der Reward positiv ist. Die das neuronalen Netz
-wird daraufhin so trainiert, dass der Output für das Neuron, dessen Action
-ausgeführt wurde, näher am neu berechneten, besseren Q-Value ist (siehe autoref{schema2}).
+75]{sutton_reinforcement_2014}. Umso grösser der Reward, desto positiver ist der
+Effekt auf die Umgebung und umgekehrt. Ein positiver Einfluss auf die Umgebung
+durch eine Action ist so definiert, dass der Agent durch die Action das
+gewünschte Verhalten vorzeigt. Die Reward-Function definiert, welches Verhalten
+welchen Reward erzielt. Der Q-Value der gewählten Action wird mit dem Reward
+(und dem maximalen Q-Value aus den nächsten möglichen Actions) addiert. Diese
+Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_nodate}. Der neue
+Q-Value hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen
+grösseren Wert, wenn der Reward positiv ist. Die das neuronalen Netz wird
+daraufhin so trainiert, dass der Output für das Neuron, dessen Action ausgeführt
+wurde, näher am neu berechneten, besseren Q-Value ist (siehe autoref{schema2}).
 Der schlussendliche Effekt ist, dass Actions, die einen positiven Reward
 auslösen, wahrscheinlicher gewählt werden, und umgekehrt Actions, die einen
 negativen Rewards auslösen, unwahrscheinlicher gewählt werden. Der Agent
@@ -315,7 +317,7 @@ nächsten Abschnitt weiter behandelt.
 \subsection{Doodle-SDQ}\label{sub:t_ver_dood}
 Doodle-SDQ ist ein Computerprogramm, das durch ein Reinforcement Learning
 Modell, spezifischer Deep Q-Learning (siehe \nameref{sub:t_rl_func}), erlernt,
-Strichbilder aus dem Google QuickDraw Datenset \cite{noauthor_quick_2022} % TODO: Rec Quelle?
+Strichbilder aus dem Google QuickDraw Datenset \cite{noauthor_quick_2022}
 nachzuzeichnen. Nachfolgend sind die Aspekte von Doodle-SDQ beschrieben, die für
 diese Arbeit relevant sind.
 
@@ -365,21 +367,23 @@ wird nachfolgend erläutert.
 \subsection{Git}\label{sub:t_git_git} Git erkennt Veränderungen im Code eines
 Projektes und speichert diese Veränderungen in einer neuen Version ab. Die
 einzelnen Versionen des Projektes bleiben dabei zu jedem Zeitpunkt abrufbar.
-Dieses Konzept nennt sich Version Control \cite{atlassian_git-flow-workflow_nodate}. Das Programm wurde
-2005 von Linus Torvald entwickelt \cite{noauthor_git_2021}. Versionen des Projektes werden manuell
-durch einen Commit gespeichert. Es wird empfohlen, nur jeweils ein bestimmtes
-Problem oder eine bestimmte Funktion pro Commit anzugehen \cite{noauthor_5_nodate}.
-Für grössere Funktionen oder Probleme kann ein Branch erstellt werden. Ein
-Branch ermöglicht eine abgekapselte Entwicklung eines Projektes \cite{guillermo_brachetta_what_2022}.
-Zum Beispiel kann das Projekt in mehreren Branches gleichzeitig und unabhängig
-von einander entwickelt werden [Git How Branch]. Eine weit verbreitete % TODO: Quelle?
-Arbeitsweise und Branch Struktur mit Git ist Gitflow \cite{noauthor_what_2022}.
-Gitflow schlägt grundsätzlich einen Main Branch, einen Develop Branch und
-verschiedene Feature Branches vor \cite{atlassian_git-flow-workflow_nodate}.
-Professionelle Anwendungen von Gitflow verwenden ausserdem so genannte Release
-Branches und Hotfix Branches \cite{cameron_mckenzie_gitflow_2021}. Im Main
-Branch sind offizielle Versionen des Projektes gespeichert, Im Develop Branch
-wird das Projekt als ganzes entwickelt, und in jedem Feature Branch wird eine
+Dieses Konzept nennt sich Version Control
+\cite{atlassian_git-flow-workflow_nodate}. Das Programm wurde 2005 von Linus
+Torvald entwickelt \cite{noauthor_git_2021}. Versionen des Projektes werden
+manuell durch einen Commit gespeichert. Es wird empfohlen, nur jeweils ein
+bestimmtes Problem oder eine bestimmte Funktion pro Commit anzugehen
+\cite{noauthor_5_nodate}. Für grössere Funktionen oder Probleme kann ein Branch
+erstellt werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines
+Projektes \cite{guillermo_brachetta_what_2022}. Zum Beispiel kann das Projekt in
+mehreren Branches gleichzeitig und unabhängig von einander entwickelt werden
+\cite{guillermo_brachetta_what_2022}. Eine weit verbreitete Arbeitsweise und
+Branch Struktur mit Git ist Gitflow \cite{noauthor_what_2022}. Gitflow schlägt
+grundsätzlich einen Main Branch, einen Develop Branch und verschiedene Feature
+Branches vor \cite{atlassian_git-flow-workflow_nodate}. Professionelle
+Anwendungen von Gitflow verwenden ausserdem so genannte Release Branches und
+Hotfix Branches \cite{cameron_mckenzie_gitflow_2021}. Im Main Branch sind
+offizielle Versionen des Projektes gespeichert, Im Develop Branch wird das
+Projekt als ganzes entwickelt, und in jedem Feature Branch wird eine
 Funktionalität in das Projektes implementiert (siehe autoref{Branch Structure}
 für die genaue Branch Struktur). 
 
