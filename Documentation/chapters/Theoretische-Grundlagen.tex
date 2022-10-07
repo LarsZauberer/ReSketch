@@ -155,18 +155,17 @@ zwischen den beiden Grenzen (siehe autoref{sig vs perc}) [sigmoid Neuron].
 
 Neuronale Netze sind Verbindungen dieser Neuronen. Dabei dient der Output eines
 Neurons als Input in ein anderes Neuron. Der Output eines Neurons kann gleich
-für mehrere Neuronen ein Input sein. Die Neuronen sind in \emph{Layers} geordnet
-(siehe autoref{layers}). Neuronale Netze haben mindestens eine \emph{Input
-Layer} und eine \emph{Output Layer} [neural network deep learning][Neural
-network backprop]. Die Input Layer umfasst die Daten, zu dem das neuronale Netz
-eine Beurteilung liefert sollte. Im Beispielproblem (siehe \nameref{chap:t_ml})
-bestände die Eingabe-Ebene aus $28\times28$ Neuronen, wobei jedes Neuron die
-Graustufe (durch einen Wert von $0$ bis $255$) eines Pixels im Bild beschreibt.
-Der Input ist in diesem Fall zweidimensional. Die Dimensionen sind allerdings
-flexibel. Die Output Layer besteht im Beispiel aus $10$ Neuronen, wobei jedes
-Neuron einer Beurteilung entspricht (das fünfte Neuron beschreibt zum Beispiel
-die Ziffer Fünf als Beurteilung). Dasjenige Neuron mit dem höchsten Output
-entspricht der Beurteilung des neuronalen Netzes.
+für mehrere Neuronen ein Input sein. Die Neuronen sind in \emph{Layers}
+geordnet. Neuronale Netze haben mindestens eine \emph{Input Layer} und eine
+\emph{Output Layer} [neural network deep learning][Neural network backprop]. Die
+Input Layer umfasst die Daten, zu dem das neuronale Netz eine Beurteilung
+liefert sollte. Im Beispielproblem (siehe \nameref{chap:t_ml}) bestände die
+Eingabe-Ebene aus $28\times28$ Neuronen, wobei jedes Neuron die Graustufe (durch
+einen Wert von $0$ bis $255$) eines Pixels im Bild beschreibt. Der Input ist in
+diesem Fall zweidimensional. Die Dimensionen sind allerdings flexibel. Die
+Output Layer besteht im Beispiel aus $10$ Neuronen, wobei jedes Neuron einer
+Beurteilung entspricht. Dasjenige Neuron mit dem höchsten Output entspricht der
+Beurteilung des neuronalen Netzes (siehe autoref{layers}).
 
 %todo Bild Layers
 
@@ -256,11 +255,10 @@ positiver Einfluss auf die Umgebung durch eine Action ist so definiert, dass der
 Agent durch die Action das gewünschte Verhalten vorzeigt. Die Reward-Function
 definiert, welches Verhalten welchen Reward erzielt. Der Q-Value der gewählten
 Action wird mit dem Reward (und dem maximalen Q-Value aus den nächsten möglichen
-Actions) addiert. Diese Formel nennt sich Bellman-Gleichung [DQN s.3]. Der neue Q-Value          
-nimmt somit einen kleineren Wert an, wenn der Reward negativ ist, und einen
-grösseren Wert, wenn der Reward positiv ist. Die Gewichte des neuronalen Netzes
-werden daraufhin so angepasst, dass der Output für das Neuron, dessen Action
-ausgeführt wurde, näher am neu berechneten Q-Value ist (siehe autoref{schema2}).
+Actions) addiert. Diese Formel nennt sich Bellman-Gleichung [DQN s.3]. Der neue Q-Value hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen
+grösseren Wert, wenn der Reward positiv ist. Die das neuronalen Netz
+wird daraufhin so trainiert, dass der Output für das Neuron, dessen Action
+ausgeführt wurde, näher am neu berechneten, besseren Q-Value ist (siehe autoref{schema2}).
 Der schlussendliche Effekt ist, dass Actions, die einen positiven Reward
 auslösen, wahrscheinlicher gewählt werden, und umgekehrt Actions, die einen
 negativen Rewards auslösen, unwahrscheinlicher gewählt werden. Der Agent
@@ -286,18 +284,17 @@ das Lernverhalten stabiler macht als ein chronologisches Training auf einzelne
 Steps [training with exp replay, batch].
 
 
-\section{Verwandte Arbeiten und Themen}\label{chap:t_ver}
-Das Nachzeichnen von Strichbildern hängt allgemein mit dem Zeichnen von Bildern
-durch einen Computer zusammen. Es gibt verschiedene Ansätze, um einen Computer
-zeichnen zu lassen. Ein häufiger Ansatz ist \emph{Stroke-Based Rendering}
-[stroke based rendering]. Stroke-Based Rendering ist das Zeichnen von Bilder
-durch das Platzieren von Elementen wie Strichen. Beispiele für Arbeiten in
-diesem Bereich sind Strokenet [Strokenet] und ``Learning to Paint With
-Model-based Deep Reinforcement Learning'' [learning to paint] Andere Ansätze
-simulieren die Führung eines Stiftes. (siehe autoref{stroke-based vs Stift}) Ein
-Beispiel dafür ist das Programm Doodle-SDQ [Doodle-SDQ]. Doodle-SDQ beschäftigt
-sich auch spezifischer mit dem Nachzeichnen von Strichbildern und wird deswegen
-im nächsten Abschnitt weiter behandelt.
+\section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
+Strichbildern ist ein Teilbereich von dem Zeichnen allgemein. Es gibt
+verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger Ansatz
+ist \emph{Stroke-Based Rendering} [stroke based rendering]. Stroke-Based
+Rendering ist das Zeichnen von Bilder durch das Platzieren von Elementen wie
+Strichen. Beispiele für Arbeiten in diesem Bereich sind Strokenet [Strokenet]
+und ``Learning to Paint With Model-based Deep Reinforcement Learning'' [learning
+to paint] Andere Ansätze simulieren die Führung eines Stiftes. (siehe
+autoref{stroke-based vs Stift}) Ein Beispiel dafür ist das Programm Doodle-SDQ
+[Doodle-SDQ]. Doodle-SDQ beschäftigt sich auch spezifischer mit dem Nachzeichnen
+von Strichbildern und wird deswegen im nächsten Abschnitt weiter behandelt.
 
 %todo bild strokebased vs stife
 
@@ -342,14 +339,7 @@ $11\times11$ Bereich (bezeichnet als Local image patch [dood s.5]), in dem sich
 der Agent in einem Schritt bewegen kann. Das zweite Bild beschreibt den selben
 Bereich von der Zeichenfläche [Dood s.4 f.]. Der global Stream und der Local
 Stream werden durch eine Concatenation Layer (siehe \nameref{sub:t_ml_nn})
-zusammengeführt.
-
-Die Reward-Function (siehe \nameref{sub:t_rl_func}) bezieht sich auf die
-Differenz der Anzahl der übereinstimmenden Pixel zwischen der Vorlage und
-Zeichenfläche zwischen zwei Steps [Dood s.6]. Eine grosse Menge an neu
-übereinstimmenden Pixel entsprechen somit einem höheren Reward als wenige neu
-übereinsimmende Pixel. Wenn nach einem Step weniger Pixel übereinstimmen als
-zuvor, entspricht das einem negativen Reward. 
+zusammengeführt. 
 
 \section{Git und GitHub}\label{chap:t_git} Git und Github sind weit verbreitete
 Hilfsmittel für Software Entwickler. Git ist ein Programm, während GitHub ein
