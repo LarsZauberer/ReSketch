@@ -22,12 +22,19 @@ Ein Beispielproblem für ein Machine Learning Modell ist die Erkennung von
 handschriftlichen Zahlen. Ein Computerprogramm soll durch den Input eines Bildes
 mit einer handschriftlichen Zahl eine korrekte Beurteilung treffen, um welche
 Zahl es sich handelt. Mit anderen Worten soll der Output des Computerprogrammes
-der Zahl entsprechen, die auf dem Bild der Eingabe zu sehen ist (siehe \autoref{recognition}). Jedes % TODO: Referenz auf Bild machen
+der Zahl entsprechen, die auf dem Bild der Eingabe zu sehen ist (siehe \autoref{fig:rec-maschine}). Jedes
 Computerprogramm, das dieses Problem löst, fällt in den Bereich der künstlichen
 Intelligenz. Machine Learning Modelle geben einen Ansatz für die Umsetzung eines
 solchen Computerprogrammes.
 
-%todo Bild recognition machine
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 Machine Learning Modelle, die das Beispielproblem lösen, basieren üblicherweise
 auf Supervised Learning. Das ist ein Teilbereich von Machine Learning, wobei das
@@ -62,7 +69,16 @@ veröffentlicht und beinhaltet $70'000$ Bilder von hangeschriebenen Zahlen
 \cite{noauthor_emnist_2017}. Jedes Bild hat eine auflösung von $28\times28$
 Pixeln (siehe autoref{mnist}). % TODO: Bild ref machen
 
-%todo mnist bild
+%todo mnist beispiele
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
+
+
                 
 Ein Machine Learning Modell durchläuft ein Training gefolgt von einer Testphase
 \cite{noauthor_training_nodate}. Während dem Training erlernt das Modell die Mustererkennung,
@@ -106,6 +122,14 @@ autoref{Blackbox}). % TODO: Bild ref machen
 % TODO: Stimmen ersten beiden Quellen?
 
 %todo bild Blackbox
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
+
 
 Machine Learning Modelle werden häufig als Black Box Funktionen angesehen, da
 das Training mit hohem rechnerischen Aufwand verbunden ist, wodurch die genauen
@@ -149,6 +173,13 @@ Gewichts bestimmt somit den Einfluss der zugehörigen Eingabe auf die Ausgabe de
 Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
 
 %todo Bild A neuron
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 Neuronale Netze in Machine Learning Modellen verwenden kompliziertere Neuronen
 als das Perzeptron Neuron, wie zum Beispiel das Sigmoid-Neuron. Die Neuronen
@@ -158,6 +189,13 @@ beispielsweise auch Werte zwischen $0$ und $1$ an in einem stetigen Übergang
 zwischen den beiden Grenzen (siehe autoref{sig vs perc}) \cite{kumar_sigmoid_2019}.
 
 %todo Bild sigmoid - perceptron funktion
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 Neuronale Netze sind Verbindungen dieser Neuronen. Dabei dient der Output eines
 Neurons als Input in ein anderes Neuron. Der Output eines Neurons kann gleich
@@ -176,6 +214,13 @@ Beurteilung). Dasjenige Neuron mit dem höchsten Output entspricht der
 Beurteilung des neuronalen Netzes. (siehe autoref{layers}).
 
 %todo Bild Layers
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 Zwischen der Input Layer und der Output Layers kann es weitere \emph{Hidden
 Layers} geben \cite{malik_what_2019}. Es gibt verschiedene Arten von Hidden
@@ -191,8 +236,15 @@ die zwei verschiedene Layers als Input haben und diese somit verbinden. Machine
 Learning Modelle werden ab mehr als einer Hidden Layer als Deep Learning Modelle
 bezeichnet \cite{jan-dirk_kranz_deep_2019}.
 
-%todo Bild conv vs full
+%todo Bilder conv-v-dens dens-v-conv
 %file:///C:/Users/robin/Zotero/storage/PAZJPWRZ/convolutional-layers-vs-fully-connected-layers-364f05ab460b.html
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 Ein Machine Learning Modell passt während dem Training (siehe
 \nameref{sub:t_ml_func}) einzelne Gewichte im neuronalen Netz in der Hoffnung
@@ -259,6 +311,13 @@ möglicherweise zufällig auf bessere Optionen für zukünftige Steps
 \cite{rajendra_koppula_exploration_nodate}.
 
 %todo bild reinforcement schema 1
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 Die Umgebung und somit auch der Agent werden durch die Actions des Agenten
 beeinflusst. Dieser Einfluss wird durch die \emph{Reward-Function} gemessen. Die
@@ -282,21 +341,28 @@ Reward zu erzielen \cite[S. 57]{sutton_reinforcement_2014}. Der akkumulierte
 Reward entsprich der Summe der Rewards aus jedem Step.
 
 %todo bild reinforcement schema 2
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
-Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}. Eine Episode umfasst
-eine gewisse Anzahl Steps und am Anfang jeder Episode wird die Umgebung in einen
-Startzustand zurückgesetzt. Die Resultate eines Steps werden in dem
-\emph{Replay-Buffer} gespeichert. Dazu gehören die Observation der Umgebung, die
-Action, und der Reward. Der Replay-Buffer enthält Speicherplatz für eine
-bestimmte Anzahl Steps. Während dem Training werden zufällige Steps aus dem
-Replay-Buffer gewählt, auf die das neuronale Netz trainiert. Das neurnale Netz
-trainiert also auf Daten aus der Vergangenheit der Umgebung und des Agents.
-Diese Strategie nennt sich Experience Replay \cite[S. 5]{mnih_playing_2013}. Ausserdem trainiert
-das neuronale Netz jeweils mit einem \emph{Batch} an Steps, also mit einer
-gewissen Anzahl an Steps gleichzeitig. Der Replay-Buffer und der Batch sichern
-zu, dass das neuronale Netz mit einer grossen Vielfalt an Steps trainiert, was
-das Lernverhalten stabiler macht als ein chronologisches Training auf einzelne
-Steps \cite{phd_how_2021}.
+Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}.
+Eine Episode umfasst eine gewisse Anzahl Steps und am Anfang jeder Episode wird
+die Umgebung in einen Startzustand zurückgesetzt. Die Resultate eines Steps
+werden in dem \emph{Replay-Buffer} gespeichert. Dazu gehören die Observation der
+Umgebung, die Action, und der Reward. Der Replay-Buffer enthält Speicherplatz
+für eine bestimmte Anzahl Steps. Während dem Training werden zufällige Steps aus
+dem Replay-Buffer gewählt, auf die das neuronale Netz trainiert. Das neurnale
+Netz trainiert also auf Daten aus der Vergangenheit der Umgebung und des Agents.
+Diese Strategie nennt sich Experience Replay \cite[S. 5]{mnih_playing_2013}.
+Ausserdem trainiert das neuronale Netz jeweils mit einem \emph{Batch} an Steps,
+also mit einer gewissen Anzahl an Steps gleichzeitig. Der Replay-Buffer und der
+Batch sichern zu, dass das neuronale Netz mit einer grossen Vielfalt an Steps
+trainiert, was das Lernverhalten stabiler macht als ein chronologisches Training
+auf einzelne Steps \cite{phd_how_2021}.
 
 
 \section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
@@ -313,6 +379,13 @@ beschäftigt sich auch spezifischer mit dem Nachzeichnen von Strichbildern und
 wird deswegen im nächsten Abschnitt weiter behandelt.
 
 %todo bild strokebased vs stife
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 \subsection{Doodle-SDQ}\label{sub:t_ver_dood} Doodle-SDQ ist ein
 Computerprogramm, das durch ein Reinforcement Learning Modell, spezifischer Deep
@@ -387,9 +460,14 @@ Projekt als ganzes entwickelt, und in jedem Feature Branch wird eine
 Funktionalität in das Projektes implementiert (siehe autoref{Branch Structure}
 für die genaue Branch Struktur). 
 
-
-
 %todo bild branch structure
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{WIP}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 \subsection{GitHub}\label{sub:t_git_gh}
 GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
