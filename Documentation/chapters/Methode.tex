@@ -46,14 +46,13 @@ ist im Schema \autoref{fig:architecture} angegeben. Jeder Block in der Abbildung
 repräsentiert Eine Layer des neuronalen Netzes, wobei die Form des Inputs und
 die Form des Outputs von jeder Layer angegeben ist. 
 
-%TODO Bild architecture
+%Bild architecture
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-2cm]{images/methode/architecture.png}
-  \caption{WIP}
+  \caption{Architektur des neuronalen Netzes im Grundprogramm (eigene Abbildung, mit Keras erstellt)}
   \label{fig:architecture}
 \end{figure}
-%todo caption, format
 
 
 Der Local Stream, also das nahe Umfeld um den Agent schrumpft von $11\times11$
@@ -64,14 +63,14 @@ um maximal drei Pixel von seiner Position wegbewegen kann. Diese Bewegung kann
 der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe
 \autoref{fig:actionspace}).
 
-%todo bild normal actionspace
+%bild normal actionspace
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/actionspace.png}
-  \caption{WIP}
+  \caption{Action-Space im Grundprogramm}
   \label{fig:actionspace}
 \end{figure}
-%todo caption, format
+
 
 Falls der Agent die Action zeichnend ausführt, zieht das Programm einen Strich
 zwischen der alten und der neuen Position. Mit anderen Worten werden alle Pixel
@@ -100,14 +99,13 @@ bestehen. Dabei ist $0$ Schwarz und $1$ Weiss (siehe \autoref{fig:norm-v-nogray}
 So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 überein.
 
-%todo Bild normal num vs nogray num
+%Bild normal num vs nogray num
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/norm-v-nogray.png}
-  \caption{WIP}
+  \caption{Entfernung der Graustufen im MNIST Datenset (eigene Abbildung)}
   \label{fig:norm-v-nogray}
 \end{figure}
-%todo caption, format
 
 
 %todo Parameter in Zukunft ändern
@@ -197,14 +195,13 @@ schwarz ist, sinkt die Anzahl um Eins. $G(t)$ und somit auch $K(t)$ können
 dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
 einer Genauigkeit von $100\%$ entspricht (siehe \autoref{fig:ubereinstimmung}).
 
-%todo bild übereinstimmung
+%bild übereinstimmung
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/ubereinstimm.png}
-  \caption{WIP}
+  \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung (eigene Abbildung)}
   \label{fig:ubereinstimmung}
 \end{figure}
-%todo caption, format
 
 \subsection{Geschwindigkeit}\label{sub:m_eval_speed}
 Dieses Kriterium beschreibt, wie schnell die Zeichnung der KI fertig ist. Der
@@ -313,14 +310,14 @@ positiven Reward für eine leere Zeichenfläche erhält. Das stört das weitere
 Lernverhalten, weil es die Wahrscheinlichkeit erhöht, dass die KI nicht mehr
 zeichnet.
 
-%todo Bild falsche mnist rec
+% Bild falsche mnist rec
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/wrong-mnist-rec.png}
-  \caption{WIP}
+  \caption{Beispiele einer richtigen und einer falschen Erkennung von handgeschriebenen Zahlen durch eine KI (eigene Abbildung). Die Werte sind durch einen Test der KI berechnet }
   \label{fig:wrong-minst-rec}
 \end{figure}
-%todo caption, format
+
 
 Der zweite Ansatz implementiert neben der Reward-Function der Erkennbarkeit
 erneut die Basis Reward-Function (siehe \nameref{sub:m_var_base}). Die Relevanz
@@ -333,14 +330,13 @@ gewissen Punkt bleiben beide Faktoren stehen (siehe \autoref{fig:decrementor}).
 Blieben die Faktoren ab diesem Punkt nicht konstant, würde die Variation,
 gestützt auf Beobachtungen, an Stabilität der Leistung verlieren.
 
-%todo Bild Decrementor
+% Bild Decrementor
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-2cm]{images/methode/decrementor.png}
-  \caption{WIP}
+  \caption{Veränderung der Faktoren der Basis Reward-Function und der Reward-Function der Erkennbarkeit über das Training hinweg (eigene Abbildung)}
   \label{fig:decrementor}
 \end{figure}
-%todo caption, format
 
 Das Zusammenspiel der beiden Reward-Functions hat den Vorteil, dass die
 künstliche Intelligenz zu Beginn des Trainings durch die Basis Reward-Function
@@ -397,14 +393,14 @@ Der Betrag der Geschwindigkeit $\vec{v}(t+1)$ des Agents wird, unabhängig von
 der gewählten Action, in jedem Step um $0.2$ Pixel verringert. Das simuliert eine
 Reibungskraft, die auf den Agent einwirkt.
 
-%todo bild physik actionspace
+%bild physik actionspace
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-6cm]{images/methode/physics-actionspace.png}
-  \caption{WIP}
+  \caption{Action-Space in der physikalischen Umgebung (eigene Abbildung)}
   \label{fig:physics-actionspace}
 \end{figure}
-%todo caption, format
+
 
 Die Veränderung in der Umgebung erfordert weitere Anpassungen im neuronalen Netz
 (siehe \nameref{sub:t_ml_nn}). Ohne diese Anpassungen kann die KI den
@@ -425,11 +421,11 @@ patches schrumpft von $7\times7$ Pixeln auf $5\times5$ Pixel, da alle möglichen
 Positionen des Agents nach einem Step auf einem $5\times5$ Feld Platz haben
 (siehe \autoref{fig:patch-move}). 
 
-%todo bild local patch verschiebung
+%bild local patch verschiebung
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/patch-move.png}
-  \caption{WIP}
+  \caption{Angabe der Geschwindigkeit durch eine Verschiebung des Local image Patches (eigene Abbildung)}
   \label{fig:patch-move}
 \end{figure}
 %todo caption, format
@@ -466,14 +462,14 @@ Motiven überprüft. Die zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer',
 drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
 \nameref{sub:m_grund_data}). 
 
-%todo Bild images dataset
+%Bild images dataset
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/quickdraw-examples.png}
-  \caption{WIP}
+  \caption{Beispiele der verwendeten Motiven aus dem QuickDraw Datenset}
   \label{fig:quickdraw-examples}
 \end{figure}
-%todo caption, format
+
 
 Die Variationen (siehe \nameref{chap:m_var}) der KI umfassen zwei Umgebungen und
 drei Reward-Functions \nameref{sub:t_rl_func}. Für jede Variation ist zur
