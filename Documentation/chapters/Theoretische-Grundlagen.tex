@@ -2,11 +2,12 @@
 Die theoretischen Grundlagen führen die Konzepte ein, die über die ganze Arbeit
 hinweg Anwendung finden. Es handelt sich dabei um Zusammenfassungen. Die Theorie
 wird auf den Teil reduziert, der für ein grundsätzliches Verständnis der Arbeit
-nötig ist. Weitere Informationen werden sind in den referenzierten Quellen
+nötig ist. Weitere Informationen sind in den referenzierten Quellen
 einsehbar. Auch die verwendeten Fachbegriffe werden in diesem Kapitel
 eingeführt. 
 
-\section{Machine Learning}\label{chap:t_ml} Machine Learning ist ein Teilbereich
+\section{Machine Learning}\label{chap:t_ml}
+Machine Learning ist ein Teilbereich
 der künstlichen Intelligenz. ``Künstliche Intelligenz (KI) bezieht sich im
 Allgemeinen auf jedes menschenähnliche Verhalten durch eine Maschine oder ein
 System'' \cite{noauthor_what_nodate} Mit Maschinen und Systemen sind in den
@@ -58,41 +59,40 @@ basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe\nameref{chap:
 Bei den Daten, die das Machine Learning Modell analysiert handelt es sich in
 diesem Fall um das MNIST Datenset \cite{noauthor_mnist_nodate}. Dieses Datenset
 wurde vom NIST (National Institute of Standards and Technology) in Amerika
-veröffentlicht und beinhaltet $70'000$ Bilder von hangeschriebenen Zahlen
-\cite{noauthor_emnist_2017}. Jedes Bild hat eine auflösung von $28\times28$
+veröffentlicht und beinhaltet $70'000$ Bilder von handgeschriebenen Zahlen
+\cite{noauthor_emnist_2017}. Jedes Bild hat eine Auflösung von $28\times28$
 Pixeln (siehe autoref{mnist}). % TODO: Bild ref machen
 
 %todo mnist bild
                 
 Ein Machine Learning Modell durchläuft ein Training gefolgt von einer Testphase
-\cite{noauthor_training_nodate}. Während dem Training erlernt das Modell die Mustererkennung,
-um verlässliche Aussagen zu den Daten der Eingabe zu treffen. Die Testphase
-misst die Genauigkeit des Modelles, also die Wahrscheinlichkeit, mit der das
-Modell die richige Lösung zur Eingabe liefert. Nur in den seltensten Fällen
-erreicht diese Genauigkeit $100\%$. Das Modell garantiert somit nicht die
+\cite{noauthor_training_nodate}. Während dem Training erlernt das Modell die
+Mustererkennung, um verlässliche Aussagen zu den Daten der Eingabe zu treffen.
+Die Testphase misst die Genauigkeit des Modelles, also die Wahrscheinlichkeit,
+mit der das Modell die richige Lösung zur Eingabe liefert. Nur in den seltensten
+Fällen erreicht diese Genauigkeit $100\%$. Das Modell garantiert somit nicht die
 richtige Lösung. Das Machine Learning Modell erlert die Mustererkennung während
 dem Training durch die Analyse von Trainingsdaten aus einem Datenset. Das Modell
 gibt zu jedem Datenpunkt die Beurteilung, um welche Zahl es sich handelt. Das
 Datenset ist labeled (siehe \nameref{chap:t_ml}). Falls die Beurteilung des
 Modelles nicht mit der bekannten, korrekten Lösung übereinstimmt, passt sich das
-Modell automatisch auf eine bestimmte Weise an. Dadurch soll die Beurteilungen
-für zukünftige Datenpunkte genauer werden. Die Testphase misst die Genauigkeit
-des Modelles auf Testdaten. Die Testdaten bestehen aus Datenpunkten, die in den
-Trainingsdaten nicht enthalten sind.
+Modell automatisch an. Dadurch soll die Beurteilungen für zukünftige Datenpunkte
+genauer werden. Die Testphase misst die Genauigkeit des Modelles auf Testdaten.
+Die Testdaten bestehen aus Datenpunkten, die in den Trainingsdaten nicht
+enthalten sind.
 
-Zusammengefasst kann Ein Machine Learning Modell Daten Beurteilen und sich
+Zusammengefasst kann ein Machine Learning Modell Daten Beurteilen und sich
 selbst Anpassen, um die Beurteilungen zu verbessern. Künstliche Neuronale Netze
 (siehe \nameref{sub:t_ml_nn}) umfassen diese Funktionalität, und finden daher in
 Machine Learning Modellen Anwendung.
 
 
 \subsection{Hyperparameter}\label{sub:t_ml_hyper}
-Machine Learning Modelle unfassen verschiedene Hyperparameter. Diese beschreiben
+Machine Learning Modelle umfassen verschiedene Hyperparameter. Diese beschreiben
 unter anderem wie lange das Training läuft oder wie stark sich das Modell nach
 einer falschen Beurteilung anpasst. Diese Hyperparameter beeinflussen das
 Lernverhalten des Modelles \cite{nyuytiymbiy_parameters_2022}, aber ihr optimaler Wert ist im
 Voraus nicht bekannt.
-% TODO: Quelle richtig? Stand nur Hyperparameter
 
 Hyperparameter können unter anderem durch den Baysian Optimization Algorithmus
 optimiert werden
@@ -103,7 +103,6 @@ System, dessen inneren Vorgänge nicht betrachtet werden \cite{noauthor_black_20
 Bei einer Blackbox Funktion ist folglich der Input und der Output bekannt,
 während die Verarbeitung des Inputs zum Output nicht betrachtet wird (siehe
 autoref{Blackbox}). % TODO: Bild ref machen
-% TODO: Stimmen ersten beiden Quellen?
 
 %todo bild Blackbox
 
@@ -116,8 +115,8 @@ Hyperparameter als Input und eine Zielvariable als Output definiert. Die
 Zielvarible des Outputs entspricht dabei einem Wert, der die Leistung des
 Modelles widerspiegelt und durch den Algorithmus maximiert werden soll. Ein
 Beispiel für die Zielvarible wäre die Genauigkeit des Machine Learning Modelles
-(siehe \nameref{sub:t_ml_func}) Die inneren Vorgänge in der BlackBox Funktion
-entsprechen in diesem Fall einem Training des Modelles
+(siehe \nameref{sub:t_ml_func}). Die inneren Vorgänge in der BlackBox Funktion
+entsprechen in diesem Fall einem Training des Modelles.
 
 Der Baysian Optimization Algorithmus kann bis zu 20 Hyperparameter zuverlässig
 optimieren \cite{moriconi_high-dimensional_2020}. Der Algorithmus führt die Blackbox Funktion für eine
@@ -162,10 +161,10 @@ zwischen den beiden Grenzen (siehe autoref{sig vs perc}) \cite{kumar_sigmoid_201
 Neuronale Netze sind Verbindungen dieser Neuronen. Dabei dient der Output eines
 Neurons als Input in ein anderes Neuron. Der Output eines Neurons kann gleich
 für mehrere Neuronen ein Input sein. Die Neuronen sind in \emph{Layers} geordnet
-(siehe autoref{layers}). Neuronale Netze haben mindestens eine \emph{Input
-Layer} und eine \emph{Output Layer}
-\cite{nielsen_neural_2015}\cite{ognjanovski_everything_2020}. Die Input Layer
-umfasst die Daten, zu dem das neuronale Netz eine Beurteilung liefert sollte. Im
+(siehe autoref{layers}). Neuronale Netze haben mindestens einen \emph{Input
+Layer} und einen \emph{Output Layer}
+\cite{nielsen_neural_2015}\cite{ognjanovski_everything_2020}. Der Input Layer
+umfasst die Daten, zu dem das neuronale Netz eine Beurteilung liefern soll. Im
 Beispielproblem (siehe \nameref{chap:t_ml}) bestände die Eingabe-Ebene aus
 $28\times28$ Neuronen, wobei jedes Neuron die Graustufe (durch einen Wert von
 $0$ bis $255$) eines Pixels im Bild beschreibt. Der Input ist in diesem Fall
@@ -177,13 +176,13 @@ Beurteilung des neuronalen Netzes. (siehe autoref{layers}).
 
 %todo Bild Layers
 
-Zwischen der Input Layer und der Output Layers kann es weitere \emph{Hidden
+Zwischen dem Input Layer und dem Output Layer kann es weitere \emph{Hidden
 Layers} geben \cite{malik_what_2019}. Es gibt verschiedene Arten von Hidden
 Layers, die verschidene Funktionen haben. Zwei der meist verwendeten Layers sind
 Fully Connected (Dense) Layers und Convolutional Layers
 \cite{unzueta_convolutional_2022}. In Fully Connected Layers dient jedes Neuron
 als Input für jedes Neuron in der nächsten Layer. In Convolutional Layers trifft
-das nicht zu. (siehe autoref{conv vs. full})Die Funktion von Convolutional
+das nicht zu. (siehe autoref{conv vs. full}) Die Funktion von Convolutional
 Layers ist es, wichtige Merkmale aus dem Input hervorzuheben
 \cite{deshpande_beginners_nodate}. Concatenation Layers
 \cite{jayawardana_concatenating_2021} sind eine weitere Form von hidden Layers,
@@ -195,9 +194,9 @@ bezeichnet \cite{jan-dirk_kranz_deep_2019}.
 %file:///C:/Users/robin/Zotero/storage/PAZJPWRZ/convolutional-layers-vs-fully-connected-layers-364f05ab460b.html
 
 Ein Machine Learning Modell passt während dem Training (siehe
-\nameref{sub:t_ml_func}) einzelne Gewichte im neuronalen Netz in der Hoffnung
-an, dass die Genauigkeit der Beurteilung mit den angepassten Gewichten grösser
-ist. Die Genaue Anpassung erfolgt in den meisten Machine Learning Modellen durch
+\nameref{sub:t_ml_func}) einzelne Gewichte im neuronalen Netz an, in der Hoffnung,
+dass die Genauigkeit der Beurteilung mit den angepassten Gewichten grösser
+ist. Die genaue Anpassung erfolgt in den meisten Machine Learning Modellen durch
 den Backpropagation Algorithmus
 \cite{ognjanovski_everything_2020}\cite{david_e_rumelhart_learning_nodate}.
 
@@ -221,7 +220,7 @@ Als Beispiel kann die echte Welt als eine Umgebung angesehen werden. Der Mensch
 wäre in diesem Fall das Reinforcement Learning Modell. Der Mensch lernt die
 Eigenschaften seiner Umgebung durch Interaktionen mit dieser kennen.
 Beispielsweise lernt ein Mensch die Schwerkraft durch das Hinfallen kennen.
-Durch diese Erfahrungen kann der Mensch ein gewissen Verhalten, zum Beispiel das
+Durch diese Erfahrungen kann der Mensch ein gewisses Verhalten, zum Beispiel das
 Laufen, erlernen. Reinforcement Learning Modelle imitieren dieses Lernverhalten.
 So verwendet die Robotik häufig Reinforcement Learning, um einen Roboter laufen
 zu lassen. Die Umgebung, mit der das Reinforcement Learning Modell lernt, ist
@@ -241,7 +240,7 @@ Entscheidung, welche Action der Agent ausführt, basiert auf einer
 \emph{Observation} \cite[S. 2]{mnih_playing_nodate} der Umgebung. Die
 Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
 relevant sind. Der Agent trifft seine Entscheidung auf der Basis eines
-neuronalen Netzes (siehe \nameref{sub:t_ml_nn}). Der Input in dieses neuronale
+neuronalen Netzes (siehe \nameref{sub:t_ml_nn}). Der Input in diesem neuronalen
 Netz ist die Observation der Umgebung und der Output beschreibt die Action, die
 der Agent ausführt. Jedes Neuron des Outputs beschreibt eine spezifische Action
 des Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
@@ -279,14 +278,14 @@ auslösen, wahrscheinlicher gewählt werden, und umgekehrt Actions, die einen
 negativen Rewards auslösen, unwahrscheinlicher gewählt werden. Der Agent
 versucht insgesamt durch seine Actions einen möglichst hohen akkumulierten
 Reward zu erzielen \cite[S. 57]{sutton_reinforcement_2014}. Der akkumulierte
-Reward entsprich der Summe der Rewards aus jedem Step.
+Reward entsprich der Summe der Rewards aus jedem Step in einer Episode.
 
 %todo bild reinforcement schema 2
 
 Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}. Eine Episode umfasst
 eine gewisse Anzahl Steps und am Anfang jeder Episode wird die Umgebung in einen
-Startzustand zurückgesetzt. Die Resultate eines Steps werden in dem
-\emph{Replay-Buffer} gespeichert. Dazu gehören die Observation der Umgebung, die
+Startzustand zurückgesetzt. Die Resultate der Steps werden in dem
+\emph{Replay-Buffer} gespeichert. Dazu gehören die Observations der Umgebung, die
 Action, und der Reward. Der Replay-Buffer enthält Speicherplatz für eine
 bestimmte Anzahl Steps. Während dem Training werden zufällige Steps aus dem
 Replay-Buffer gewählt, auf die das neuronale Netz trainiert. Das neurnale Netz
@@ -317,7 +316,7 @@ wird deswegen im nächsten Abschnitt weiter behandelt.
 \subsection{Doodle-SDQ}\label{sub:t_ver_dood} Doodle-SDQ ist ein
 Computerprogramm, das durch ein Reinforcement Learning Modell, spezifischer Deep
 Q-Learning (siehe \nameref{sub:t_rl_func}), erlernt, Strichbilder aus dem Google
-QuickDraw Datenset \cite{noauthor_quick_2022} % TODO: Rec Quelle?
+QuickDraw Datenset \cite{noauthor_quick_2022}
 nachzuzeichnen. Nachfolgend sind die Aspekte von Doodle-SDQ beschrieben, die für
 diese Arbeit relevant sind.
 
@@ -334,7 +333,7 @@ zeichnenden Zustand machen. Der Action-Space hat somit insgesamt eine Grösse vo
 $2\cdot11\cdot11 = 242$ Actions \cite[S. 5]{zhou_learning_2018}. Im zeichnenden
 Zustand wird ein Strich auf der Zeichenfläche zwischen der alten und der neuen
 Position des Agenten gezeichnet. Der Agent begeht 100 Steps pro Episode. Eine
-neue Episdoe entspricht dabei einem neuen Bild, das abgezeichnet werden soll.
+neue Episode entspricht dabei einem neuen Bild, das abgezeichnet werden soll.
 
 Die Obervation der Umgebung, und somit der Input in das neuronale Netz (siehe
 \nameref{sub:t_rl_func}), ist in zwei Teile gegliedert: den Global Stream und
@@ -394,7 +393,7 @@ für die genaue Branch Struktur).
 \subsection{GitHub}\label{sub:t_git_gh}
 GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
 Preston-Werner entwickelt \cite{noauthor_github_2021}. 2018 wurde das
-Unternehmen von Microsoft gekauft. GitHub ist ein Service, der Projekte, die mit
+Unternehmen von Microsoft gekauft. GitHub ist ein Service, das Projekte, die mit
 Git verwalten werden, in der Cloud speichert. Dadurch kann ein Projekt überall
 und von beliebig vielen Personen entwickelt werden. GitHub betreibt eine
 Webseite, über welche der Service verwendet werden kann
