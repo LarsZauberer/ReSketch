@@ -246,17 +246,35 @@ aufzeigt.
 Eine weitere Form von Analyse stammt aus der Sammlung von Daten über das
 Lernverhalten der KI. So wird aus jedem Training ein Graph erstellt, der die
 durchschnittliche Leistung der KI in jeder Episode erfasst (siehe
-autoref{lernkurve}). Die Leistung ist dabei durch den akkumulierten Reward in
-jeder Episode repräsentiert. Wie erwähnt können Versionen der KI nicht anhand
+\autoref{fig:learnplot}). Die Leistung ist dabei durch den akkumulierten Reward
+in jeder Episode repräsentiert. Wie erwähnt können Versionen der KI nicht anhand
 ihres akkumulierten Rewards verglichen werden. Der akkumulierte Reward zeigt
 allerdings für einzelne Versionen am präzisesten, in wiefern diese ihren Reward
 maximieren können.
 
 %todo bild Lernkurve
 
+\begin{figure}[htp]
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=6cm]{images/diskussion/learnplot-grund.png}
+        \phantomcaption{}
+        \label{fig:grund-basis}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=6cm]{images/diskussion/learnplot-phy.png} 
+        \phantomcaption{}
+        \label{fig:phy-basis}
+    \end{subfigure}
+    \caption{WIP}
+    \label{fig:learnplot}
+    \hfill
+\end{figure}
+
 \subsection{Verwendung von Git und GitHub}\label{sub:d_reflex_git} Die
 Verwendung von Git und Github (siehe \nameref{chap:t_git}) erleichtert die
-Arbeit an einem Projekt von diesem Ausmass sehr. Die Programme ermöglichen
+Arbeit an einem Projekt von dieser Grösse massgelich. Die Programme ermöglichen
 einfache Zusammenarbeit am Programmcode und an der Dokumentation. GitHub dient
 dabei zusätzlich als Hilfsmitel zur Organisation durch die integrierte Funktion
 der Project Boards. Diese Funktion hätte allerdings zu grösserem Ausmass
