@@ -40,12 +40,14 @@ class Learn_Plotter():
             data = json.load(p)
 
         
-        fig, ax = mp.subplots(dpi=200)
+        fig, ax = mp.subplots(dpi=300)
 
         ax.grid()
         ax.plot(data[0], data[1], color="navy") # "navy", "cornflowerblue"
-        ax.set(xlabel='Episode', ylabel='akkumulierter Reward',
-                title='Grund-Basis Lernverhalten')
+        
+        ax.set_title("Grund-Basis", fontsize=16)
+        ax.set_xlabel("Episode", fontsize=13)
+        ax.set_ylabel("akkumulierter Reward", fontsize=13)  
 
         fig.savefig(f"src/result_stats/learnplot.png", bbox_inches='tight')
         

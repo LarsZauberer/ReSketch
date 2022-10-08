@@ -23,12 +23,20 @@ Ein Beispielproblem für ein Machine Learning Modell ist die Erkennung von
 handschriftlichen Zahlen. Ein Computerprogramm soll durch den Input eines Bildes
 mit einer handschriftlichen Zahl eine korrekte Beurteilung treffen, um welche
 Zahl es sich handelt. Mit anderen Worten soll der Output des Computerprogrammes
-der Zahl entsprechen, die auf dem Bild der Eingabe zu sehen ist (siehe \autoref{recognition}). Jedes % TODO: Referenz auf Bild machen
+der Zahl entsprechen, die auf dem Bild der Eingabe zu sehen ist (siehe \autoref{fig:rec-maschine}). Jedes
 Computerprogramm, das dieses Problem löst, fällt in den Bereich der künstlichen
 Intelligenz. Machine Learning Modelle geben einen Ansatz für die Umsetzung eines
 solchen Computerprogrammes.
+%todo Zahl -> Ziffer
 
-%todo Bild recognition machine
+% Bild: Recognition machine
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+    \caption{Erkennung von handgeschriebenen Zahlen durch ein Machine Learning Modell (eigene Abbildung)}
+    \label{fig:rec-maschine}
+\end{figure}
+%todo caption, format
 
 Machine Learning Modelle, die das Beispielproblem lösen, basieren üblicherweise
 auf Supervised Learning. Das ist ein Teilbereich von Machine Learning, wobei das
@@ -36,7 +44,7 @@ Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung, der
 Zielvariable, als Reaktion auf ihre eigenen Beurteilungen lernt
 \cite{noauthor_was_nodate-1}. Die Zielvariable muss dabei im Voraus für jeden
 Datenpunkt in den analysierten Daten durch einen Menschen festgelegt sein
-\cite{trahasch_31_nodate}. Ausgedrückt durch den Fachbegriff müssen die Daten
+\cite{trahasich_31_2020}. Ausgedrückt durch den Fachbegriff müssen die Daten
 labeled sein \cite{noauthor_21_nodate}. Weitere Teilbereiche von Machine
 Learning sind Unsupervised Learning und Reinforcement Learning
 \cite{arora_supervised_2020}. Beachte \nameref{chap:t_rl} für eine ausgeprägtere
@@ -61,9 +69,18 @@ diesem Fall um das MNIST Datenset \cite{noauthor_mnist_nodate}. Dieses Datenset
 wurde vom NIST (National Institute of Standards and Technology) in Amerika
 veröffentlicht und beinhaltet $70'000$ Bilder von handgeschriebenen Zahlen
 \cite{noauthor_emnist_2017}. Jedes Bild hat eine Auflösung von $28\times28$
-Pixeln (siehe autoref{mnist}). % TODO: Bild ref machen
+Pixeln (siehe \autoref{fig:mnist-beispiele}).
 
-%todo mnist bild
+% Bild: MNIST Beispiele
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/mnist-beispiele.png}
+    \caption{Beispiele aus dem MNIST Datenset (Eigene Abbildung)}
+    \label{fig:mnist-beispiele}
+\end{figure}
+%todo caption, format
+
+
                 
 Ein Machine Learning Modell durchläuft ein Training gefolgt von einer Testphase
 \cite{noauthor_training_nodate}. Während dem Training erlernt das Modell die
@@ -95,16 +112,24 @@ Lernverhalten des Modelles \cite{nyuytiymbiy_parameters_2022}, aber ihr optimale
 Voraus nicht bekannt.
 
 Hyperparameter können unter anderem durch den Baysian Optimization Algorithmus
-optimiert werden
-\cite{agnihotri_exploring_2020}\cite{paretos_bayesian_2021}.
+optimiert werden \cite{agnihotri_exploring_2020}\cite{paretos_bayesian_2021}.
 Dieser Algorithmus versucht, den Output einer Black Box Funktion zu maximieren
-oder zu minimieren \cite[S. 15]{garnett_bayesian_nodate}. Eine Black Box ist ein häufig komplexes
-System, dessen inneren Vorgänge nicht betrachtet werden \cite{noauthor_black_2021}.
-Bei einer Blackbox Funktion ist folglich der Input und der Output bekannt,
-während die Verarbeitung des Inputs zum Output nicht betrachtet wird (siehe
-autoref{Blackbox}). % TODO: Bild ref machen
+oder zu minimieren \cite[S. 15]{garnett_bayesian_nodate}. Eine Black Box ist ein
+häufig komplexes System, dessen inneren Vorgänge nicht betrachtet werden
+\cite{noauthor_black_2021}. Bei einer Blackbox Funktion ist folglich der Input
+und der Output bekannt, während die Verarbeitung des Inputs zum Output nicht
+betrachtet wird (siehe \autoref{fig:blackbox}).
+% TODO: Stimmen ersten beiden Quellen?
 
-%todo bild Blackbox
+%bild Blackbox
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth-2cm]{images/theorie/blackbox.png}
+    \caption{Prinzip einer Black Box Funktion \cite{noauthor_fileblackboxsvg_nodate}}
+    \label{fig:blackbox}
+\end{figure}
+%todo caption, format
+
 
 Machine Learning Modelle werden häufig als Black Box Funktionen angesehen, da
 das Training mit hohem rechnerischen Aufwand verbunden ist, wodurch die genauen
@@ -137,7 +162,7 @@ neuronalen Netz, um ein künstliches neuronales Netz.
 
 Der Grundbaustein eines neuronalen Netzes ist das Neuron. Im Modell stellt das
 Neuron ein Objekt dar, das eine beliebiege Anzahl Inputs, aber nur einen Output
-hat (siehe autoref{neuron}) \cite{pramoditha_concept_2021}. Input und Output
+hat (siehe \autoref{fig:neuron}) \cite{pramoditha_concept_2021}. Input und Output
 sind hierbei rationale Zahlen. Die Ausgabe des Neurons ist im einfachsten
 Modell, dem Perzeptron Neuron, grundsätzlich entweder 0 oder 1. Die Ausgabe ist
 1, wenn die Summe der Eingaben einen vorgegebenen Wert, den \emph{Threshold},
@@ -147,16 +172,30 @@ Inputs wird jeder Input mit seinem Gewicht multipliziert.  Die Grösse des
 Gewichts bestimmt somit den Einfluss der zugehörigen Eingabe auf die Ausgabe des
 Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
 
-%todo Bild A neuron
+% Bild Neuron
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/neuron.png}
+    \caption{Perzeptron Neuron (eigene Abbildung)}
+    \label{fig:neuron}
+\end{figure}
+%todo caption, format
 
 Neuronale Netze in Machine Learning Modellen verwenden kompliziertere Neuronen
 als das Perzeptron Neuron, wie zum Beispiel das Sigmoid-Neuron. Die Neuronen
 unterscheiden sich in ihrer Activation Function und somit im Verhalten ihres
-Outputs \cite{pragati_baheti_activation_2022}. So nimmt der Output im Sigmoid-Neuron
+Outputs \cite{pragati_baheti_activation_2022}. So nimmt der Output im Sigmoid Neuron
 beispielsweise auch Werte zwischen $0$ und $1$ an in einem stetigen Übergang
-zwischen den beiden Grenzen (siehe autoref{sig vs perc}) \cite{kumar_sigmoid_2019}.
+zwischen den beiden Grenzen (siehe \autoref{fig:percep-v-sig}) \cite{kumar_sigmoid_2019}.
 
-%todo Bild sigmoid - perceptron funktion
+%Bild sigmoid vs perceptro
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/percep-v-sig.png}
+    \caption{Vergleich des Outputs eines Perzeptron Neurons und eines Sigmoid Neurons (eigene Abbildung)}
+    \label{fig:percep-v-sig}
+\end{figure}
+%todo caption, format
 
 Neuronale Netze sind Verbindungen dieser Neuronen. Dabei dient der Output eines
 Neurons als Input in ein anderes Neuron. Der Output eines Neurons kann gleich
@@ -172,9 +211,16 @@ zweidimensional. Die Dimensionen sind allerdings flexibel. Die Output Layer
 besteht im Beispiel aus $10$ Neuronen, wobei jedes Neuron einer Beurteilung
 entspricht (das fünfte Neuron beschreibt zum Beispiel die Ziffer Fünf als
 Beurteilung). Dasjenige Neuron mit dem höchsten Output entspricht der
-Beurteilung des neuronalen Netzes. (siehe autoref{layers}).
+Beurteilung des neuronalen Netzes. (siehe \autoref{fig:layers}).
 
-%todo Bild Layers
+%Bild Layers
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/layers.png}
+    \caption{Neuronales Netz mit beschrifteten Layers (eigene Abbildung)}
+    \label{fig:layers}
+\end{figure}
+%todo caption, format
 
 Zwischen dem Input Layer und dem Output Layer kann es weitere \emph{Hidden
 Layers} geben \cite{malik_what_2019}. Es gibt verschiedene Arten von Hidden
@@ -182,16 +228,23 @@ Layers, die verschidene Funktionen haben. Zwei der meist verwendeten Layers sind
 Fully Connected (Dense) Layers und Convolutional Layers
 \cite{unzueta_convolutional_2022}. In Fully Connected Layers dient jedes Neuron
 als Input für jedes Neuron in der nächsten Layer. In Convolutional Layers trifft
-das nicht zu. (siehe autoref{conv vs. full}) Die Funktion von Convolutional
-Layers beinhaltet, wichtige Merkmale aus dem Input hervorzuheben
+das nicht zu (siehe \autoref{fig:conv-v-dens}). Die Funktion von Convolutional
+Layers beinhaltet es, wichtige Merkmale aus dem Input hervorzuheben
 \cite{deshpande_beginners_nodate}. Concatenation Layers
 \cite{jayawardana_concatenating_2021} sind eine weitere Form von hidden Layers,
 die zwei verschiedene Layers als Input haben und diese somit verbinden. Machine
 Learning Modelle werden ab mehr als einer Hidden Layer als Deep Learning Modelle
 bezeichnet \cite{jan-dirk_kranz_deep_2019}.
 
-%todo Bild conv vs full
+%Bilder conv-v-dens dens-v-conv
 %file:///C:/Users/robin/Zotero/storage/PAZJPWRZ/convolutional-layers-vs-fully-connected-layers-364f05ab460b.html
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/conv-v-dens.png}
+    \caption{Vergleich zwischen Convolutional Layers (links) und Fully Connected Layers (rechts) \cite{unzueta_convolutional_2022}}
+    \label{fig:conv-v-dens}
+\end{figure}
+%todo caption, format
 
 Ein Machine Learning Modell passt während dem Training (siehe
 \nameref{sub:t_ml_func}) einzelne Gewichte im neuronalen Netz an, in der Hoffnung,
@@ -237,7 +290,7 @@ dieser interagiert und daraus lernt \cite[S. 53]{sutton_reinforcement_2014}. Die
 Umgebung verändert sich in Zeitschritten, genannt \emph{Steps}. In jedem Step
 führt der Agent eine \emph{Action} aus, die die Umgebung beeinflusst. Die
 Entscheidung, welche Action der Agent ausführt, basiert auf einer
-\emph{Observation} \cite[S. 2]{mnih_playing_nodate} der Umgebung. Die
+\emph{Observation} \cite[S. 2]{mnih_playing_2013} der Umgebung. Die
 Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
 relevant sind. Der Agent trifft seine Entscheidung auf der Basis eines
 neuronalen Netzes (siehe \nameref{sub:t_ml_nn}). Der Input in dieses neuronale
@@ -247,7 +300,7 @@ des Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
 Actions zusammen werden \emph{Action-Space} \cite[S.
 67]{sutton_reinforcement_2014} genannt. Jede Action im Action-Space besitzt
 einen \emph{Q-Value}, der dem Output des zugehörigen Neurons entspricht. (siehe
-autoref{schema1}) \cite{wang_deep_2021} Die schlussendliche Entscheidung, welche
+\autoref{fig:reinforce-1}) \cite{wang_deep_2021} Die schlussendliche Entscheidung, welche
 Action ausgeführt wird, basiert auf der \emph{Epsilon-Greedy} Strategie \cite[S.
 34]{sutton_reinforcement_2014}. Diese Strategie sieht vor, dass die Entscheidung
 mit einer Wahrscheinlichkeit von $\epsilon$ auf eine zufällige Action fällt.
@@ -257,7 +310,14 @@ wählt. Der Agent wählt Actions, die er ansonsten nie wählen würde, und triff
 möglicherweise zufällig auf bessere Optionen für zukünftige Steps
 \cite{rajendra_koppula_exploration_nodate}.
 
-%todo bild reinforcement schema 1
+%bild reinforcement schema 1
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/reinforce-1.png}
+    \caption{Funktionsweise eines Reinforcement Learning Modelles (eigene Abbildung)}
+    \label{fig:reinforce-1}
+\end{figure}
+%todo caption, format
 
 Die Umgebung und somit auch der Agent werden durch die Actions des Agenten
 beeinflusst. Dieser Einfluss wird durch die \emph{Reward-Function} gemessen. Die
@@ -268,11 +328,11 @@ durch eine Action ist so definiert, dass der Agent durch die Action das
 gewünschte Verhalten vorzeigt. Die Reward-Function definiert, welches Verhalten
 welchen Reward erzielt. Der Q-Value der gewählten Action wird mit dem Reward
 (und dem maximalen Q-Value aus den nächsten möglichen Actions) addiert. Diese
-Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_nodate}. Der neue
+Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_2013}. Der neue
 Q-Value hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen
 grösseren Wert, wenn der Reward positiv ist. Die das neuronalen Netz wird
 daraufhin so trainiert, dass der Output für das Neuron, dessen Action ausgeführt
-wurde, näher am neu berechneten, besseren Q-Value ist (siehe autoref{schema2}).
+wurde, näher am neu berechneten, besseren Q-Value ist (siehe \autoref{fig:reinforce-2}).
 Der schlussendliche Effekt ist, dass Actions, die einen positiven Reward
 auslösen, wahrscheinlicher gewählt werden, und umgekehrt Actions, die einen
 negativen Rewards auslösen, unwahrscheinlicher gewählt werden. Der Agent
@@ -280,39 +340,52 @@ versucht insgesamt durch seine Actions einen möglichst hohen akkumulierten
 Reward zu erzielen \cite[S. 57]{sutton_reinforcement_2014}. Der akkumulierte
 Reward entsprich der Summe der Rewards aus jedem Step in einer Episode.
 
-%todo bild reinforcement schema 2
+%bild reinforcement schema 2
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/reinforce-2.png}
+    \caption{Funktionsweise einer Reward-Function (eigene Abbildung)}
+    \label{fig:reinforce-2}
+\end{figure}
+%todo caption, format
 
 Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}.
 Eine Episode umfasst eine gewisse Anzahl Steps und am Anfang jeder Episode wird
-die Umgebung in einen Startzustand zurückgesetzt. Die Resultate der Steps werden
-in dem \emph{Replay-Buffer} gespeichert. Dazu gehören die Observations der
-Umgebung, die jeweiligen Actions und der jeweilige Reward. Der Replay-Buffer
-enthält Speicherplatz für eine bestimmte Anzahl Steps. Während dem Training
-werden zufällige Steps aus dem Replay-Buffer gewählt, auf die das neuronale Netz
-trainiert. Das neurnale Netz trainiert also auf Daten aus der Vergangenheit der
-Umgebung und des Agents. Diese Strategie nennt sich Experience Replay \cite[S.
-5]{mnih_playing_nodate}. Ausserdem trainiert das neuronale Netz jeweils mit
-einem \emph{Batch} an Steps, also mit einer gewissen Anzahl an Steps
-gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
-Netz mit einer grossen Vielfalt an Steps trainiert, was das Lernverhalten
-stabiler macht als ein chronologisches Training auf einzelne Steps
-\cite{phd_how_2021}.
+die Umgebung in einen Startzustand zurückgesetzt. Die Resultate eines Steps
+werden in dem \emph{Replay-Buffer} gespeichert. Dazu gehören die Observation der
+Umgebung, die jeweiligen Actions und der jeweilige Reward. Der Replay-Buffer enthält Speicherplatz
+für eine bestimmte Anzahl Steps. Während dem Training werden zufällige Steps aus
+dem Replay-Buffer gewählt, auf die das neuronale Netz trainiert. Das neurnale
+Netz trainiert also auf Daten aus der Vergangenheit der Umgebung und des Agents.
+Diese Strategie nennt sich Experience Replay \cite[S. 5]{mnih_playing_2013}.
+Ausserdem trainiert das neuronale Netz jeweils mit einem \emph{Batch} an Steps,
+also mit einer gewissen Anzahl an Steps gleichzeitig. Der Replay-Buffer und der
+Batch sichern zu, dass das neuronale Netz mit einer grossen Vielfalt an Steps
+trainiert, was das Lernverhalten stabiler macht als ein chronologisches Training
+auf einzelne Steps \cite{phd_how_2021}.
 
 
 \section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
 Strichbildern ist ein Teilbereich von dem Zeichnen allgemein. Es gibt
 verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger Ansatz
-ist \emph{Stroke-Based Rendering} [stroke based rendering]. Stroke-Based % TODO: Quelle?
+ist \emph{Stroke-Based Rendering} \cite{hertzmann_stroke_2002}. Stroke-Based % TODO: Quelle?
 Rendering ist das Zeichnen von Bilder durch das Platzieren von Elementen wie
 Strichen. Beispiele für Arbeiten in diesem Bereich sind Strokenet
-\cite{zheng_strokenet_2018} und ``Learning to Paint With Model-based Deep
+\cite{zheng2018strokenet} und ``Learning to Paint With Model-based Deep
 Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze simulieren
-die Führung eines Stiftes. (siehe autoref{stroke-based vs Stift}) Ein Beispiel
+die Führung eines Stiftes. (siehe \autoref{fig:stroke-v-stift}) Ein Beispiel
 dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}. Doodle-SDQ
 beschäftigt sich auch spezifischer mit dem Nachzeichnen von Strichbildern und
 wird deswegen im nächsten Abschnitt weiter behandelt.
 
-%todo bild strokebased vs stife
+%bild strokebased vs stife
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/theorie/stroke-v-stift.png}
+    \caption{Vergleich zwischen Stroke-Based Rendering und dem Führen eines Stiftes (eigene Abbildung)}
+    \label{fig:stroke-v-stift}
+\end{figure}
+%todo caption, format
 
 \subsection{Doodle-SDQ}\label{sub:t_ver_dood} Doodle-SDQ ist ein
 Computerprogramm, das durch ein Reinforcement Learning Modell, spezifischer Deep
@@ -377,19 +450,24 @@ erstellt werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines
 Projektes \cite{guillermo_brachetta_what_2022}. Zum Beispiel kann das Projekt in
 mehreren Branches gleichzeitig und unabhängig von einander entwickelt werden
 \cite{guillermo_brachetta_what_2022}. Eine weit verbreitete Arbeitsweise und
-Branch Struktur mit Git ist Gitflow \cite{noauthor_what_2022}. Gitflow schlägt
-grundsätzlich einen Main Branch, einen Develop Branch und verschiedene Feature
-Branches vor \cite{atlassian_git-flow-workflow_nodate}. Professionelle
-Anwendungen von Gitflow verwenden ausserdem so genannte Release Branches und
+Branch Struktur mit Git ist GitFlow
+\cite{noauthor_what_2022}\cite{atlassian_git-flow-workflow_nodate}. GitFlow
+schlägt grundsätzlich einen Main Branch, einen Develop Branch und verschiedene
+Feature Branches vor \cite{atlassian_git-flow-workflow_nodate}. Professionelle
+Anwendungen von GitFlow verwenden ausserdem so genannte Release Branches und
 Hotfix Branches \cite{cameron_mckenzie_gitflow_2021}. Im Main Branch sind
 offizielle Versionen des Projektes gespeichert, Im Develop Branch wird das
 Projekt als ganzes entwickelt, und in jedem Feature Branch wird eine
-Funktionalität in das Projektes implementiert (siehe autoref{Branch Structure}
-für die genaue Branch Struktur). 
+Funktionalität in das Projektes implementiert (siehe \autoref{fig:git-branch}). 
 
-
-
-%todo bild branch structure
+% bild branch structure
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth-2cm]{images/theorie/git-branch.png}
+    \caption{Branch Struktur von GitFlow \cite{atlassian_git-flow-workflow_nodate}}
+    \label{fig:git-branch}
+\end{figure}
+%todo caption, format
 
 \subsection{GitHub}\label{sub:t_git_gh}
 GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
