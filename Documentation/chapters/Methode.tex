@@ -25,9 +25,9 @@ auf dieses Kriterium. Das Grundprogramm ist in Python unter der Verwendung des
 Keras Frameworks implementiert (siehe \nameref{chap:t_ml}). 
 
 \subsection{Doodle-SDQ als Basis}\label{sub:m_grund_dood}
-Das Reinforcement Learning Modell des Grundprogrammes basiert auf Doodle-SDQ.
-(siehe \nameref{sub:t_ver_dood}) Von Doodle-SDQ ist das neuronale Netz, bezogen
-auf die Form des Inputs, des Outputs und den Hidden Layers, zu grossem Teil
+Das Reinforcement Learning Modell des Grundprogrammes basiert auf Doodle-SDQ
+(siehe \nameref{sub:t_ver_dood}). Von Doodle-SDQ ist das neuronale Netz, bezogen
+auf die Form des Inputs, des Outputs und den Hidden Layers, zu einem grossem Teil
 übernommen. Die relevanten Anpassungen zwischen Doodle-SDQ und dem Grundprogramm
 dieser Arbeit sind nachfolgend erläutert.
 
@@ -43,8 +43,8 @@ Zeichenfläche, nehmen den Wert von einem Bit an. Eine Null repräsentiert einen
 schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild und eine Eins
 einen weissen (gezeichneten) Pixel. Die genaue Architektur des neuronalen Netzes
 ist im Schema autoref{architecture} angegeben. Jeder Block in der Abbildung
-repräsentiert Eine Layer des neuronalen Netzes, wobei die Form des Inputs und
-die Form des Outputs von jeder Layer angegeben ist. 
+repräsentiert einen Layer des neuronalen Netzes, wobei die Form des Inputs und
+die Form des Outputs von jedem Layer angegeben ist. 
 
 %TODO Bild architecture
 
@@ -97,10 +97,10 @@ kann sich also pro Zeichnung $64$ Mal bewegen. Das neuronale Netz passt sich in
 jedem vierten Step an, mit einem Batch von $64$ zufällig ausgewählten Steps aus
 dem Replay Buffer.
 
-Die Hyperparameter des Grundprogrammes, wie auch der Variationen (siehe
+Die Hyperparameter des Grundprogrammes, wie auch die der Variationen (siehe
 \nameref{chap:m_var}) sind durch den Bayesian Optimization Algorithmus optimiert
 (siehe \nameref{sub:t_ml_hyper}). Die Implementierung des Algorithmus in Python
-stammt von \cite{fernando_bayesian_2022}. Der Algorithmus ändert sich für
+stammt von \cite{fernando_nogueira_bayesian_2014}. Der Algorithmus ändert sich für
 verschiedene Variationen der KI nicht und ist somit Teil des Grundprogrammes,
 wobei er zu der optimalen Leistung der KI beiträgt. 
 
@@ -134,15 +134,14 @@ ein Motiv nur als erkannt, wenn das zugehörige Neuron im Output des neuronalen
 Netzen einen Wert von über $0.75$ hat. Das entspricht mit einer hohen
 Wahrscheinlichkeit der korrekten Beurteilung.
 
-Um die verschiedenene Arten von Strichbildern, die die KI zeichnen soll, zu
+Um die verschiedenen Arten von Strichbildern, die die KI zeichnen soll, zu
 erkennen, existieren vortrainierte Machine Learning Modelle. Die in dieser
-Arbeit implementierten vortrainierten Modelle sind in der Tabelle {...}
+Arbeit implementierten vortrainierten Modelle sind in der Tabelle \autoref{tab:models}
 ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die in der
 Testumgebung (siehe \nameref{sub:m_auswert_test}) als Vorlage zum Abzeichnen
 dienen.
 
 %todo Tabelle
-\label{tab:Datasets}
 \begin{table}[!ht]
   \centering
   \begin{tabular}{|l|l|l|l|}
@@ -152,6 +151,7 @@ dienen.
       Buchstaben & \cite{mor_emnist_2022} & EMNIST Letters \\ \hline
       \makecell{Strichbilder\\von Objekten} & \cite{lam_linus_keras_2022} & Auswahl aus QuickDraw \\ \hline
   \end{tabular}
+  \label{tab:models}
 \end{table}
 
 Dieses Kriterium ist in der Fragestellung (siehe \nameref{chap:einleit})
@@ -162,7 +162,7 @@ Intelligenz betreffen.
 
 \subsection{Prozentuale Übereinstimmung}
 \label{sub:m_eval_proc}
-Dieses Kriterium ist durch die die prozentuale Übereinstimmung der weissen
+Dieses Kriterium ist durch die prozentuale Übereinstimmung der weissen
 (gezeichneten) Pixel zwischen der Vorlage und der Zeichnung der künstlichen
 Intelligenz definiert. Der Wert $K$ dieses Kriteriums zu einem bestimmten Step
 $t$ berechnet sich aus folgender Formel:
@@ -210,7 +210,7 @@ Die Basis Reward Function ist die einfachste Erweiterung des Grundprogrammes
 Intelligenz. Diese Reward Function implementiert das Kriterium der prozentualen
 Übereinstimmung (siehe \nameref{sub:m_eval_proc}). Der Reward für eine Action
 berechnet sich aus der Differenz zwischen der prozentualen Übereinstimmung vor
-dem Ausführen der Action, und und der prozentualen Übereinstimmung nach dem
+dem Ausführen der Action, und der prozentualen Übereinstimmung nach dem
 Ausführen der Action (also $K(t-1)$ und $K(t)$). Somit wird der Reward $R$ zum
 Step $t$ durch folgende Formel berechnet. 
 \[ R(t) = K(t) - K(t-1) \]
@@ -225,18 +225,18 @@ prozentualen Übereinstimmung.
 Der numerische Wert für die Zeit bis zur Fertigstellung der Zeichnung (siehe
 \nameref{sub:m_eval_speed}) kann in die Reward-Function integriert werden.
 Dadurch trainiert die künstliche Intelligenz auf eine minimale Zeit bis zur
-Fertigstellung. Die Variation verwendet die grundsätzlich die Basis
+Fertigstellung. Die Variation verwendet grundsätzlich die Basis
 Reward-Function (siehe \nameref{sub:m_var_base}). Die Anpassung davon sieht
 folgendermassen aus: Am Ende jeder Zeichnung wird der Reward jedes Steps mit
 einem Faktor $f$ multipliziert. Dieser Faktor berechnet sich aus folgender
 Formel:
 \[ f = 2 - \frac{S}{S_{\max}} \]
 $S_{\max}$ entspricht der Anzahl Steps, die der Agent pro Zeichnung (Episode)
-begeht (siehe \nameref{sub:m_grund_data}). $S$ Entspricht der Anzahl Steps
+begeht (siehe \nameref{sub:m_grund_data}). $S$ entspricht der Anzahl Steps
 bis zur Fertigstellung der Zeichnung. Der Faktor nimmt einen Wert zwischen $1$
 und $2$ an. Ein grösserer Faktor $f$ entspricht einer schnellen Fertigstellung
 und deswegen einem hohen Reward. Wenn der Agent die Zeichnung bis zum Ende einer
-Episode nicht fertigstellen, ist $f = 1$ (siehe \nameref{sub:m_eval_speed}). In
+Episode nicht fertigstellt, ist $f = 1$ (siehe \nameref{sub:m_eval_speed}). In
 diesem Fall unterscheidet sich die Reward-Function nicht von der Basis
 Reward-Function. Wenn die Zeichnung früher fertiggestellt wird, zeichnet der
 Agent trotzdem $S_{\max}$ Steps. Das verhindert eine ungleichmässige Verteilung
@@ -261,7 +261,7 @@ Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe
 \nameref{sub:m_eval_rec}). Die künstliche Intelligenz trainiert allerdings nur
 auf das Nachzeichnen von Ziffern. Aus diesem Grund trainiert diese Variation nur
 auf die Erkennbarkeit von Ziffern, und lässt die anderen Arten von Strichbildern
-ausser vor. 
+aussen vor. 
 
 Die Reward-Function (siehe \nameref{sub:t_rl_func}) dieser Variation beinhaltet
 eine zweite KI, die handgeschriebene Ziffern erkennt (siehe
@@ -320,7 +320,7 @@ allerdings mit den anderen Variationen (siehe \nameref{sub:m_var_rec} und
 Reward-Function anpassen.
 
 Die Variation ergänzt die Umgebung durch physikalische Simulationen. Diese
-physikalische Umgebung definiert die physichen Rahmenbedingungen des Zeichnens
+physikalische Umgebung definiert die physischen Rahmenbedingungen des Zeichnens
 neu, mit dem Ziel, diese näher an die Realität zu bringen (siehe
 \nameref{sub:d_frage_unter}). 
 
@@ -347,12 +347,12 @@ Geschwindigkeit des Agents nicht. $8$ Vektoren sind um den Agent herum mit
 einer Länge von $0.9$ Pixeln in gleichmässigem Abstand von einander angeordnet. %todo code präzision
 Zusammen bilden diese Vektoren einen Kreis um den Agent. Die restlichen 12
 Vektoren sind in einem grösseren Kreis gleichmässig angeordnet. Die Vektoren
-haben dabei eine Länge von $1.8$ Pixeln (siehe autoref{actionspace}).  Mit dem
+haben dabei eine Länge von $1.8$ Pixeln (siehe autoref{actionspace}).  Mit dem  % TODO: Werte nicht mehr ganz korrekt, wegen Hyperparameter optimierung
 gewählten Beschleunigungsvektor $\vec{a}(t)$ berechnet sich die Geschwindigkeit
 im nächsten Step $t+1$ aus dem aktuellen Step $t$ durch folgende Formel:
 \[ \vec{v}(t+1) = \vec{v}(t) + \vec{a}(t) \] 
 Der Betrag der Geschwindigkeit $\vec{v}(t+1)$ des Agents wird, unabhängig von
-der gewählten Action, in jedem Step um $0.2$ Pixel verringert. Das simuliert eine
+der gewählten Action, in jedem Step um $0.2$ Pixel verringert. Das simuliert eine  % TODO: Faktor Hyperparameter optimierung
 Reibungskraft, die auf den Agent einwirkt.
 
 %todo bild actionspace
@@ -398,7 +398,7 @@ der KI.
 
 Die Variationen werden auf ihre Leistung für drei verschiedene Datensets
 überprüft. Die drei Datensets beinhalten verschiedene Arten von handgemachten
-Strichbildern. (siehe \autoref{tab:Datasets}) Das erste Datenset, MNIST,
+Strichbildern (siehe \autoref{tab:Datasets}). Das erste Datenset, MNIST,
 beeinhaltet Ziffern, die in den Trainingsdaten nicht vorkommen. Das zweite
 Datenset, EMNIST Letters, beeinhaltet die 26 Kleinbuchstaben des Alphabets. Das
 dritte Datenset, QuickDraw, beeinhaltet Zeichnungen von insgesamt 345
@@ -436,9 +436,8 @@ ausgewertet. Diese Kombinationen stellen einzelne Versionen der KI dar
 \end{itemize}
 
 \subsection{Testumgebung}\label{sub:m_auswert_test}
-
 Die Leistungen der verschiedenen Variationen der künstlichen Intelligenz werden
-in einer Testumgebung (siehe \nameref{sub:t_ml_func}) ausgewertet. zwischen der
+in einer Testumgebung (siehe \nameref{sub:t_ml_func}) ausgewertet. Zwischen der
 Trainingsumgebung und der Testumgebung sind drei relevante Unterschiede
 erkennbar. Erstens trainiert die KI in der Testumgebung nicht. Die Testumgebung
 übernimmt eine trainierte Version der KI und verändert diese während dem Test
@@ -457,7 +456,7 @@ Steps. Wenn eine Zeichnung der Definition entsprechend früher fertig ist (siehe
 des Kriteriums der Geschwindigkeit gespeichert und die KI zeichnet weiter. Der
 Durchschnitt aller gespeicherten Werte eines Kriteriums entspricht der Leistung
 der getesteten Variation in diesem Kriterium. Das Kriterium der Erkennbarkeit
-(siehe \nameref{sub:m_eval_rec}) verwendet zur Auswertung je nach dem
+(siehe \nameref{sub:m_eval_rec}) verwendet zur Auswertung entsprechend dem
 verwendeten Datenset im Test, dasjenige vortrainierte Modell, das auf dem selben
 Datenset trainiert ist. Da das Kriterium der Erkennbarkeit jeweils den Wert $0$
 oder $1$ hat, ergibt der Durchschnitt aus allen Werten dieses Kriteriums eine
