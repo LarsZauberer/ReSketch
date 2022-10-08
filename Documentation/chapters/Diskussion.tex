@@ -197,9 +197,8 @@ auf drei wichitige Aspekte ein, die in der zusammengefassten Dokumentation nicht
 genug betont sind.
 
 Die Dokumentation ist mit LaTeX und spezifischer der ETH Thesis Formatvorlage
-[ETH template] formatiert. Ein Grossteil der Abbildungen stammt von den Autoren
-und ist in Adobe Illustrater [adobe ill] oder der Python Library Matplotlib
-[matplotlib] erstellt
+\cite{noauthor_cadmo_2014} formatiert. Ein Grossteil der Abbildungen stammt von den Autoren
+und ist in Adobe Illustrater oder der Python Library Matplotlib erstellt
 
 \subsection{Optimierung der KI}\label{sub:d_reflex_opti} Insgesamt sind acht
 Versionen der KI präsentiert. Im Verlaufe des Projektes gab es viele weitere
@@ -247,17 +246,24 @@ aufzeigt.
 Eine weitere Form von Analyse stammt aus der Sammlung von Daten über das
 Lernverhalten der KI. So wird aus jedem Training ein Graph erstellt, der die
 durchschnittliche Leistung der KI in jeder Episode erfasst (siehe
-autoref{lernkurve}). Die Leistung ist dabei durch den akkumulierten Reward in
-jeder Episode repräsentiert. Wie erwähnt können Versionen der KI nicht anhand
+\autoref{fig:learnplot}). Die Leistung ist dabei durch den akkumulierten Reward
+in jeder Episode repräsentiert. Wie erwähnt können Versionen der KI nicht anhand
 ihres akkumulierten Rewards verglichen werden. Der akkumulierte Reward zeigt
 allerdings für einzelne Versionen am präzisesten, in wiefern diese ihren Reward
 maximieren können.
 
-%todo bild Lernkurve
+%bild Lernkurve
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth-2cm]{images/diskussion/learnplot.png}
+    \caption{Akkumulierter Reward zu jeder Episode (Lernverhalten) der Grund-Basis Version und der Physik-Basis Version (eigene Abbildung)}
+    \label{fig:learnplot}
+\end{figure}
+
 
 \subsection{Verwendung von Git und GitHub}\label{sub:d_reflex_git} Die
 Verwendung von Git und Github (siehe \nameref{chap:t_git}) erleichtert die
-Arbeit an einem Projekt von diesem Ausmass sehr. Die Programme ermöglichen
+Arbeit an einem Projekt von dieser Grösse massgelich. Die Programme ermöglichen
 einfache Zusammenarbeit am Programmcode und an der Dokumentation. GitHub dient
 dabei zusätzlich als Hilfsmitel zur Organisation durch die integrierte Funktion
 der Project Boards. Diese Funktion hätte allerdings zu grösserem Ausmass
