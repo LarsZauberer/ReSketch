@@ -42,11 +42,19 @@ bis auf die neue Grösse der Bilder nicht. Die Pixel der Bilder, wie auch die
 Zeichenfläche, nehmen den Wert von einem Bit an. Eine Null repräsentiert einen
 schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild und eine Eins
 einen weissen (gezeichneten) Pixel. Die genaue Architektur des neuronalen Netzes
-ist im Schema autoref{architecture} angegeben. Jeder Block in der Abbildung
+ist im Schema \autoref{fig:architecture} angegeben. Jeder Block in der Abbildung
 repräsentiert Eine Layer des neuronalen Netzes, wobei die Form des Inputs und
 die Form des Outputs von jeder Layer angegeben ist. 
 
 %TODO Bild architecture
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
+
 
 Der Local Stream, also das nahe Umfeld um den Agent schrumpft von $11\times11$
 Pixel auf $7\times7$ Pixel. Somit schrumpft gleichzeitig der Action-Space (siehe
@@ -56,7 +64,14 @@ um maximal drei Pixel von seiner Position wegbewegen kann. Diese Bewegung kann
 der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe autoref{zeich
 vs nicht zeich}).
 
-%todo bild zeichnend vs nicht zeichnend
+%todo bild normal actionspace
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
 
 Falls der Agent die Action zeichnend ausführt, zieht das Programm einen Strich
 zwischen der alten und der neuen Position. Mit anderen Worten werden alle Pixel
@@ -87,6 +102,14 @@ So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 überein.
 
 %todo Bild normal num vs nogray num
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
+
 
 %todo Parameter in Zukunft ändern
 Das Grundprogramm trainiert mit $4000$ Bildern, von denen jede Ziffer $400$
@@ -175,7 +198,14 @@ schwarz ist, sinkt die Anzahl um Eins. $G(t)$ und somit auch $K(t)$ können
 dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
 einer Genauigkeit von $100\%$ entspricht (siehe autoref{über Pixel}).
 
-%todo bild übereinstimmende Pixel
+%todo bild übereinstimmung
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
 
 \subsection{Geschwindigkeit}\label{sub:m_eval_speed}
 Dieses Kriterium beschreibt, wie schnell die Zeichnung der KI fertig ist. Der
@@ -284,7 +314,14 @@ positiven Reward für eine leere Zeichenfläche erhält. Das stört das weitere
 Lernverhalten, weil es die Wahrscheinlichkeit erhöht, dass die KI nicht mehr
 zeichnet.
 
-%todo Bild mnist rec
+%todo Bild falsche mnist rec
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
 
 Der zweite Ansatz implementiert neben der Reward-Function der Erkennbarkeit
 erneut die Basis Reward-Function (siehe \nameref{sub:m_var_base}). Die Relevanz
@@ -298,6 +335,13 @@ Blieben die Faktoren ab diesem Punkt nicht konstant, würde die Variation,
 gestützt auf Beobachtungen, an Stabilität der Leistung verlieren.
 
 %todo Bild Decrementor
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
 
 Das Zusammenspiel der beiden Reward-Functions hat den Vorteil, dass die
 künstliche Intelligenz zu Beginn des Trainings durch die Basis Reward-Function
@@ -307,7 +351,6 @@ einen Reward auslöst. Eine korrekte Erkennung ist für eine untrainierte KI
 schwer zu erreichen. Deswegen muss die KI durch die Basis Reward-Function
 gewissermassen vortrainiert werden, um schlussendlich von der Reward-Function
 der Erkennbarkeit zu profitieren
-
 
 \subsection{Physikalische Umgebung}\label{sub:m_var_phy}
 Diese Variation spezialisiert sich auf kein Kriterium. Stattdessen verändert
@@ -354,7 +397,14 @@ Der Betrag der Geschwindigkeit $\vec{v}(t+1)$ des Agents wird, unabhängig von
 der gewählten Action, in jedem Step um $0.2$ Pixel verringert. Das simuliert eine
 Reibungskraft, die auf den Agent einwirkt.
 
-%todo bild actionspace
+%todo bild physik actionspace
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
 
 Die Veränderung in der Umgebung erfordert weitere Anpassungen im neuronalen Netz
 (siehe \nameref{sub:t_ml_nn}). Ohne diese Anpassungen kann die KI den
@@ -376,6 +426,14 @@ Positionen des Agents nach einem Step auf einem $5\times5$ Feld Platz haben
 (siehe autoref{local patch}). 
 
 %todo bild local patch verschiebung
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
+
 
 Ein weiteres Problem ist, dass der Agent sich durch seine Geschwindigkeit aus
 den vorgegebenen Grenzen der Zeichenfläche begeben kann. Im Grundprogramm  
@@ -409,6 +467,13 @@ drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
 \nameref{sub:m_grund_data}). 
 
 %todo Bild images dataset
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \caption{WIP}
+  \label{fig:architecture}
+\end{figure}
+%todo caption, format
 
 Die Variationen (siehe \nameref{chap:m_var}) der KI umfassen zwei Umgebungen und
 drei Reward-Functions \nameref{sub:t_rl_func}. Für jede Variation ist zur
