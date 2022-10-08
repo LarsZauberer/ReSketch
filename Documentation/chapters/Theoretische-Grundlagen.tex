@@ -35,7 +35,7 @@ Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung, der
 Zielvariable, als Reaktion auf ihre eigenen Beurteilungen lernt
 \cite{noauthor_was_nodate-1}. Die Zielvariable muss dabei im Voraus für jeden
 Datenpunkt in den analysierten Daten durch einen Menschen festgelegt sein
-\cite{trahasch_31_nodate}. Ausgedrückt durch den Fachbegriff müssen die Daten
+\cite{trahasich_31_2020}. Ausgedrückt durch den Fachbegriff müssen die Daten
 labeled sein \cite{noauthor_21_nodate}. Weitere Teilbereiche von Machine
 Learning sind Unsupervised Learning und Reinforcement Learning
 \cite{arora_supervised_2020}. Beachte \nameref{chap:t_rl} für eine ausgeprägtere
@@ -238,7 +238,7 @@ dieser interagiert und daraus lernt \cite[S. 53]{sutton_reinforcement_2014}. Die
 Umgebung verändert sich in Zeitschritten, genannt \emph{Steps}. In jedem Step
 führt der Agent eine \emph{Action} aus, die die Umgebung beeinflusst. Die
 Entscheidung, welche Action der Agent ausführt, basiert auf einer
-\emph{Observation} \cite[S. 2]{mnih_playing_nodate} der Umgebung. Die
+\emph{Observation} \cite[S. 2]{mnih_playing_2013} der Umgebung. Die
 Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
 relevant sind. Der Agent trifft seine Entscheidung auf der Basis eines
 neuronalen Netzes (siehe \nameref{sub:t_ml_nn}). Der Input in dieses neuronale
@@ -269,7 +269,7 @@ durch eine Action ist so definiert, dass der Agent durch die Action das
 gewünschte Verhalten vorzeigt. Die Reward-Function definiert, welches Verhalten
 welchen Reward erzielt. Der Q-Value der gewählten Action wird mit dem Reward
 (und dem maximalen Q-Value aus den nächsten möglichen Actions) addiert. Diese
-Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_nodate}. Der neue
+Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_2013}. Der neue
 Q-Value hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen
 grösseren Wert, wenn der Reward positiv ist. Die das neuronalen Netz wird
 daraufhin so trainiert, dass der Output für das Neuron, dessen Action ausgeführt
@@ -291,7 +291,7 @@ Action, und der Reward. Der Replay-Buffer enthält Speicherplatz für eine
 bestimmte Anzahl Steps. Während dem Training werden zufällige Steps aus dem
 Replay-Buffer gewählt, auf die das neuronale Netz trainiert. Das neurnale Netz
 trainiert also auf Daten aus der Vergangenheit der Umgebung und des Agents.
-Diese Strategie nennt sich Experience Replay \cite[S. 5]{mnih_playing_nodate}. Ausserdem trainiert
+Diese Strategie nennt sich Experience Replay \cite[S. 5]{mnih_playing_2013}. Ausserdem trainiert
 das neuronale Netz jeweils mit einem \emph{Batch} an Steps, also mit einer
 gewissen Anzahl an Steps gleichzeitig. Der Replay-Buffer und der Batch sichern
 zu, dass das neuronale Netz mit einer grossen Vielfalt an Steps trainiert, was
@@ -305,7 +305,7 @@ verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger Ansat
 ist \emph{Stroke-Based Rendering} [stroke based rendering]. Stroke-Based % TODO: Quelle?
 Rendering ist das Zeichnen von Bilder durch das Platzieren von Elementen wie
 Strichen. Beispiele für Arbeiten in diesem Bereich sind Strokenet
-\cite{zheng_strokenet_2018} und ``Learning to Paint With Model-based Deep
+\cite{zheng2018strokenet} und ``Learning to Paint With Model-based Deep
 Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze simulieren
 die Führung eines Stiftes. (siehe autoref{stroke-based vs Stift}) Ein Beispiel
 dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}. Doodle-SDQ
