@@ -26,12 +26,13 @@ der Zahl entsprechen, die auf dem Bild der Eingabe zu sehen ist (siehe \autoref{
 Computerprogramm, das dieses Problem löst, fällt in den Bereich der künstlichen
 Intelligenz. Machine Learning Modelle geben einen Ansatz für die Umsetzung eines
 solchen Computerprogrammes.
+%todo Zahl -> Ziffer
 
 % Bild: Recognition machine
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
-    \caption{WIP}
+    \caption{Erkennung von handgeschriebenen Zahlen durch ein Machine Learning Modell (eigene Abbildung)}
     \label{fig:rec-maschine}
 \end{figure}
 %todo caption, format
@@ -73,7 +74,7 @@ Pixeln (siehe \autoref{fig:mnist-beispiele}).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/mnist-beispiele.png}
-    \caption{WIP}
+    \caption{Beispiele aus dem MNIST Datenset (Eigene Abbildung)}
     \label{fig:mnist-beispiele}
 \end{figure}
 %todo caption, format
@@ -124,7 +125,7 @@ betrachtet wird (siehe \autoref{fig:blackbox}).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth-2cm]{images/theorie/blackbox.png}
-    \caption{WIP}
+    \caption{Prinzip einer Black Box Funktion \cite{noauthor_fileblackboxsvg_nodate}}
     \label{fig:blackbox}
 \end{figure}
 %todo caption, format
@@ -175,7 +176,7 @@ Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/neuron.png}
-    \caption{WIP}
+    \caption{Perzeptron Neuron (eigene Abbildung)}
     \label{fig:neuron}
 \end{figure}
 %todo caption, format
@@ -183,7 +184,7 @@ Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
 Neuronale Netze in Machine Learning Modellen verwenden kompliziertere Neuronen
 als das Perzeptron Neuron, wie zum Beispiel das Sigmoid-Neuron. Die Neuronen
 unterscheiden sich in ihrer Activation Function und somit im Verhalten ihres
-Outputs \cite{pragati_baheti_activation_2022}. So nimmt der Output im Sigmoid-Neuron
+Outputs \cite{pragati_baheti_activation_2022}. So nimmt der Output im Sigmoid Neuron
 beispielsweise auch Werte zwischen $0$ und $1$ an in einem stetigen Übergang
 zwischen den beiden Grenzen (siehe \autoref{fig:percep-v-sig}) \cite{kumar_sigmoid_2019}.
 
@@ -191,7 +192,7 @@ zwischen den beiden Grenzen (siehe \autoref{fig:percep-v-sig}) \cite{kumar_sigmo
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/percep-v-sig.png}
-    \caption{WIP}
+    \caption{Vergleich des Outputs eines Perzeptron Neurons und eines Sigmoid Neurons (eigene Abbildung)}
     \label{fig:percep-v-sig}
 \end{figure}
 %todo caption, format
@@ -216,7 +217,7 @@ Beurteilung des neuronalen Netzes. (siehe \autoref{fig:layers}).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/layers.png}
-    \caption{WIP}
+    \caption{Neuronales Netz mit beschrifteten Layers (eigene Abbildung)}
     \label{fig:layers}
 \end{figure}
 %todo caption, format
@@ -240,7 +241,7 @@ bezeichnet \cite{jan-dirk_kranz_deep_2019}.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/conv-v-dens.png}
-    \caption{WIP}
+    \caption{Vergleich zwischen Convolutional Layers (links) und Fully Connected Layers (rechts) \cite{unzueta_convolutional_2022}}
     \label{fig:conv-v-dens}
 \end{figure}
 %todo caption, format
@@ -313,7 +314,7 @@ möglicherweise zufällig auf bessere Optionen für zukünftige Steps
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/reinforce-1.png}
-    \caption{WIP}
+    \caption{Funktionsweise eines Reinforcement Learning Modelles (eigene Abbildung)}
     \label{fig:reinforce-1}
 \end{figure}
 %todo caption, format
@@ -343,7 +344,7 @@ Reward entsprich der Summe der Rewards aus jedem Step.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/reinforce-2.png}
-    \caption{WIP}
+    \caption{Funktionsweise einer Reward-Function (eigene Abbildung)}
     \label{fig:reinforce-2}
 \end{figure}
 %todo caption, format
@@ -381,7 +382,7 @@ wird deswegen im nächsten Abschnitt weiter behandelt.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/stroke-v-stift.png}
-    \caption{WIP}
+    \caption{Vergleich zwischen Stroke-Based Rendering und dem Führen eines Stiftes (eigene Abbildung)}
     \label{fig:stroke-v-stift}
 \end{figure}
 %todo caption, format
@@ -449,21 +450,21 @@ erstellt werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines
 Projektes \cite{guillermo_brachetta_what_2022}. Zum Beispiel kann das Projekt in
 mehreren Branches gleichzeitig und unabhängig von einander entwickelt werden
 \cite{guillermo_brachetta_what_2022}. Eine weit verbreitete Arbeitsweise und
-Branch Struktur mit Git ist Gitflow \cite{noauthor_what_2022}. Gitflow schlägt
-grundsätzlich einen Main Branch, einen Develop Branch und verschiedene Feature
-Branches vor \cite{atlassian_git-flow-workflow_nodate}. Professionelle
-Anwendungen von Gitflow verwenden ausserdem so genannte Release Branches und
+Branch Struktur mit Git ist GitFlow
+\cite{noauthor_what_2022}\cite{atlassian_git-flow-workflow_nodate}. GitFlow
+schlägt grundsätzlich einen Main Branch, einen Develop Branch und verschiedene
+Feature Branches vor \cite{atlassian_git-flow-workflow_nodate}. Professionelle
+Anwendungen von GitFlow verwenden ausserdem so genannte Release Branches und
 Hotfix Branches \cite{cameron_mckenzie_gitflow_2021}. Im Main Branch sind
 offizielle Versionen des Projektes gespeichert, Im Develop Branch wird das
 Projekt als ganzes entwickelt, und in jedem Feature Branch wird eine
-Funktionalität in das Projektes implementiert (siehe \autoref{fig:git-branch}
-für die genaue Branch Struktur). 
+Funktionalität in das Projektes implementiert (siehe \autoref{fig:git-branch}). 
 
 % bild branch structure
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth-2cm]{images/theorie/git-branch.png}
-    \caption{WIP}
+    \caption{Branch Struktur von GitFlow \cite{atlassian_git-flow-workflow_nodate}}
     \label{fig:git-branch}
 \end{figure}
 %todo caption, format
