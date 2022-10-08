@@ -183,7 +183,7 @@ Fully Connected (Dense) Layers und Convolutional Layers
 \cite{unzueta_convolutional_2022}. In Fully Connected Layers dient jedes Neuron
 als Input für jedes Neuron in der nächsten Layer. In Convolutional Layers trifft
 das nicht zu. (siehe autoref{conv vs. full}) Die Funktion von Convolutional
-Layers ist es, wichtige Merkmale aus dem Input hervorzuheben
+Layers beinhaltet, wichtige Merkmale aus dem Input hervorzuheben
 \cite{deshpande_beginners_nodate}. Concatenation Layers
 \cite{jayawardana_concatenating_2021} sind eine weitere Form von hidden Layers,
 die zwei verschiedene Layers als Input haben und diese somit verbinden. Machine
@@ -240,7 +240,7 @@ Entscheidung, welche Action der Agent ausführt, basiert auf einer
 \emph{Observation} \cite[S. 2]{mnih_playing_nodate} der Umgebung. Die
 Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
 relevant sind. Der Agent trifft seine Entscheidung auf der Basis eines
-neuronalen Netzes (siehe \nameref{sub:t_ml_nn}). Der Input in diesem neuronalen
+neuronalen Netzes (siehe \nameref{sub:t_ml_nn}). Der Input in dieses neuronale
 Netz ist die Observation der Umgebung und der Output beschreibt die Action, die
 der Agent ausführt. Jedes Neuron des Outputs beschreibt eine spezifische Action
 des Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
@@ -260,7 +260,7 @@ möglicherweise zufällig auf bessere Optionen für zukünftige Steps
 %todo bild reinforcement schema 1
 
 Die Umgebung und somit auch der Agent werden durch die Actions des Agenten
-beeinflusst. Dieser Einfluss wird durch die \emph{Reward-Function} gemessen. Die
+beeinflusst. Dieser Einfluss wird durch die \emph{Reward-Function} gemessen. Diereplay-buffer
 Reward-Function gibt eine rationale Zahl, den \emph{Reward} aus \cite[S.
 75]{sutton_reinforcement_2014}. Umso grösser der Reward, desto positiver ist der
 Effekt auf die Umgebung und umgekehrt. Ein positiver Einfluss auf die Umgebung
@@ -282,20 +282,21 @@ Reward entsprich der Summe der Rewards aus jedem Step in einer Episode.
 
 %todo bild reinforcement schema 2
 
-Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}. Eine Episode umfasst
-eine gewisse Anzahl Steps und am Anfang jeder Episode wird die Umgebung in einen
-Startzustand zurückgesetzt. Die Resultate der Steps werden in dem
-\emph{Replay-Buffer} gespeichert. Dazu gehören die Observations der Umgebung, die
-Action, und der Reward. Der Replay-Buffer enthält Speicherplatz für eine
-bestimmte Anzahl Steps. Während dem Training werden zufällige Steps aus dem
-Replay-Buffer gewählt, auf die das neuronale Netz trainiert. Das neurnale Netz
-trainiert also auf Daten aus der Vergangenheit der Umgebung und des Agents.
-Diese Strategie nennt sich Experience Replay \cite[S. 5]{mnih_playing_nodate}. Ausserdem trainiert
-das neuronale Netz jeweils mit einem \emph{Batch} an Steps, also mit einer
-gewissen Anzahl an Steps gleichzeitig. Der Replay-Buffer und der Batch sichern
-zu, dass das neuronale Netz mit einer grossen Vielfalt an Steps trainiert, was
-das Lernverhalten stabiler macht als ein chronologisches Training auf einzelne
-Steps \cite{phd_how_2021}.
+Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}.
+Eine Episode umfasst eine gewisse Anzahl Steps und am Anfang jeder Episode wird
+die Umgebung in einen Startzustand zurückgesetzt. Die Resultate der Steps werden
+in dem \emph{Replay-Buffer} gespeichert. Dazu gehören die Observations der
+Umgebung, die jeweiligen Actions und der jeweilige Reward. Der Replay-Buffer
+enthält Speicherplatz für eine bestimmte Anzahl Steps. Während dem Training
+werden zufällige Steps aus dem Replay-Buffer gewählt, auf die das neuronale Netz
+trainiert. Das neurnale Netz trainiert also auf Daten aus der Vergangenheit der
+Umgebung und des Agents. Diese Strategie nennt sich Experience Replay \cite[S.
+5]{mnih_playing_nodate}. Ausserdem trainiert das neuronale Netz jeweils mit
+einem \emph{Batch} an Steps, also mit einer gewissen Anzahl an Steps
+gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
+Netz mit einer grossen Vielfalt an Steps trainiert, was das Lernverhalten
+stabiler macht als ein chronologisches Training auf einzelne Steps
+\cite{phd_how_2021}.
 
 
 \section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
@@ -393,7 +394,7 @@ für die genaue Branch Struktur).
 \subsection{GitHub}\label{sub:t_git_gh}
 GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
 Preston-Werner entwickelt \cite{noauthor_github_2021}. 2018 wurde das
-Unternehmen von Microsoft gekauft. GitHub ist ein Service, das Projekte, die mit
+Unternehmen von Microsoft gekauft. GitHub ist ein Service, der Projekte, die mit
 Git verwalten werden, in der Cloud speichert. Dadurch kann ein Projekt überall
 und von beliebig vielen Personen entwickelt werden. GitHub betreibt eine
 Webseite, über welche der Service verwendet werden kann
