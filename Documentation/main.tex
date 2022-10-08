@@ -99,6 +99,7 @@ natbib=true]{biblatex}
 
 \renewcommand\cite{\citep}
 
+
 %% Document information
 %% ====================
 
@@ -109,6 +110,9 @@ natbib=true]{biblatex}
 \date{Oktober 2022}
 
 \begin{document}
+
+\newcommand*{\doubleref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}}
+%https://tex.stackexchange.com/questions/121865/nameref-how-to-display-section-name-and-its-number
 
 \frontmatter
 
