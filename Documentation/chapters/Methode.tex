@@ -49,7 +49,7 @@ die Form des Outputs von jeder Layer angegeben ist.
 %TODO Bild architecture
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth-2cm]{images/methode/architecture.png}
   \caption{WIP}
   \label{fig:architecture}
 \end{figure}
@@ -61,15 +61,15 @@ Pixel auf $7\times7$ Pixel. Somit schrumpft gleichzeitig der Action-Space (siehe
 \nameref{sub:t_rl_func}) des Agenten von $2\cdot11\cdot11 = 242$ Actions auf
 $2\cdot7\cdot7 = 98$ Actions. Das bedeutet für den Agent, dass er sich pro Step
 um maximal drei Pixel von seiner Position wegbewegen kann. Diese Bewegung kann
-der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe autoref{zeich
-vs nicht zeich}).
+der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe
+\autoref{fig:actionspace}).
 
 %todo bild normal actionspace
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth]{images/methode/actionspace.png}
   \caption{WIP}
-  \label{fig:architecture}
+  \label{fig:actionspace}
 \end{figure}
 %todo caption, format
 
@@ -83,11 +83,10 @@ Zeichenfläche leer, also vollkommen Schwarz.
 
 Actions des Agents, die ihn über die vorgegebene Zeichenfläche hinaus
 positionieren würden, sind nicht zulässig. Diese Actions können vom Agent nicht
-gewählt werden und ihr optimaler Q-Value (siehe autoref{zeich vs nicht zeich})
-ist in jedem Fall $0$. Das hat zur Folge, dass nach dem Training die
-allermeisten unzulässigen Actions einen Q-Value nahe oder gleich $0$ haben. Das
-senkt die Wahrscheinlichkeit, dass der Agent versucht, eine unzulässige Action
-auszuführen.
+gewählt werden und ihr optimaler Q-Value ist in jedem Fall $0$. Das hat zur
+Folge, dass nach dem Training die allermeisten unzulässigen Actions einen
+Q-Value nahe oder gleich $0$ haben. Das senkt die Wahrscheinlichkeit, dass der
+Agent versucht, eine unzulässige Action auszuführen.
 
 \subsection{Präparierung der Daten und Optimierung}\label{sub:m_grund_data}
 Die Trainingsdaten bestehen aus $36'000$ Bildern von handgeschriebenen Ziffern
@@ -97,16 +96,16 @@ dargestellt, wobei jedes Element (jeder Pixel) einen Wert zwischen $0$ und $255$
 annimmt. Die Zahl repräsentiert eine Graustufe, wobei $0$ Schwarz ist und $255$
 Weiss. Diese Graustufen werden entfernt. Jeder Pixel mit einem Wert über $0$
 übernimmt den Wert $1$, wodurch die Bilder nur noch aus Einsen und Nullen
-bestehen. Dabei ist $0$ Schwarz und $1$ Weiss (siehe autoref{norm vs.nogray}).
+bestehen. Dabei ist $0$ Schwarz und $1$ Weiss (siehe \autoref{fig:norm-v-nogray}).
 So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 überein.
 
 %todo Bild normal num vs nogray num
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth]{images/methode/norm-v-nogray.png}
   \caption{WIP}
-  \label{fig:architecture}
+  \label{fig:norm-v-nogray}
 \end{figure}
 %todo caption, format
 
@@ -196,14 +195,14 @@ Vorlage und in der Zeichenfläche weiss ist, erhöht sich diese Anzahl um Eins.
 Wenn in der Zeichenfläche ein weisser Pixel gezeichnet ist, der in der Vorlage
 schwarz ist, sinkt die Anzahl um Eins. $G(t)$ und somit auch $K(t)$ können
 dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1, was
-einer Genauigkeit von $100\%$ entspricht (siehe autoref{über Pixel}).
+einer Genauigkeit von $100\%$ entspricht (siehe \autoref{fig:ubereinstimmung}).
 
 %todo bild übereinstimmung
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth]{images/methode/ubereinstimm.png}
   \caption{WIP}
-  \label{fig:architecture}
+  \label{fig:ubereinstimmung}
 \end{figure}
 %todo caption, format
 
@@ -309,7 +308,7 @@ $20\%$ einen positiven Reward aus. Diese zusätzliche Bedingung ist notwendig,
 weil die Beurteilungen der zweiten KI teilweise für einen menschlichen
 Betrachter fragwürdig sind. Zum Beispiel schätzt die zweite KI eine leere
 Zeichenfläche mit einer hohen Wahrscheinlichkeit als eine Eins (siehe
-autoref{mnist rec}) ein. Das ist ein Problem, weil dadurch der Agent einen
+\autoref{fig:wrong-mnist-rec}) ein. Das ist ein Problem, weil dadurch der Agent einen
 positiven Reward für eine leere Zeichenfläche erhält. Das stört das weitere
 Lernverhalten, weil es die Wahrscheinlichkeit erhöht, dass die KI nicht mehr
 zeichnet.
@@ -317,9 +316,9 @@ zeichnet.
 %todo Bild falsche mnist rec
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth]{images/methode/wrong-mnist-rec.png}
   \caption{WIP}
-  \label{fig:architecture}
+  \label{fig:wrong-minst-rec}
 \end{figure}
 %todo caption, format
 
@@ -330,16 +329,16 @@ Rewards werden in jedem Step mit einem bestimmten Faktor multipliziert. Zu
 Beginn des Trainings ist der Faktor für den Reward der Basis Reward-Function
 $f_b = 1$ und der Faktor für den Reward basierend auf der Erkennbarkeit $f_e =
 0$. Vom Start ausgehend sinkt $f_b$ linear und $f_e$ steigt linear. Ab einem
-gewissen Punkt bleiben beide Faktoren stehen (siehe autoref{decrementor graph}).
+gewissen Punkt bleiben beide Faktoren stehen (siehe \autoref{fig:decrementor}).
 Blieben die Faktoren ab diesem Punkt nicht konstant, würde die Variation,
 gestützt auf Beobachtungen, an Stabilität der Leistung verlieren.
 
 %todo Bild Decrementor
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth-2cm]{images/methode/decrementor.png}
   \caption{WIP}
-  \label{fig:architecture}
+  \label{fig:decrementor}
 \end{figure}
 %todo caption, format
 
@@ -389,9 +388,10 @@ Geschwindigkeit des Agents nicht. $8$ Vektoren sind um den Agent herum mit
 einer Länge von $0.9$ Pixeln in gleichmässigem Abstand von einander angeordnet. %todo code präzision
 Zusammen bilden diese Vektoren einen Kreis um den Agent. Die restlichen 12
 Vektoren sind in einem grösseren Kreis gleichmässig angeordnet. Die Vektoren
-haben dabei eine Länge von $1.8$ Pixeln (siehe autoref{actionspace}).  Mit dem
-gewählten Beschleunigungsvektor $\vec{a}(t)$ berechnet sich die Geschwindigkeit
-im nächsten Step $t+1$ aus dem aktuellen Step $t$ durch folgende Formel:
+haben dabei eine Länge von $1.8$ Pixeln (siehe \autoref{fig:physics-actionspace
+}).  Mit dem gewählten Beschleunigungsvektor $\vec{a}(t)$ berechnet sich die
+Geschwindigkeit im nächsten Step $t+1$ aus dem aktuellen Step $t$ durch folgende
+Formel:
 \[ \vec{v}(t+1) = \vec{v}(t) + \vec{a}(t) \] 
 Der Betrag der Geschwindigkeit $\vec{v}(t+1)$ des Agents wird, unabhängig von
 der gewählten Action, in jedem Step um $0.2$ Pixel verringert. Das simuliert eine
@@ -400,9 +400,9 @@ Reibungskraft, die auf den Agent einwirkt.
 %todo bild physik actionspace
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth-6cm]{images/methode/physics-actionspace.png}
   \caption{WIP}
-  \label{fig:architecture}
+  \label{fig:physics-actionspace}
 \end{figure}
 %todo caption, format
 
@@ -423,14 +423,14 @@ der Agent im nächsten Schritt befinden kann. Die tatsächliche neue Position de
 Agents wird durch die Action seiner Wahl bestimmt. Die Grösse des Local image
 patches schrumpft von $7\times7$ Pixeln auf $5\times5$ Pixel, da alle möglichen
 Positionen des Agents nach einem Step auf einem $5\times5$ Feld Platz haben
-(siehe autoref{local patch}). 
+(siehe \autoref{fig:patch-move}). 
 
 %todo bild local patch verschiebung
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth]{images/methode/patch-move.png}
   \caption{WIP}
-  \label{fig:architecture}
+  \label{fig:patch-move}
 \end{figure}
 %todo caption, format
 
@@ -462,16 +462,16 @@ dritte Datenset, QuickDraw, beeinhaltet Zeichnungen von insgesamt 345
 verschiedenen Motiven. Die KI wird allerdings nur auf das Nachzeichnen von zehn
 Motiven überprüft. Die zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer',
 `Bulldozer', `Uhr', `Wolke', `Computer', `Auge' und `Blume' (siehe
-autoref{Dataset images}). Die Bilder in den
+\autoref{fig:quickdraw-examples}). Die Bilder in den
 drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
 \nameref{sub:m_grund_data}). 
 
 %todo Bild images dataset
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/methode/architecture.png}
+  \includegraphics[width=\textwidth]{images/methode/quickdraw-examples.png}
   \caption{WIP}
-  \label{fig:architecture}
+  \label{fig:quickdraw-examples}
 \end{figure}
 %todo caption, format
 
