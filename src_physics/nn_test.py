@@ -202,7 +202,7 @@ class Test_NN():
         
         labeled = 0
 
-        fig = plt.figure(figsize=(10., 10.))
+        fig = plt.figure(figsize=(10., 15.))
         grid = ImageGrid(fig, 111,  
                         nrows_ncols=(rows, columns*3), 
                         axes_pad=0.1,  
@@ -296,17 +296,17 @@ if __name__ == '__main__':
         images = []
         test = Test_NN(n_test=200, dataset="mnist", version=args.version)
         test.test_from_loaded(agent_args=test.agent_args, mode="all")
-        images1 = test.images[:5]
+        images1 = test.images[:8]
         
         test = Test_NN(n_test=200, dataset="emnist", version=args.version)
         test.test_from_loaded(agent_args=test.agent_args, mode="all")
-        images2 = test.images[:5]
+        images2 = test.images[:8]
         
         test = Test_NN(n_test=200, dataset="quickdraw", version=args.version)
         test.test_from_loaded(agent_args=test.agent_args, mode="all")
-        images3 = test.images[:5]
+        images3 = test.images[:8]
         
-        for i in range(5):
+        for i in range(8):
             images.append(images1[i])
             images.append(images2[i])
             images.append(images3[i])
