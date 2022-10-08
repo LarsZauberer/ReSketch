@@ -1,54 +1,54 @@
 \chapter{Diskussion}\label{chap:d}
-Die Diskussion analyisiert die Resultate der Methode (siehe \nameref{chap:m}),
+Die Diskussion analyisiert die Resultate der Methode (siehe \doubleref{chap:m}),
 um daraus eine Antwort auf die Fragestellung zu bilden. Zu diesem Zweck werden
 einige allgemeine Feststellungen getroffen und die Unterfragen beantwortet
-(siehe \ref{chap:d_frage} \nameref{chap:d_frage}). Im zweiten Teil der Diskussion folgt ein Fazit,
-ein Ausblick (siehe \nameref{chap:d_faz-aus}), und eine Selbstreflexion (siehe
-\nameref{chap:d_reflex}). Dabei verschiebt sich der Fokus von der Fragestellung
+(siehe \doubleref{chap:d_frage}). Im zweiten Teil der Diskussion folgt ein Fazit,
+ein Ausblick (siehe \doubleref{chap:d_faz-aus}), und eine Selbstreflexion (siehe
+\doubleref{chap:d_reflex}). Dabei verschiebt sich der Fokus von der Fragestellung
 weg und auf eine allgemeinere Betrachtung der Arbeit.
 
 
 \section{Fragestellung und Unterfragen}\label{chap:d_frage}
 Die Fragestellung und die Unterfragen decken nicht alle Erkenntnisse aus den
 Resultaten ab. Einige allgemeine Feststellungen geben Einblick, wie die
-Resultate (siehe \nameref{chap:r}) zu verstehen sind. 
+Resultate (siehe \doubleref{chap:r}) zu verstehen sind. 
 
 Die Grund-Basis Version und die Grund-Speed Version (siehe
-\nameref{chap:m_auswert}) erreichen in allen Kriterien für alle Datensets die
+\doubleref{chap:m_auswert}) erreichen in allen Kriterien für alle Datensets die
 beste Leistung. Die Resultate zwischen den Versionen sind dabei fast
 ununterscheidbar. Vor allem im Kriterium der Geschwindigkeit (siehe
-\nameref{sub:m_eval_speed}) zeigt die Speed Variation keine Verbesserung. Unter
+\doubleref{sub:m_eval_speed}) zeigt die Speed Variation keine Verbesserung. Unter
 den Versionen, die auf der physikalischen Umgebung basieren, erreichen Ebenfalls
 die Physik-Basis und die Phyisk-Speed Versionen die beste Leistung. Die
 Grund-MNIST Version und die Physik-MNIST Version sind in allen Kriterien
 schlechter als die Basis und Speed Versionen. Auch im Kriterium der
-Erkennbarkeit (siehe \nameref{sub:m_eval_rec}) bringt die Variation keinen
+Erkennbarkeit (siehe \doubleref{sub:m_eval_rec}) bringt die Variation keinen
 Vorteil. Die Physik-MNIST-Speed Version erbringt die schlechteste Leistung. Eine
 Erklärung dafür ist, dass diese Version eine Kombination von allen Variationen
-(siehe \nameref{chap:m_var}) ist und somit von der besten Version, der
+(siehe \doubleref{chap:m_var}) ist und somit von der besten Version, der
 Grund-Basis Version am stärksten abweicht.
 
-Die Bildersammlung (siehe \nameref{chap:r_bild}) zeigt, dass die KI in vielen
+Die Bildersammlung (siehe \doubleref{chap:r_bild}) zeigt, dass die KI in vielen
 Fällen präzise der Linie folgt und selten willkürliche Sprünge begeht. Das ist
 interessant, weil der KI nie explizit mitgeteilt wird, wie genau sie zeichnen
 sollte.
 
 
 \subsection{Beantwortung der Unterfragen}\label{sub:d_frage_unter}
-Insgesamt sechs Unterfragen werden beantwortet (siehe \nameref{chap:einleit}).
+Insgesamt sechs Unterfragen werden beantwortet (siehe \doubleref{chap:einleit}).
 Diese Unterfragen weiten die Fragestellung aus und tragen zu der
 schlussendlichen Antwort auf die Fragestellung bei. Die Antworten beruhen auf
 den Resultaten, aber auch auf Erkenntnissen aus der Methode selbst (siehe
-\nameref{chap:m}).
+\doubleref{chap:m}).
 
 \subsubsection*{Wie kann die Architektur einer KI aussehen, die das Nachzeichnen erlernt?}\label{subsub:d_frage_unter_1}
 Unter der Annahme, dass die KI dieser Arbeit das Nachzeichnen erlernt, (siehe
-\nameref{sub:d_frage_frag}), kann die Architektur genau so aussehen, wie sie in
-dieser Arbeit beschrieben ist (siehe \nameref{sub:m_grund_dood}).
+\doubleref{sub:d_frage_frag}), kann die Architektur genau so aussehen, wie sie in
+dieser Arbeit beschrieben ist (siehe \doubleref{sub:m_grund_dood}).
 
 \subsubsection*{Wie lässt sich die Leistung der KI in dieser Aufgabe beurteilen?}\label{subsub:d_frage_unter_2}
 Die Leistung der KI lässt sich durch die definierten Kriterien (siehe
-\nameref{chap:m_eval}) beurteilen. Das Kriterium Die Übereinstimmung ist ein
+\doubleref{chap:m_eval}) beurteilen. Das Kriterium Die Übereinstimmung ist ein
 objektiver und Absoluter Wert, und somit das Aussagekräftigste Kriterium.
 Ausserdem ist der maximale Wert des Kriteriums, unabhängig vom gezeichneten
 Bild, gleich $1$. Dadurch ist das Kriterium geeignet für Vergleiche zwischen
@@ -57,13 +57,13 @@ Versionen der KI.
 die Kriterien der Erkennbarkeit und der Geschwindigkeit sind an subjektive
 Annahmen gebunden. Zum Beispiel wird für das Kriterium der Geschwindigkeit ein
 subjektiver Punkt der Fertigstellung definiert (siehe
-\nameref{sub:m_eval_speed}). Dadurch sinkt ihre Aussagekraft. Allerdings
+\doubleref{sub:m_eval_speed}). Dadurch sinkt ihre Aussagekraft. Allerdings
 verändern sich die Annahmen nicht und die Kriterien sind in jedem Fall durch
 einen Zahlenwert repräsentiert. Somit eignen sich auch diese Kriterien für
 Vergleiche zwischen Versionen der KI. Aus der Annahme heraus, dass für Menschen
 beim Nachzeichnen Erkennbarkeit wichtiger als absolute Genauigkeit ist, ergibt
 sich das Kriterium der Erkennbarkeit als besonders wichtiges. Aus diesem Grund
-ist das Kriterium in der Fragestellung (siehe \nameref{sub:d_frage_frag})
+ist das Kriterium in der Fragestellung (siehe \doubleref{sub:d_frage_frag})
 vermerkt.
 
 
@@ -74,17 +74,17 @@ Variationen der KI sind somit insgesamt ein gescheiterter Versuch der
 Verbesserung der Leistung. Die Grundversion erfuhr allerdings in dessen
 Entwicklung signifikante Verbesserungen. Die grössten Verbesserungen stammen aus
 der Optimierung der Hyperparamter durch den Baysian Optimization Algorithmus
-(siehe \nameref{sub:m_grund_data}). Zum Beispiel hat die Grösse des Replay
+(siehe \doubleref{sub:m_grund_data}). Zum Beispiel hat die Grösse des Replay
 Buffers einen erheblichen Effekt auf die Leistung.
 
 \subsubsection*{Welche Einflüsse haben Physiksimulationen auf die Leistung der KI?}\label{subsub:d_frage_unter_4}
 Bezogen auf die definierten Kriterien verschlechtert sich die Leistung der KI.
 Alle Versionen, die auf der Grundumgebung basieren, erzielen höhere Werte als
 die gleichen Versionen basierend auf der phyiskalischen Umgebung (siehe
-\nameref{sub:m_var_phy}). Die physikalische Umgebung hat zum Ziel, die
+\doubleref{sub:m_var_phy}). Die physikalische Umgebung hat zum Ziel, die
 Bewegungen der KI realistischer zu gestalten. In diesem Bereich kann der
 Einfluss nicht objektiv bestimmt werden. Aus Beobachtungen der Bilder, welche in
-der physikalischen Umgebung gezeichnet sind (siehe \nameref{chap:r_bild}), gehen
+der physikalischen Umgebung gezeichnet sind (siehe \doubleref{chap:r_bild}), gehen
 ebenfalls keine Erkenntnisse in diesem Bereich hervor. Die Bilder unterscheiden
 sich kaum von denjenigen aus der Grundumgebung.
 
@@ -123,21 +123,21 @@ ansetzen einer Ziffer immer an der selben Stelle
 \subsection{Beantwortung der Fragestellung}\label{sub:d_frage_frag}
 Die Fragestellung lautet: In wiefern kann eine künstliche Intelligenz lernen,
 Strichbilder auf eine physische Weise nachzuzeichnen, sodass diese durch ein
-automatisches System erkannt werden? (siehe \nameref{chap:einleit}) Diese Frage
+automatisches System erkannt werden? (siehe \doubleref{chap:einleit}) Diese Frage
 hat mehrere Aspekte, die teilweise bereits durch die Unterfragen (siehe
-\nameref{sub:d_frage_unter}) erfasst werden. Für die schlussendliche Antwort
+\doubleref{sub:d_frage_unter}) erfasst werden. Für die schlussendliche Antwort
 folgt eine genauere Ausführung der Aspekte.
 
 Die KI zeichnet durch Physiksimulationen und durch allgemeine Einschränkungen
 der Bewegungsfreiheit auf eine annähernd physische Weise. Das Zeichnen ist nur
 annähernd physisch, da alle Bewegungen simuliert und in keiner phyischen
 Umgebung umgesetzt sind. Ausserdem sind die Simulationen nicht vollkommen
-realitätsgetreu (siehe \ref{sub:d_frage_unter} \nameref{subsub:d_frage_unter_4})
+realitätsgetreu (siehe \ref{sub:d_frage_unter} \doubleref{subsub:d_frage_unter_4})
 
 Die künstliche intelligenz erlernt das Nachzeichnen bezogen auf die Kriterien,
 nach denen es definiert ist, erfolgreich. Dafür sprechen die Werte der besten
 Versionen für das Nachzeichnen von Ziffern, die teilweise an den Höchstwert
-grenzen (siehe \nameref{chap:d_frage}). Die hohen Werte im Kriterium der
+grenzen (siehe \doubleref{chap:d_frage}). Die hohen Werte im Kriterium der
 Erkennbarkeit bestätigen ausserdem, dass die Zeichnungen der KI in den meisten
 Fällen von einem automatischen System erkannt werden.
 
@@ -145,7 +145,7 @@ Laut der Fragestellung soll die KI das Nachzeichnen von Strichbildern erlernen.
 Damit ist implizit das Nachzeichnen von allen möglichen Arten von Strichbildern
 gemeint. Die Leistung der KI kann nicht auf alle möglichen Strichbilder
 überprüft werden, aber der Test mit drei verschiedenen Datensets ergibt
-vielversprechende Resultate (siehe \nameref{chap:r_tab}). Die KI erlernt
+vielversprechende Resultate (siehe \doubleref{chap:r_tab}). Die KI erlernt
 erfolgreich das Nachzeichnen von Ziffern, Kleinbuchstaben und zehn zufälligen
 Motiven aus dem QuickDraw Datenset. Durch die Vielfalt im QuickDraw Datenset
 kann die Annahme getroffen werden, dass die KI zumindest einen grossen Teil an
@@ -168,7 +168,7 @@ Antwort setzt allerdings einige Annahmen vorraus, die weiter diskutiert werden
 können. Die grösste Annahme bezieht sich auf die Definition des Nachzeichnens.
 Diese Arbeit definiert Nachzeichnen durch drei Kriterien und durch physische
 Rahmenbedingungen. Die Kriterien sind für eine künstliche Intelligenz sinnvoll
-gewählt (siehe \nameref{subsub:d_frage_unter_2}), allerdings wären auch ander
+gewählt (siehe \doubleref{subsub:d_frage_unter_2}), allerdings wären auch ander
 Kriterien möglich. Nachzeichnen ist eine menschliche Tätigkeit. Dieser
 menschliche Aspekt ist in den definierten Kriterien nicht enthalten.
 
@@ -204,7 +204,7 @@ und ist in Adobe Illustrater oder der Python Library Matplotlib erstellt
 Versionen der KI präsentiert. Im Verlaufe des Projektes gab es viele weitere
 Versuche, die Leistung der künstlichen Intelligenz zu verbessern. Diese Versuche
 führten allerdings häufig dazu, dass die KI den akkumulierten Reward (siehe
-\nameref{sub:t_rl_func}) nicht mehr maximieren konnte. In der Dokumentation sind
+\doubleref{sub:t_rl_func}) nicht mehr maximieren konnte. In der Dokumentation sind
 deswegen nur diejenigen Versuche vermerkt, die tatsächlich funktionieren. Das
 Problem hinter den versuchten Variation liegt darin, dass die Ursache hinter
 ihrem Scheitern oder ihrem Erfolg häufig nicht erkennbar ist. Das macht die
@@ -212,10 +212,10 @@ Optimierung der künstlichen Intelligenz allgemein schwierig.
 
 Die Strategie hinter der Optimierung besteht in den meisten Fällen aus
 wiederholtem Ausprobieren mit Anpassungen zwischen jedem Versuch. Hilfsmittel,
-wie der Baysian Optimization Algorithmus (siehe \nameref{sub:t_ml_hyper}),
+wie der Baysian Optimization Algorithmus (siehe \doubleref{sub:t_ml_hyper}),
 vereinfachen diese Aufgabe massgeblich. Tatsächlich ermöglichte der Baysian
 Optimization Algorithmus eine Verbesserung der KI von ungefähr $40-50\%$ mehr im
-Kriterium der Übereinstimmung (siehe \nameref{sub:m_eval_proc}). Diese Strategie
+Kriterium der Übereinstimmung (siehe \doubleref{sub:m_eval_proc}). Diese Strategie
 der Optimierung ist für einen Computer sehr ressourcenintensiv. In den längsten
 Optimierungsarbeiten liefen die beiden Computer, auf denen die Arbeit verrichtet
 wurde, zusammen länger als $48$ Stunden.
@@ -227,17 +227,17 @@ stetige Analyse nötig, um dise zu verstehen und zu verbessern.
 
 Die Analyse besteht hauptsächlich darin, die Leistung der künstlichen
 Intelligenz zu beurteilen. Das geschieht mittels den Kriterien, die für diesen
-Zweck definiert sind (siehe \nameref{chap:m_eval}). Die Kriterien sind dabei so
+Zweck definiert sind (siehe \doubleref{chap:m_eval}). Die Kriterien sind dabei so
 definiert, dass sie für jede mögliche Variation identisch bleiben. Der
 durchnittliche akkumulierte Reward ist beispielsweise absichtlich kein
 Kriterium. Der akkumulierte Reward ist abhängig von der Reward-Function (siehe
-\nameref{sub:t_rl_func}) und unterscheidet sich somit zwischen Variationen.
+\doubleref{sub:t_rl_func}) und unterscheidet sich somit zwischen Variationen.
 Dieser ist somit nicht für einen Vergleich zwischen Variationen geeignet.
 
 % Abschnitt wäre Streichbar
 Einzelne Variationen vergleichbar zu halten, ist ein allgemeines Ziel der
 Analyse. Deswegen basieren alle Variationen auf der gleichen Architektur der KI.
-Die Funktionalität des Grundprogrammes (siehe \nameref{chap:m_grund}) ist
+Die Funktionalität des Grundprogrammes (siehe \doubleref{chap:m_grund}) ist
 gründlich getestet. Zum Beispiel sind die Testdaten darauf überprüft, dass sie
 keine Datenpunkte aus den Trainingsdaten beinhalten. Diese Tests eliminieren
 mögliche Fehlerquellen falls die künstliche Intelligenz unerwartetes Verhalten
@@ -262,7 +262,7 @@ maximieren können.
 
 
 \subsection{Verwendung von Git und GitHub}\label{sub:d_reflex_git} Die
-Verwendung von Git und Github (siehe \nameref{chap:t_git}) erleichtert die
+Verwendung von Git und Github (siehe \doubleref{chap:t_git}) erleichtert die
 Arbeit an einem Projekt von dieser Grösse massgelich. Die Programme ermöglichen
 einfache Zusammenarbeit am Programmcode und an der Dokumentation. GitHub dient
 dabei zusätzlich als Hilfsmitel zur Organisation durch die integrierte Funktion
@@ -272,10 +272,10 @@ Verwendung finden können.
 Die Funktion der Branches und Commits von Git werden durch die Arbeit hindurch
 konsequent verwendet. Dabei wird die Giflow Arbeitsweise, abgesehen von den
 Release Branches und den Hotfix Branches, angewendet (siehe
-\nameref{sub:t_git_git}) Neben den Feature Branches werden ausserdem
+\doubleref{sub:t_git_git}) Neben den Feature Branches werden ausserdem
 Dokumentation Branches eingeführt, in denen jeweils ein Kapitel der
 Dokumentation verfasst wird. Für die Zusammenführungen der wichtigsten Branches
-wird das Prinzip der Pull Request (siehe \nameref{sub:t_git_gh}) angewendet. Die
+wird das Prinzip der Pull Request (siehe \doubleref{sub:t_git_gh}) angewendet. Die
 Pull Request muss für jeden Branch von beiden Autoren akzeptiert werden.
 
 Ein weiterer Vorteil von Git und Github ist die Zugänglichkeit des Projektes.

@@ -4,29 +4,29 @@ beschriebene künstliche Intelligenz (KI) zu entwickeln und dessen Leistung
 auszuwerten. Die Diskussion dieser Resultate führt schlussendlich zu einer
 Antwort auf die Fragestellung. Die Entwicklung der KI besteht aus zwei Teilen.
 Der eine Teil umfasst die Definition der Kriterien, nach denen die Leistung der
-KI evaluiert wird (siehe \nameref{chap:m_eval}). Der andere Teil umfasst die
-Entwicklung der KI (siehe \nameref{chap:m_grund}), zusammen mit verschiedenen
-Variationen (siehe \nameref{chap:m_var}). Die Variationen haben jeweils einen
+KI evaluiert wird (siehe \doubleref{chap:m_eval}). Der andere Teil umfasst die
+Entwicklung der KI (siehe \doubleref{chap:m_grund}), zusammen mit verschiedenen
+Variationen (siehe \doubleref{chap:m_var}). Die Variationen haben jeweils einen
 unterschiedlichen Fokus auf die definierten Kriterien. Die Auswertung (siehe
-\nameref{chap:m_auswert}) bezieht sich ebenfalls auf die definierten Kriterien.
+\doubleref{chap:m_auswert}) bezieht sich ebenfalls auf die definierten Kriterien.
 Die Leistung der KI wird dabei in einer Testumgebung für das Zeichnen von
 verschiedenen Arten von Strichbildern erfasst.
 
 \section{Grundprogramm}\label{chap:m_grund}
 Die KI ist abhängig von den Kriterien, die dessen Leistung definieren (siehe
-\nameref{chap:m_eval}). Mit anderen Worten trainiert die KI auf diese Kriterien.
+\doubleref{chap:m_eval}). Mit anderen Worten trainiert die KI auf diese Kriterien.
 Das Ziel des Grundprogrammes ist, die allgemeine Trainingsumgebung für die KI
 bereitzustellen. Dieses Grundprogramm ist unabhängig von einem spezifischen
 Kriterium und kann stattdessen auf ein ausgewähltes Kriterium trainiert werden.
 Reinforcement Learning Modelle mit einer undefinierten Reward Function (siehe
-\nameref{sub:t_rl_func}) stellen diese Eigenschaften bereit. Eine Reward
+\doubleref{sub:t_rl_func}) stellen diese Eigenschaften bereit. Eine Reward
 function, basierend auf einem spezifischen Kriterium, ermöglicht das Training
 auf dieses Kriterium. Das Grundprogramm ist in Python unter der Verwendung des
-Keras Frameworks implementiert (siehe \nameref{chap:t_ml}). 
+Keras Frameworks implementiert (siehe \doubleref{chap:t_ml}). 
 
 \subsection{Doodle-SDQ als Basis}\label{sub:m_grund_dood}
 Das Reinforcement Learning Modell des Grundprogrammes basiert auf Doodle-SDQ
-(siehe \nameref{sub:t_ver_dood}). Von Doodle-SDQ ist das neuronale Netz, bezogen
+(siehe \doubleref{sub:t_ver_dood}). Von Doodle-SDQ ist das neuronale Netz, bezogen
 auf die Form des Inputs, des Outputs und den Hidden Layers, grösstenteils
 übernommen. Die relevanten Anpassungen zwischen Doodle-SDQ und dem Grundprogramm
 dieser Arbeit sind nachfolgend erläutert.
@@ -34,10 +34,10 @@ dieser Arbeit sind nachfolgend erläutert.
 Bei der Umgebung handelt es sich, wie bei Doodle-SDQ, um eine Zeichenfläche,
 worauf sich der Agent frei bewegen kann. Die Ziffern, die während dem Training
 nachgezeichnet werden sollen, stammen aus dem MNIST Datenset (siehe
-\nameref{chap:t_ml}) und haben somit eine Grösse von $28\times28$ Pixeln. Die
+\doubleref{chap:t_ml}) und haben somit eine Grösse von $28\times28$ Pixeln. Die
 Fläche, worauf sich der Agent bewegen   
 kann, hat somit auch eine Grösse von $28\times28$ Pixeln. Der global Stream
-(siehe \nameref{sub:t_ver_dood}) des Inputs in das Neuronale Netz ändert sich
+(siehe \doubleref{sub:t_ver_dood}) des Inputs in das Neuronale Netz ändert sich
 bis auf die neue Grösse der Bilder nicht. Die Pixel der Bilder, wie auch die
 Zeichenfläche, nehmen den Wert von einem Bit an. Eine Null repräsentiert einen
 schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild und eine Eins
@@ -57,7 +57,7 @@ die Form des Outputs von jedem Layer angegeben ist.
 
 Der Local Stream, also das nahe Umfeld um den Agent schrumpft von $11\times11$
 Pixel auf $7\times7$ Pixel. Somit schrumpft gleichzeitig der Action-Space (siehe
-\nameref{sub:t_rl_func}) des Agenten von $2\cdot11\cdot11 = 242$ Actions auf
+\doubleref{sub:t_rl_func}) des Agenten von $2\cdot11\cdot11 = 242$ Actions auf
 $2\cdot7\cdot7 = 98$ Actions. Das bedeutet für den Agent, dass er sich pro Step
 um maximal drei Pixel von seiner Position wegbewegen kann. Diese Bewegung kann
 der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe
@@ -89,7 +89,7 @@ Agent versucht, eine unzulässige Action auszuführen.
 
 \subsection{Präparierung der Daten und Optimierung}\label{sub:m_grund_data}
 Die Trainingsdaten bestehen aus $36'000$ Bildern von handgeschriebenen Ziffern
-aus dem MNIST Datenset (siehe \nameref{chap:t_ml}). Die restlichen Bilder des
+aus dem MNIST Datenset (siehe \doubleref{chap:t_ml}). Die restlichen Bilder des
 MNIST Datensets machen die Testdaten aus. Die Bilder im Datenset sind als Bitmap
 dargestellt, wobei jedes Element (jeder Pixel) einen Wert zwischen $0$ und $255$
 annimmt. Die Zahl repräsentiert eine Graustufe, wobei $0$ Schwarz ist und $255$
@@ -118,8 +118,8 @@ jedem vierten Step an, mit einem Batch von $64$ zufällig ausgewählten Steps au
 dem Replay Buffer.
 
 Die Hyperparameter des Grundprogrammes, wie auch die der Variationen (siehe
-\nameref{chap:m_var}) sind durch den Bayesian Optimization Algorithmus optimiert
-(siehe \nameref{sub:t_ml_hyper}). Die Implementierung des Algorithmus in Python
+\doubleref{chap:m_var}) sind durch den Bayesian Optimization Algorithmus optimiert
+(siehe \doubleref{sub:t_ml_hyper}). Die Implementierung des Algorithmus in Python
 stammt von \cite{fernando_nogueira_bayesian_2014}. Der Algorithmus ändert sich
 für verschiedene Variationen der KI nicht und ist somit Teil des
 Grundprogrammes, wobei er zu der optimalen Leistung der KI beiträgt. 
@@ -128,7 +128,7 @@ Mit jeder Iteration des Baysian Optimization Algorithmus trainiert das
 Reinforcement Learning Modell für eine vom Algorithmus selbst bestimmte Anzahl
 Episodes. Die Zielvariable, die durch den Baysian Optimization Algorithmus
 maximiert werden soll, wird am Ende jeder Iteration des Trainings in der
-Testumgebung berechnet (siehe \nameref{sub:m_auswert_test}). Auf welchem
+Testumgebung berechnet (siehe \doubleref{sub:m_auswert_test}). Auf welchem
 Kriterium die Zielvariable basiert, ist frei wählbar.
 
 
@@ -149,7 +149,7 @@ Wert $1$. Wird in der Vorlage eine Fünf erkannt, aber in der Zeichnung eine
 Vier, hat das Kriterium den Wert $0$
 
 Welches Motiv in der Zeichnung erkannt wird, ist durch eine zweite künstliche
-Intelligenz bestimmt (siehe \nameref{sub:t_ml_func}). Diese zweite KI beurteilt
+Intelligenz bestimmt (siehe \doubleref{sub:t_ml_func}). Diese zweite KI beurteilt
 ein Motiv nur als erkannt, wenn das zugehörige Neuron im Output des neuronalen
 Netzen einen Wert von über $0.75$ hat. Das entspricht mit einer hohen
 Wahrscheinlichkeit der korrekten Beurteilung.
@@ -158,7 +158,7 @@ Um die verschiedenen Arten von Strichbildern, die die KI zeichnen soll, zu
 erkennen, existieren vortrainierte Machine Learning Modelle. Die in dieser
 Arbeit implementierten vortrainierten Modelle sind in der Tabelle \autoref{tab:models}
 ersichtlich. Diese Modelle sind mit den selben Daten trainiert, die in der
-Testumgebung (siehe \nameref{sub:m_auswert_test}) als Vorlage zum Abzeichnen
+Testumgebung (siehe \doubleref{sub:m_auswert_test}) als Vorlage zum Abzeichnen
 dienen.
 
 \begin{table}[!ht]
@@ -174,7 +174,7 @@ dienen.
   \label{tab:models}
 \end{table}
 
-Dieses Kriterium ist in der Fragestellung (siehe \nameref{chap:einleit})
+Dieses Kriterium ist in der Fragestellung (siehe \doubleref{chap:einleit})
 angedeutet. Die Antwort auf die Frage fällt positiv aus, wenn die KI dieses
 Kriterium der Erkennbarkeit konsequet erfüllt. Neben der Erkennbarkeit
 existieren weitere Kriterien, die andere Aspekte der Leistung der künstlichen
@@ -211,8 +211,8 @@ Zeichnung. Eine kleinere Anzahl Steps entspricht einer schnelleren Fertigstellun
 der Zeichnung und somit einer besseren Leistung nach diesem Kriterium.
 
 Eine Zeichnung gilt als fertig, wenn die prozentuale Übereinstimmung (siehe
-\nameref{sub:m_eval_proc}) mindestens $70\%$ beträgt und die Zahl der Definition
-entsprechend erkannt wird (siehe \nameref{sub:m_eval_rec}). Wenn die Zeichnung
+\doubleref{sub:m_eval_proc}) mindestens $70\%$ beträgt und die Zahl der Definition
+entsprechend erkannt wird (siehe \doubleref{sub:m_eval_rec}). Wenn die Zeichnung
 bis zum Ende der Episode die Bedingungen einer fertigen Zeichnung nicht erfüllt,
 hat dieses Kriterium den Wert $64$. Das entspricht der maximalen Anzahl Steps,
 die von der KI pro Zeichnung begangen werden.
@@ -220,9 +220,9 @@ die von der KI pro Zeichnung begangen werden.
 
 \section{Variationen}\label{chap:m_var}
 Dieses Kapitel beschreibt verschiedene Variationen ausgehend vom Grundprogramm
-(siehe \nameref{chap:m_grund}). Bei einigen dieser Variationen handelt es sich
+(siehe \doubleref{chap:m_grund}). Bei einigen dieser Variationen handelt es sich
 um konkrete Implementierungen der definierten Kriterien in die Reward Function
-(siehe \nameref{sub:t_rl_func}). Die Reward Function kann dabei auch auf
+(siehe \doubleref{sub:t_rl_func}). Die Reward Function kann dabei auch auf
 mehreren Kriterien basieren. Der Unterschied zwischen den Variationen liegt im
 Fokus auf die Kriterien. Einige Variationen sind untereinander kombinierbar.
 Andere Variationen führen Strukturelle Änderungen an der KI ein, die über die
@@ -232,9 +232,9 @@ der Leistung der künstlichen Intelligenz.
 
 \subsection{Basis Reward-Function}\label{sub:m_var_base}
 Die Basis Reward Function ist die einfachste Erweiterung des Grundprogrammes
-(siehe \nameref{chap:m_grund}) zu einer funktionierenden künstlichen
+(siehe \doubleref{chap:m_grund}) zu einer funktionierenden künstlichen
 Intelligenz. Diese Reward Function implementiert das Kriterium der prozentualen
-Übereinstimmung (siehe \nameref{sub:m_eval_proc}). Der Reward für eine Action
+Übereinstimmung (siehe \doubleref{sub:m_eval_proc}). Der Reward für eine Action
 berechnet sich aus der Differenz zwischen der prozentualen Übereinstimmung vor
 dem Ausführen der Action, und der prozentualen Übereinstimmung nach dem
 Ausführen der Action (also $K(t-1)$ und $K(t)$). Somit wird der Reward $R$ zum
@@ -249,24 +249,24 @@ prozentualen Übereinstimmung.
 
 \subsection{Training auf Geschwindigkeit}\label{sub:m_var_speed}
 Der numerische Wert für die Zeit bis zur Fertigstellung der Zeichnung (siehe
-\nameref{sub:m_eval_speed}) kann in die Reward-Function integriert werden.
+\doubleref{sub:m_eval_speed}) kann in die Reward-Function integriert werden.
 Dadurch trainiert die künstliche Intelligenz auf eine minimale Zeit bis zur
 Fertigstellung. Die Variation verwendet grundsätzlich die Basis
-Reward-Function (siehe \nameref{sub:m_var_base}). Die Anpassung davon sieht
+Reward-Function (siehe \doubleref{sub:m_var_base}). Die Anpassung davon sieht
 folgendermassen aus: Am Ende jeder Zeichnung wird der Reward jedes Steps mit
 einem Faktor $f$ multipliziert. Dieser Faktor berechnet sich aus folgender
 Formel:
 \[ f = 2 - \frac{S}{S_{\max}} \]
 $S_{\max}$ entspricht der Anzahl Steps, die der Agent pro Zeichnung (Episode)
-begeht (siehe \nameref{sub:m_grund_data}). $S$ entspricht der Anzahl Steps
+begeht (siehe \doubleref{sub:m_grund_data}). $S$ entspricht der Anzahl Steps
 bis zur Fertigstellung der Zeichnung. Der Faktor nimmt einen Wert zwischen $1$
 und $2$ an. Ein grösserer Faktor $f$ entspricht einer schnellen Fertigstellung
 und deswegen einem hohen Reward. Wenn der Agent die Zeichnung bis zum Ende einer
-Episode nicht fertigstellt, ist $f = 1$ (siehe \nameref{sub:m_eval_speed}). In
+Episode nicht fertigstellt, ist $f = 1$ (siehe \doubleref{sub:m_eval_speed}). In
 diesem Fall unterscheidet sich die Reward-Function nicht von der Basis
 Reward-Function. Wenn die Zeichnung früher fertiggestellt wird, zeichnet der
 Agent trotzdem $S_{\max}$ Steps. Das verhindert eine ungleichmässige Verteilung
-zwischen verschiedenen Episodes im Replay-Buffer (siehe \nameref{sub:t_rl_func}).
+zwischen verschiedenen Episodes im Replay-Buffer (siehe \doubleref{sub:t_rl_func}).
 In diesem Fall wird $S$ nur in dem Step gespeichert, in dem die Zeichnung zum
 ersten Mal die Bedingung einer Fertigstellung erfüllt.   
 
@@ -284,12 +284,12 @@ Rewards für die Geschwindigkeit aus.
 Das Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
 teilweise in die Reward Function integriert werden. Das Kriterium strebt eine
 Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe
-\nameref{sub:m_eval_rec}). Die künstliche Intelligenz trainiert allerdings nur
+\doubleref{sub:m_eval_rec}). Die künstliche Intelligenz trainiert allerdings nur
 auf das Nachzeichnen von Ziffern. Aus diesem Grund trainiert diese Variation nur
 auf die Erkennbarkeit von Ziffern, und lässt die anderen Arten von Strichbildern
 aussen vor. 
 
-Die Reward-Function (siehe \nameref{sub:t_rl_func}) dieser Variation beinhaltet
+Die Reward-Function (siehe \doubleref{sub:t_rl_func}) dieser Variation beinhaltet
 eine zweite KI, die handgeschriebene Ziffern erkennt (siehe
 \autoref{tab:models}). Diese zweite KI beurteilt in jedem Step, welche
 Ziffern sie in der Vorlage und in der aktuellen  %TODO Code präzision
@@ -300,7 +300,7 @@ akkumulierten Reward nicht maximieren. Zwei Ansätze gehen auf dieses Problem
 ein. Beide Ansätze sind Teil dieser Variation.
 
 Der erste Ansatz schlägt vor, die zweite KI erst ab einer gewissen prozentualen
-Übereinstimmung (siehe \nameref{sub:m_eval_proc}) einzusetzen. In diesem Fall
+Übereinstimmung (siehe \doubleref{sub:m_eval_proc}) einzusetzen. In diesem Fall
 löst die korrekte Erkennung erst ab einer prozentualen Übereinstimmung von
 $20\%$ einen positiven Reward aus. Diese zusätzliche Bedingung ist notwendig,
 weil die Beurteilungen der zweiten KI teilweise für einen menschlichen
@@ -321,7 +321,7 @@ zeichnet.
 
 
 Der zweite Ansatz implementiert neben der Reward-Function der Erkennbarkeit
-erneut die Basis Reward-Function (siehe \nameref{sub:m_var_base}). Die Relevanz
+erneut die Basis Reward-Function (siehe \doubleref{sub:m_var_base}). Die Relevanz
 der beiden Reward-Functions ändert sich allerdings über das Training hinweg. Die
 Rewards werden in jedem Step mit einem bestimmten Faktor multipliziert. Zu
 Beginn des Trainings ist der Faktor für den Reward der Basis Reward-Function
@@ -350,17 +350,17 @@ der Erkennbarkeit zu profitieren
 
 \subsection{Physikalische Umgebung}\label{sub:m_var_phy}
 Diese Variation spezialisiert sich auf kein Kriterium. Stattdessen verändert
-sich die Umgebung, in der sich der Agent bewegt (siehe \nameref{sub:t_rl_func}).
+sich die Umgebung, in der sich der Agent bewegt (siehe \doubleref{sub:t_rl_func}).
 Auch der Input und der Output des neuronalen Netzes sind angepasst. Durch diese
 Veränderungen unterscheidet sich die Variation vom Grundprogramm. Sie bleibt
-allerdings mit den anderen Variationen (siehe \nameref{sub:m_var_rec} und
-\nameref{sub:m_var_speed}) kompatibel, Da diese ausschliesslich die
+allerdings mit den anderen Variationen (siehe \doubleref{sub:m_var_rec} und
+\doubleref{sub:m_var_speed}) kompatibel, Da diese ausschliesslich die
 Reward-Function anpassen.
 
 Die Variation ergänzt die Umgebung durch physikalische Simulationen. Diese
 physikalische Umgebung definiert die physischen Rahmenbedingungen des Zeichnens
 neu, mit dem Ziel, diese näher an die Realität zu bringen (siehe
-\nameref{sub:d_frage_unter}). 
+\doubleref{sub:d_frage_unter}). 
 
 Der Agent hat neu eine Geschwindigkeit, die durch einen Vektor $\vec{v}$
 dargestellt ist. Die Geschwindigkeit beschreibt, um wie viele Pixel und in
@@ -376,7 +376,7 @@ Position nur durch ganze Zahlen dargestellt ist.
 
 Zur Geschwindigkeit des Agent wird in jedem Step ein Beschleunigungsvektor
 addiert. Jede Action, die der Agent wählen kann, entspricht einem anderen
-Beschleunigungsvektor. Der Action-Space (siehe \nameref{sub:t_rl_func}) besteht
+Beschleunigungsvektor. Der Action-Space (siehe \doubleref{sub:t_rl_func}) besteht
 neu aus $42$ Actions. $21$ der $42$ Actions entsprechen Beschleunigungsvektoren
 im zeichnenden Zustand. Die anderen $21$ Actions entsprechen den selben Vektoren
 im nicht zeichnenden Zustand. Die 21 verschiedenen Beschleunigungsvektoren haben
@@ -404,12 +404,12 @@ Reibungskraft, die auf den Agent einwirkt.
 
 
 Die Veränderung in der Umgebung erfordert weitere Anpassungen im neuronalen Netz
-(siehe \nameref{sub:t_ml_nn}). Ohne diese Anpassungen kann die KI den
+(siehe \doubleref{sub:t_ml_nn}). Ohne diese Anpassungen kann die KI den
 akkumulierten Reward nicht maximieren. Das Problem ist, dass die aktuelle
 Geschwindigkeit des Agents kein Teil der Observation (siehe
-\nameref{sub:t_rl_func}) ist. Der Agent berücksichtigt deswegen seine
+\doubleref{sub:t_rl_func}) ist. Der Agent berücksichtigt deswegen seine
 Geschwindigkeit nicht in seinen Entscheidungen. Die Lösung dieses Problems
-bietet eine Verschiebung des Local image patch (siehe \nameref{sub:t_ver_dood}).
+bietet eine Verschiebung des Local image patch (siehe \doubleref{sub:t_ver_dood}).
 Im Grundprogramm entspricht der Mittelpunkt des Local image patchs genau der
 Position des Agents. Neu befindet sich der Mittelpunkt dort, wo sich der Agent
 laut seiner aktuellen Geschwindigkeit im nächsten Schritt befinden wird. Durch
@@ -434,7 +434,7 @@ Positionen des Agents nach einem Step auf einem $5\times5$ Feld Platz haben
 
 Ein weiteres Problem ist, dass der Agent sich durch seine Geschwindigkeit aus
 den vorgegebenen Grenzen der Zeichenfläche begeben kann. Im Grundprogramm  
-(siehe \nameref{sub:m_grund_dood}) kann der Agent Actions, die ihn in eine
+(siehe \doubleref{sub:m_grund_dood}) kann der Agent Actions, die ihn in eine
 unzulässige Position bewegen würden, nicht auswählen. Wenn allerdings in der
 phyiskalischen Umgebung die Geschwindigkeit des Agents zu
 hoch ist, kann dieser keine Actions mehr wählen, die ihn innerhalb der Grenzen
@@ -447,7 +447,7 @@ aus. Der negative Reward soll die Häufigkeit dieser Vorfälle vermindern
 \section{Auswertung}\label{chap:m_auswert}
 Die Auswertung der Daten über die Leistung der künstlichen Intelligenz liefert
 das Resultat der Methode. Die Auswertung berechnet den Zahlenwert der
-definierten Kriterien (siehe \nameref{chap:m_eval}) für verschiedene Variationen
+definierten Kriterien (siehe \doubleref{chap:m_eval}) für verschiedene Variationen
 der KI.
 
 Die Variationen werden auf ihre Leistung für drei verschiedene Datensets
@@ -461,7 +461,7 @@ Motiven überprüft. Die zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer',
 `Bulldozer', `Uhr', `Wolke', `Computer', `Auge' und `Blume' (siehe
 \autoref{fig:quickdraw-examples}). Die Bilder in den
 drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
-\nameref{sub:m_grund_data}). 
+\doubleref{sub:m_grund_data}). 
 
 %Bild images dataset
 \begin{figure}[!ht]
@@ -472,15 +472,15 @@ drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
 \end{figure}
 
 
-Die Variationen (siehe \nameref{chap:m_var}) der KI umfassen zwei Umgebungen und
-drei Reward-Functions \nameref{sub:t_rl_func}. Für jede Variation ist zur
+Die Variationen (siehe \doubleref{chap:m_var}) der KI umfassen zwei Umgebungen und
+drei Reward-Functions \doubleref{sub:t_rl_func}. Für jede Variation ist zur
 Vereinfachung eine Abkürzung definiert.
 \begin{itemize}
-  \item \nameref{chap:m_grund} Umgebung: Grund
-  \item \nameref{sub:m_var_phy}: Physik
-  \item \nameref{sub:m_var_rec}: Basis
-  \item \nameref{sub:m_var_speed}: Speed
-  \item \nameref{sub:m_var_rec} (von MNIST Ziffern): MNIST
+  \item \doubleref{chap:m_grund} Umgebung: Grund
+  \item \doubleref{sub:m_var_phy}: Physik
+  \item \doubleref{sub:m_var_rec}: Basis
+  \item \doubleref{sub:m_var_speed}: Speed
+  \item \doubleref{sub:m_var_rec} (von MNIST Ziffern): MNIST
 \end{itemize}
 
 Die folgenden Kombinationen an Variationen der künstlichen Intelligenz werden
@@ -498,26 +498,26 @@ ausgewertet. Diese Kombinationen stellen einzelne Versionen der KI dar
 
 \subsection{Testumgebung}\label{sub:m_auswert_test}
 Die Leistungen der verschiedenen Variationen der künstlichen Intelligenz werden
-in einer Testumgebung (siehe \nameref{sub:t_ml_func}) ausgewertet. Zwischen der
+in einer Testumgebung (siehe \doubleref{sub:t_ml_func}) ausgewertet. Zwischen der
 Trainingsumgebung und der Testumgebung sind drei relevante Unterschiede
 erkennbar. Erstens trainiert die KI in der Testumgebung nicht. Die Testumgebung
 übernimmt eine trainierte Version der KI und verändert diese während dem Test
 nicht. Zweitens wählt der Agent in keinem Fall mehr eine zufällige Action.
 Stattdessen wählt er immer die Action mit dem höchsten Q-Value (gleichbedeutend
-mit $\epsilon = 0$) (siehe \nameref{sub:t_rl_func}). Der Dritte Unterschied
+mit $\epsilon = 0$) (siehe \doubleref{sub:t_rl_func}). Der Dritte Unterschied
 liegt in den Strichbildern, die für die künstliche Intelligenz als Vorlage
 dienen. Im Test zeichnet das Computerprogramm $2000$ Bilder aus einem der drei
 zur Verfügung stehenden Datensets (siehe \autoref{tab:models}). 
 
 Am Ende jeder Episode (das heisst jeder Zeichnung), wird der Zahlenwert für die
-verschiedenen Kriterien (siehe \nameref{chap:m_eval}) nach ihrer Definition
+verschiedenen Kriterien (siehe \doubleref{chap:m_eval}) nach ihrer Definition
 ausgewertet und gespeichert. Die KI zeichnet auch in der Testumgebung für $64$
 Steps. Wenn eine Zeichnung der Definition entsprechend früher fertig ist (siehe
-\nameref{sub:m_eval_speed}), wird die Anzahl Steps zu diesem Zeitpunkt als Wert
+\doubleref{sub:m_eval_speed}), wird die Anzahl Steps zu diesem Zeitpunkt als Wert
 des Kriteriums der Geschwindigkeit gespeichert und die KI zeichnet weiter. Der
 Durchschnitt aller gespeicherten Werte eines Kriteriums entspricht der Leistung
 der getesteten Variation in diesem Kriterium. Das Kriterium der Erkennbarkeit
-(siehe \nameref{sub:m_eval_rec}) verwendet zur Auswertung entsprechend dem
+(siehe \doubleref{sub:m_eval_rec}) verwendet zur Auswertung entsprechend dem
 verwendeten Datenset im Test, dasjenige vortrainierte Modell, das auf dem selben
 Datenset trainiert ist. Da das Kriterium der Erkennbarkeit jeweils den Wert $0$
 oder $1$ hat, ergibt der Durchschnitt aus allen Werten dieses Kriteriums eine
