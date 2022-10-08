@@ -47,7 +47,7 @@ Datenpunkt in den analysierten Daten durch einen Menschen festgelegt sein
 \cite{trahasich_31_2020}. Ausgedrückt durch den Fachbegriff müssen die Daten
 labeled sein \cite{noauthor_21_nodate}. Weitere Teilbereiche von Machine
 Learning sind Unsupervised Learning und Reinforcement Learning
-\cite{arora_supervised_2020}. Beachte \nameref{chap:t_rl} für eine ausgeprägtere
+\cite{arora_supervised_2020}. Beachte \doubleref{chap:t_rl} für eine ausgeprägtere
 Einführung in Reinforcement Learning.
 % TODO: Quellen Referenz?
 
@@ -62,7 +62,7 @@ Tensorflow funktioniert.
 
 \subsection{Funktionsweise eines Machine Learning Modelles}\label{sub:t_ml_func}
 Dieser Abschnitt erklärt die Funktionsweise eines Machine Learning Modelles,
-basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe\nameref{chap:t_ml}). 
+basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe\doubleref{chap:t_ml}). 
 
 Bei den Daten, die das Machine Learning Modell analysiert handelt es sich in
 diesem Fall um das MNIST Datenset \cite{noauthor_mnist_nodate}. Dieses Datenset
@@ -91,7 +91,7 @@ Fällen erreicht diese Genauigkeit $100\%$. Das Modell garantiert somit nicht di
 richtige Lösung. Das Machine Learning Modell erlert die Mustererkennung während
 dem Training durch die Analyse von Trainingsdaten aus einem Datenset. Das Modell
 gibt zu jedem Datenpunkt die Beurteilung, um welche Zahl es sich handelt. Das
-Datenset ist labeled (siehe \nameref{chap:t_ml}). Falls die Beurteilung des
+Datenset ist labeled (siehe \doubleref{chap:t_ml}). Falls die Beurteilung des
 Modelles nicht mit der bekannten, korrekten Lösung übereinstimmt, passt sich das
 Modell automatisch an. Dadurch soll die Beurteilungen für zukünftige Datenpunkte
 genauer werden. Die Testphase misst die Genauigkeit des Modelles auf Testdaten.
@@ -100,7 +100,7 @@ enthalten sind.
 
 Zusammengefasst kann ein Machine Learning Modell Daten Beurteilen und sich
 selbst Anpassen, um die Beurteilungen zu verbessern. Künstliche Neuronale Netze
-(siehe \nameref{sub:t_ml_nn}) umfassen diese Funktionalität, und finden daher in
+(siehe \doubleref{sub:t_ml_nn}) umfassen diese Funktionalität, und finden daher in
 Machine Learning Modellen Anwendung.
 
 
@@ -140,7 +140,7 @@ Hyperparameter als Input und eine Zielvariable als Output definiert. Die
 Zielvarible des Outputs entspricht dabei einem Wert, der die Leistung des
 Modelles widerspiegelt und durch den Algorithmus maximiert werden soll. Ein
 Beispiel für die Zielvarible wäre die Genauigkeit des Machine Learning Modelles
-(siehe \nameref{sub:t_ml_func}). Die inneren Vorgänge in der BlackBox Funktion
+(siehe \doubleref{sub:t_ml_func}). Die inneren Vorgänge in der BlackBox Funktion
 entsprechen in diesem Fall einem Training des Modelles.
 
 Der Baysian Optimization Algorithmus kann bis zu 20 Hyperparameter zuverlässig
@@ -204,7 +204,7 @@ für mehrere Neuronen ein Input sein. Die Neuronen sind in \emph{Layers} geordne
 Layer} und einen \emph{Output Layer}
 \cite{nielsen_neural_2015}\cite{ognjanovski_everything_2020}. Der Input Layer
 umfasst die Daten, zu dem das neuronale Netz eine Beurteilung liefern soll. Im
-Beispielproblem (siehe \nameref{chap:t_ml}) bestände die Eingabe-Ebene aus
+Beispielproblem (siehe \doubleref{chap:t_ml}) bestände die Eingabe-Ebene aus
 $28\times28$ Neuronen, wobei jedes Neuron die Graustufe (durch einen Wert von
 $0$ bis $255$) eines Pixels im Bild beschreibt. Der Input ist in diesem Fall
 zweidimensional. Die Dimensionen sind allerdings flexibel. Die Output Layer
@@ -247,7 +247,7 @@ bezeichnet \cite{jan-dirk_kranz_deep_2019}.
 %todo caption, format
 
 Ein Machine Learning Modell passt während dem Training (siehe
-\nameref{sub:t_ml_func}) einzelne Gewichte im neuronalen Netz an, in der Hoffnung,
+\doubleref{sub:t_ml_func}) einzelne Gewichte im neuronalen Netz an, in der Hoffnung,
 dass die Genauigkeit der Beurteilung mit den angepassten Gewichten grösser
 ist. Die genaue Anpassung erfolgt in den meisten Machine Learning Modellen durch
 den Backpropagation Algorithmus
@@ -260,7 +260,7 @@ Rückmeldungen und Beobachtungen aus einer Umgebung ein bestimmtes Verhalten
 erlernen.
 
 Reinforcement Learning Modelle führen somit die Umgebung ein. Anders als bei
-Supervised Learning und Unsupervised Learning (siehe \nameref{chap:t_ml}) sind
+Supervised Learning und Unsupervised Learning (siehe \doubleref{chap:t_ml}) sind
 die Daten, aus denen das Modell lernen soll, im Voraus nicht bekannt.
 Reinforcement Learning Modelle trainieren somit nicht auf der Grundlage eines
 Datensets. Das liegt in der Natur der Umgebung, die häufig zu viele verschiedene
@@ -293,7 +293,7 @@ Entscheidung, welche Action der Agent ausführt, basiert auf einer
 \emph{Observation} \cite[S. 2]{mnih_playing_2013} der Umgebung. Die
 Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
 relevant sind. Der Agent trifft seine Entscheidung auf der Basis eines
-neuronalen Netzes (siehe \nameref{sub:t_ml_nn}). Der Input in dieses neuronale
+neuronalen Netzes (siehe \doubleref{sub:t_ml_nn}). Der Input in dieses neuronale
 Netz ist die Observation der Umgebung und der Output beschreibt die Action, die
 der Agent ausführt. Jedes Neuron des Outputs beschreibt eine spezifische Action
 des Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
@@ -389,7 +389,7 @@ wird deswegen im nächsten Abschnitt weiter behandelt.
 
 \subsection{Doodle-SDQ}\label{sub:t_ver_dood} Doodle-SDQ ist ein
 Computerprogramm, das durch ein Reinforcement Learning Modell, spezifischer Deep
-Q-Learning (siehe \nameref{sub:t_rl_func}), erlernt, Strichbilder aus dem Google
+Q-Learning (siehe \doubleref{sub:t_rl_func}), erlernt, Strichbilder aus dem Google
 QuickDraw Datenset \cite{noauthor_quick_2022}
 nachzuzeichnen. Nachfolgend sind die Aspekte von Doodle-SDQ beschrieben, die für
 diese Arbeit relevant sind.
@@ -410,7 +410,7 @@ Position des Agenten gezeichnet. Der Agent begeht 100 Steps pro Episode. Eine
 neue Episode entspricht dabei einem neuen Bild, das abgezeichnet werden soll.
 
 Die Obervation der Umgebung, und somit der Input in das neuronale Netz (siehe
-\nameref{sub:t_rl_func}), ist in zwei Teile gegliedert: den Global Stream und
+\doubleref{sub:t_rl_func}), ist in zwei Teile gegliedert: den Global Stream und
 den Local Stream. Der Global Stream hat eine Form von $28\times28\times4$. Der
 Input ist somit dreidimensional. Die Form kann als 4 aufeindandergestapelte
 Bilder angesehen werden, die jeweils eine Grösse von $28\times28$ Pixeln haben.
@@ -428,7 +428,7 @@ $11\times11$ Bereich (bezeichnet als Local image patch \cite[S.
 5]{zhou_learning_2018}), in dem sich der Agent in einem Schritt bewegen kann.
 Das zweite Bild beschreibt den selben Bereich von der Zeichenfläche \cite[S. 4
 ff.]{zhou_learning_2018}. Der global Stream und der Local Stream werden durch
-eine Concatenation Layer (siehe \nameref{sub:t_ml_nn}) zusammengeführt. 
+eine Concatenation Layer (siehe \doubleref{sub:t_ml_nn}) zusammengeführt. 
 
 \section{Git und GitHub}\label{chap:t_git} Git und Github sind weit verbreitete
 Hilfsmittel für Software Entwickler. Git ist ein Programm, während GitHub ein
