@@ -1,4 +1,4 @@
-\chapter{Methode}\label{chap:m}
+\chapter{Methode}\label{chap:m}github ist ein
 Die Methode dieser Untersuchung besteht darin, die in der Fragestellung
 beschriebene künstliche Intelligenz (KI) zu entwickeln und dessen Leistung
 auszuwerten. Die Diskussion dieser Resultate führt schlussendlich zu einer
@@ -27,7 +27,7 @@ Keras Frameworks implementiert (siehe \nameref{chap:t_ml}).
 \subsection{Doodle-SDQ als Basis}\label{sub:m_grund_dood}
 Das Reinforcement Learning Modell des Grundprogrammes basiert auf Doodle-SDQ
 (siehe \nameref{sub:t_ver_dood}). Von Doodle-SDQ ist das neuronale Netz, bezogen
-auf die Form des Inputs, des Outputs und den Hidden Layers, zu einem grossem Teil
+auf die Form des Inputs, des Outputs und den Hidden Layers, grösstenteils
 übernommen. Die relevanten Anpassungen zwischen Doodle-SDQ und dem Grundprogramm
 dieser Arbeit sind nachfolgend erläutert.
 
@@ -266,7 +266,7 @@ aussen vor.
 
 Die Reward-Function (siehe \nameref{sub:t_rl_func}) dieser Variation beinhaltet
 eine zweite KI, die handgeschriebene Ziffern erkennt (siehe
-\autoref{tab:Datasets}). Diese zweite KI beurteilt in jedem Step, welche
+\autoref{tab:models}). Diese zweite KI beurteilt in jedem Step, welche
 Ziffern sie in der Vorlage und in der aktuellen  %TODO Code präzision
 Zeichnung erkennt. Wenn die erkannte Zahl in der Vorlage und der Zeichnung
 gleich ist, erhält der Agent einen Reward von $0.1$. In diesem Zustand
@@ -399,7 +399,7 @@ der KI.
 
 Die Variationen werden auf ihre Leistung für drei verschiedene Datensets
 überprüft. Die drei Datensets beinhalten verschiedene Arten von handgemachten
-Strichbildern (siehe \autoref{tab:Datasets}). Das erste Datenset, MNIST,
+Strichbildern (siehe \autoref{tab:models}). Das erste Datenset, MNIST,
 beeinhaltet Ziffern, die in den Trainingsdaten nicht vorkommen. Das zweite
 Datenset, EMNIST Letters, beeinhaltet die 26 Kleinbuchstaben des Alphabets. Das
 dritte Datenset, QuickDraw, beeinhaltet Zeichnungen von insgesamt 345
@@ -447,7 +447,7 @@ Stattdessen wählt er immer die Action mit dem höchsten Q-Value (gleichbedeuten
 mit $\epsilon = 0$) (siehe \nameref{sub:t_rl_func}). Der Dritte Unterschied
 liegt in den Strichbildern, die für die künstliche Intelligenz als Vorlage
 dienen. Im Test zeichnet das Computerprogramm $2000$ Bilder aus einem der drei
-zur Verfügung stehenden Datensets (siehe \autoref{tab:datasets}). 
+zur Verfügung stehenden Datensets (siehe \autoref{tab:models}). 
 
 Am Ende jeder Episode (das heisst jeder Zeichnung), wird der Zahlenwert für die
 verschiedenen Kriterien (siehe \nameref{chap:m_eval}) nach ihrer Definition
