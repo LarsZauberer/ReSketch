@@ -236,24 +236,25 @@ Der Baysian Optimization Algorithmus kann bis zu 20 Hyperparameter zuverlässig
 optimieren \cite{moriconi_high-dimensional_2020}. Der Algorithmus führt die
 Black Box Funktion für eine bestimmte Anzahl Iterationen mit jeweils
 verschiedenen Parametern durch. Die Wahl der Parameter basiert dabei auf Bayes'
-Theorem \cite[S. 7]{garnett_bayesian_nodate}. Diejenigen Parameter, die den
+Theorem \cite[S. 7]{garnett_bayesian_2021}. Diejenigen Parameter, die den
 höchsten gefundenen Wert der Zielvariable auslösen, werden gespeichert.
 
 
 \section{Reinforcement Learning}\label{chap:t_rl}
-Reinforcement Learning bedeutet: Lernen durch Interaktion mit einer Umgebung.
-\cite{osinski_what_2018}. Genauer gesagt soll ein Machine Learning Modell durch
-Rückmeldungen und Beobachtungen aus einer Umgebung ein bestimmtes Verhalten
+Reinforcement Learning bedeutet zusammengefasst: Lernen durch Interaktion mit
+einer Umgebung. \cite{osinski_what_2018}. Genauer gesagt soll ein Machine
+Learning Modell durch Rückmeldungen aus einer Umgebung ein bestimmtes Verhalten
 erlernen.
 
 Reinforcement Learning Modelle führen somit die Umgebung ein. Anders als bei
 Supervised Learning und Unsupervised Learning (siehe \doubleref{chap:t_ml}) sind
 die Daten, aus denen das Modell lernen soll, im Voraus nicht bekannt.
-Reinforcement Learning Modelle trainieren somit nicht auf der Grundlage eines
-Datensets. Das liegt in der Natur der Umgebung, die häufig zu viele verschiedene
-Zustände einnehmen kann, als dass diese in einem Datenset gesammelt werden
-könnten. Ein Machine Learning Modell kann trotzdem aus einer Umgebung lernen,
-indem es selbst mit dieser interagiert und dadurch Erfahrung sammelt.
+Reinforcement Learning Modelle trainieren somit nicht oder nicht nur auf den
+Daten aus einem Datenset. Das liegt in der Natur der Umgebung, die häufig zu
+viele verschiedene Zustände einnehmen kann, als dass diese in einem Datenset
+gesammelt werden könnten. Ein Machine Learning Modell lernt aus einer Umgebung,
+indem es durch Beurteilungen (siehe \doubleref{sub:t_ml_func}) mit dieser
+interagiert und dadurch Erfahrungen sammelt.
 \cite{piyush_verma_what_2021}
 
 Als Beispiel kann die echte Welt als eine Umgebung angesehen werden. Der Mensch
@@ -262,39 +263,39 @@ Eigenschaften seiner Umgebung durch Interaktionen mit dieser kennen.
 Beispielsweise lernt ein Mensch die Schwerkraft durch das Hinfallen kennen.
 Durch diese Erfahrungen kann der Mensch ein gewisses Verhalten, zum Beispiel das
 Laufen, erlernen. Reinforcement Learning Modelle imitieren dieses Lernverhalten.
-So verwendet die Robotik häufig Reinforcement Learning, um einen Roboter laufen
-zu lassen. Die Umgebung, mit der das Reinforcement Learning Modell lernt, ist
-dabei häufig nicht echt, sondern simuliert.
+So verwendet die Robotik häufig Reinforcement Learning, um einen Roboter das
+Laufen erlernen zu lassen. Die Umgebung, mit der das Reinforcement Learning
+Modell lernt, ist dabei häufig nicht echt, sondern simuliert.
 
 \subsection{Funktionsweise von Reinforcement Learning}\label{sub:t_rl_func}
 Dieser Abschnitt umfasst eine genauere Erklärung eines Reinforcement Learning
-Modelles, in diesem Fall Deep Q-Learning, unter der Verwendung der korrekten
-Fachbegriffe.
+Modelles, in diesem Fall Deep Q-Learning \cite{mnih_playing_2013}, unter der
+Verwendung der korrekten Fachbegriffe.
 
 Ein Reinforcement Learning Modell umfasst eine \emph{Umgebung} und einen
 \emph{Agent}. Der Agent ist dasjenige Element in der Umgebung, welches mit
 dieser interagiert und daraus lernt \cite[S. 53]{sutton_reinforcement_2014}. Die
 Umgebung verändert sich in Zeitschritten, genannt \emph{Steps}. In jedem Step
-führt der Agent eine \emph{Action} aus, die die Umgebung beeinflusst. Die
-Entscheidung, welche Action der Agent ausführt, basiert auf einer
-\emph{Observation} \cite[S. 2]{mnih_playing_2013} der Umgebung. Die
-Observation umfasst alle Daten der Umgebung, die für die Entscheidung des Agents
-relevant sind. Der Agent trifft seine Entscheidung auf der Basis eines
-neuronalen Netzes (siehe \doubleref{sub:t_ml_nn}). Der Input in dieses neuronale
-Netz ist die Observation der Umgebung und der Output beschreibt die Action, die
-der Agent ausführt. Jedes Neuron des Outputs beschreibt eine spezifische Action
-des Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
+führt der Agent eine \emph{Action} aus, welche die Umgebung beeinflusst. Die
+Entscheidung, welche Action der Agent wählt, basiert auf einer
+\emph{Observation} der Umgebung \cite[S. 2]{mnih_playing_2013}. Die Observation
+umfasst alle Daten der Umgebung, die für die Entscheidung relevant sind. Der
+Agent trifft seine Entscheidungsprozess findet durch ein neuronales Netz statt
+(siehe \doubleref{sub:t_ml_nn}). Der Input in dieses neuronale Netz ist die
+Observation der Umgebung und der Output beschreibt die Action, die der Agent
+ausführt. Jedes Neuron des Outputs beschreibt eine spezifische Action des
+Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
 Actions zusammen werden \emph{Action-Space} \cite[S.
 67]{sutton_reinforcement_2014} genannt. Jede Action im Action-Space besitzt
 einen \emph{Q-Value}, der dem Output des zugehörigen Neurons entspricht. (siehe
-\autoref{fig:reinforce-1}) \cite{wang_deep_2021} Die schlussendliche Entscheidung, welche
-Action ausgeführt wird, basiert auf der \emph{Epsilon-Greedy} Strategie \cite[S.
-34]{sutton_reinforcement_2014}. Diese Strategie sieht vor, dass die Entscheidung
-mit einer Wahrscheinlichkeit von $\epsilon$ auf eine zufällige Action fällt.
-Ansonsten fällt die Entscheidung auf diejenige Action mit dem höchsten Q-Value.
-Der Agent erkundet die Umgebung durch die zufälligen Actions, die er teilweise
-wählt. Der Agent wählt Actions, die er ansonsten nie wählen würde, und trifft
-möglicherweise zufällig auf bessere Optionen für zukünftige Steps
+\autoref{fig:reinforce-1}) \cite{wang_deep_2021} Die schlussendliche
+Entscheidung, welche Action ausgeführt wird, basiert auf der
+\emph{Epsilon-Greedy} Strategie \cite[S. 34]{sutton_reinforcement_2014}. Diese
+Strategie sieht vor, dass die Entscheidung mit einer Wahrscheinlichkeit von
+$\epsilon$ (Epsilon) auf eine zufällige Action fällt. Ansonsten fällt die
+Entscheidung auf diejenige Action mit dem höchsten Q-Value. Durch die zufälligen
+Actions erkundet der Agent die Umgebung, in der Hoffnung, auf bessere Optionen
+für zukünftige Entscheidungen zu stossen.
 \cite{rajendra_koppula_exploration_nodate}.
 
 %bild reinforcement schema 1
@@ -305,26 +306,27 @@ möglicherweise zufällig auf bessere Optionen für zukünftige Steps
     \label{fig:reinforce-1}
 \end{figure}
 
-Die Umgebung und somit auch der Agent werden durch die Actions des Agenten
-beeinflusst. Dieser Einfluss wird durch die \emph{Reward-Function} gemessen. Die
-Reward-Function gibt eine rationale Zahl, den \emph{Reward} aus \cite[S.
-75]{sutton_reinforcement_2014}. Umso grösser der Reward, desto positiver ist der
-Effekt auf die Umgebung und umgekehrt. Ein positiver Einfluss auf die Umgebung
-durch eine Action ist so definiert, dass der Agent durch die Action das
-gewünschte Verhalten vorzeigt. Die Reward-Function definiert, welches Verhalten
-welchen Reward erzielt. Der Q-Value der gewählten Action wird mit dem Reward
-(und dem maximalen Q-Value aus den nächsten möglichen Actions) addiert. Diese
-Formel nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_2013}. Der neue
-Q-Value hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen
-grösseren Wert, wenn der Reward positiv ist. Die das neuronalen Netz wird
-daraufhin so trainiert, dass der Output für das Neuron, dessen Action ausgeführt
-wurde, näher am neu berechneten, besseren Q-Value ist (siehe \autoref{fig:reinforce-2}).
-Der schlussendliche Effekt ist, dass Actions, die einen positiven Reward
-auslösen, wahrscheinlicher gewählt werden, und umgekehrt Actions, die einen
-negativen Rewards auslösen, unwahrscheinlicher gewählt werden. Der Agent
-versucht insgesamt durch seine Actions einen möglichst hohen akkumulierten
-Reward zu erzielen \cite[S. 57]{sutton_reinforcement_2014}. Der akkumulierte
-Reward entsprich der Summe der Rewards aus jedem Step in einer Episode.
+Die Umgebung wird durch die Actions des Agents beeinflusst. Dieser Einfluss wird
+durch die \emph{Reward-Function} gemessen. Die Reward-Function gibt eine
+rationale Zahl, den \emph{Reward} aus \cite[S. 75]{sutton_reinforcement_2014}.
+Umso grösser der Reward, desto positiver ist der Effekt einer Action auf die
+Umgebung und umgekehrt. Ein positiver Einfluss auf die Umgebung durch eine
+Action ist so definiert, dass der Agent durch die Action das gewünschte
+Verhalten vorzeigt. Die Reward-Function definiert, welches Verhalten welchen
+Reward erzielt. Der Q-Value der gewählten Action wird mit dem Reward (und dem
+maximalen Q-Value aus den nächsten möglichen Actions) addiert. Diese Formel
+nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_2013}. Der neue Q-Value
+hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen grösseren
+Wert, wenn der Reward positiv ist. Das neuronalen Netz wird daraufhin so
+trainiert, dass der Output für das Neuron, dessen Action ausgeführt wurde, näher
+am neu berechneten, besseren Q-Value ist (siehe \autoref{fig:reinforce-2}). Der
+schlussendliche Effekt ist, dass Actions, die einen positiven Reward auslösen,
+wahrscheinlicher gewählt werden, und umgekehrt Actions, die einen negativen
+Rewards auslösen, unwahrscheinlicher gewählt werden. Der Agent versucht
+insgesamt durch seine Actions einen möglichst hohen akkumulierten Reward zu
+erzielen \cite[S. 57]{sutton_reinforcement_2014}. Der akkumulierte Reward
+entsprich der Summe der Rewards aus jedem Step (in einer Episode. Beachte den
+nächsten Abschnitt).
 
 %bild reinforcement schema 2
 \begin{figure}[!ht]
@@ -336,32 +338,31 @@ Reward entsprich der Summe der Rewards aus jedem Step in einer Episode.
 
 Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}.
 Eine Episode umfasst eine gewisse Anzahl Steps und am Anfang jeder Episode wird
-die Umgebung in einen Startzustand zurückgesetzt. Die Resultate eines Steps
-werden in dem \emph{Replay-Buffer} gespeichert. Dazu gehören die Observation der
-Umgebung, die jeweiligen Actions und der jeweilige Reward. Der Replay-Buffer enthält Speicherplatz
-für eine bestimmte Anzahl Steps. Während dem Training werden zufällige Steps aus
-dem Replay-Buffer gewählt, auf die das neuronale Netz trainiert. Das neurnale
-Netz trainiert also auf Daten aus der Vergangenheit der Umgebung und des Agents.
-Diese Strategie nennt sich Experience Replay \cite[S. 5]{mnih_playing_2013}.
-Ausserdem trainiert das neuronale Netz jeweils mit einem \emph{Batch} an Steps,
-also mit einer gewissen Anzahl an Steps gleichzeitig. Der Replay-Buffer und der
-Batch sichern zu, dass das neuronale Netz mit einer grossen Vielfalt an Steps
-trainiert, was das Lernverhalten stabiler macht als ein chronologisches Training
-auf einzelne Steps \cite{phd_how_2021}.
+die Umgebung in einen Ausgangszustand zurückgesetzt. Die Resultate der Steps
+werden in dem \emph{Replay-Buffer} gespeichert. Dazu gehören die Observations
+der Umgebung, die jeweiligen Actions und der jeweilige Rewards. Der
+Replay-Buffer enthält Speicherplatz für eine bestimmte Anzahl Steps. Während dem
+Training werden zufällige Steps aus dem Replay-Buffer gewählt, auf die das
+neuronale Netz trainiert. Das neurnale Netz trainiert also auf Daten aus der
+Vergangenheit der Umgebung. Diese Strategie nennt sich Experience Replay
+\cite[S. 5]{mnih_playing_2013}. Ausserdem trainiert das neuronale Netz jeweils
+mit einem \emph{Batch} an Steps, also mit einer gewissen Anzahl an Steps
+gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
+Netz mit einer grossen Vielfalt an Steps trainiert. Das bewirkt ein stabileres
+Lernverhalten als ein chronologisches Training auf einzelne Steps.
+\cite{phd_how_2021}.
 
 
 \section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
-Strichbildern ist ein Teilbereich von dem Zeichnen allgemein. Es gibt
-verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger Ansatz
-ist \emph{Stroke-Based Rendering} \cite{hertzmann_stroke_2002}. Stroke-Based
-Rendering ist das Zeichnen von Bilder durch das Platzieren von Elementen wie
-Strichen. Beispiele für Arbeiten in diesem Bereich sind Strokenet
-\cite{zheng2018strokenet} und ``Learning to Paint With Model-based Deep
-Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze simulieren
-die Führung eines Stiftes. (siehe \autoref{fig:stroke-v-stift}) Ein Beispiel
-dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}. Doodle-SDQ
-beschäftigt sich auch spezifischer mit dem Nachzeichnen von Strichbildern und
-wird deswegen im nächsten Abschnitt weiter behandelt.
+Strichbildern ist ein Teilbereich von der Tätigkeit des Zeichnens allgemein. Es
+gibt verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger
+Ansatz ist \emph{Stroke-Based Rendering}. Stroke-Based Rendering beschreibt das
+Zeichnen von Bilder durch das Platzieren von Elementen wie Strichen
+\cite{hertzmann_stroke_2002}. Beispiele für Arbeiten in diesem Bereich sind
+Strokenet \cite{zheng2018strokenet} und ``Learning to Paint With Model-based
+Deep Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze
+simulieren die Führung eines Stiftes. (siehe \autoref{fig:stroke-v-stift}) Ein
+Beispiel dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}.
 
 %bild strokebased vs stife
 \begin{figure}[!ht]
@@ -372,46 +373,47 @@ wird deswegen im nächsten Abschnitt weiter behandelt.
 \end{figure}
 
 \subsection{Doodle-SDQ}\label{sub:t_ver_dood} Doodle-SDQ ist ein
-Computerprogramm, das durch ein Reinforcement Learning Modell, spezifischer Deep
-Q-Learning (siehe \doubleref{sub:t_rl_func}), erlernt, Strichbilder aus dem Google
-QuickDraw Datenset \cite{noauthor_quick_2022}
-nachzuzeichnen. Nachfolgend sind die Aspekte von Doodle-SDQ beschrieben, die für
-diese Arbeit relevant sind.
+Computerprogramm, das unter anderem durch Reinforcement Learning und
+spezifischer Deep Q-Learning (siehe \doubleref{sub:t_rl_func}) erlernt,
+Strichbilder aus dem Google QuickDraw Datenset \cite{noauthor_quick_2022}
+nachzuzeichnen. Nachfolgend sind diejenigen Aspekte von Doodle-SDQ beschrieben,
+die für diese Arbeit relevant sind.
 
-Die QuickDraw Bilder, die das Programm nachzeichnen soll, sind zu einer
+Die QuickDraw Bilder, die Doodle-SDQ nachzeichnen soll, sind zu einer
 einheitliche Grösse von $84\times84$ Pixeln verarbeiteitet \cite[S.
 7]{zhou_learning_2018}. Der Agent kann sich auf einer leeren Zeichenfläche von
 der selben Grösse bewegen und zeichnen. Die Umgebung umfasst diese
 Zeichenfläche, den Agent und das abzuzeichnende Bild.
 
-Der Agent kann sich durch eine Action in jedem Step auf einen beliebigen Pixel
-in einem $11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann
+Der Agent kann sich durch eine Action pro Step auf einen beliebigen Pixel in
+einem $11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann
 ausserdem jede dieser Bewegungen im zeichnenden Zustand oder im nicht
-zeichnenden Zustand machen. Der Action-Space hat somit insgesamt eine Grösse von
-$2\cdot11\cdot11 = 242$ Actions \cite[S. 5]{zhou_learning_2018}. Im zeichnenden
-Zustand wird ein Strich auf der Zeichenfläche zwischen der alten und der neuen
-Position des Agenten gezeichnet. Der Agent begeht 100 Steps pro Episode. Eine
-neue Episode entspricht dabei einem neuen Bild, das abgezeichnet werden soll.
+zeichnenden Zustand ausführen. Der Action-Space hat somit insgesamt eine Grösse
+von $2\cdot11\cdot11 = 242$ Actions \cite[S. 5]{zhou_learning_2018}. Im
+zeichnenden Zustand wird ein Strich auf der Zeichenfläche zwischen der alten und
+der neuen Position des Agents gezeichnet. Der Agent begeht 100 Steps pro
+Episode. Eine neue Episode entspricht dabei einem neuen Bild, das abgezeichnet
+werden soll.
 
-Die Obervation der Umgebung, und somit der Input in das neuronale Netz (siehe
-\doubleref{sub:t_rl_func}), ist in zwei Teile gegliedert: den Global Stream und
-den Local Stream. Der Global Stream hat eine Form von $28\times28\times4$. Der
-Input ist somit dreidimensional. Die Form kann als 4 aufeindandergestapelte
-Bilder angesehen werden, die jeweils eine Grösse von $28\times28$ Pixeln haben.
-Dabei beschreibt eine relle Zahl den Wert von jedem Pixel in einem Bild. Das
-erste Bild im global Stream ist die Vorlage, die abgezeichnet werden soll. Das
-zweite Bild ist die Zeichenfläche im aktuellen Zustand. Das dritte Bild
-beschreibt die Position des Agents durch seine relative Entfernung zu jedem
-Punkt auf der Zeichenfläche. Das vierte Bild beschreibt, ob der Agent im
-zeichnenden Zustand ist oder nicht. Wenn alle Pixel dieses letzten Bildes den
-Wert $1$ haben, ist der Agent im zeichnenden Zustand. Wenn umgekehrt alle Pixel
+Die Obervation der Umgebung und somit der Input in das neuronale Netz (siehe
+\doubleref{sub:t_rl_func}) ist in zwei Teile gegliedert: der Global Stream und
+der Local Stream \cite[S. 4]{zhou_learning_2018}. Der Global Stream hat eine
+Form von $28\times28\times4$. Der Input ist somit dreidimensional. Die Form kann
+als $4$ aufeindandergestapelte Bilder angesehen werden, die jeweils eine Grösse
+von $28\times28$ Pixeln haben. Dabei beschreibt eine reelle Zahl den Wert von
+jedem Pixel in einem Bild. Das erste Bild im Global Stream ist die Vorlage, die
+abgezeichnet werden soll. Das zweite Bild ist die Zeichenfläche im aktuellen
+Zustand. Das dritte Bild beschreibt die Position des Agents durch seine relative
+Entfernung zu jedem Punkt auf der Zeichenfläche. Das vierte Bild beschreibt, ob
+der Agent im zeichnenden Zustand ist oder nicht. Wenn alle Pixel dieses letzten
+Bildes den Wert $1$ haben, ist der Agent im zeichnenden Zustand. Wenn alle Pixel
 den Wert $0$ haben, ist der Agent nicht im zeichnenden Zustand. Der Local Stream
 hat eine Form von $11\times11\times2$. Er ist somit auch dreidimensional und
 beschreibt zwei gestapelte Bilder. Das erste Bild umfasst die Vorlage in dem
 $11\times11$ Bereich (bezeichnet als Local image patch \cite[S.
-5]{zhou_learning_2018}), in dem sich der Agent in einem Schritt bewegen kann.
-Das zweite Bild beschreibt den selben Bereich von der Zeichenfläche \cite[S. 4
-ff.]{zhou_learning_2018}. Der global Stream und der Local Stream werden durch
+5]{zhou_learning_2018}), in dem sich der Agent in einem Step bewegen kann. Das
+zweite Bild beschreibt den selben Bereich von der Zeichenfläche \cite[S. 4
+ff.]{zhou_learning_2018}. Der Global Stream und der Local Stream werden durch
 eine Concatenation Layer (siehe \doubleref{sub:t_ml_nn}) zusammengeführt. 
 
 \section{Git und GitHub}\label{chap:t_git} Git und Github sind weit verbreitete
@@ -421,11 +423,11 @@ zusätzliche Funktionen, die die Zusammenarbeit zwischen mehreren Entwicklern
 erleichtern. Die genaue Funktion und das Zusammenspiel dieser beiden Hilfsmittel
 wird nachfolgend erläutert.
 
-\subsection{Git}\label{sub:t_git_git} Git erkennt Veränderungen im Code eines
-Projektes und speichert diese Veränderungen in einer neuen Version ab. Die
+\subsection{Git}\label{sub:t_git_git} Git erkennt Veränderungen im Programmcode eines
+Projektes und speichert diese Veränderungen jeweils in einer neuen Version ab. Die
 einzelnen Versionen des Projektes bleiben dabei zu jedem Zeitpunkt abrufbar.
 Dieses Konzept nennt sich Version Control
-\cite{atlassian_git-flow-workflow_nodate}. Das Programm wurde 2005 von Linus
+\cite{atlassian_what_nodate}. Das Programm wurde 2005 von Linus
 Torvald entwickelt \cite{noauthor_git_2021}. Versionen des Projektes werden
 manuell durch einen Commit gespeichert. Es wird empfohlen, nur jeweils ein
 bestimmtes Problem oder eine bestimmte Funktion pro Commit anzugehen
@@ -434,14 +436,14 @@ erstellt werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines
 Projektes \cite{guillermo_brachetta_what_2022}. Zum Beispiel kann das Projekt in
 mehreren Branches gleichzeitig und unabhängig von einander entwickelt werden
 \cite{guillermo_brachetta_what_2022}. Eine weit verbreitete Arbeitsweise und
-Branch Struktur mit Git ist GitFlow
-\cite{noauthor_what_2022}\cite{atlassian_git-flow-workflow_nodate}. GitFlow
-schlägt grundsätzlich einen Main Branch, einen Develop Branch und verschiedene
+Branch Struktur mit Git ist Git Flow
+\cite{noauthor_what_2022}\cite{atlassian_git-flow-workflow_nodate}. Git Flow
+schlägt einen Main Branch, einen Develop Branch und verschiedene
 Feature Branches vor \cite{atlassian_git-flow-workflow_nodate}. Professionelle
-Anwendungen von GitFlow verwenden ausserdem so genannte Release Branches und
+Anwendungen von Git Flow verwenden ausserdem so genannte Release Branches und
 Hotfix Branches \cite{cameron_mckenzie_gitflow_2021}. Im Main Branch sind
 offizielle Versionen des Projektes gespeichert, Im Develop Branch wird das
-Projekt als ganzes entwickelt, und in jedem Feature Branch wird eine
+Projekt als ganzes entwickelt und in jedem Feature Branch wird eine
 Funktionalität in das Projektes implementiert (siehe \autoref{fig:git-branch}). 
 
 % bild branch structure
@@ -454,20 +456,20 @@ Funktionalität in das Projektes implementiert (siehe \autoref{fig:git-branch}).
 
 \subsection{GitHub}\label{sub:t_git_gh}
 GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
-Preston-Werner entwickelt \cite{noauthor_github_2021}. 2018 wurde das
-Unternehmen von Microsoft gekauft. GitHub ist ein Service, der Projekte, die mit
-Git verwalten werden, in der Cloud speichert. Dadurch kann ein Projekt überall
-und von beliebig vielen Personen entwickelt werden. GitHub betreibt eine
-Webseite, über welche der Service verwendet werden kann
+Preston-Werner entwickelt \cite{noauthor_github_2021}. GitHub ist ein Service,
+der Projekte, die mit Git verwalten werden, in der Cloud speichert. Dadurch kann
+ein Projekt überall und von beliebig vielen Personen entwickelt werden.
 \cite{noauthor_github_2021}.
 
-GitHub besitzt verschiedene Hilfsmittel, die die Zusammenarbeit von Entwicklern
-weiter vereinfachen. Beispiele dafür sind Issues und Project Boards. Diese
-Hilfsmittel ermöglichen Organisation, Strukturierung und Arbeitsteilung. Ein
-weiteres Hilfsmittel sind Pull Requests. Eine Pull Reqeust wird dann gestellt,
-wenn die Arbeit an einem Branch fertig ist. Durch Pull Requests können die
-Entwickler des Projektes die Funktionalität eines Branches überprüfen. Wenn ein
-Branch nicht die gewünschte Aufgabe erfüllt, kann die Pull Request abgelehnt
-werden. Erst wenn eine Pull Request angonommen wird, kann der Branch wieder in
-den Main Branch zurückgeführt werden \cite{atlassian_pull_nodate}.
+GitHub besitzt verschiedene Hilfsmittel, die die Zusammenarbeit zwischen
+Entwicklern weiter vereinfachen. Beispiele dafür sind
+\guillemotleft{}Issues\guillemotright{} und \guillemotleft{}Project
+Boards\guillemotright{}. Diese Hilfsmittel ermöglichen Organisation,
+Strukturierung und Arbeitsteilung. Ein weiteres Hilfsmittel sind Pull Requests.
+Eine Pull Reqeust wird dann gestellt, wenn die Arbeit an einem Branch fertig
+ist. Durch Pull Requests können die Entwickler des Projektes die Funktionalität
+eines Branches überprüfen. Wenn ein Branch nicht die gewünschte Aufgabe erfüllt,
+kann die Pull Request abgelehnt werden. Erst wenn eine Pull Request angonommen
+wird, kann der Branch wieder mit dem ursprünglichen Branch zusammengeführt
+werden. \cite{atlassian_pull_nodate}.
 
