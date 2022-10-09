@@ -20,7 +20,7 @@
 %% Use 'american' for American English.  Note that if you change this,
 %% the next LaTeX run may show spurious errors.  Simply run it again.
 %% If they persist, remove the .aux file and try again.
-\usepackage[ngerman]{babel}
+\usepackage[ngerman, english]{babel}
 
 %% Input encoding 'utf8'. In some cases you might need 'utf8x' for
 %% extra symbols. Not all editors, especially on Windows, are UTF-8
@@ -73,23 +73,46 @@
 \usepackage[linkcolor=black,colorlinks=true,citecolor=black,filecolor=black]{hyperref}
 
 
-% Out packages
+% Our packages
 % Biblatex for a better bibliography
 \usepackage{hyphenat}
 \usepackage{array}
-\usepackage[citestyle=numeric, bibstyle=numeric, sorting=none]{biblatex}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{makecell}
+% \usepackage[citestyle=numeric, bibstyle=numeric, sorting=none]{biblatex}
+\usepackage[backend=biber, style=apa, 
+natbib=true]{biblatex}
+\usepackage{cleveref}
+\usepackage[babel, german=quotes]{csquotes}
 \addbibresource{refs.bib}
 
+% Our configs
+\emergencystretch=\maxdimen
+% \DeclareLabeldate{
+%   \field{date}
+%   \field{event}
+%   \field{orig}
+%   \field{url}
+%   \literal{nodate}
+% }
+
+\renewcommand\cite{\citep}
+
+\selectlanguage{ngerman}
 %% Document information
 %% ====================
 
-\title{Nachzeichner KI}
+\title{ReSketch AI}
 \author{Ian Wasser, Robin Steiner}
 \thesistype{Maturarbeit}
-\advisors{Betreut durch: Nicolas Ruh}
-\date{Oktober 2022}
+\advisors{Betreut durch: Nicolas Ruh \\ Zweitbeurteilung: Dieter Koch}
+\date{11. Oktober 2022}
 
 \begin{document}
+
+\newcommand*{\doubleref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}}
+%https://tex.stackexchange.com/questions/121865/nameref-how-to-display-section-name-and-its-number
 
 \frontmatter
 
@@ -103,7 +126,9 @@
 \end{titlingpage}
 
 %% The abstract of your thesis.  Edit the file as needed.
+\selectlanguage{english}
 \input{chapters/abstract}
+\selectlanguage{ngerman}
 
 %% TOC with the proper setup, do not change.
 \cleartorecto
@@ -125,7 +150,6 @@
 \input{chapters/Resultate}
 \input{chapters/Diskussion}
 \input{chapters/Zusammenfassung}
-\input{chapters/Schlusswort}
 
 %% Your Appendix
 \appendix
@@ -139,8 +163,7 @@
 
 \begin{KeepFromToc}
 \listoffigures
+\listoftables
 \end{KeepFromToc}
-
-% \includepdf[pages={-}]{pdf/dummy.pdf}
 
 \end{document}

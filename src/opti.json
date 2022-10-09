@@ -1,0 +1,4 @@
+{"base": {"gamma": 0.70, "epsilon": 0.027, "alpha": 0.00021, "replace_target": 6028, "episode_mem_size": 890, "n_episodes": 3000}, 
+ "speed": {"gamma": 0.50, "epsilon": 0.10, "alpha": 0.000287, "replace_target": 3642, "episode_mem_size": 810, "n_episodes": 3000}, 
+ "mnist": {"gamma": 0.384, "epsilon": 0.2, "alpha": 0.000958, "replace_target": 7751, "episode_mem_size": 579, "n_episodes": 3000, "min_decrement": 0.30, "rec_reward": 0.05}, 
+ "mnist-speed": {"gamma": 0.37, "epsilon": 0.0001, "alpha": 0.0004228, "replace_target": 4110, "episode_mem_size": 748, "n_episodes": 460, "min_decrement": 0.15, "rec_reward": 0.087}}
