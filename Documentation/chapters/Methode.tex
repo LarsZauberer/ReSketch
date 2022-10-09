@@ -428,34 +428,30 @@ definierten Kriterien (siehe \doubleref{chap:m_eval}) für verschiedene Variatio
 der KI.
 
 Die Variationen werden auf ihre Leistung für drei verschiedene Datensets
-überprüft. Die drei Datensets beinhalten verschiedene Arten von handgemachten
-Strichbildern (siehe \autoref{tab:models}). Das erste Datenset, MNIST,
-beeinhaltet Ziffern, die in den Trainingsdaten nicht vorkommen. Das zweite
-Datenset, EMNIST Letters, beeinhaltet die 26 Kleinbuchstaben des Alphabets. Das
-dritte Datenset, QuickDraw, beeinhaltet Zeichnungen von insgesamt 345
-verschiedenen Motiven. Die KI wird allerdings nur auf das Nachzeichnen von zehn
-Motiven überprüft. Die zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer',
-`Bulldozer', `Uhr', `Wolke', `Computer', `Auge' und `Blume' (siehe
-\autoref{fig:quickdraw-examples}). Die Bilder in den
-drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
-\doubleref{sub:m_grund_data}). 
+geprüft. Die drei Datensets beinhalten verschiedene Arten von handgemachten
+Strichbildern (siehe \autoref{tab:models}). Im Falle des QuickDraw datensets
+wird die KI allerdings nur auf das Nachzeichnen von zehn Motiven überprüft. Die
+zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer', `Bulldozer', `Uhr',
+`Wolke', `Computer', `Auge' und `Blume' (siehe
+\autoref{fig:quickdraw-examples}). Die Bilder in den drei Datensets sind gleich
+verarbeitet wie die Trainingsdaten (siehe \doubleref{sub:m_grund_data}). 
 
 %Bild images dataset
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/quickdraw-examples.png}
-  \caption{Beispiele der verwendeten Motiven aus dem QuickDraw Datenset}
+  \caption{Beispiele der verwendeten Motive aus dem QuickDraw Datenset}
   \label{fig:quickdraw-examples}
 \end{figure}
 
 
 Die Variationen (siehe \doubleref{chap:m_var}) der KI umfassen zwei Umgebungen und
-drei Reward-Functions \doubleref{sub:t_rl_func}. Für jede Variation ist zur
+drei Reward-Functions (siehe \doubleref{sub:t_rl_func}). Für jede Variation ist zur
 Vereinfachung eine Abkürzung definiert.
 \begin{itemize}
   \item \doubleref{chap:m_grund} Umgebung: Grund
   \item \doubleref{sub:m_var_phy}: Physik
-  \item \doubleref{sub:m_var_rec}: Basis
+  \item \doubleref{sub:m_var_base}: Basis
   \item \doubleref{sub:m_var_speed}: Speed
   \item \doubleref{sub:m_var_rec} (von MNIST Ziffern): MNIST
 \end{itemize}
@@ -473,33 +469,29 @@ ausgewertet. Diese Kombinationen stellen einzelne Versionen der KI dar
   \item Physik-MNIST-Speed
 \end{itemize}
 
-\subsection{Testumgebung}\label{sub:m_auswert_test}
-Die Leistungen der verschiedenen Variationen der künstlichen Intelligenz werden
-in einer Testumgebung (siehe \doubleref{sub:t_ml_func}) ausgewertet. Zwischen der
-Trainingsumgebung und der Testumgebung sind drei relevante Unterschiede
-erkennbar. Erstens trainiert die KI in der Testumgebung nicht. Die Testumgebung
-übernimmt eine trainierte Version der KI und verändert diese während dem Test
-nicht. Zweitens wählt der Agent in keinem Fall mehr eine zufällige Action.
-Stattdessen wählt er immer die Action mit dem höchsten Q-Value (gleichbedeutend
-mit $\epsilon = 0$) (siehe \doubleref{sub:t_rl_func}). Der Dritte Unterschied
-liegt in den Strichbildern, die für die künstliche Intelligenz als Vorlage
-dienen. Im Test zeichnet das Computerprogramm $2000$ Bilder aus einem der drei
-zur Verfügung stehenden Datensets (siehe \autoref{tab:models}). 
+\subsection{Testumgebung}\label{sub:m_auswert_test} Die Leistungen der
+verschiedenen Variationen der künstlichen Intelligenz werden in einer
+Testumgebung (siehe \doubleref{sub:t_ml_func}) ausgewertet. Zwischen der
+Trainingsumgebung und der Testumgebung sind drei relevante Unterschiede. Erstens
+trainiert die KI in der Testumgebung nicht. Die Testumgebung übernimmt eine
+trainierte Version der KI und verändert diese während dem Test nicht. Zweitens
+wählt der Agent in keinem Fall mehr eine zufällige Action. Stattdessen wählt er
+immer die Action mit dem höchsten Q-Value (gleichbedeutend mit $\epsilon = 0$)
+(siehe \doubleref{sub:t_rl_func}). Der Dritte Unterschied liegt in den
+Strichbildern, die für die künstliche Intelligenz als Vorlage dienen. Im Test
+zeichnet das Computerprogramm $2000$ Bilder aus einem der drei zur Verfügung
+stehenden Datensets (siehe \autoref{tab:models}). 
 
 Am Ende jeder Episode (das heisst jeder Zeichnung), wird der Zahlenwert für die
-verschiedenen Kriterien (siehe \doubleref{chap:m_eval}) nach ihrer Definition
-ausgewertet und gespeichert. Die KI zeichnet auch in der Testumgebung für $64$
-Steps. Wenn eine Zeichnung der Definition entsprechend früher fertig ist (siehe
-\doubleref{sub:m_eval_speed}), wird die Anzahl Steps zu diesem Zeitpunkt als Wert
-des Kriteriums der Geschwindigkeit gespeichert und die KI zeichnet weiter. Der
-Durchschnitt aller gespeicherten Werte eines Kriteriums entspricht der Leistung
-der getesteten Variation in diesem Kriterium. Das Kriterium der Erkennbarkeit
-(siehe \doubleref{sub:m_eval_rec}) verwendet zur Auswertung entsprechend dem
-verwendeten Datenset im Test, dasjenige vortrainierte Modell, das auf dem selben
-Datenset trainiert ist. Da das Kriterium der Erkennbarkeit jeweils den Wert $0$
-oder $1$ hat, ergibt der Durchschnitt aus allen Werten dieses Kriteriums eine
-prozentuale Angabe (in Dezimalform) darüber, in wie vielen Fällen das richtige
-Motiv erkannt wird.
+verschiedenen Kriterien (siehe \doubleref{chap:m_eval}) ihrer Definition
+entsprechend ausgewertet und gespeichert. Der Durchschnitt aller gespeicherten
+Werte eines Kriteriums entspricht der Leistung der getesteten Variation in
+diesem Kriterium. Das Kriterium der Erkennbarkeit verwendet zur Auswertung
+dasjenige vortrainierte Modell, das auf den selben Daten trainiert ist, die im
+Test verwendet werden (siehe \doubleref{sub:m_eval_rec}). Da das Kriterium der
+Erkennbarkeit entweder den Wert $0$ oder $1$ hat, ergibt der Durchschnitt aus
+allen Werten dieses Kriteriums eine prozentuale Angabe (in Dezimalform) darüber,
+in wie vielen Fällen das richtige Motiv erkannt wird.
 
 
 
