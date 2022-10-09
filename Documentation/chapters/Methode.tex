@@ -50,8 +50,7 @@ die Form des Outputs von jedem Layer angegeben ist.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-2cm]{images/methode/architecture.png}
-  \caption{Architektur des neuronalen Netzes im Grundprogramm (eigene Abbildung, mit Keras erstellt)}
-  \label{fig:architecture}
+  \caption{Architektur des neuronalen Netzes im Grundprogramm (eigene Abbildung, mit Keras erstellt)}\label{fig:architecture}
 \end{figure}
 
 
@@ -67,8 +66,7 @@ der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/actionspace.png}
-  \caption{Action-Space im Grundprogramm}
-  \label{fig:actionspace}
+  \caption{Action-Space im Grundprogramm}\label{fig:actionspace}
 \end{figure}
 
 
@@ -103,8 +101,7 @@ So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/norm-v-nogray.png}
-  \caption{Entfernung der Graustufen im MNIST Datenset (eigene Abbildung)}
-  \label{fig:norm-v-nogray}
+  \caption{Entfernung der Graustufen im MNIST Datenset (eigene Abbildung)}\label{fig:norm-v-nogray}
 \end{figure}
 
 
@@ -170,8 +167,7 @@ dienen.
       Buchstaben & \cite{mor_emnist_2022} & EMNIST Letters \\ \hline
       \makecell{Strichbilder\\von Objekten} & \cite{lam_linus_keras_2022} & Auswahl aus QuickDraw \\ \hline
   \end{tabular}
-  \caption{Vortrainierte Modelle}
-  \label{tab:models}
+  \caption{Vortrainierte Modelle}\label{tab:models}
 \end{table}
 
 Dieses Kriterium ist in der Fragestellung (siehe \doubleref{chap:einleit})
@@ -180,8 +176,7 @@ Kriterium der Erkennbarkeit konsequet erfüllt. Neben der Erkennbarkeit
 existieren weitere Kriterien, die andere Aspekte der Leistung der künstlichen
 Intelligenz betreffen.
 
-\subsection{Prozentuale Übereinstimmung}
-\label{sub:m_eval_proc}
+\subsection{Prozentuale Übereinstimmung}\label{sub:m_eval_proc}
 Dieses Kriterium ist durch die prozentuale Übereinstimmung der weissen
 (gezeichneten) Pixel zwischen der Vorlage und der Zeichnung der künstlichen
 Intelligenz definiert. Der Wert $K$ dieses Kriteriums zu einem bestimmten Step
@@ -200,8 +195,7 @@ einer Genauigkeit von $100\%$ entspricht (siehe \autoref{fig:ubereinstimmung}).
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/ubereinstimm.png}
-  \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung (eigene Abbildung)}
-  \label{fig:ubereinstimmung}
+  \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung (eigene Abbildung)}\label{fig:ubereinstimmung}
 \end{figure}
 
 \subsection{Geschwindigkeit}\label{sub:m_eval_speed}
@@ -279,8 +273,7 @@ Dadurch löst die Reward Function bei einer unfertigen Zeichnung bereits positiv
 Rewards für die Geschwindigkeit aus.
 
 
-\subsection{Training auf Erkennbarkeit}
-\label{sub:m_var_rec}
+\subsection{Training auf Erkennbarkeit}\label{sub:m_var_rec}
 Das Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
 teilweise in die Reward Function integriert werden. Das Kriterium strebt eine
 Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe
@@ -315,8 +308,7 @@ zeichnet.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/wrong-mnist-rec.png}
-  \caption{Beispiele einer richtigen und einer falschen Erkennung von handgeschriebenen Zahlen durch eine KI (eigene Abbildung). Die Werte sind durch einen Test der KI berechnet }
-  \label{fig:wrong-minst-rec}
+  \caption{Beispiele einer richtigen und einer falschen Erkennung von handgeschriebenen Zahlen durch eine KI (eigene Abbildung). Die Werte sind durch einen Test der KI berechnet}\label{fig:wrong-mnist-rec}
 \end{figure}
 
 
@@ -335,8 +327,7 @@ gestützt auf Beobachtungen, an Stabilität der Leistung verlieren.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-2cm]{images/methode/decrementor.png}
-  \caption{Veränderung der Faktoren der Basis Reward-Function und der Reward-Function der Erkennbarkeit über das Training hinweg (eigene Abbildung)}
-  \label{fig:decrementor}
+  \caption{Veränderung der Faktoren der Basis Reward-Function und der Reward-Function der Erkennbarkeit über das Training hinweg (eigene Abbildung)}\label{fig:decrementor}
 \end{figure}
 
 Das Zusammenspiel der beiden Reward-Functions hat den Vorteil, dass die
@@ -385,8 +376,8 @@ Geschwindigkeit des Agents nicht. $8$ Vektoren sind um den Agent herum mit
 einer Länge von $0.9$ Pixeln in gleichmässigem Abstand von einander angeordnet. %todo code präzision
 Zusammen bilden diese Vektoren einen Kreis um den Agent. Die restlichen 12
 Vektoren sind in einem grösseren Kreis gleichmässig angeordnet. Die Vektoren
-haben dabei eine Länge von $1.8$ Pixeln (siehe \autoref{fig:physics-actionspace % TODO: Werte nicht mehr ganz korrekt, wegen Hyperparameter optimierung
-}).  Mit dem gewählten Beschleunigungsvektor $\vec{a}(t)$ berechnet sich die
+haben dabei eine Länge von $1.8$ Pixeln (siehe \autoref{fig:physics-actionspace}). % TODO: Werte nicht mehr ganz korrekt, wegen Hyperparameter optimierung
+Mit dem gewählten Beschleunigungsvektor $\vec{a}(t)$ berechnet sich die
 Geschwindigkeit im nächsten Step $t+1$ aus dem aktuellen Step $t$ durch folgende
 Formel:
 \[ \vec{v}(t+1) = \vec{v}(t) + \vec{a}(t) \] 
@@ -398,8 +389,7 @@ Reibungskraft, die auf den Agent einwirkt.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-6cm]{images/methode/physics-actionspace.png}
-  \caption{Action-Space in der physikalischen Umgebung (eigene Abbildung)}
-  \label{fig:physics-actionspace}
+  \caption{Action-Space in der physikalischen Umgebung (eigene Abbildung)}\label{fig:physics-actionspace}
 \end{figure}
 
 
@@ -426,8 +416,7 @@ Positionen des Agents nach einem Step auf einem $5\times5$ Feld Platz haben
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/patch-move.png}
-  \caption{Angabe der Geschwindigkeit durch eine Verschiebung des Local image Patches (eigene Abbildung)}
-  \label{fig:patch-move}
+  \caption{Angabe der Geschwindigkeit durch eine Verschiebung des Local image Patches (eigene Abbildung)}\label{fig:patch-move}
 \end{figure}
 
 
@@ -466,8 +455,7 @@ drei Datensets sind gleich verarbeitet wie die Trainingsdaten (siehe
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/quickdraw-examples.png}
-  \caption{Beispiele der verwendeten Motiven aus dem QuickDraw Datenset}
-  \label{fig:quickdraw-examples}
+  \caption{Beispiele der verwendeten Motiven aus dem QuickDraw Datenset}\label{fig:quickdraw-examples}
 \end{figure}
 
 
