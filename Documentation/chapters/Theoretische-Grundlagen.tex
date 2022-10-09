@@ -32,18 +32,17 @@ Modelle geben einen Ansatz für die Umsetzung eines solchen Computerprogrammes.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
-    \caption{Erkennung von handgeschriebenen Zahlen durch ein Machine Learning Modell (eigene Abbildung)}
-    \label{fig:rec-maschine}
+    \caption{Erkennung von handgeschriebenen Zahlen durch ein Machine Learning Modell (eigene Abbildung)}\label{fig:rec-maschine}
 \end{figure}
 
 Machine Learning Modelle, die das Beispielproblem lösen, basieren üblicherweise
 auf Supervised Learning. Das ist ein Teilbereich von Machine Learning, wobei das
 Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung, der
 Zielvariable, als Reaktion auf ihre eigenen Beurteilungen lernt
-\cite{noauthor_was_nodate-1}. Die Zielvariable muss dabei im Voraus für jeden
+\cite{laurenz_wuttke_was_2021-1}. Die Zielvariable muss dabei im Voraus für jeden
 Datenpunkt in den analysierten Daten durch einen Menschen festgelegt sein
 \cite{trahasich_31_2020}. Das heisst, ausgedrückt durch den Fachbegriff, dass
-die Daten labeled sein müssen \cite{noauthor_21_nodate}. Weitere Teilbereiche
+die Daten labeled sein müssen \cite{luis_g_serrano_21_2021}. Weitere Teilbereiche
 von Machine Learning sind Unsupervised Learning und Reinforcement Learning
 \cite{arora_supervised_2020}. Beachte Abschnitt \doubleref{chap:t_rl} für eine
 tiefgreifendere Einführung in Reinforcement Learning.
@@ -61,7 +60,7 @@ Dieser Abschnitt erklärt die Funktionsweise eines Machine Learning Modelles,
 basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe \doubleref{chap:t_ml}). 
 
 Bei den Daten, die das Machine Learning Modell analysiert, handelt es sich in
-diesem Fall um das MNIST Datenset \cite{noauthor_mnist_nodate}. Dieses Datenset
+diesem Fall um das MNIST Datenset \cite{yann_lecun_mnist_nodate}. Dieses Datenset
 wurde 1998 vom NIST (National Institute of Standards and Technology) in den USA
 veröffentlicht und beinhaltet $70'000$ Bilder von handgeschriebenen Ziffern
 \cite{noauthor_mnis_nodate}. Jedes Bild hat eine Auflösung von $28\times28$
@@ -71,8 +70,7 @@ Pixeln (siehe \autoref{fig:mnist-beispiele} für Beispiele).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/mnist-beispiele.png}
-    \caption{Beispiele aus dem MNIST Datenset (Eigene Abbildung)}
-    \label{fig:mnist-beispiele}
+    \caption{Beispiele aus dem MNIST Datenset (Eigene Abbildung)}\label{fig:mnist-beispiele}
 \end{figure}
 
 Ein Machine Learning Modell durchläuft ein Training gefolgt von einer Testphase
@@ -121,8 +119,7 @@ Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/neuron.png}
-    \caption{Perzeptron Neuron (eigene Abbildung)}
-    \label{fig:neuron}
+    \caption{Perzeptron Neuron (eigene Abbildung)}\label{fig:neuron}
 \end{figure}
 
 Neuronale Netze in Machine Learning Modellen verwenden kompliziertere Neuronen
@@ -136,8 +133,7 @@ zwischen den beiden Grenzen (siehe \autoref{fig:percep-v-sig}) \cite{kumar_sigmo
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/percep-v-sig.png}
-    \caption{Vergleich des Outputs eines Perzeptron Neurons und eines Sigmoid Neurons (eigene Abbildung)}
-    \label{fig:percep-v-sig}
+    \caption{Vergleich des Outputs eines Perzeptron Neurons und eines Sigmoid Neurons (eigene Abbildung)}\label{fig:percep-v-sig}
 \end{figure}
 
 Neuronale Netze sind Verbindungen von Neuronen. Dabei dient der Output eines
@@ -160,8 +156,7 @@ Beurteilung des neuronalen Netzes. (siehe \autoref{fig:layers}).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/layers.png}
-    \caption{Neuronales Netz mit beschrifteten Layers (eigene Abbildung)}
-    \label{fig:layers}
+    \caption{Neuronales Netz mit beschrifteten Layers (eigene Abbildung)}\label{fig:layers}
 \end{figure}
 
 Zwischen dem Input Layer und dem Output Layer kann es weitere \emph{Hidden
@@ -182,8 +177,7 @@ bezeichnet \cite{jan-dirk_kranz_deep_2019}.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/conv-v-dens.png}
-    \caption{Vergleich zwischen Convolutional Layers (links) und Fully Connected Layers (rechts) \cite{unzueta_convolutional_2022}}
-    \label{fig:conv-v-dens}
+    \caption{Vergleich zwischen Convolutional Layers (links) und Fully Connected Layers (rechts) \cite{unzueta_convolutional_2022}}\label{fig:conv-v-dens}
 \end{figure}
 
 Ein Machine Learning Modell passt während dem Training (siehe
@@ -215,7 +209,7 @@ betrachtet wird (siehe \autoref{fig:blackbox}).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth-2cm]{images/theorie/blackbox.png}
-    \caption{Prinzip einer Black Box Funktion \cite{noauthor_fileblackboxsvg_nodate}}
+    \caption{Prinzip einer Black Box Funktion \cite{noauthor_black_2021}}
     \label{fig:blackbox}
 \end{figure}
 
@@ -302,8 +296,7 @@ für zukünftige Entscheidungen zu stossen.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/reinforce-1.png}
-    \caption{Funktionsweise eines Reinforcement Learning Modelles (eigene Abbildung)}
-    \label{fig:reinforce-1}
+    \caption{Funktionsweise eines Reinforcement Learning Modelles (eigene Abbildung)}\label{fig:reinforce-1}
 \end{figure}
 
 Die Umgebung wird durch die Actions des Agents beeinflusst. Dieser Einfluss wird
@@ -332,8 +325,7 @@ nächsten Abschnitt).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/reinforce-2.png}
-    \caption{Funktionsweise einer Reward-Function (eigene Abbildung)}
-    \label{fig:reinforce-2}
+    \caption{Funktionsweise einer Reward-Function (eigene Abbildung)}\label{fig:reinforce-2}
 \end{figure}
 
 Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}.
@@ -358,8 +350,8 @@ Strichbildern ist ein Teilbereich von der Tätigkeit des Zeichnens allgemein. Es
 gibt verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger
 Ansatz ist \emph{Stroke-Based Rendering}. Stroke-Based Rendering beschreibt das
 Zeichnen von Bilder durch das Platzieren von Elementen wie Strichen
-\cite{hertzmann_stroke_2002}. Beispiele für Arbeiten in diesem Bereich sind
-Strokenet \cite{zheng2018strokenet} und ``Learning to Paint With Model-based
+\cite{aaron_hertzmann_stroke-based_2002}. Beispiele für Arbeiten in diesem Bereich sind
+Strokenet \cite{zheng_strokenet_2018} und ``Learning to Paint With Model-based
 Deep Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze
 simulieren die Führung eines Stiftes. (siehe \autoref{fig:stroke-v-stift}) Ein
 Beispiel dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}.
@@ -368,8 +360,7 @@ Beispiel dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/theorie/stroke-v-stift.png}
-    \caption{Vergleich zwischen Stroke-Based Rendering und dem Führen eines Stiftes (eigene Abbildung)}
-    \label{fig:stroke-v-stift}
+    \caption{Vergleich zwischen Stroke-Based Rendering und dem Führen eines Stiftes (eigene Abbildung)}\label{fig:stroke-v-stift}
 \end{figure}
 
 \subsection{Doodle-SDQ}\label{sub:t_ver_dood} Doodle-SDQ ist ein
@@ -450,8 +441,7 @@ Funktionalität in das Projektes implementiert (siehe \autoref{fig:git-branch}).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth-2cm]{images/theorie/git-branch.png}
-    \caption{Branch Struktur von GitFlow \cite{atlassian_git-flow-workflow_nodate}}
-    \label{fig:git-branch}
+    \caption{Branch Struktur von GitFlow \cite{atlassian_git-flow-workflow_nodate}}\label{fig:git-branch}
 \end{figure}
 
 \subsection{GitHub}\label{sub:t_git_gh}
