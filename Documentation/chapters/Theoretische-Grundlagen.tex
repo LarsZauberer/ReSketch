@@ -4,13 +4,13 @@ Anwendung finden. Auch die verwendeten Fachbegriffe werden in diesem Kapitel
 eingeführt. Es handelt sich dabei um Zusammenfassungen. Die Theorie wird auf den
 Teil reduziert, der für ein grundsätzliches Verständnis der Arbeit nötig ist.
 Weitere Informationen sind in den referenzierten Quellen einsehbar.
-
+ 
 \section{Machine Learning}\label{chap:t_ml}
 Machine Learning ist ein Teilbereich der künstlichen Intelligenz. ``Künstliche
 Intelligenz (KI) bezieht sich im Allgemeinen auf jedes menschenähnliche
 Verhalten durch eine Maschine oder ein System'' \cite{noauthor_what_nodate} Mit
 Maschinen und Systemen sind in den allermeisten Fällen Computer, beziehungsweise
-die steurenden Computerprogramme gemeint. Diese Computerprogramme bilden ein
+die steuernden Computerprogramme gemeint. Diese Computerprogramme bilden ein
 Modell von menschlichem Verhalten. Machine Learning Modelle entwickeln (oder
 erlernen) eine Mustererkennung durch die Analyse von Daten
 \cite{noauthor_what_nodate-1}. Mustererkennung bedeutet hier, dass der
@@ -18,23 +18,23 @@ Algorithmus Zusammenhänge zwischen den analysierten Daten erkennt und auf diese
 Basis Vorhersagen treffen kann. Vereinfacht gesagt, versucht ein Machine
 Learning Modell menschliches Urteilsvermögen zu erlernen
 \cite{spaulding_is_2020}.
-
+ 
 Ein Beispielproblem für ein Machine Learning Modell ist die Erkennung von
 handgeschriebenen Ziffern. Ein Computerprogramm soll durch den Input eines
 Bildes mit einer handgeschriebenen Ziffer eine korrekte Beurteilung treffen, um
 welche Ziffer es sich handelt. Mit anderen Worten soll der Output des
-Computerprogrammes der Ziffer entsprechen, die auf dem Bild des Inputs zu sehen
+Computerprogramms der Ziffer entsprechen, die auf dem Bild des Inputs zu sehen
 ist (siehe \autoref{fig:rec-maschine}). Jedes Computerprogramm, das dieses
 Problem löst, fällt in den Bereich der künstlichen Intelligenz. Machine Learning
-Modelle geben einen Ansatz für die Umsetzung eines solchen Computerprogrammes.
-
+Modelle geben einen Ansatz für die Umsetzung eines solchen Computerprogramms.
+ 
 % Bild: Recognition machine
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
-    \caption{Erkennung von handgeschriebenen Zahlen durch ein Machine Learning Modell (eigene Abbildung)}\label{fig:rec-maschine}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/rec-maschine.png}
+   \caption{Erkennung von handgeschriebenen Zahlen durch ein Machine Learning Modell (eigene Abbildung)}\label{fig:rec-maschine}
 \end{figure}
-
+ 
 Machine Learning Modelle, die das Beispielproblem lösen, basieren üblicherweise
 auf Supervised Learning. Das ist ein Teilbereich von Machine Learning, wobei das
 Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung, der
@@ -46,65 +46,65 @@ die Daten labeled sein müssen \cite{luis_g_serrano_21_2021}. Weitere Teilbereic
 von Machine Learning sind Unsupervised Learning und Reinforcement Learning
 \cite{arora_supervised_2020}. Beachte Abschnitt \doubleref{chap:t_rl} für eine
 tiefgreifendere Einführung in Reinforcement Learning.
-
-Machine Learning Modelle sind hauptsächlich in der programmiersprache Python
+ 
+Machine Learning Modelle sind hauptsächlich in der Programmiersprache Python
 implementiert \cite{sadie_bennett_why_2019}. Tensorflow und Keras sind bekannte
-Machine Learning Frameworks für Phython. Als Framework stellen diese beiden
+Machine Learning Frameworks für Python. Als Framework stellen diese beiden
 Hilfsmittel fertige Funktionen und Algorithmen bereit, die für die Entwicklung
 von Machine Learning Modellen nötig sind
 \cite{noauthor_tensorflow_2015}\cite{noauthor_keras_2015}.
-
-
+ 
+ 
 \subsection{Funktionsweise eines Machine Learning Modelles}\label{sub:t_ml_func}
-Dieser Abschnitt erklärt die Funktionsweise eines Machine Learning Modelles,
-basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe \doubleref{chap:t_ml}). 
-
+Dieser Abschnitt erklärt die Funktionsweise eines Machine Learning Modells,
+basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe \doubleref{chap:t_ml}).
+ 
 Bei den Daten, die das Machine Learning Modell analysiert, handelt es sich in
 diesem Fall um das MNIST Datenset \cite{yann_lecun_mnist_nodate}. Dieses Datenset
 wurde 1998 vom NIST (National Institute of Standards and Technology) in den USA
 veröffentlicht und beinhaltet $70'000$ Bilder von handgeschriebenen Ziffern
 \cite{yann_lecun_papers_nodate}. Jedes Bild hat eine Auflösung von $28\times28$
 Pixeln (siehe \autoref{fig:mnist-beispiele} für Beispiele).
-
+ 
 % Bild: MNIST Beispiele
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/mnist-beispiele.png}
-    \caption{Beispiele aus dem MNIST Datenset (Eigene Abbildung)}\label{fig:mnist-beispiele}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/mnist-beispiele.png}
+   \caption{Beispiele aus dem MNIST Datenset (Eigene Abbildung)}\label{fig:mnist-beispiele}
 \end{figure}
-
+ 
 Ein Machine Learning Modell durchläuft ein Training gefolgt von einer Testphase
 \cite{noauthor_training_nodate}. Während dem Training erlernt das Modell die
 Mustererkennung, um verlässliche Aussagen zu den Daten des Inputs zu treffen.
-Die Testphase misst die Genauigkeit des Modelles, also die Wahrscheinlichkeit,
-mit der das Modell die richige Lösung zu dem Input liefert. Nur in den seltensten
+Die Testphase misst die Genauigkeit des Modells, also die Wahrscheinlichkeit,
+mit der das Modell die richtige Lösung zu dem Input liefert. Nur in den seltensten
 Fällen erreicht diese Genauigkeit $100\%$. Das Modell garantiert somit nicht die
-richtige Lösung. Das Machine Learning Modell erlert die Mustererkennung während
+richtige Lösung. Das Machine Learning Modell erlernt die Mustererkennung während
 dem Training durch die Analyse von Trainingsdaten aus einem Datenset. Das Modell
 gibt zu jedem Datenpunkt die Beurteilung, um welche Zahl es sich handelt. Das
 Datenset ist labeled (siehe \doubleref{chap:t_ml}). Falls die Beurteilung des
-Modelles nicht mit der bekannten korrekten Lösung übereinstimmt, passt sich das
+Modells nicht mit der bekannten korrekten Lösung übereinstimmt, passt sich das
 Modell automatisch an. Dadurch soll die Beurteilungen für zukünftige Datenpunkte
-genauer werden. Die Testphase misst die Genauigkeit des Modelles auf Testdaten.
+genauer werden. Die Testphase misst die Genauigkeit des Modells auf Testdaten.
 Die Testdaten bestehen aus Datenpunkten, die in den Trainingsdaten nicht
 enthalten sind.
-
+ 
 Zusammengefasst kann ein Machine Learning Modell Daten beurteilen und sich
 selbst anpassen, um die Beurteilungen zu verbessern. Künstliche neuronale Netze
 (siehe \doubleref{sub:t_ml_nn}) umfassen diese Funktionalität und finden daher in
 Machine Learning Modellen Anwendung.
-
+ 
 \subsection{künstliche neuronale Netze}\label{sub:t_ml_nn} Ein neuronales Netz
 ist, im biologischen Sinne, ``eine beliebige Anzahl Neuronen, die miteinander
 Verbunden sind'' \cite{noauthor_neuronales_2021}. Ein Beispiel für ein neuronales
-Netz ist das menschliche Gehirn. Künstliche Neuronale Netze modellieren
+Netz ist das menschliche Gehirn. Künstliche neuronale Netze modellieren
 biologische neuronale Netze in der Form von Programmcode
 \cite{noauthor_artificial_nodate}. Diese Arbeit behandelt künstliche neuronale
 Netze, nicht aber biologische. Somit handelt es sich bei jedem erwähnten
 neuronalen Netz, um ein künstliches neuronales Netz.
-
+ 
 Der Grundbaustein eines neuronalen Netzes ist das Neuron. Im Modell stellt das
-Neuron ein Objekt dar, das eine beliebiege Anzahl Inputs, aber nur einen Output
+Neuron ein Objekt dar, das eine beliebige Anzahl Inputs, aber nur einen Output
 hat (siehe \autoref{fig:neuron}) \cite{pramoditha_concept_2021}. Input und
 Output sind hierbei rationale Zahlen. Der Output des Neurons ist im einfachsten
 Modell, dem Perzeptron Neuron, grundsätzlich entweder $0$ oder $1$. Der Output ist
@@ -114,28 +114,28 @@ $1$, wenn die Summe der Inputs einen vorgegebenen Wert, den \emph{Threshold},
 Inputs wird jeder Input mit seinem Gewicht multipliziert. Die Grösse des
 Gewichtes bestimmt somit den Einfluss des zugehörigen Inputs auf den Output des
 Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
-
+ 
 % Bild Neuron
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/neuron.png}
-    \caption{Perzeptron Neuron (eigene Abbildung)}\label{fig:neuron}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/neuron.png}
+   \caption{Perzeptron Neuron (eigene Abbildung)}\label{fig:neuron}
 \end{figure}
-
+ 
 Neuronale Netze in Machine Learning Modellen verwenden kompliziertere Neuronen
 als das Perzeptron Neuron, wie zum Beispiel das Sigmoid Neuron. Die Neuronen
 unterscheiden sich in ihrer \emph{Activation Function} und somit im Verhalten ihres
 Outputs \cite{pragati_baheti_activation_2022}. So nimmt der Output im Sigmoid Neuron
 beispielsweise auch Werte zwischen $0$ und $1$ an, in einem stetigen Übergang
 zwischen den beiden Grenzen (siehe \autoref{fig:percep-v-sig}) \cite{kumar_sigmoid_2019}.
-
+ 
 %Bild sigmoid vs perceptro
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/percep-v-sig.png}
-    \caption{Vergleich des Outputs eines Perzeptron Neurons und eines Sigmoid Neurons (eigene Abbildung)}\label{fig:percep-v-sig}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/percep-v-sig.png}
+   \caption{Vergleich des Outputs eines Perzeptron Neurons und eines Sigmoid Neurons (eigene Abbildung)}\label{fig:percep-v-sig}
 \end{figure}
-
+ 
 Neuronale Netze sind Verbindungen von Neuronen. Dabei dient der Output eines
 Neurons als Input für andere Neuronen. Der Output eines Neurons kann gleich
 für mehrere Neuronen ein Input sein. Die Neuronen sind in \emph{Layers} geordnet
@@ -151,14 +151,14 @@ besteht im Beispiel aus $10$ Neuronen, wobei jedes Neuron einer Beurteilung
 entspricht (das zweite Neuron beschreibt zum Beispiel die Ziffer Zwei als
 Beurteilung). Dasjenige Neuron mit dem höchsten Output entspricht der
 Beurteilung des neuronalen Netzes. (siehe \autoref{fig:layers}).
-
+ 
 %Bild Layers
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/layers.png}
-    \caption{Neuronales Netz mit beschrifteten Layers (eigene Abbildung)}\label{fig:layers}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/layers.png}
+   \caption{Neuronales Netz mit beschrifteten Layers (eigene Abbildung)}\label{fig:layers}
 \end{figure}
-
+ 
 Zwischen dem Input Layer und dem Output Layer kann es weitere \emph{Hidden
 Layers} geben \cite{malik_what_2019}. Unterschiedliche Arten von Hidden Layers
 mit unterschiedlichen Funktionen existieren. Zwei der meist verwendeten Layers
@@ -168,34 +168,34 @@ von jedem Neuron als Input für jedes Neuron in der nächsten Layer. In
 Convolutional Layers trifft das nicht zu (siehe \autoref{fig:conv-v-dens}). Die
 Funktion von Convolutional Layers umfasst, wichtige Merkmale aus dem Input
 hervorzuheben \cite{deshpande_beginners_nodate}. Concatenation Layers
-\cite{jayawardana_concatenating_2021} sind eine weitere Form von hidden Layers,
+\cite{jayawardana_concatenating_2021} sind eine weitere Form von Hidden Layers,
 die zwei verschiedene Layers als Input haben und diese verbindet. Machine
 Learning Modelle werden ab mehr als einer Hidden Layer als Deep Learning Modelle
 bezeichnet \cite{jan-dirk_kranz_deep_2019}.
-
+ 
 %Bilder conv-v-dens dens-v-conv
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/conv-v-dens.png}
-    \caption{Vergleich zwischen Convolutional Layers (links) und Fully Connected Layers (rechts) \cite{unzueta_convolutional_2022}}\label{fig:conv-v-dens}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/conv-v-dens.png}
+   \caption{Vergleich zwischen Convolutional Layers (links) und Fully Connected Layers (rechts) \cite{unzueta_convolutional_2022}}\label{fig:conv-v-dens}
 \end{figure}
-
+ 
 Ein Machine Learning Modell passt während dem Training (siehe
 \doubleref{sub:t_ml_func}) einzelne Gewichte im neuronalen Netz an, in der Hoffnung,
 dass die Genauigkeit der Beurteilung mit den angepassten Gewichten grösser
 ist. Die genaue Anpassung erfolgt in den meisten Machine Learning Modellen durch
 den Backpropagation Algorithmus
 \cite{ognjanovski_everything_2020}\cite{david_e_rumelhart_learning_nodate}.
-
-
-
+ 
+ 
+ 
 \subsection{Hyperparameter}\label{sub:t_ml_hyper}
 Machine Learning Modelle umfassen verschiedene Hyperparameter. Diese beschreiben
 unter anderem wie lange das Training läuft oder wie stark sich das Modell nach
 einer falschen Beurteilung anpasst. Hyperparameter beeinflussen das
-Lernverhalten des Modelles \cite{nyuytiymbiy_parameters_2022}, aber ihr
+Lernverhalten des Modells \cite{nyuytiymbiy_parameters_2022}, aber ihr
 optimaler Wert ist im Voraus nicht bekannt.
-
+ 
 Hyperparameter können unter anderem durch den Baysian Optimization Algorithmus
 optimiert werden \cite{agnihotri_exploring_2020}\cite{paretos_bayesian_2021}.
 Dieser Algorithmus versucht, den Output einer Black Box Funktion zu maximieren
@@ -204,41 +204,41 @@ häufig komplexes System, dessen inneren Vorgänge nicht betrachtet werden
 \cite{noauthor_black_2021}. Bei einer Black Box Funktion ist folglich der Input
 und der Output bekannt, während die Verarbeitung des Inputs zum Output nicht
 betrachtet wird (siehe \autoref{fig:blackbox}).
-
+ 
 %bild Blackbox
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth-2cm]{images/theorie/blackbox.png}
-    \caption{Prinzip einer Black Box Funktion \cite{noauthor_black_2021}}\label{fig:blackbox}
+   \centering
+   \includegraphics[width=\textwidth-2cm]{images/theorie/blackbox.png}
+   \caption{Prinzip einer Black Box Funktion \cite{noauthor_black_2021}}\label{fig:blackbox}
 \end{figure}
-
+ 
 Machine Learning Modelle werden häufig als Black Box Funktionen angesehen, da
 die genauen Vorgänge des rechnerisch aufwendigen Trainings durch einen
 aussenstehenden Betrachter nicht oder nur schwer erfassbar sind.
 \cite{robbins_machine_2017}. Um ein Machine Learning Modell als eine Black Box
 Funktion für den Baysian Optimization Algorithmus zu verwenden, werden die zu
 optimierenden Hyperparameter als Input und eine Zielvariable als Output
-definiert. Die Zielvarible des Outputs entspricht dabei einem Wert, der die
-Leistung des Modelles widerspiegelt und durch den Algorithmus maximiert werden
-soll. Ein Beispiel für die Zielvarible wäre die Genauigkeit des Machine Learning
-Modelles (siehe \doubleref{sub:t_ml_func}). Die inneren, nicht betrachteten
+definiert. Die Zielvariable des Outputs entspricht dabei einem Wert, der die
+Leistung des Modells widerspiegelt und durch den Algorithmus maximiert werden
+soll. Ein Beispiel für die Zielvariable wäre die Genauigkeit des Machine Learning
+Modells (siehe \doubleref{sub:t_ml_func}). Die inneren, nicht betrachteten
 Vorgänge in der Black Box Funktion entsprechen in diesem Fall dem Training des
-Modelles.
-
+Modells.
+ 
 Der Baysian Optimization Algorithmus kann bis zu 20 Hyperparameter zuverlässig
 optimieren \cite{moriconi_high-dimensional_2020}. Der Algorithmus führt die
 Black Box Funktion für eine bestimmte Anzahl Iterationen mit jeweils
 verschiedenen Parametern durch. Die Wahl der Parameter basiert dabei auf Bayes'
 Theorem \cite[S. 7]{garnett_bayesian_nodate}. Diejenigen Parameter, die den
 höchsten gefundenen Wert der Zielvariable auslösen, werden gespeichert.
-
-
+ 
+ 
 \section{Reinforcement Learning}\label{chap:t_rl}
 Reinforcement Learning bedeutet zusammengefasst: Lernen durch Interaktion mit
 einer Umgebung. \cite{osinski_what_2018}. Genauer gesagt soll ein Machine
 Learning Modell durch Rückmeldungen aus einer Umgebung ein bestimmtes Verhalten
 erlernen.
-
+ 
 Reinforcement Learning Modelle führen somit die Umgebung ein. Anders als bei
 Supervised Learning und Unsupervised Learning (siehe \doubleref{chap:t_ml}) sind
 die Daten, aus denen das Modell lernen soll, im Voraus nicht bekannt.
@@ -249,7 +249,7 @@ gesammelt werden könnten. Ein Machine Learning Modell lernt aus einer Umgebung,
 indem es durch Beurteilungen (siehe \doubleref{sub:t_ml_func}) mit dieser
 interagiert und dadurch Erfahrungen sammelt.
 \cite{piyush_verma_what_2021}
-
+ 
 Als Beispiel kann die echte Welt als eine Umgebung angesehen werden. Der Mensch
 wäre in diesem Fall das Reinforcement Learning Modell. Der Mensch lernt die
 Eigenschaften seiner Umgebung durch Interaktionen mit dieser kennen.
@@ -259,12 +259,12 @@ Laufen, erlernen. Reinforcement Learning Modelle imitieren dieses Lernverhalten.
 So verwendet die Robotik häufig Reinforcement Learning, um einen Roboter das
 Laufen erlernen zu lassen. Die Umgebung, mit der das Reinforcement Learning
 Modell lernt, ist dabei häufig nicht echt, sondern simuliert.
-
+ 
 \subsection{Funktionsweise von Reinforcement Learning}\label{sub:t_rl_func}
 Dieser Abschnitt umfasst eine genauere Erklärung eines Reinforcement Learning
-Modelles, in diesem Fall Deep Q-Learning \cite{mnih_playing_2013}, unter der
+Modells, in diesem Fall Deep Q-Learning \cite{mnih_playing_2013}, unter der
 Verwendung der korrekten Fachbegriffe.
-
+ 
 Ein Reinforcement Learning Modell umfasst eine \emph{Umgebung} und einen
 \emph{Agent}. Der Agent ist dasjenige Element in der Umgebung, welches mit
 dieser interagiert und daraus lernt \cite[S. 53]{sutton_reinforcement_2014}. Die
@@ -272,16 +272,15 @@ Umgebung verändert sich in Zeitschritten, genannt \emph{Steps}. In jedem Step
 führt der Agent eine \emph{Action} aus, welche die Umgebung beeinflusst. Die
 Entscheidung, welche Action der Agent wählt, basiert auf einer
 \emph{Observation} der Umgebung \cite[S. 2]{mnih_playing_2013}. Die Observation
-umfasst alle Daten der Umgebung, die für die Entscheidung relevant sind. Der
-Agent trifft seine Entscheidungsprozess findet durch ein neuronales Netz statt
+umfasst alle Daten der Umgebung, die für die Entscheidung relevant sind. Sein Entscheidungsprozess findet durch ein neuronales Netz statt
 (siehe \doubleref{sub:t_ml_nn}). Der Input in dieses neuronale Netz ist die
 Observation der Umgebung und der Output beschreibt die Action, die der Agent
 ausführt. Jedes Neuron des Outputs beschreibt eine spezifische Action des
 Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
 Actions zusammen werden \emph{Action-Space} \cite[S.
 67]{sutton_reinforcement_2014} genannt. Jede Action im Action-Space besitzt
-einen \emph{Q-Value}, der dem Output des zugehörigen Neurons entspricht. (siehe
-\autoref{fig:reinforce-1}) \cite{wang_deep_2021} Die schlussendliche
+einen \emph{Q-Value}, der dem Output des zugehörigen Neurons entspricht (siehe
+\autoref{fig:reinforce-1}) \cite{wang_deep_2021}. Die schlussendliche
 Entscheidung, welche Action ausgeführt wird, basiert auf der
 \emph{Epsilon-Greedy} Strategie \cite[S. 34]{sutton_reinforcement_2014}. Diese
 Strategie sieht vor, dass die Entscheidung mit einer Wahrscheinlichkeit von
@@ -290,14 +289,14 @@ Entscheidung auf diejenige Action mit dem höchsten Q-Value. Durch die zufällig
 Actions erkundet der Agent die Umgebung, in der Hoffnung, auf bessere Optionen
 für zukünftige Entscheidungen zu stossen.
 \cite{rajendra_koppula_exploration_nodate}.
-
+ 
 %bild reinforcement schema 1
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/reinforce-1.png}
-    \caption{Funktionsweise eines Reinforcement Learning Modelles (eigene Abbildung)}\label{fig:reinforce-1}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/reinforce-1.png}
+   \caption{Funktionsweise eines Reinforcement Learning Modells (eigene Abbildung)}\label{fig:reinforce-1}
 \end{figure}
-
+ 
 Die Umgebung wird durch die Actions des Agents beeinflusst. Dieser Einfluss wird
 durch die \emph{Reward-Function} gemessen. Die Reward-Function gibt eine
 rationale Zahl, den \emph{Reward} aus \cite[S. 75]{sutton_reinforcement_2014}.
@@ -309,7 +308,7 @@ Reward erzielt. Der Q-Value der gewählten Action wird mit dem Reward (und dem
 maximalen Q-Value aus den nächsten möglichen Actions) addiert. Diese Formel
 nennt sich Bellman-Gleichung \cite[S. 3]{mnih_playing_2013}. Der neue Q-Value
 hat somit einen kleineren Wert, wenn der Reward negativ ist, und einen grösseren
-Wert, wenn der Reward positiv ist. Das neuronalen Netz wird daraufhin so
+Wert, wenn der Reward positiv ist. Das neuronale Netz wird daraufhin so
 trainiert, dass der Output für das Neuron, dessen Action ausgeführt wurde, näher
 am neu berechneten, besseren Q-Value ist (siehe \autoref{fig:reinforce-2}). Der
 schlussendliche Effekt ist, dass Actions, die einen positiven Reward auslösen,
@@ -317,16 +316,16 @@ wahrscheinlicher gewählt werden, und umgekehrt Actions, die einen negativen
 Rewards auslösen, unwahrscheinlicher gewählt werden. Der Agent versucht
 insgesamt durch seine Actions einen möglichst hohen akkumulierten Reward zu
 erzielen \cite[S. 57]{sutton_reinforcement_2014}. Der akkumulierte Reward
-entsprich der Summe der Rewards aus jedem Step (in einer Episode. Beachte den
+entspricht der Summe der Rewards aus jedem Step (in einer Episode. Beachte den
 nächsten Abschnitt).
-
+ 
 %bild reinforcement schema 2
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/reinforce-2.png}
-    \caption{Funktionsweise einer Reward-Function (eigene Abbildung)}\label{fig:reinforce-2}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/reinforce-2.png}
+   \caption{Funktionsweise einer Reward-Function (eigene Abbildung)}\label{fig:reinforce-2}
 \end{figure}
-
+ 
 Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}.
 Eine Episode umfasst eine gewisse Anzahl Steps und am Anfang jeder Episode wird
 die Umgebung in einen Ausgangszustand zurückgesetzt. Die Resultate der Steps
@@ -334,7 +333,7 @@ werden in dem \emph{Replay-Buffer} gespeichert. Dazu gehören die Observations
 der Umgebung, die jeweiligen Actions und der jeweilige Rewards. Der
 Replay-Buffer enthält Speicherplatz für eine bestimmte Anzahl Steps. Während dem
 Training werden zufällige Steps aus dem Replay-Buffer gewählt, auf die das
-neuronale Netz trainiert. Das neurnale Netz trainiert also auf Daten aus der
+neuronale Netz trainiert. Das neuronale Netz trainiert also auf Daten aus der
 Vergangenheit der Umgebung. Diese Strategie nennt sich Experience Replay
 \cite[S. 5]{mnih_playing_2013}. Ausserdem trainiert das neuronale Netz jeweils
 mit einem \emph{Batch} an Steps, also mit einer gewissen Anzahl an Steps
@@ -342,8 +341,8 @@ gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
 Netz mit einer grossen Vielfalt an Steps trainiert. Das bewirkt ein stabileres
 Lernverhalten als ein chronologisches Training auf einzelne Steps.
 \cite{phd_how_2021}.
-
-
+ 
+ 
 \section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
 Strichbildern ist ein Teilbereich von der Tätigkeit des Zeichnens allgemein. Es
 gibt verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger
@@ -354,28 +353,28 @@ Strokenet \cite{zheng_strokenet_2018} und ``Learning to Paint With Model-based
 Deep Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze
 simulieren die Führung eines Stiftes. (siehe \autoref{fig:stroke-v-stift}) Ein
 Beispiel dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}.
-
+ 
 %bild strokebased vs stife
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{images/theorie/stroke-v-stift.png}
-    \caption{Vergleich zwischen Stroke-Based Rendering und dem Führen eines Stiftes (eigene Abbildung)}\label{fig:stroke-v-stift}
+   \centering
+   \includegraphics[width=\textwidth]{images/theorie/stroke-v-stift.png}
+   \caption{Vergleich zwischen Stroke-Based Rendering und dem Führen eines Stiftes (eigene Abbildung)}\label{fig:stroke-v-stift}
 \end{figure}
-
+ 
 \subsection{Doodle-SDQ}\label{sub:t_ver_dood} Doodle-SDQ ist ein
 Computerprogramm, das unter anderem durch Reinforcement Learning und
 spezifischer Deep Q-Learning (siehe \doubleref{sub:t_rl_func}) erlernt,
 Strichbilder aus dem Google QuickDraw Datenset \cite{noauthor_quick_2022}
 nachzuzeichnen. Nachfolgend sind diejenigen Aspekte von Doodle-SDQ beschrieben,
 die für diese Arbeit relevant sind.
-
+ 
 Die QuickDraw Bilder, die Doodle-SDQ nachzeichnen soll, sind zu einer
-einheitliche Grösse von $84\times84$ Pixeln verarbeiteitet \cite[S.
+einheitliche Grösse von $84\times84$ Pixeln verarbeitetet \cite[S.
 7]{zhou_learning_2018}. Der Agent kann sich auf einer leeren Zeichenfläche von
-der selben Grösse bewegen und zeichnen. Die Umgebung umfasst diese
+derselben Grösse bewegen und zeichnen. Die Umgebung umfasst diese
 Zeichenfläche, den Agent und das abzuzeichnende Bild.
-
-Der Agent kann sich durch eine Action pro Step auf einen beliebigen Pixel in
+ 
+Der Agent kann sich durch eine Action pro Step auf einem beliebigen Pixel in
 einem $11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann
 ausserdem jede dieser Bewegungen im zeichnenden Zustand oder im nicht
 zeichnenden Zustand ausführen. Der Action-Space hat somit insgesamt eine Grösse
@@ -384,12 +383,12 @@ zeichnenden Zustand wird ein Strich auf der Zeichenfläche zwischen der alten un
 der neuen Position des Agents gezeichnet. Der Agent begeht 100 Steps pro
 Episode. Eine neue Episode entspricht dabei einem neuen Bild, das abgezeichnet
 werden soll.
-
-Die Obervation der Umgebung und somit der Input in das neuronale Netz (siehe
+ 
+Die Observation der Umgebung und somit der Input in das neuronale Netz (siehe
 \doubleref{sub:t_rl_func}) ist in zwei Teile gegliedert: der Global Stream und
 der Local Stream \cite[S. 4]{zhou_learning_2018}. Der Global Stream hat eine
 Form von $28\times28\times4$. Der Input ist somit dreidimensional. Die Form kann
-als $4$ aufeindandergestapelte Bilder angesehen werden, die jeweils eine Grösse
+als $4$ aufeinandergestapelte Bilder angesehen werden, die jeweils eine Grösse
 von $28\times28$ Pixeln haben. Dabei beschreibt eine reelle Zahl den Wert von
 jedem Pixel in einem Bild. Das erste Bild im Global Stream ist die Vorlage, die
 abgezeichnet werden soll. Das zweite Bild ist die Zeichenfläche im aktuellen
@@ -400,19 +399,19 @@ Bildes den Wert $1$ haben, ist der Agent im zeichnenden Zustand. Wenn alle Pixel
 den Wert $0$ haben, ist der Agent nicht im zeichnenden Zustand. Der Local Stream
 hat eine Form von $11\times11\times2$. Er ist somit auch dreidimensional und
 beschreibt zwei gestapelte Bilder. Das erste Bild umfasst die Vorlage in dem
-$11\times11$ Bereich (bezeichnet als Local image patch \cite[S.
+$11\times11$ Bereich (bezeichnet als Local image Patch \cite[S.
 5]{zhou_learning_2018}), in dem sich der Agent in einem Step bewegen kann. Das
-zweite Bild beschreibt den selben Bereich von der Zeichenfläche \cite[S. 4
+zweite Bild beschreibt denselben Bereich von der Zeichenfläche \cite[S. 4
 ff.]{zhou_learning_2018}. Der Global Stream und der Local Stream werden durch
-eine Concatenation Layer (siehe \doubleref{sub:t_ml_nn}) zusammengeführt. 
-
+eine Concatenation Layer (siehe \doubleref{sub:t_ml_nn}) zusammengeführt.
+ 
 \section{Git und GitHub}\label{chap:t_git} Git und Github sind weit verbreitete
-Hilfsmittel für Software Entwickler. Git ist ein Programm, während GitHub ein
+Hilfsmittel für Softwareentwickler. Git ist ein Programm, während GitHub ein
 Service ist, der dieses Programm in der Cloud zugänglich macht. GitHub hat
 zusätzliche Funktionen, die die Zusammenarbeit zwischen mehreren Entwicklern
 erleichtern. Die genaue Funktion und das Zusammenspiel dieser beiden Hilfsmittel
 wird nachfolgend erläutert.
-
+ 
 \subsection{Git}\label{sub:t_git_git} Git erkennt Veränderungen im Programmcode eines
 Projektes und speichert diese Veränderungen jeweils in einer neuen Version ab. Die
 einzelnen Versionen des Projektes bleiben dabei zu jedem Zeitpunkt abrufbar.
@@ -424,32 +423,32 @@ bestimmtes Problem oder eine bestimmte Funktion pro Commit anzugehen
 \cite{noauthor_5_2019}. Für grössere Funktionen oder Probleme kann ein Branch
 erstellt werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines
 Projektes \cite{guillermo_brachetta_what_2022}. Zum Beispiel kann das Projekt in
-mehreren Branches gleichzeitig und unabhängig von einander entwickelt werden
+mehreren Branches gleichzeitig und unabhängig voneinander entwickelt werden
 \cite{guillermo_brachetta_what_2022}. Eine weit verbreitete Arbeitsweise und
 Branch Struktur mit Git ist Git Flow
 \cite{noauthor_what_2022}\cite{atlassian_git-flow-workflow_nodate}. Git Flow
 schlägt einen Main Branch, einen Develop Branch und verschiedene
 Feature Branches vor \cite{atlassian_git-flow-workflow_nodate}. Professionelle
-Anwendungen von Git Flow verwenden ausserdem so genannte Release Branches und
+Anwendungen von Git Flow verwenden ausserdem sogenannte Release Branches und
 Hotfix Branches \cite{cameron_mckenzie_gitflow_2021}. Im Main Branch sind
-offizielle Versionen des Projektes gespeichert, Im Develop Branch wird das
+offizielle Versionen des Projektes gespeichert, im Develop Branch wird das
 Projekt als ganzes entwickelt und in jedem Feature Branch wird eine
-Funktionalität in das Projektes implementiert (siehe \autoref{fig:git-branch}). 
-
+Funktionalität in das Projekt implementiert (siehe \autoref{fig:git-branch}).
+ 
 % bild branch structure
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth-2cm]{images/theorie/git-branch.png}
-    \caption{Branch Struktur von GitFlow \cite{atlassian_git-flow-workflow_nodate}}\label{fig:git-branch}
+   \centering
+   \includegraphics[width=\textwidth-2cm]{images/theorie/git-branch.png}
+   \caption{Branch Struktur von GitFlow \cite{atlassian_git-flow-workflow_nodate}}\label{fig:git-branch}
 \end{figure}
-
+ 
 \subsection{GitHub}\label{sub:t_git_gh}
 GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
 Preston-Werner entwickelt \cite{noauthor_github_2021}. GitHub ist ein Service,
 der Projekte, die mit Git verwalten werden, in der Cloud speichert. Dadurch kann
 ein Projekt überall und von beliebig vielen Personen entwickelt werden.
 \cite{noauthor_github_2021}.
-
+ 
 GitHub besitzt verschiedene Hilfsmittel, die die Zusammenarbeit zwischen
 Entwicklern weiter vereinfachen. Beispiele dafür sind
 \guillemotleft{}Issues\guillemotright{} und \guillemotleft{}Project
@@ -458,7 +457,6 @@ Strukturierung und Arbeitsteilung. Ein weiteres Hilfsmittel sind Pull Requests.
 Eine Pull Reqeust wird dann gestellt, wenn die Arbeit an einem Branch fertig
 ist. Durch Pull Requests können die Entwickler des Projektes die Funktionalität
 eines Branches überprüfen. Wenn ein Branch nicht die gewünschte Aufgabe erfüllt,
-kann die Pull Request abgelehnt werden. Erst wenn eine Pull Request angonommen
+kann die Pull Request abgelehnt werden. Erst, wenn eine Pull Request angonommen
 wird, kann der Branch wieder mit dem ursprünglichen Branch zusammengeführt
 werden. \cite{atlassian_pull_nodate}.
-
