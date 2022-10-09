@@ -248,14 +248,14 @@ verstärkt sich der Fokus auf eine möglichst schnelle Fertigstellung. Die
 minimale prozentuale Übereinstimmung einer fertigen Zeichnung ist als $75\%$
 definiert. Zu Beginn des Trainings wird dieser Wert auf $25\%$ heruntergesetzt,
 und über das Training hinweg linear bis auf $75\%$ erhöht. Dadurch löst die
-Reward Function bei einer unfertigen Zeichnung bereits positive Rewards für die
+Reward-Function bei einer unfertigen Zeichnung bereits positive Rewards für die
 Geschwindigkeit aus. Für diese Anpassung wird die Bedingung der korrekten
 Erkennung (siehe \doubleref{sub:m_eval_speed}) nicht beachtet.
  
  
 \subsection{Training auf Erkennbarkeit}\label{sub:m_var_rec}
 Das Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
-teilweise in die Reward Function integriert werden. Das Kriterium strebt eine
+teilweise in die Reward-Function integriert werden. Das Kriterium strebt eine
 Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe
 \doubleref{sub:m_eval_rec}). Die künstliche Intelligenz trainiert allerdings nur
 auf das Nachzeichnen von Ziffern. Aus diesem Grund trainiert diese Variation nur
@@ -270,7 +270,7 @@ Zeichnung erkennt
  
 Die einfachste Form der Reward-Function für diese Variation sähe
 folgendermassen aus: Wenn eine Zeichnung das Kriterium der Erkennbarkeit
-erfüllt, löst die Reward Function einen Reward von $0.05$. In diesem Zustand
+erfüllt, löst die Reward-Function einen Reward von $0.05$. In diesem Zustand
 funktioniert die Reward-Function allerdings nicht. Der Agent kann den
 akkumulierten Reward nicht maximieren. Zwei Ansätze gehen auf dieses Problem
 ein. Beide Ansätze sind Teil dieser Variation.
@@ -408,7 +408,7 @@ unzulässige Position bewegen würden, nicht auswählen. Wenn allerdings in der
 physikalischen Umgebung die Geschwindigkeit des Agents zu hoch ist, kann dieser
 keine Actions mehr wählen, die ihn innerhalb der Grenzen der Zeichenflächen
 halten würden. Als Lösung wird diesen Fällen die Geschwindigkeit des Agents auf den
-Nullvektor zurückgesetzt und die Reward Function löst einen negativen Reward von
+Nullvektor zurückgesetzt und die Reward-Function löst einen negativen Reward von
 $-0.05$ aus. Der negative Reward soll die Häufigkeit dieser Vorfälle vermindern.
  
  
