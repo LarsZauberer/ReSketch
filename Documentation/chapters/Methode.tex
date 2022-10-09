@@ -6,23 +6,21 @@ Antwort auf die Fragestellung. Die Entwicklung der KI besteht aus zwei Teilen.
 Der eine Teil umfasst die Definition der Kriterien, nach denen die Leistung der
 KI evaluiert wird (siehe \doubleref{chap:m_eval}). Der andere Teil umfasst die
 Entwicklung der KI (siehe \doubleref{chap:m_grund}), zusammen mit verschiedenen
-Variationen (siehe \doubleref{chap:m_var}). Die Variationen haben jeweils einen
-unterschiedlichen Fokus auf die definierten Kriterien. Die Auswertung (siehe
-\doubleref{chap:m_auswert}) bezieht sich ebenfalls auf die definierten
-Kriterien. Die Leistung der KI wird dabei in einer Testumgebung für das Zeichnen
-von verschiedenen Arten von Strichbildern erfasst.
+Variationen davon (siehe \doubleref{chap:m_var}). Die Variationen haben jeweils
+einen unterschiedlichen Fokus auf die definierten Kriterien. Die Auswertung
+(siehe \doubleref{chap:m_auswert}) der Leistung der KI bezieht sich ebenfalls
+auf die definierten Kriterien.
 
 \section{Grundprogramm}\label{chap:m_grund} Die KI ist abhängig von den
 Kriterien, die dessen Leistung definieren (siehe \doubleref{chap:m_eval}). Mit
 anderen Worten trainiert die KI auf diese Kriterien. Das Ziel des
 Grundprogrammes ist, die allgemeine Trainingsumgebung für die KI
 bereitzustellen. Dieses Grundprogramm ist unabhängig von einem spezifischen
-Kriterium und kann stattdessen auf ein ausgewähltes Kriterium trainiert werden.
+Kriterium und ermöglicht das Training auf ein beliebiges Kriterium.
 Reinforcement Learning Modelle mit einer undefinierten Reward Function (siehe
-\doubleref{sub:t_rl_func}) stellen diese Eigenschaften bereit. Eine Reward
-function, basierend auf einem spezifischen Kriterium, ermöglicht das Training
-auf dieses Kriterium. Das Grundprogramm ist in Python unter der Verwendung des
-Keras Frameworks implementiert (siehe \doubleref{chap:t_ml}). 
+\doubleref{sub:t_rl_func}) stellen diese gewünschten Eigenschaften bereit. Das
+Grundprogramm ist in Python unter der Verwendung des Keras Frameworks
+implementiert (siehe \doubleref{chap:t_ml}). 
 
 \subsection{Doodle-SDQ als Basis}\label{sub:m_grund_dood} Das Reinforcement
 Learning Modell des Grundprogrammes basiert auf Doodle-SDQ (siehe
@@ -32,30 +30,27 @@ die Form des Inputs, des Outputs und den Hidden Layers, grösstenteils
 dieser Arbeit sind nachfolgend erläutert.
 
 Bei der Umgebung handelt es sich, wie bei Doodle-SDQ, um eine Zeichenfläche,
-worauf sich der Agent frei bewegen kann. Die Ziffern, die während dem Training
-nachgezeichnet werden sollen, stammen aus dem MNIST Datenset (siehe
-\doubleref{chap:t_ml}) und haben somit eine Grösse von $28\times28$ Pixeln. Die
-Fläche, worauf sich der Agent bewegen   
-kann, hat somit auch eine Grösse von $28\times28$ Pixeln. Der global Stream
+worauf sich der Agent bewegt. Das Grundprogramm wird auf das
+Nachzeichnen von Ziffern trainiert. Die Ziffern stammen aus dem MNIST Datenset
+(siehe \doubleref{chap:t_ml}) und haben somit eine Grösse von $28\times28$
+Pixeln. Die Fläche, worauf sich der Agent bewegen   
+kann, hat folglich auch eine Grösse von $28\times28$ Pixeln. Der Global Stream
 (siehe \doubleref{sub:t_ver_dood}) des Inputs in das Neuronale Netz ändert sich
 bis auf die neue Grösse der Bilder nicht. Die Pixel der Bilder, wie auch die
 Zeichenfläche, nehmen den Wert von einem Bit an. Eine Null repräsentiert einen
 schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild und eine Eins
 einen weissen (gezeichneten) Pixel. Die genaue Architektur des neuronalen Netzes
-ist im Schema \autoref{fig:architecture} angegeben. Jeder Block in der Abbildung
-repräsentiert einen Layer des neuronalen Netzes, wobei die Form des Inputs und
-die Form des Outputs von jedem Layer angegeben ist. 
+ist im Schema \autoref{fig:architecture} angegeben.
 
 %Bild architecture
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-2cm]{images/methode/architecture.png}
-  \caption{Architektur des neuronalen Netzes im Grundprogramm (eigene Abbildung, mit Keras erstellt)}
+  \caption{Architektur des neuronalen Netzes im Grundprogramm (eigene Abbildung, mit Keras erstellt) Jeder Block repräsentiert einen Layer. Die Form des Inputs und des Outputs ist von jedem Layer angegeben}
   \label{fig:architecture}
 \end{figure}
 
-
-Der Local Stream, also das nahe Umfeld um den Agent schrumpft von $11\times11$
+Der Local Stream und damit auch der Local image Patch schrumpfen von $11\times11$
 Pixel auf $7\times7$ Pixel. Somit schrumpft gleichzeitig der Action-Space (siehe
 \doubleref{sub:t_rl_func}) des Agenten von $2\cdot11\cdot11 = 242$ Actions auf
 $2\cdot7\cdot7 = 98$ Actions. Das bedeutet für den Agent, dass er sich pro Step
@@ -71,21 +66,21 @@ der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe
   \label{fig:actionspace}
 \end{figure}
 
-
 Falls der Agent die Action zeichnend ausführt, zieht das Programm einen Strich
 zwischen der alten und der neuen Position. Mit anderen Worten werden alle Pixel
 der Zeichenfläche zwischen den beiden Positionen weiss. Der Strich hat eine
-festgelegte Breite von $3$ Pixeln. Am Anfang jeder Episode, also bei jeder neuen
-Ziffer, die gezeichnet werden soll, startet der Agent in einer zufälligen
-Position im nicht zeichnenden Zustand. Am Anfang jeder Episode ist die
-Zeichenfläche leer, also vollkommen Schwarz.
+festgelegte Breite von $3$ Pixeln. Am Anfang jeder Episode, also mit jeder neuen
+Ziffer, startet der Agent in einer zufälligen Position im nicht zeichnenden
+Zustand. Am Anfang jeder Episode ist die Zeichenfläche leer, also vollkommen
+Schwarz.
 
 Actions des Agents, die ihn über die vorgegebene Zeichenfläche hinaus
 positionieren würden, sind nicht zulässig. Diese Actions können vom Agent nicht
-gewählt werden und ihr optimaler Q-Value ist in jedem Fall $0$. Das hat zur
-Folge, dass nach dem Training die allermeisten unzulässigen Actions einen
-Q-Value nahe oder gleich $0$ haben. Das senkt die Wahrscheinlichkeit, dass der
-Agent versucht, eine unzulässige Action auszuführen.
+gewählt werden und ihr optimaler Q-Value (siehe \doubleref{sub:t_rl_func}) ist
+in jedem Fall $0$. Das hat zur Folge, dass nach dem Training die allermeisten
+unzulässigen Actions einen Q-Value nahe oder gleich $0$ haben. Das senkt die
+Wahrscheinlichkeit, dass der Agent versucht, eine unzulässige Action
+auszuführen.
 
 \subsection{Präparierung der Daten und Optimierung}\label{sub:m_grund_data}
 Die Trainingsdaten bestehen aus $36'000$ Bildern von handgeschriebenen Ziffern
@@ -109,27 +104,24 @@ So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 
 
 %todo Parameter in Zukunft ändern
-Das Grundprogramm trainiert mit $4000$ Bildern, von denen jede Ziffer $400$
+Das Grundprogramm trainiert mit $3'000$ Bildern, von denen jede Ziffer $300$
 Bilder ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche  
-Erweiterungen aufgehoben. Der Agent zeichnet jedes der $4000$ Bilder ein Mal und
-trainiert somit für $4000$ Episodes. Der Agent macht $64$ Steps pro Episode. Er
-kann sich also pro Zeichnung $64$ Mal bewegen. Das neuronale Netz passt sich in
-jedem vierten Step an, mit einem Batch von $64$ zufällig ausgewählten Steps aus
-dem Replay Buffer.
+Erweiterungen aufgehoben. Der Agent zeichnet jedes der $3'000$ Bilder ein Mal und
+trainiert somit für $3'000$ Episodes. Die Der Agent zeichnet für $64$ Steps pro
+Episode.
 
 Die Hyperparameter des Grundprogrammes, wie auch die der Variationen (siehe
-\doubleref{chap:m_var}) sind durch den Bayesian Optimization Algorithmus optimiert
-(siehe \doubleref{sub:t_ml_hyper}). Die Implementierung des Algorithmus in Python
-stammt von \cite{fernando_nogueira_bayesian_2014}. Der Algorithmus ändert sich
-für verschiedene Variationen der KI nicht und ist somit Teil des
-Grundprogrammes, wobei er zu der optimalen Leistung der KI beiträgt. 
-
-Mit jeder Iteration des Baysian Optimization Algorithmus trainiert das
-Reinforcement Learning Modell für eine vom Algorithmus selbst bestimmte Anzahl
-Episodes. Die Zielvariable, die durch den Baysian Optimization Algorithmus
-maximiert werden soll, wird am Ende jeder Iteration des Trainings in der
-Testumgebung berechnet (siehe \doubleref{sub:m_auswert_test}). Auf welchem
-Kriterium die Zielvariable basiert, ist frei wählbar.
+\doubleref{chap:m_var}) sind durch den Bayesian Optimization Algorithmus
+optimiert (siehe \doubleref{sub:t_ml_hyper}). Die Implementierung des
+Algorithmus in Python stammt von \cite{fernando_nogueira_bayesian_2014}. Der
+Algorithmus ändert sich für verschiedene Variationen der KI nicht und ist somit
+Teil des Grundprogrammes. Mit jeder Iteration des Baysian Optimization
+Algorithmus trainiert das Reinforcement Learning Modell für eine vom Algorithmus
+selbst bestimmte Anzahl Episodes. Die Zielvariable, die durch den Baysian
+Optimization Algorithmus maximiert werden soll, wird am Ende jeder Iteration des
+Trainings in der Testumgebung berechnet (siehe \doubleref{sub:m_auswert_test}).
+Auf welchem der drei Kriterien (siehe \doubleref{chap:m_eval}) die Zielvariable
+basiert, ist frei wählbar.
 
 
 
