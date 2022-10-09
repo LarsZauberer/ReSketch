@@ -29,7 +29,7 @@ def train(env, agent, data, learn_plot, n_episodes, n_epochs, n_steps, n_actions
             score = 0
             done_step = None
 
-            done_accuracy = 0.3 + 0.5*(total_counter/n_episodes)
+            done_accuracy = 0.25 + 0.5*(total_counter/n_episodes)
 
             for step in range(n_steps):
                 # Run the timestep
