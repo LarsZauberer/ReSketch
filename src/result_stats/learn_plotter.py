@@ -34,6 +34,8 @@ class Learn_Plotter():
         with open(self.path, "w") as f:
             json.dump([self.episodes, self.averages], f)
 
+        mp.show()
+
     def plot(self):
         data = []
         with open(self.path, "r") as p:
@@ -52,7 +54,33 @@ class Learn_Plotter():
         fig.savefig(f"src/result_stats/learnplot.png", bbox_inches='tight')
         
         mp.show()
+    
+    def doubleplot(self):
+        g_data = []
+        with open("src/result_stats/plotlearn_data.json", "r") as p:
+            g_data = json.load(p)
 
+        p_data = []
+        with open("src/result_stats/plotlearn_data-phy.json", "r") as p:
+            p_data = json.load(p)
+        
+
+        
+        fig, ax = mp.subplots(dpi=300)
+
+        ax.grid()
+        ax.plot(g_data[0], g_data[1], label = "Grund-Basis", color="navy") # "navy", "cornflowerblue"
+        ax.plot(p_data[0], p_data[1], label = "Physik-Basis", color="cornflowerblue")
+        
+        ax.set_title("Lernverhalten" )
+        ax.set_xlabel("Episode")
+        ax.set_ylabel("akkumulierter Reward")  
+
+        ax.set_yticks(np.arange(-0.4,1.2, 0.2))
+
+        mp.legend(loc="lower right")
+
+        fig.savefig(f"src/result_stats/learnplot.png", bbox_inches='tight')
 
     
 
