@@ -1,5 +1,4 @@
-\chapter{Resultate}
-\label{chap:r}
+\chapter{Resultate}\label{chap:r}
 Die Resultate bestehen aus drei Tabellen. Jede Tabelle beschreibt die Leistung
 der acht Versionen (siehe \doubleref{chap:m_var}), bezogen auf die drei definierten
 Kriterien (siehe \doubleref{chap:m_eval}). Die Daten in den Tabellen
@@ -18,11 +17,10 @@ dunklere Striche früher gezeichnet werden als hellere Striche. Bewegungen des
 Agents, in denen dieser nicht zeichnet, sind in den Bildern nicht erkennbar.
 
 \newpage
-\section{Tabellen}
-\label{chap:r_tab}
+\section{Tabellen}\label{chap:r_tab}
 \begin{table}[!ht]
     \centering
-    \caption{Testen auf MNIST Datenset | 2000 Tests}
+    \caption{Testen auf MNIST Datenset | 2000 Tests}\label{tab:MNIST}
     \begin{tabular}{|l|l|l|l|}
         \hline
             ~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
@@ -35,12 +33,11 @@ Agents, in denen dieser nicht zeichnet, sind in den Bildern nicht erkennbar.
             Physik-Speed & 63.0 & 58.2 & 61.2 \\ \hline
             Physik-MNIST-Speed & 29.2 & 27.3 & 63.7 \\ \hline
         \end{tabular}
-    \label{tab:MNIST}
 \end{table}
 
 \begin{table}[!ht]
     \centering
-    \caption{Testen auf EMNIST Datenset | 2000 Tests}
+    \caption{Testen auf EMNIST Datenset | 2000 Tests}\label{tab:EMNIST}
     \begin{tabular}{|l|l|l|l|}
     \hline
         ~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
@@ -53,12 +50,11 @@ Agents, in denen dieser nicht zeichnet, sind in den Bildern nicht erkennbar.
         Physik-Speed & 56.3 & 35.0 & 63.6 \\ \hline
         Physik-MNIST-Speed & 30.2 & 13.9 & 64.0 \\ \hline
     \end{tabular}
-    \label{tab:EMNIST}
 \end{table}
 
 \begin{table}[!ht]
     \centering
-    \caption{Testen auf QuickDraw-Datenset | 2000 Tests}
+    \caption{Testen auf QuickDraw-Datenset | 2000 Tests}\label{tab:Quickdraw}
     \begin{tabular}{|l|l|l|l|}
     \hline
         ~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
@@ -71,26 +67,22 @@ Agents, in denen dieser nicht zeichnet, sind in den Bildern nicht erkennbar.
         Physik-Speed & 50.0 & 58.3 & 63.6 \\ \hline
         Physik-MNIST-Speed & 22.4 & 31.1 & 64.0 \\ \hline
     \end{tabular}
-    \label{tab:Quickdraw}
 \end{table}
 
 \newpage
 
-\section{Bildersammlung}
-\label{chap:r_bild}
+\section{Bildersammlung}\label{chap:r_bild}
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/resultate/base-base.png}
-    \caption{Grund-Basis}
-    \label{fig:Grund-Basis}
+    \caption{Grund-Basis}\label{fig:Grund-Basis}
 \end{figure}
 
 \newpage
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/resultate/base-mnist.png}
-    \caption{Grund-MNIST}
-    \label{fig:Grund-MNIST}
+    \caption{Grund-MNIST}\label{fig:Grund-MNIST}
 \end{figure}
 
 % \begin{figure}[!ht]
@@ -103,13 +95,11 @@ Agents, in denen dieser nicht zeichnet, sind in den Bildern nicht erkennbar.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/resultate/physics-base.png}
-    \caption{Physik-Basis}
-    \label{fig:Physik-Basis}
+    \caption{Physik-Basis}\label{fig:Physik-Basis}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/resultate/physics-speed.png}
-    \caption{Physik-Speed}
-    \label{fig:Physik-Speed}
+    \caption{Physik-Speed}\label{fig:Physik-Speed}
 \end{figure}
