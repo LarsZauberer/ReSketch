@@ -114,7 +114,9 @@ $1$, wenn die Summe der Inputs einen vorgegebenen Wert, den \emph{Threshold},
 Inputs wird jeder Input mit seinem Gewicht multipliziert. Die Grösse des
 Gewichtes bestimmt somit den Einfluss des zugehörigen Inputs auf den Output des
 Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
- 
+
+
+
 % Bild Neuron
 \begin{figure}[!ht]
    \centering
@@ -128,7 +130,8 @@ unterscheiden sich in ihrer \emph{Activation-Function} und somit im Verhalten ih
 Outputs \cite{pragati_baheti_activation_2022}. So nimmt der Output im Sigmoid Neuron
 beispielsweise auch Werte zwischen $0$ und $1$ an, in einem stetigen Übergang
 zwischen den beiden Grenzen (siehe \autoref{fig:percep-v-sig}) \cite{kumar_sigmoid_2019}.
- 
+
+\newpage
 %Bild sigmoid vs perceptro
 \begin{figure}[!ht]
    \centering
@@ -151,11 +154,12 @@ besteht im Beispiel aus $10$ Neuronen, wobei jedes Neuron einer Beurteilung
 entspricht (das zweite Neuron beschreibt zum Beispiel die Ziffer Zwei als
 Beurteilung). Dasjenige Neuron mit dem höchsten Output entspricht der
 Beurteilung des neuronalen Netzes. (siehe \autoref{fig:layers}).
- 
+
+\newpage
 %Bild Layers
 \begin{figure}[!ht]
    \centering
-   \includegraphics[width=\textwidth]{images/theorie/layers.png}
+   \includegraphics[width=\textwidth-2cm]{images/theorie/layers.png}
    \caption{Neuronales Netz mit beschrifteten Layers (eigene Abbildung)}\label{fig:layers}
 \end{figure}
  
@@ -176,7 +180,7 @@ bezeichnet \cite{jan-dirk_kranz_deep_2019}.
 %Bilder conv-v-dens dens-v-conv
 \begin{figure}[!ht]
    \centering
-   \includegraphics[width=\textwidth]{images/theorie/conv-v-dens.png}
+   \includegraphics[width=\textwidth-4cm]{images/theorie/conv-v-dens.png}
    \caption{Vergleich zwischen Convolutional Layers (links) und Fully Connected Layers (rechts) \cite{unzueta_convolutional_2022}}\label{fig:conv-v-dens}
 \end{figure}
  
@@ -187,7 +191,8 @@ ist. Die genaue Anpassung erfolgt in den meisten Machine Learning Modellen durch
 den Backpropagation Algorithmus
 \cite{ognjanovski_everything_2020}\cite{david_e_rumelhart_learning_nodate}.
  
- 
+
+\newpage
  
 \subsection{Hyperparameter}\label{sub:t_ml_hyper}
 Machine Learning Modelle umfassen verschiedene Hyperparameter. Diese beschreiben
@@ -280,7 +285,17 @@ Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
 Actions zusammen werden \emph{Action-Space} \cite[S.
 67]{sutton_reinforcement_2014} genannt. Jede Action im Action-Space besitzt
 einen \emph{Q-Value}, der dem Output des zugehörigen Neurons entspricht (siehe
-\autoref{fig:reinforce-1}) \cite{wang_deep_2021}. Die schlussendliche
+\autoref{fig:reinforce-1}) \cite{wang_deep_2021}. 
+
+
+%bild reinforcement schema 1
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth-1cm]{images/theorie/reinforce-1.png}
+    \caption{Funktionsweise eines Reinforcement Learning Modells (eigene Abbildung)}\label{fig:reinforce-1}
+ \end{figure}
+
+Die schlussendliche
 Entscheidung, welche Action ausgeführt wird, basiert auf der
 \emph{Epsilon-Greedy} Strategie \cite[S. 34]{sutton_reinforcement_2014}. Diese
 Strategie sieht vor, dass die Entscheidung mit einer Wahrscheinlichkeit von
@@ -289,13 +304,6 @@ Entscheidung auf diejenige Action mit dem höchsten Q-Value. Durch die zufällig
 Actions erkundet der Agent die Umgebung, in der Hoffnung, auf bessere Optionen
 für zukünftige Entscheidungen zu stossen.
 \cite{rajendra_koppula_exploration_nodate}.
- 
-%bild reinforcement schema 1
-\begin{figure}[!ht]
-   \centering
-   \includegraphics[width=\textwidth]{images/theorie/reinforce-1.png}
-   \caption{Funktionsweise eines Reinforcement Learning Modells (eigene Abbildung)}\label{fig:reinforce-1}
-\end{figure}
  
 Die Umgebung wird durch die Actions des Agents beeinflusst. Dieser Einfluss wird
 durch die \emph{Reward-Function} gemessen. Die Reward-Function gibt eine
@@ -322,7 +330,7 @@ nächsten Abschnitt).
 %bild reinforcement schema 2
 \begin{figure}[!ht]
    \centering
-   \includegraphics[width=\textwidth]{images/theorie/reinforce-2.png}
+   \includegraphics[width=\textwidth-2.2cm]{images/theorie/reinforce-2.png}
    \caption{Funktionsweise einer Reward-Function (eigene Abbildung)}\label{fig:reinforce-2}
 \end{figure}
  
@@ -357,7 +365,7 @@ Beispiel dafür ist das Programm Doodle-SDQ \cite{zhou_learning_2018}.
 %bild strokebased vs stife
 \begin{figure}[!ht]
    \centering
-   \includegraphics[width=\textwidth]{images/theorie/stroke-v-stift.png}
+   \includegraphics[width=\textwidth-2cm]{images/theorie/stroke-v-stift.png}
    \caption{Vergleich zwischen Stroke-Based Rendering und dem Führen eines Stiftes (eigene Abbildung)}\label{fig:stroke-v-stift}
 \end{figure}
  
@@ -375,7 +383,7 @@ derselben Grösse bewegen und zeichnen. Die Umgebung umfasst diese
 Zeichenfläche, den Agent und das abzuzeichnende Bild.
  
 Der Agent kann sich durch eine Action pro Step auf einem beliebigen Pixel in
-einem $11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kannLocal image Patch
+einem $11\times11$ Feld, in dessen Zentrum er ist, bewegen. Der Agent kann
 ausserdem jede dieser Bewegungen im zeichnenden Zustand oder im nicht
 zeichnenden Zustand ausführen. Der Action-Space hat somit insgesamt eine Grösse
 von $2\cdot11\cdot11 = 242$ Actions \cite[S. 5]{zhou_learning_2018}. Im
@@ -434,7 +442,8 @@ Hotfix Branches \cite{cameron_mckenzie_gitflow_2021}. Im Main Branch sind
 offizielle Versionen des Projektes gespeichert, im Develop Branch wird das
 Projekt als ganzes entwickelt und in jedem Feature Branch wird eine
 Funktionalität in das Projekt implementiert (siehe \autoref{fig:git-branch}).
- 
+
+\newpage
 % bild branch structure
 \begin{figure}[!ht]
    \centering
