@@ -49,6 +49,8 @@ class Learn_Plotter():
         ax.set_xlabel("Episode", fontsize=13)
         ax.set_ylabel("akkumulierter Reward", fontsize=13)
         
+        ax.set_yticks(np.arange(-0.4,1.2, 0.2))
+
 
         fig.savefig(f"src_physics/result_stats/learnplot.png", bbox_inches='tight')
         
