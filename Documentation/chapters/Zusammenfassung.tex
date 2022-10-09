@@ -6,8 +6,8 @@ Fall Ziffern aus dem MNIST Datenset, Buchstaben aus dem EMNIST Datenset und
 weitere Motive aus dem QuickDraw Datenset gemeint. 
 
 Zur Beantwortung der Fragestellung wird der Begriff des Nachzeichnes definiert.
-Zu der Defintion gehören die Rahmenbedingungen, nach denen eine Tätigkeit als
-Nachzeichnen gilt, und die Kriterien, die die Leistung im Nachzeichnen
+Zu der Definition gehören die Rahmenbedingungen, nach denen eine Tätigkeit als
+Nachzeichnen gilt, und die Kriterien, welche die Leistung im Nachzeichnen
 beurteilen. Zu den Rahmenbedingungen gehören unter anderem die phyischen
 Einschränkungen und die ausführbaren Aktionen der KI. Um die Leistung der KI im
 Nachzeichnen zu bewerten, sind drei Kriterien definiert: Die Übereinstimmung der
@@ -15,24 +15,25 @@ Pixel, die Erkennbarkeit der Zeichnung und die Geschwindigkeit des Zeichnens.
 Die Erkennbarkeit der Zeichnung wird durch eine zweite künstliche Intelligenz
 ermittelt.
 
-Das Ziel ist es, eine künstliche Intelligenz zu entwickeln, welche die gesetzten
+Mit der Definition lautet das Ziel, eine künstliche Intelligenz zu entwickeln, welche die gesetzten
 Rahmenbedingungen erfüllt und eine möglichst gute Leistung nach den definierten
-Kriterien erzielt. Bei der Grundsätzlichen Architektur des KI handelt es sich um
+Kriterien erzielt. Bei der grundsätzlichen Architektur des KI handelt es sich um
 ein Deep Q-Learning Modell, das auf der Arbeit hinter `Doodle-SDQ'
 \cite{zhou_learning_2018} basiert.
 
-Für die Rahmenbedingungen gibt es zwei Ansätze: eine Grundversion und eine
-physikalische Version. In der Grundversion kann sich die KI schrittweise um eine
-begrenzte Anzahl Pixel auf einer Zeichenfläche fortbewegen. Ausserdem startet
-die KI auf einer zufälligen Position auf der Zeichenfläche. Die physikalische
-Version ist von simulierter Physik begleitet. So kann die KI durch
-Beschleunigungen ihre aktuelle Geschwindigkeit anpassen und sich so fortbewegen,
-während diese durch simulierte Reibung kontinuierlich abgebremst wird. 
+Für die Rahmenbedingungen gibt es zwei Ansätze: eine Grundumgebung und eine
+physikalische Umgebung. In der Grundumgebung kann sich die KI schrittweise um
+eine begrenzte Anzahl Pixel auf einer simulierten Zeichenfläche fortbewegen.
+Ausserdem startet die KI in einer zufälligen Position auf der Zeichenfläche. Die
+physikalische Umgebung ist von simulierter Physik begleitet. So kann die KI
+durch Beschleunigungen ihre aktuelle Geschwindigkeit anpassen und sich dadurch
+fortbewegen. Dabei wird die KI durch simulierte Reibung kontinuierlich
+abgebremst. 
 
 Für die KI existieren weitere Variationen, die dessen Leistung nach einem
 bestimmten Kriterium verbessern sollen. So existiert ein spezifisches Training
 auf eine verbesserte Erkennbarkeit und Geschwindigkeit der KI. Durch
-Kombinationen der Variationen und der Rahemenbedingungen existieren
+Kombinationen der Variationen und der Rahmenbedingungen existieren
 schlussendlich acht Versionen der künstlichen Intelligenz.
 
 Die acht Versionen der künstlichen Intelligenz sind alle auf das Nachzeichnen
@@ -44,8 +45,8 @@ Leistung für die Trainingsdaten, ermöglicht das eine positive Antwort für
 die Fragestellung.
 
 Einge Versionen der künstlichen Intelligenz zeigen hierbei vielversprechende
-Ergebnisse. Die Grundversion, ohne weitere Variationen, zeichnet in $91\%$ der
-Fälle eine erkennbare Ziffer, in $70\%$ der Fälle einen erkennbaren Buchstaben,
-und in $72\%$ der Fälle ein erkennbares Motiv aus dem QuickDraw Datenset. 
+Ergebnisse. Die Grundversion, ohne weitere Variationen, zeichnet in $87\%$ der
+Fälle eine erkennbare Ziffer, in $75\%$ der Fälle einen erkennbaren Buchstaben,
+und in $80\%$ der Fälle ein erkennbares Motiv aus dem QuickDraw Datenset. 
 
 
