@@ -20,7 +20,7 @@
 %% Use 'american' for American English.  Note that if you change this,
 %% the next LaTeX run may show spurious errors.  Simply run it again.
 %% If they persist, remove the .aux file and try again.
-\usepackage[ngerman]{babel}
+\usepackage[ngerman, english]{babel}
 
 %% Input encoding 'utf8'. In some cases you might need 'utf8x' for
 %% extra symbols. Not all editors, especially on Windows, are UTF-8
@@ -99,15 +99,15 @@ natbib=true]{biblatex}
 
 \renewcommand\cite{\citep}
 
-
+\selectlanguage{ngerman}
 %% Document information
 %% ====================
 
 \title{ReSketch AI}
 \author{Ian Wasser, Robin Steiner}
 \thesistype{Maturarbeit}
-\advisors{Betreut durch: Nicolas Ruh}
-\date{Oktober 2022}
+\advisors{Betreut durch: Nicolas Ruh \\ Zweitbeurteilung: Dieter Koch}
+\date{11. Oktober 2022}
 
 \begin{document}
 
@@ -126,7 +126,9 @@ natbib=true]{biblatex}
 \end{titlingpage}
 
 %% The abstract of your thesis.  Edit the file as needed.
+\selectlanguage{english}
 \input{chapters/abstract}
+\selectlanguage{ngerman}
 
 %% TOC with the proper setup, do not change.
 \cleartorecto
@@ -163,7 +165,5 @@ natbib=true]{biblatex}
 \listoffigures
 \listoftables
 \end{KeepFromToc}
-
-\includepdf[pages={-}]{pdf/plagiat.pdf}
 
 \end{document}
