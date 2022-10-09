@@ -1,4 +1,4 @@
-\chapter{Methode}\label{chap:m}github ist ein
+\chapter{Methode}\label{chap:m}
 Die Methode dieser Untersuchung besteht darin, die in der Fragestellung
 beschriebene künstliche Intelligenz (KI) zu entwickeln und dessen Leistung
 auszuwerten. Die Diskussion dieser Resultate führt schlussendlich zu einer
@@ -8,14 +8,14 @@ KI evaluiert wird (siehe \doubleref{chap:m_eval}). Der andere Teil umfasst die
 Entwicklung der KI (siehe \doubleref{chap:m_grund}), zusammen mit verschiedenen
 Variationen (siehe \doubleref{chap:m_var}). Die Variationen haben jeweils einen
 unterschiedlichen Fokus auf die definierten Kriterien. Die Auswertung (siehe
-\doubleref{chap:m_auswert}) bezieht sich ebenfalls auf die definierten Kriterien.
-Die Leistung der KI wird dabei in einer Testumgebung für das Zeichnen von
-verschiedenen Arten von Strichbildern erfasst.
+\doubleref{chap:m_auswert}) bezieht sich ebenfalls auf die definierten
+Kriterien. Die Leistung der KI wird dabei in einer Testumgebung für das Zeichnen
+von verschiedenen Arten von Strichbildern erfasst.
 
-\section{Grundprogramm}\label{chap:m_grund}
-Die KI ist abhängig von den Kriterien, die dessen Leistung definieren (siehe
-\doubleref{chap:m_eval}). Mit anderen Worten trainiert die KI auf diese Kriterien.
-Das Ziel des Grundprogrammes ist, die allgemeine Trainingsumgebung für die KI
+\section{Grundprogramm}\label{chap:m_grund} Die KI ist abhängig von den
+Kriterien, die dessen Leistung definieren (siehe \doubleref{chap:m_eval}). Mit
+anderen Worten trainiert die KI auf diese Kriterien. Das Ziel des
+Grundprogrammes ist, die allgemeine Trainingsumgebung für die KI
 bereitzustellen. Dieses Grundprogramm ist unabhängig von einem spezifischen
 Kriterium und kann stattdessen auf ein ausgewähltes Kriterium trainiert werden.
 Reinforcement Learning Modelle mit einer undefinierten Reward Function (siehe
@@ -24,10 +24,10 @@ function, basierend auf einem spezifischen Kriterium, ermöglicht das Training
 auf dieses Kriterium. Das Grundprogramm ist in Python unter der Verwendung des
 Keras Frameworks implementiert (siehe \doubleref{chap:t_ml}). 
 
-\subsection{Doodle-SDQ als Basis}\label{sub:m_grund_dood}
-Das Reinforcement Learning Modell des Grundprogrammes basiert auf Doodle-SDQ
-(siehe \doubleref{sub:t_ver_dood}). Von Doodle-SDQ ist das neuronale Netz, bezogen
-auf die Form des Inputs, des Outputs und den Hidden Layers, grösstenteils
+\subsection{Doodle-SDQ als Basis}\label{sub:m_grund_dood} Das Reinforcement
+Learning Modell des Grundprogrammes basiert auf Doodle-SDQ (siehe
+\doubleref{sub:t_ver_dood}). Von Doodle-SDQ ist das neuronale Netz, bezogen auf
+die Form des Inputs, des Outputs und den Hidden Layers, grösstenteils
 übernommen. Die relevanten Anpassungen zwischen Doodle-SDQ und dem Grundprogramm
 dieser Arbeit sind nachfolgend erläutert.
 
