@@ -46,8 +46,7 @@ ist im Schema \autoref{fig:architecture} angegeben.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-2cm]{images/methode/architecture.png}
-  \caption{Architektur des neuronalen Netzes im Grundprogramm (eigene Abbildung, mit Keras erstellt) Jeder Block repräsentiert einen Layer. Die Form des Inputs und des Outputs ist von jedem Layer angegeben}
-  \label{fig:architecture}
+  \caption{Architektur des neuronalen Netzes im Grundprogramm (eigene Abbildung, mit Keras erstellt) Jeder Block repräsentiert einen Layer. Die Form des Inputs und des Outputs ist von jedem Layer angegeben}\label{fig:architecture}
 \end{figure}
 
 Der Local Stream und damit auch der Local image Patch schrumpfen von $11\times11$
@@ -62,8 +61,7 @@ der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/actionspace.png}
-  \caption{Action-Space im Grundprogramm}
-  \label{fig:actionspace}
+  \caption{Action-Space im Grundprogramm}\label{fig:actionspace}
 \end{figure}
 
 Falls der Agent die Action zeichnend ausführt, zieht das Programm einen Strich
@@ -98,8 +96,7 @@ So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/norm-v-nogray.png}
-  \caption{Entfernung der Graustufen im MNIST Datenset (eigene Abbildung)}
-  \label{fig:norm-v-nogray}
+  \caption{Entfernung der Graustufen im MNIST Datenset (eigene Abbildung)}\label{fig:norm-v-nogray}
 \end{figure}
 
 
@@ -160,12 +157,10 @@ dienen.
       Buchstaben & \cite{mor_emnist_2022} & EMNIST Letters \\ \hline
       \makecell{Strichbilder\\von Objekten} & \cite{lam_linus_keras_2022} & Auswahl aus QuickDraw \\ \hline
   \end{tabular}
-  \caption{Vortrainierte Modelle}
-  \label{tab:models}
+  \caption{Vortrainierte Modelle}\label{tab:models}
 \end{table}
 
-\subsection{Prozentuale Übereinstimmung}
-\label{sub:m_eval_proc}
+\subsection{Prozentuale Übereinstimmung}\label{sub:m_eval_proc}
 Dieses Kriterium beschreibt die prozentuale Übereinstimmung der weissen
 (gezeichneten) Pixel zwischen der Vorlage und der Zeichnung der KI (siehe
 \doubleref{chap:m_grund}). Der Wert $K$ dieses Kriteriums zu dem Step $t$
@@ -182,8 +177,7 @@ was einer prozentualen Übereinstimmung von $100\%$ entspricht (siehe
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/ubereinstimm.png}
-  \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung (eigene Abbildung)}
-  \label{fig:ubereinstimmung}
+  \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung (eigene Abbildung)}\label{fig:ubereinstimmung}
 \end{figure}
 
 \subsection{Geschwindigkeit}\label{sub:m_eval_speed}
@@ -259,8 +253,7 @@ Geschwindigkeit aus. Für diese Anpassung wird Die Bedingung der korrekten
 Erkennung (siehe \doubleref{sub:m_eval_speed}) nicht beachtet.
 
 
-\subsection{Training auf Erkennbarkeit}
-\label{sub:m_var_rec}
+\subsection{Training auf Erkennbarkeit}\label{sub:m_var_rec}
 Das Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
 teilweise in die Reward Function integriert werden. Das Kriterium strebt eine
 Erkennbarkeit, unabhängig von der Art der Strichbilder, an (siehe
@@ -298,8 +291,7 @@ mehr zeichnet.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/wrong-mnist-rec.png}
-  \caption{Beispiele einer richtigen und einer falschen Erkennung von handgeschriebenen Zahlen durch eine KI (eigene Abbildung). Die Werte sind durch einen Test der KI berechnet }
-  \label{fig:wrong-minst-rec}
+  \caption{Beispiele einer richtigen und einer falschen Erkennung von handgeschriebenen Zahlen durch eine KI (eigene Abbildung). Die Werte sind durch einen Test der KI berechnet}\label{fig:wrong-mnist-rec}
 \end{figure}
 
 Der zweite Ansatz implementiert neben der Reward-Function der Erkennbarkeit
@@ -317,8 +309,7 @@ gestützt auf Beobachtungen, an der Stabilität ihrer Leistung verlieren.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-2cm]{images/methode/decrementor.png}
-  \caption{Veränderung der Faktoren der Basis Reward-Function und der Reward-Function der Erkennbarkeit über das Training hinweg (eigene Abbildung)}
-  \label{fig:decrementor}
+  \caption{Veränderung der Faktoren der Basis Reward-Function und der Reward-Function der Erkennbarkeit über das Training hinweg (eigene Abbildung)}\label{fig:decrementor}
 \end{figure}
 
 Das Zusammenspiel der beiden Reward-Functions hat den Vorteil, dass die
@@ -368,8 +359,7 @@ Formation angeordnet: (siehe \autoref{fig:physics-actionspace}).
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth-6cm]{images/methode/physics-actionspace.png}
-  \caption{Action-Space in der physikalischen Umgebung (eigene Abbildung)}
-  \label{fig:physics-actionspace}
+  \caption{Action-Space in der physikalischen Umgebung (eigene Abbildung)}\label{fig:physics-actionspace}
 \end{figure}
 
 
@@ -405,8 +395,7 @@ Positionen des Agents nach einem Step auf einem $5\times5$ Feld Platz haben
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/patch-move.png}
-  \caption{Angabe der Geschwindigkeit durch eine Verschiebung des Local image Patches (eigene Abbildung)}
-  \label{fig:patch-move}
+  \caption{Angabe der Geschwindigkeit durch eine Verschiebung des Local image Patches (eigene Abbildung)}\label{fig:patch-move}
 \end{figure}
 
 
@@ -440,8 +429,7 @@ verarbeitet wie die Trainingsdaten (siehe \doubleref{sub:m_grund_data}).
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/methode/quickdraw-examples.png}
-  \caption{Beispiele der verwendeten Motive aus dem QuickDraw Datenset}
-  \label{fig:quickdraw-examples}
+  \caption{Beispiele der verwendeten Motive aus dem QuickDraw Datenset}\label{fig:quickdraw-examples}
 \end{figure}
 
 
