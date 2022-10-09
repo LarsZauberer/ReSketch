@@ -1,11 +1,14 @@
 \babel@toc {ngerman}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {ngerman}{}\relax 
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
-\contentsline {table}{\numberline {3.1}{\ignorespaces Vortrainierte Modelle\relax }}{22}{table.caption.17}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Vortrainierte Modelle\relax }}{21}{table.caption.17}%
 \addvspace {10pt}
 \contentsline {table}{\numberline {4.1}{\ignorespaces Testen auf MNIST Datenset | 2000 Tests\relax }}{34}{table.caption.24}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Testen auf EMNIST Datenset | 2000 Tests\relax }}{34}{table.caption.25}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Testen auf EMNIST Letters Datenset | 2000 Tests\relax }}{34}{table.caption.25}%
 \contentsline {table}{\numberline {4.3}{\ignorespaces Testen auf QuickDraw-Datenset | 2000 Tests\relax }}{34}{table.caption.26}%
 \addvspace {10pt}
 \addvspace {10pt}
