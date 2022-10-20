@@ -40,7 +40,7 @@ bis auf die neue Grösse der Bilder nicht. Die Pixel der Bilder, wie auch die
 Zeichenfläche, nehmen den Wert von einem Bit an. Eine Null repräsentiert einen
 schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild und eine Eins
 einen weissen (gezeichneten) Pixel. Die genaue Architektur des neuronalen Netzes
-ist im Schema \autoref{fig:architecture} angegeben.
+ist in der \autoref{fig:architecture} angegeben.
  
 %Bild architecture
 \begin{figure}[!ht]
@@ -96,7 +96,7 @@ So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=\textwidth]{images/methode/norm-v-nogray.png}
- \caption{Entfernung der Graustufen im MNIST Datenset (eigene Abbildung)}\label{fig:norm-v-nogray}
+ \caption{Entfernung der Graustufen im MNIST Datenset. (eigene Abbildung)}\label{fig:norm-v-nogray}
 \end{figure}
  
  
@@ -177,7 +177,7 @@ was einer prozentualen Übereinstimmung von $100\%$ entspricht (siehe
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=\textwidth]{images/methode/ubereinstimm.png}
- \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung (eigene Abbildung)}\label{fig:ubereinstimmung}
+ \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung. (eigene Abbildung)}\label{fig:ubereinstimmung}
 \end{figure}
  
 \subsection{Geschwindigkeit}\label{sub:m_eval_speed}
@@ -266,11 +266,11 @@ Die Reward-Function (siehe \doubleref{sub:t_rl_func}) dieser Variation beinhalte
 eine zweite KI, die handgeschriebene Ziffern erkennt (siehe
 \autoref{tab:models}). Diese zweite KI beurteilt in jedem Step, welche
 Ziffern sie in der Vorlage und in der aktuellen
-Zeichnung erkennt
+Zeichnung erkennt.
  
 Die einfachste Form der Reward-Function für diese Variation sähe
 folgendermassen aus: Wenn eine Zeichnung das Kriterium der Erkennbarkeit
-erfüllt, löst die Reward-Function einen Reward von $0.05$. In diesem Zustand
+erfüllt, löst die Reward-Function einen Reward von $0.05$ aus. In diesem Zustand
 funktioniert die Reward-Function allerdings nicht. Der Agent kann den
 akkumulierten Reward nicht maximieren. Zwei Ansätze gehen auf dieses Problem
 ein. Beide Ansätze sind Teil dieser Variation.
@@ -291,7 +291,7 @@ mehr zeichnet.
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=\textwidth-2cm]{images/methode/wrong-mnist-rec.png}
- \caption{Beispiele einer richtigen und einer falschen Erkennung von handgeschriebenen Zahlen durch eine KI (eigene Abbildung). Die Werte sind durch einen Test der KI berechnet}\label{fig:wrong-mnist-rec}
+ \caption{Beispiele einer richtigen und einer falschen Erkennung von handgeschriebenen Zahlen durch eine KI (eigene Abbildung). Die Werte sind durch einen Test der KI berechnet.}\label{fig:wrong-mnist-rec}
 \end{figure}
  
 Der zweite Ansatz implementiert neben der Reward-Function der Erkennbarkeit
@@ -311,7 +311,7 @@ gestützt auf Beobachtungen, an der Stabilität ihrer Leistung verlieren.
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=\textwidth-2cm]{images/methode/decrementor.png}
- \caption{Veränderung der Faktoren der Basis Reward-Function und der Reward-Function der Erkennbarkeit über das Training hinweg (eigene Abbildung)}\label{fig:decrementor}
+ \caption{Veränderung der Faktoren der Basis Reward-Function und der Reward-Function der Erkennbarkeit über das Training hinweg. (eigene Abbildung)}\label{fig:decrementor}
 \end{figure}
  
 Das Zusammenspiel der beiden Reward-Functions hat den Vorteil, dass die
@@ -340,7 +340,7 @@ Der Agent hat neu eine Geschwindigkeit, die durch einen Vektor $\vec{v}$
 dargestellt ist. Die Geschwindigkeit beschreibt, um wie viele Pixel und in
 welche Richtung sich der Agent pro Step bewegt. Die folgende Formel beschreibt,
 wie sich die Position des Agenten vom Step $t$ bis zum nächsten Step $t+1$
-ändert:
+verändert:
 \[ \vec{p}(t+1) = \vec{p}(t) + \vec{v}(t) \]
 $\vec{p}(t)$ beschreibt die Position des Agents als einen Ortsvektor auf der
 Zeichenfläche zum Step $t$ und $\vec{v}(t)$ beschreibt die Geschwindigkeit des
@@ -361,7 +361,7 @@ Formation angeordnet: (siehe \autoref{fig:physics-actionspace}).
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=\textwidth-6cm]{images/methode/physics-actionspace.png}
- \caption{Action-Space in der physikalischen Umgebung (eigene Abbildung)}\label{fig:physics-actionspace}
+ \caption{Action-Space in der physikalischen Umgebung. (eigene Abbildung)}\label{fig:physics-actionspace}
 \end{figure}
  
  
@@ -397,7 +397,7 @@ Positionen des Agents nach einem Step auf einem $5\times5$ Feld Platz haben
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=\textwidth]{images/methode/patch-move.png}
- \caption{Angabe der Geschwindigkeit durch eine Verschiebung des Local image Patches (eigene Abbildung)}\label{fig:patch-move}
+ \caption{Angabe der Geschwindigkeit durch eine Verschiebung des Local image Patches. (eigene Abbildung)}\label{fig:patch-move}
 \end{figure}
  
  
@@ -419,7 +419,7 @@ definierten Kriterien (siehe \doubleref{chap:m_eval}) für verschiedene Variatio
 der KI.
  
 Die Variationen werden auf ihre Leistung für drei verschiedene Datensets
-geprüft. Die drei Datensets beinhalten verschiedene Arten von handgemachten
+geprüft. Die drei Datensets beinhalten verschiedene Arten von
 Strichbildern (siehe \autoref{tab:models}). Im Falle des QuickDraw Datensets
 wird die KI allerdings nur auf das Nachzeichnen von zehn Motiven überprüft. Die
 zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer', `Bulldozer', `Uhr',
@@ -431,7 +431,7 @@ verarbeitet wie die Trainingsdaten (siehe \doubleref{sub:m_grund_data}).
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=\textwidth]{images/methode/quickdraw-examples.png}
- \caption{Beispiele der verwendeten Motive aus dem QuickDraw Datenset}\label{fig:quickdraw-examples}
+ \caption{Beispiele der verwendeten Motive aus dem QuickDraw Datenset. (eigene Abbildung)}\label{fig:quickdraw-examples}
 \end{figure}
  
  
