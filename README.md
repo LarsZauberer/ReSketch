@@ -1,5 +1,7 @@
 # ReSketch AI
 
+![ReSketch AI header](ReSketch_header.png)
+
 ## Abstrakt
 ReSketch ist eine künstliche Intelligenz, die
 versucht, Strichbilder auf eine physische Weise nachzuzeichnen. Strichbilder
