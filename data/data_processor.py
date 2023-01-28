@@ -95,16 +95,16 @@ class Data_Processer():
     
     def quickDraw(self, grayscales=False):
         paths = [
-                    "data/reference_data/quickdraw/full_numpy_bitmap_anvil.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_apple.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_broom.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_bucket.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_bulldozer.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_clock.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_cloud.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_computer.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_eye.npy",
-                    "data/reference_data/quickdraw/full_numpy_bitmap_flower.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_anvil.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_apple.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_broom.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_bucket.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_bulldozer.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_clock.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_cloud.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_computer.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_eye.npy",
+                    "src/data/reference_data/quickdraw/full_numpy_bitmap_flower.npy",
                    ]
 
         train_data = []
