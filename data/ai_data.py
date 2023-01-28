@@ -48,7 +48,17 @@ class AI_Data():
         self.pro_data = []
        
 
+    def sample(self, number : int):
+        sampled = []
+        num = int(number/len(self.ref_data))
+        #for every category
+        for n in range(self.ref_data):
+            ind = np.random.choice(len(self.ref_data[n]), num, replace=False)
 
+            for i in ind:
+                arr = np.array(self.ref_data[n][i]).reshape(28,28)
+                sampled.append(arr)
+            
 
         
     def sample(self, number: int):
@@ -84,9 +94,7 @@ class AI_Data():
             num = int(number/len(self.ref_data))
             for n in range(len(self.ref_data)):
                 ind = np.random.choice(len(self.ref_data[n]), num, replace=False)
-                for i in ind:
-                    arr = np.array(self.ref_data[n][i]).reshape(28,28, order=reshape_ordering)
-                    sampled.append(arr)
+                
 
         self.pro_data = sampled
 
