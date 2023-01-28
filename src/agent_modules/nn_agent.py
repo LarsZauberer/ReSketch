@@ -1,8 +1,8 @@
 import os
 import tensorflow as tf
-from keras import Sequential, Model
+from keras import Model
 from keras.layers import Conv2D, Dense, Flatten, Input, concatenate
-from tensorflow.keras.utils import plot_model
+#from tensorflow.keras.utils import plot_model
 
 import numpy as np
 from time import sleep
