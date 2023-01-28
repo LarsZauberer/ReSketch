@@ -1,7 +1,7 @@
 from threading import activeCount
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
-from data.ai_data import AI_Data
+from ..data.ai_data import AI_Data
 from result_stats.learn_plotter import Learn_Plotter
 import numpy as np
 import json
@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
     # load Data
     learn_plot = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
-    data = AI_Data(dataset="mnist")
+    data = AI_Data(dataset="mnist_train")
     data.sample(n_episodes)
 
     env = ShapeDraw(canvas_size, patch_size, data.pro_data)

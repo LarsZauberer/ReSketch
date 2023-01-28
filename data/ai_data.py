@@ -6,7 +6,7 @@ class AI_Data():
     def __init__(self, dataset : str = "mnist_train"):
         self.dataset = dataset 
 
-        with open(f"data/processed_data/{dataset}", "r") as f:
+        with open(f"src/data/processed_data/{dataset}", "r") as f:
             self.ref_data = json.load(f)
             
         #processed data

@@ -1,6 +1,6 @@
 from agent_modules.environment import ShapeDraw
 from agent_modules.nn_agent import DeepQNetwork, Agent
-from data.ai_data import AI_Data
+from .data.ai_data import AI_Data
 from models.mnist_model.models import EfficientCapsNet
 from time import sleep
 
