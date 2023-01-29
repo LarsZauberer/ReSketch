@@ -77,6 +77,8 @@ class DeepQNetwork(object):
         load_checkpoint Load a network checkpoint from the file
         """
         print("...Loading checkpoint...")
+
+        path = Path(path + '/deepqnet.ckpt')
         self.dqn.load_weights(path)
 
     def save_checkpoint(self, path):
@@ -84,6 +86,8 @@ class DeepQNetwork(object):
         save_checkpoint Save a network checkpoint to the file
         """
         print("...Saving checkpoint...")
+
+        path = Path(path + '/deepqnet.ckpt')
         self.dqn.save_weights(path)
 
 
@@ -281,15 +285,15 @@ class Agent(object):
         """
         save_models Save the Networks
         """
-        self.q_eval.save_checkpoint(path)
-        self.q_next.save_checkpoint(path)
+        self.q_eval.save_checkpoint(path + "/q_eval")
+        self.q_next.save_checkpoint(path + "/q_next")
 
     def load_models(self, path):
         """
         load_models Load the Networks
         """
-        self.q_eval.load_checkpoint(path)
-        self.q_next.load_checkpoint(path)
+        self.q_eval.load_checkpoint(path + "/q_eval")
+        self.q_next.load_checkpoint(path + "/q_next")
 
     def update_graph(self):
         """
