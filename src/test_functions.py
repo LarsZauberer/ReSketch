@@ -1,8 +1,23 @@
+import json
 import numpy as np
 from rich.progress import track
 
 from models.Predictor import Predictor 
 from data_statistics.Image_Generator import generate_image
+
+
+def hyperparameter_loader(path, modelName):
+    # Load Hyperparameter data
+    with open(path, "r") as f:
+        hyp_data = json.load(f)
+    if hyp_data.get(modelName, False):
+        #General model names: "base", "mnist", "speed" "mnist-speed"
+        hyp_data = hyp_data[modelName]
+    else:
+        #No known Model: give default Values
+        hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 100, "n_episodes": 50, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
+    return hyp_data
+
 
 
 def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t_accuracy: bool = False, t_datarec : bool = False, t_speed : bool = False, t_vis: bool = False):
