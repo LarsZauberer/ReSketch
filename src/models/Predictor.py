@@ -32,9 +32,6 @@ class Predictor():
 
         choice = np.argmax(predict[0][0])
 
-        
-
-        
         # Too unsure. Should not be validated
         if predict[0][0][choice] < 0.75:
             choice = -1
