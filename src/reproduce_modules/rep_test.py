@@ -22,6 +22,109 @@ from mpl_toolkits.axes_grid1 import ImageGrid
 from matplotlib import cm, colors
 
 
+
+def test(self, env : Environment,  agent: Agent, t_reward: bool = False, t_accuracy: bool = False, t_datarec : bool = False, t_speed : bool = False, t_vis: bool = False):
+
+
+    self.data.shuffle()
+    self.envir.referenceData = self.data.pro_data
+    ep_counter = 0
+
+    reward_scores = []
+    accuracy_scores = []
+    datarec_scores = []
+    speed_scores = []
+
+    for i in track(range(self.n_test), description="testing"):
+        global_obs, local_obs = self.envir.reset()
+        score = 0
+        done_step = 64
+        
+
+        for j in range(self.num_steps):
+            # Run the timestep
+            illegal_moves = np.zeros(self.n_actions)
+            illegal_moves = self.envir.illegal_actions(illegal_moves)
+            self.envir.curStep = j
+            # Run the timestep
+            action = agent.choose_action(global_obs, local_obs, illegal_list=illegal_moves)
+            # TODO: Parametrize the min_decrement and the rec_reward value
+            next_gloabal_obs, next_local_obs, reward = self.envir.step(action, decrementor=1, rec_reward=0.1, without_rec=True, min_decrement=0.3)
+            
+
+            global_obs = next_gloabal_obs
+            local_obs = next_local_obs
+            agent.counter += 1
+            
+
+            if t_reward:
+                score += reward
+            if t_speed:
+                if (1 - self.envir.lastSim) > self.done_accuracy:
+                    if self.dataset == "emnist":
+                        ref, canv = self.predict_emnist()
+                    elif self.dataset == "quickdraw":
+                        ref, canv = self.predict_quickdraw()
+                    else:
+                        ref, canv = self.envir.predict_mnist()
+                    if ref == canv: 
+                        if done_step == 64:
+                            done_step = j
+
+        if t_reward: 
+            reward_scores.append(score)
+        if t_accuracy: 
+            accuracy_scores.append(1 - self.envir.lastSim)
+        if t_datarec:
+            if self.dataset == "emnist":
+                ref, canv = self.predict_emnist()
+            elif self.dataset == "quickdraw":
+                ref, canv = self.predict_quickdraw()
+            else:
+                ref, canv = self.envir.predict_mnist()
+            datarec_scores.append(int(ref == canv))
+        if t_speed:
+            speed_scores.append(done_step)
+        if t_vis:
+                if ep_counter == self.curInd:
+                    self.images.append(self.envir.gradient_render())
+                    self.curInd = next(self.image_indexes)
+        
+        ep_counter += 1
+                
+
+    scores = []
+    if t_reward: scores.append(np.mean(reward_scores))
+    if t_accuracy: scores.append(np.mean(accuracy_scores))
+    if t_datarec: scores.append(np.mean(datarec_scores))
+    if t_speed: scores.append(np.mean(speed_scores))
+    if t_vis: self.generate_image(columns=2)
+            
+    return scores
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Test_NN():
     def __init__(self, n_test: int = 260, num_steps: int = 64, image_num=10, version="base", dataset : str = "mnist"):
         self.n_test = n_test
@@ -177,23 +280,7 @@ class Test_NN():
                 
         return scores
 
-    def predict_quickdraw(self):
-        #Reshape data
-        canvas = self.envir.canvas.reshape(28 * 28)
-        reference = self.envir.reference.reshape(28 * 28)
-        # predict
-        canv = self.tf_q_model.run(np.array([canvas], dtype=np.float32))
-        ref = self.tf_q_model.run(np.array([reference], dtype=np.float32))
-        return (np.argmax(ref[0]), np.argmax(canv[0]))
-
-    def predict_emnist(self):
-        # Reshape data
-        canvas = self.envir.canvas.reshape(28 * 28)
-        reference = self.envir.reference.reshape(28 * 28)
-        # predict
-        canv = self.emnist_model(np.array([canvas], dtype=np.float32))
-        ref = self.emnist_model(np.array([reference], dtype=np.float32))
-        return (np.argmax(ref[0]), np.argmax(canv[0]))
+    
 
 
     def generate_image(self, columns=2):
