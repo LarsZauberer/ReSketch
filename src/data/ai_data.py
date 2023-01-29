@@ -6,7 +6,7 @@ class AI_Data():
     def __init__(self, dataset : str = "mnist_train"):
         self.dataset = dataset 
 
-        with open(f"src/data/processed_data/{dataset}", "r") as f:
+        with open(f"src/data/processed_data/{dataset}.json", "r") as f:
             self.ref_data = json.load(f)
             
         #processed data
@@ -17,12 +17,14 @@ class AI_Data():
         sampled = []
         num = int(number/len(self.ref_data))
         #for every category
-        for n in range(self.ref_data):
+        for n in range(len(self.ref_data)):
             ind = np.random.choice(len(self.ref_data[n]), num, replace=False)
 
             for i in ind:
                 arr = np.array(self.ref_data[n][i]).reshape(28,28)
                 sampled.append(arr)
+        self.pro_data = sampled
+        self.shuffle()
             
     def shuffle(self):
         """ 

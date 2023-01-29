@@ -1,5 +1,5 @@
-from nn_test import Test_NN
-from nn_train import train
+from reproduce_modules.rep_test import Test_NN
+from reproduce_modules.rep_train import train
 from result_stats.learn_plotter import Learn_Plotter
 from bayes_opt import BayesianOptimization
 from agent_modules.nn_agent import DeepQNetwork, Agent
