@@ -2,7 +2,7 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
-from agent_modules.physics import Physic_Engine
+from physics import Physic_Engine
 from models.mnist_model.models import EfficientCapsNet
 from time import sleep
 

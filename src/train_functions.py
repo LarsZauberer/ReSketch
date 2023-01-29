@@ -11,7 +11,7 @@ def hyperparameter_loader(path, modelName):
         hyp_data = hyp_data[modelName]
     else:
         #No known Model: give default Values
-        hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 100, "n_episodes": 200} 
+        hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 100, "n_episodes": 50} 
     
     return hyp_data
 
