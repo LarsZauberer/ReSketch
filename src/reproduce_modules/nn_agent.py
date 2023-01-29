@@ -244,7 +244,7 @@ class Agent(object):
         q_eval = np.array(self.q_eval.dqn([global_state_batch, local_state_batch]))
         q_next = np.array(self.q_next.dqn([new_global_state_batch, new_local_state_batch]))
 
-        # Calculates optimal output for training. ( Bellman Equation !! )
+        
 
 
 
@@ -256,9 +256,11 @@ class Agent(object):
 
         
 
-        idx = np.arange(self.batch_size)
-        # Recalculate the q-value of the action taken in each state
+        
+     
 
+        # Calculates optimal output for training. ( Bellman Equation !! )
+        idx = np.arange(self.batch_size)
         q_target[idx, action_batch] = reward_batch + \
         self.gamma*np.max(q_next, axis=1)
 

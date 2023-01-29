@@ -11,7 +11,7 @@ def hyperparameter_loader(path, modelName):
         hyp_data = hyp_data[modelName]
     else:
         #No known Model: give default Values
-        hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 100, "n_episodes": 50} 
+        hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 100, "n_episodes": 50, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
     
     return hyp_data
 
@@ -54,9 +54,12 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             illegal_moves = env.illegal_actions(illegal_moves)
             env.curStep = step
 
-            action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
+            if not all(a == 1 for a in illegal_moves):
+                action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
+            else:
+                action = np.random.choice(env.n_actions)
+
             next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=0.1, min_decrement=0.3, without_rec=no_rec)
-            #env.render("Compare", realtime=True)
 
             if done_step == None and not replay_fill and speed: 
                 if env.agent_is_done(done_accuracy): done_step = step

@@ -12,6 +12,7 @@ from pathlib import Path
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions: int, batch_size: int, name: str,
                  global_input_dims: int, local_input_dims: int, fc1_dims: int = 512, model: str = "current"):
+        
         self.lr = lr  # The optimization learning rate of the network model
         self.n_actions = n_actions  # How many actions the agent has available -> Index of the action to execute
         self.name = name  # The identification name of the agent
@@ -22,20 +23,7 @@ class DeepQNetwork(object):
         self.fc1_dims = fc1_dims  # Dimensions of the last dense layer
         self.batch_size = batch_size  # How many inputs sending into the network
 
-        # saving / memory
-        if model == "physics-base" or model == "physics-mnist" or model == "physics-speed" or model == "physics-mnist-speed":
-            directory = Path(f"pretrained_models/{model}/{name}")
-        else:
-            directory = Path(f"pretrained_models/{model}")
-            try: os.mkdir(directory)
-            except OSError as error: print(error, "Attempted mkdir")   
-            directory = Path(f"pretrained_models/{model}/{name}")
-            try: os.mkdir(directory)
-            except OSError as error: print(error, "Attempted mkdir")   
-        self.checkpoint_file = directory / 'deepqnet.ckpt'  # Where the model should be saved
-
         
-
         # Generate the network
         self.build_network()
 
@@ -81,22 +69,27 @@ class DeepQNetwork(object):
 
         #plot_model(self.dqn, to_file=f"src_physics/images/{self.name}.png", show_shapes=True)
 
+
         #calling: dqn([global_state_batch, local_state_batch])
         #training: dqn.train_on_batch(x=[global_state_batch, local_state_batch], y=q_target)
 
-    def load_checkpoint(self):
+    def load_checkpoint(self, path):
         """
         load_checkpoint Load a network checkpoint from the file
         """
         print("...Loading checkpoint...")
-        self.dqn.load_weights(self.checkpoint_file)
 
-    def save_checkpoint(self):
+        path = Path(path + '/deepqnet.ckpt')
+        self.dqn.load_weights(path)
+
+    def save_checkpoint(self, path):
         """
         save_checkpoint Save a network checkpoint to the file
         """
         print("...Saving checkpoint...")
-        self.dqn.save_weights(self.checkpoint_file)
+
+        path = Path(path + '/deepqnet.ckpt')
+        self.dqn.save_weights(path)
 
 
     
@@ -191,7 +184,7 @@ class Agent(object):
 
         # Check if the agent should explore
         rand = np.random.random()
-        if rand < self.epsilon or self.rare_Exploration() or replay_fill:
+        if rand < self.epsilon or replay_fill:
             action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
                 
         else:
@@ -213,18 +206,12 @@ class Agent(object):
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
 
-            """ print(illegal_list)
-            sleep(1) """
 
             while illegal_list[np.argmax(actions)] == 1:
                 actions[np.argmax(actions)] = -1
 
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
-
-        # Only important for the rare_exploration
-        action_ind = self.counter % self.recent_mem
-        self.recent_actions[action_ind] = action
 
 
         return action
@@ -259,7 +246,7 @@ class Agent(object):
         q_eval = np.array(self.q_eval.dqn([global_state_batch, local_state_batch]))
         q_next = np.array(self.q_next.dqn([new_global_state_batch, new_local_state_batch]))
 
-        # Calculates optimal output for training. ( Bellman Equation !! )
+       
         
 
         q_target = np.copy(q_eval)
@@ -271,15 +258,13 @@ class Agent(object):
 
         
 
-        idx = np.arange(self.batch_size)
-        # Recalculate the q-value of the action taken in each state
+        
+    
 
+        # Calculates optimal output for training. ( Bellman Equation !! )
+        idx = np.arange(self.batch_size)
         q_target[idx, action_batch] = reward_batch + \
         self.gamma*np.max(q_next, axis=1)
-
-     
-
-       
 
         # Calls training
         # Basic Training: gives input and desired output.
@@ -294,44 +279,20 @@ class Agent(object):
             elif self.epsilon <= 0.05:
                 self.epsilon = 0.05
 
-    def rare_Exploration(self):
-        """
-        rare_Exploration Forced exploration if the ai is exploiting. Is an experiment
 
-        :return: If the ai should explore
-        :rtype: bool
-        """
-
-        if self.epsilon > 0:
-            return False
-        # Is used when exploration is zero
-        # If the ai is too much exploiting -> Force an exploration
-        if self.epsilon >= 0:
-            return False
-
-        variance = 0
-        container = []
-        for i in range(0, self.recent_mem):
-            if self.recent_actions[i] not in container:
-                container.append(self.recent_actions[i])
-                variance += 1
-        if variance < self.recent_mem/2:
-            return True
-        return False
-
-    def save_models(self):
+    def save_models(self, path):
         """
         save_models Save the Networks
         """
-        self.q_eval.save_checkpoint()
-        self.q_next.save_checkpoint()
+        self.q_eval.save_checkpoint(path + "/q_eval")
+        self.q_next.save_checkpoint(path + "/q_next")
 
-    def load_models(self):
+    def load_models(self, path):
         """
         load_models Load the Networks
         """
-        self.q_eval.load_checkpoint()
-        self.q_next.load_checkpoint()
+        self.q_eval.load_checkpoint(path + "/q_eval")
+        self.q_next.load_checkpoint(path + "/q_next")
 
     def update_graph(self):
         """

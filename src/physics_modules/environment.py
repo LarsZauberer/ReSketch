@@ -2,16 +2,15 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
-from physics import Physic_Engine
+from physics_modules.physics import Physic_Engine
 from models.mnist_model.models import EfficientCapsNet
 from time import sleep
 
 
-class ShapeDraw(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, max_action_strength : int = 1, friction: float = 0.2, vel_1: float = 0.8, vel_2: float = 1.2):
+class Environment(object):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, friction: float = 0.2, vel_1: float = 0.8, vel_2: float = 1.2):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
-        self.max_action_strength = max_action_strength
 
         # Input gloabal stream
         self.referenceData = referenceData
@@ -32,7 +31,7 @@ class ShapeDraw(object):
 
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
-        self.n_actions = 42
+        self.n_actions = n_actions
         self.actions = [(0,0)]
         for i in range(8):
             angle = ma.pi/4*i
