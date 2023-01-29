@@ -112,8 +112,6 @@ def physics():
     mem_size = episode_mem_size*n_steps
 
 
-
-
     # load Data
     learn_plot = Learn_Plotter(path="src/data_statistics/plotlearn_data.json")
     data = AI_Data(dataset=args.dataset)
@@ -125,8 +123,6 @@ def physics():
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, "n_actions": n_actions}
     agent = Phy_Agent(**agent_args)
-    
-
     
 
     # Start training

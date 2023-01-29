@@ -18,8 +18,6 @@ def hyperparameter_loader(path, modelName):
 
 
 
-
-
 def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, model_path, save_training=True, vis_compare=12, mnist=False, speed=False):
     # Initializing architecture
     total_counter = 0
@@ -83,8 +81,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             #if not replay_fill: print(speed_reward)
             agent.update_speedreward(speed_reward)
             
-
-    
+            
         # Learn Process visualization
         if total_counter > episode_mem_size:
             real_ep = total_counter - episode_mem_size
@@ -98,7 +95,6 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 print(f"episode: {real_ep}, score: {score}")
 
             scores.append(score)
-
 
     if save_training:
         # save weights

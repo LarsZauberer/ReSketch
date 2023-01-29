@@ -4,7 +4,7 @@ import numpy as np
 
 class AI_Data():
     def __init__(self, dataset : str = "mnist_train"):
-        self.dataset = dataset 
+        self.dataset = dataset.split("_")[0]
 
         with open(f"src/data/processed_data/{dataset}.json", "r") as f:
             self.ref_data = json.load(f)

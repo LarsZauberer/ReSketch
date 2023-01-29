@@ -204,7 +204,6 @@ class Agent(object):
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
             while illegal_list[np.argmax(actions)] == 1:
-                
                 actions[np.argmax(actions)] = -1
 
             # Take the index of the maximal value -> action
