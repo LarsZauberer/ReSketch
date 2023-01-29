@@ -11,7 +11,8 @@ from pathlib import Path
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions: int, batch_size: int, name: str,
-                 global_input_dims: int, local_input_dims: int, fc1_dims: int = 512, model: str = "current"):
+                 global_input_dims: int, local_input_dims: int, fc1_dims: int = 512):
+        
         self.lr = lr  # The optimization learning rate of the network model
         self.n_actions = n_actions  # How many actions the agent has available -> Index of the action to execute
         self.name = name  # The identification name of the agent
@@ -21,20 +22,6 @@ class DeepQNetwork(object):
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated input. The local patch of the canvas.
         self.fc1_dims = fc1_dims  # Dimensions of the last dense layer
         self.batch_size = batch_size  # How many inputs sending into the network
-
-        # saving / memory
-        if model == "base-base" or model == "base-mnist" or model == "base-speed" or model == "base-mnist-speed":
-            directory = Path(f"pretrained_models/{model}/{name}")
-        else:
-            directory = Path(f"pretrained_models/{model}")
-            try: os.mkdir(directory)
-            except OSError as error: print(error, "Attempted mkdir")   
-            directory = Path(f"pretrained_models/{model}/{name}")
-            try: os.mkdir(directory)
-            except OSError as error: print(error, "Attempted mkdir")   
-        self.checkpoint_file = directory / 'deepqnet.ckpt' # Where the model should be saved
-        print(self.checkpoint_file)
-
         
 
         # Generate the network
@@ -85,19 +72,19 @@ class DeepQNetwork(object):
         #calling: dqn([global_state_batch, local_state_batch])
         #training: dqn.train_on_batch(x=[global_state_batch, local_state_batch], y=q_target)
 
-    def load_checkpoint(self):
+    def load_checkpoint(self, path):
         """
         load_checkpoint Load a network checkpoint from the file
         """
         print("...Loading checkpoint...")
-        self.dqn.load_weights(self.checkpoint_file)
+        self.dqn.load_weights(path)
 
-    def save_checkpoint(self):
+    def save_checkpoint(self, path):
         """
         save_checkpoint Save a network checkpoint to the file
         """
         print("...Saving checkpoint...")
-        self.dqn.save_weights(self.checkpoint_file)
+        self.dqn.save_weights(path)
 
 
     
@@ -105,7 +92,7 @@ class DeepQNetwork(object):
 
 class Agent(object):
     def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size,
-                 replace_target=1000, model='current'):
+                 replace_target=1000):
 
         self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
         self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
@@ -119,9 +106,9 @@ class Agent(object):
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated patch of the canvas
 
         self.q_next = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_next', model=model)  # The QNetwork to compute the q-values on the next state of the canvas
+                                   local_input_dims=local_input_dims, name='q_next')  # The QNetwork to compute the q-values on the next state of the canvas
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_eval', model=model) # The QNetwork to compute the q-values on the current state of the canvas
+                                   local_input_dims=local_input_dims, name='q_eval') # The QNetwork to compute the q-values on the current state of the canvas
 
         # Dimensions of Replay buffer memory
         glob_mem_shape = (
@@ -192,7 +179,7 @@ class Agent(object):
 
         # Check if the agent should explore
         rand = np.random.random()
-        if rand < self.epsilon or self.rare_Exploration() or replay_fill:
+        if rand < self.epsilon or replay_fill:
             action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
         else:
             if self.counter % self.replace_target == 0 and self.counter > 0:
@@ -218,10 +205,6 @@ class Agent(object):
 
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
-
-        # Only important for the rare_exploration
-        action_ind = self.counter % self.recent_mem
-        self.recent_actions[action_ind] = action
 
 
         return action
@@ -292,41 +275,21 @@ class Agent(object):
             elif self.epsilon <= 0.05:
                 self.epsilon = 0.05
 
-    def rare_Exploration(self):
-        """
-        rare_Exploration Forced exploration if the ai is exploiting. Is an experiment
+    
 
-        :return: If the ai should explore
-        :rtype: bool
-        """
-        # Is used when exploration is zero
-        # If the ai is too much exploiting -> Force an exploration
-        if self.epsilon >= 0:
-            return False
-
-        variance = 0
-        container = []
-        for i in range(0, self.recent_mem):
-            if self.recent_actions[i] not in container:
-                container.append(self.recent_actions[i])
-                variance += 1
-        if variance < self.recent_mem/2:
-            return True
-        return False
-
-    def save_models(self):
+    def save_models(self, path):
         """
         save_models Save the Networks
         """
-        self.q_eval.save_checkpoint()
-        self.q_next.save_checkpoint()
+        self.q_eval.save_checkpoint(path)
+        self.q_next.save_checkpoint(path)
 
-    def load_models(self):
+    def load_models(self, path):
         """
         load_models Load the Networks
         """
-        self.q_eval.load_checkpoint()
-        self.q_next.load_checkpoint()
+        self.q_eval.load_checkpoint(path)
+        self.q_next.load_checkpoint(path)
 
     def update_graph(self):
         """

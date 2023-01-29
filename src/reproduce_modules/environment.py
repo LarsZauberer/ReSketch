@@ -8,7 +8,7 @@ from models.mnist_model.models import EfficientCapsNet
 from time import sleep
 
 
-class ShapeDraw(object):
+class Environment(object):
     def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
@@ -27,7 +27,7 @@ class ShapeDraw(object):
 
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
-        self.n_actions = self.p*self.p*2
+        self.n_actions = 2*patchsize*patchsize
 
         self.curEpisode = 0
 
