@@ -9,7 +9,7 @@ class Data_Processer():
     train_test_split = 0.75
 
     def mnist(self, grayscales=False):
-        ref_data = pd.read_csv("data/reference_data/mnist.csv")
+        ref_data = pd.read_csv("src/data/reference_data/mnist.csv")
 
         ref_train = ref_data.head( math.floor(ref_data.shape[0] * self.train_test_split))
         ref_test = ref_data.tail( math.floor(ref_data.shape[0] * (1-self.train_test_split)))
@@ -17,10 +17,10 @@ class Data_Processer():
         train_data = self.mnist_json_formatter(ref_train, grayscales)
         test_data = self.mnist_json_formatter(ref_test, grayscales)
 
-        with open("data/processed_data/mnist_train.json", "w") as f:
+        with open("src/data/processed_data/mnist_train.json", "w") as f:
             json.dump(train_data, f)
 
-        with open("data/processed_data/mnist_test.json", "w") as f:
+        with open("src/data/processed_data/mnist_test.json", "w") as f:
             json.dump(test_data, f)
 
     def mnist_json_formatter(self, ref_data, grayscales):
@@ -46,19 +46,22 @@ class Data_Processer():
 
 
     def emnist(self, grayscales=False):
-        ref_data = pd.read_csv("data/reference_data/emnist.csv")
+        ref_data = pd.read_csv("src/data/reference_data/emnist.csv")
         ref_data.columns = ["i", "labels"] + ["0"] * 784
 
         ref_train = ref_data.head( math.floor(ref_data.shape[0] * self.train_test_split))
         ref_test = ref_data.tail( math.floor(ref_data.shape[0] * (1-self.train_test_split)))
-    
+
         train_data = self.emnist_json_formatter(ref_train, grayscales)
         test_data = self.emnist_json_formatter(ref_test, grayscales)
 
-        with open("data/processed_data/emnist_train.json", "w") as f:
+        print(len(test_data[0]))
+        print(len(train_data[0]))
+    
+        with open("src/data/processed_data/emnist_train.json", "w") as f:
             json.dump(train_data, f)
 
-        with open("data/processed_data/emnist_test.json", "w") as f:
+        with open("src/data/processed_data/emnist_test.json", "w") as f:
             json.dump(test_data, f)
 
     def emnist_json_formatter(self, ref_data, grayscales):
@@ -134,17 +137,21 @@ class Data_Processer():
             train_data.append(train)
             test_data.append(test)
 
-        with open("data/processed_data/quickdraw_train.json", "w") as f:
+        with open("src/data/processed_data/quickdraw_train.json", "w") as f:
             json.dump(train_data, f)
 
-        with open("data/processed_data/quickdraw_test.json", "w") as f:
+        with open("src/data/processed_data/quickdraw_test.json", "w") as f:
             json.dump(test_data, f)
 
 
 
 
-""" if __name__ == "__main__":
-    imgs = []
+if __name__ == "__main__":
+    proc = Data_Processer()
+    proc.emnist()
+   
+   
+    """ imgs = []
     with open("data/processed_data/quickdraw_train.json") as f:
         imgs = json.load(f)
 
