@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>learn_plotter module &mdash; ReSketch AI 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> ReSketch AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">learn_plotter module</a><ul>
+<li><a class="reference internal" href="#learn_plotter.Learn_Plotter"><code class="docutils literal notranslate"><span class="pre">Learn_Plotter</span></code></a><ul>
+<li><a class="reference internal" href="#learn_plotter.Learn_Plotter.doubleplot"><code class="docutils literal notranslate"><span class="pre">Learn_Plotter.doubleplot()</span></code></a></li>
+<li><a class="reference internal" href="#learn_plotter.Learn_Plotter.plot"><code class="docutils literal notranslate"><span class="pre">Learn_Plotter.plot()</span></code></a></li>
+<li><a class="reference internal" href="#learn_plotter.Learn_Plotter.save_plot"><code class="docutils literal notranslate"><span class="pre">Learn_Plotter.save_plot()</span></code></a></li>
+<li><a class="reference internal" href="#learn_plotter.Learn_Plotter.update_plot"><code class="docutils literal notranslate"><span class="pre">Learn_Plotter.update_plot()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#learn_plotter.Traintest_Learn_Plotter"><code class="docutils literal notranslate"><span class="pre">Traintest_Learn_Plotter</span></code></a><ul>
+<li><a class="reference internal" href="#learn_plotter.Traintest_Learn_Plotter.plot"><code class="docutils literal notranslate"><span class="pre">Traintest_Learn_Plotter.plot()</span></code></a></li>
+<li><a class="reference internal" href="#learn_plotter.Traintest_Learn_Plotter.save_plot"><code class="docutils literal notranslate"><span class="pre">Traintest_Learn_Plotter.save_plot()</span></code></a></li>
+<li><a class="reference internal" href="#learn_plotter.Traintest_Learn_Plotter.update_plot"><code class="docutils literal notranslate"><span class="pre">Traintest_Learn_Plotter.update_plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ReSketch AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">learn_plotter module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/data_statistics/learn_plotter.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-learn_plotter">
+<span id="learn-plotter-module"></span><h1>learn_plotter module<a class="headerlink" href="#module-learn_plotter" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="learn_plotter.Learn_Plotter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">learn_plotter.</span></span><span class="sig-name descname"><span class="pre">Learn_Plotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'src/result_stats/plotlearn_data.json'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Learn_Plotter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="learn_plotter.Learn_Plotter.doubleplot">
+<span class="sig-name descname"><span class="pre">doubleplot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Learn_Plotter.doubleplot" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="learn_plotter.Learn_Plotter.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Learn_Plotter.plot" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="learn_plotter.Learn_Plotter.save_plot">
+<span class="sig-name descname"><span class="pre">save_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Learn_Plotter.save_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the collected information into a json</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="learn_plotter.Learn_Plotter.update_plot">
+<span class="sig-name descname"><span class="pre">update_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Learn_Plotter.update_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Appends new information for a future plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>episode</strong> (<em>int</em>) – the episode at which the function is called</p></li>
+<li><p><strong>average</strong> (<em>float</em>) – the data to be plotted, corresponding to the episode</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="learn_plotter.Traintest_Learn_Plotter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">learn_plotter.</span></span><span class="sig-name descname"><span class="pre">Traintest_Learn_Plotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'src/result_stats/traintest_plotlearn_data.json'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Traintest_Learn_Plotter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="learn_plotter.Traintest_Learn_Plotter.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Traintest_Learn_Plotter.plot" title="Permalink to this definition"></a></dt>
+<dd><p>Plots the collected data
+The training data is portrayed in blue
+The testing data is portrayed in red</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="learn_plotter.Traintest_Learn_Plotter.save_plot">
+<span class="sig-name descname"><span class="pre">save_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Traintest_Learn_Plotter.save_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the collected information into a json</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="learn_plotter.Traintest_Learn_Plotter.update_plot">
+<span class="sig-name descname"><span class="pre">update_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#learn_plotter.Traintest_Learn_Plotter.update_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Appends new information for a future plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>episode</strong> (<em>int</em>) – the episode at which the function is called</p></li>
+<li><p><strong>train_score</strong> (<em>float</em>) – The score of the training, corresponding to the episode</p></li>
+<li><p><strong>test_score</strong> (<em>float</em>) – The score of the testing, corresponding to the episode</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Ian Wasser, Robin Steiner.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
