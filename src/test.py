@@ -139,68 +139,6 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-
-
-
-    
-        
-        
-    
-    
-
-        
-
-    def test_from_loaded(self, agent_args : dict, mode : str = "all"):
-        """ 
-        Test Model from saved weights
-            
-        :param agent_args: the parameters of the model to be tested
-        :type agent_args: dict
-        :param mode: the mode of testing (possibilities: 'reward', 'accuracy', 'datarec', 'speed')
-        :type mode: str
-        :return: the Average Accuracy of each Episode in the test
-        :rtype: float
-        """
-
-        # Initializing architecture
-        agent = Agent(**agent_args)
-        agent.load_models()
-
-        if mode == "reward":
-            score = self.test(agent, t_reward=True)
-        elif mode == "accuracy":
-            score = self.test(agent, t_accuracy=True)
-        elif mode == "datarec":
-            score = self.test(agent, t_datarec=True)
-        elif mode == "speed":
-            score = self.test(agent, t_speed=True)
-        elif mode == "vis":
-            score = self.test(agent, t_vis=True)
-        else:
-            score = self.test(agent, t_reward=True, t_accuracy=True, t_datarec=True, t_speed=True, t_vis=True)
-
-        score = [float('%.3f' % s) for s in score]
-        return score
-
-
-
-if __name__ == '__main__':  
-    import argparse
-    from pathlib import Path
-    
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--test", help="Numer of test episodes", action="store", type=int, default=100)
-    parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist")
-    parser.add_argument("-c", "--criterion", help="The criterion to test on", action="store", type=str, default="all")
-    parser.add_argument("-v", "--version", help="The version to test", action="store", type=str, default="base")
-    parser.add_argument("-s", "--save", help="Save Results", action="store_true", default=False)
-    parser.add_argument("--image", help="Generate Image of all datasets", action="store_true", default=False)
-    args = parser.parse_args()
-    
     
 
     

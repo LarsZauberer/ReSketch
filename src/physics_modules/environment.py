@@ -3,8 +3,9 @@ import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
 from physics_modules.physics import Physic_Engine
-from models.mnist_model.models import EfficientCapsNet
-from time import sleep
+
+from models.Predictor import Predictor
+
 
 
 class Environment(object):
@@ -56,8 +57,8 @@ class Environment(object):
         self.renderCanvas = np.zeros((self.s, self.s))
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
 
-        self.rec_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
-        self.rec_model.load_graph_weights()
+        self.rec_model = Predictor(mnist=True)
+        
         
     def step(self, agent_action: int, decrementor : int, rec_reward : float, min_decrement : float, without_rec : bool = False):
         """
@@ -262,7 +263,7 @@ class Environment(object):
         inp = np.array([ref_inp, canv_inp])
         
         # Predict
-        out = self.rec_model.predict(inp)
+        out = self.rec_model.mnist(inp)
         # Get index of max
         ref = np.argmax(out[0][0])
         canv = np.argmax(out[0][1])
