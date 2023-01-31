@@ -17,6 +17,12 @@ from extras.logger import critical, initialize_logging
 
 @critical
 def reproduce_test(args):
+    """
+    reproduce_test Testing a reproduce model
+
+    :param args: Arguments from argparsing
+    :type args: Namespace
+    """
     log = logging.getLogger("Tester")
     
     data = AI_Data(args.dataset)
@@ -61,6 +67,12 @@ def reproduce_test(args):
 
 @critical
 def physics_test(args):
+    """
+    physics_test Tests a physics model
+
+    :param args: Arguments from argparsing
+    :type args: Namespace
+    """
     log = logging.getLogger("Tester")
     
     data = AI_Data(args.dataset)
