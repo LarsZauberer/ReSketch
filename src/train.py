@@ -10,7 +10,8 @@ from reproduce_modules.nn_agent import Agent as Rep_Agent
 from physics_modules.environment import Environment as Phy_Env
 from physics_modules.nn_agent import Agent as Phy_Agent
 
-from extras.train_functions import hyperparameter_loader, train
+from extras.train_functions import train
+from extras.hyperparameter_loader import hyperparameter_loader
 
 from extras.logger import initialize_logging, critical
 
