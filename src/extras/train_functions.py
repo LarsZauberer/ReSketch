@@ -1,10 +1,21 @@
 import argparse
 import json
 import numpy as np
+from pathlib import Path
 
-def hyperparameter_loader(path, modelName):
+def hyperparameter_loader(path: str, modelName: str):
+    """
+    hyperparameter_loader Load the hyperparameters from the file
+
+    :param path: the path to the hyperparameter file
+    :type path: str
+    :param modelName: The name of the model
+    :type modelName: str
+    :return: Dictionary of the different hyperparameters of the model
+    :rtype: dict
+    """
     # Load Hyperparameter data
-    with open(path, "r") as f:
+    with open(Path(path), "r") as f:
         hyp_data = json.load(f)
     if hyp_data.get(modelName, False):
         #General model names: "base", "mnist", "speed" "mnist-speed"
@@ -19,6 +30,34 @@ def hyperparameter_loader(path, modelName):
 
 
 def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, model_path, save_training=True, vis_compare=12, mnist=False, speed=False):
+    """
+    train Trains a specific model in an environment
+
+    :param env: The environment where the agent is moving
+    :type env: environment.Environment
+    :param agent: The agent moving in the environment
+    :type agent: nn_agent.Agent
+    :param data: The data for the environment
+    :type data: data.ai_data.Ai_Data
+    :param learn_plot: The matplotlib plot where to plot the learning curve
+    :type learn_plot: matplotlib.pyplot.Figure
+    :param episode_mem_size: How big the replay buffer is allowed to be
+    :type episode_mem_size: int
+    :param n_episodes: How many episodes to train the model
+    :type n_episodes: int
+    :param n_steps: Allowed number of steps the agent is allowed to take per episode
+    :type n_steps: int
+    :param model_path: The path to the file where the checkpoint files of the model should be saved
+    :type model_path: str
+    :param save_training: Should this training be saved to a checkpoint file, defaults to True
+    :type save_training: bool, optional
+    :param vis_compare: How often the visual comparison plot should be shown to the developer, defaults to 12
+    :type vis_compare: int, optional
+    :param mnist: Is this a mnist variation, defaults to False
+    :type mnist: bool, optional
+    :param speed: Is this a speed variation, defaults to False
+    :type speed: bool, optional
+    """
     # Initializing architecture
     total_counter = 0
     scores = []
