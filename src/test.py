@@ -11,23 +11,7 @@ from physics_modules.nn_agent import Agent as Phy_Agent
     
 from test_functions import test_env, hyperparameter_loader
 
-
-
-
-
-
-
-
-def reproduce_test():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--test", help="Numer of test episodes", action="store", type=int, default=100)
-    parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist_test")
-    parser.add_argument("-c", "--criterion", help="The criterion to test on", action="store", type=str, default="all")
-    parser.add_argument("-v", "--version", help="The version to test", action="store", type=str, default="base-base")
-    parser.add_argument("-s", "--save", help="Save Results", action="store_true", default=False)
-    parser.add_argument("--image", help="Generate Image of all datasets", action="store_true", default=False)
-    args = parser.parse_args()
-
+def reproduce_test(args):
     data = AI_Data(args.dataset)
     data.sample(args.test)
 
@@ -69,16 +53,7 @@ def reproduce_test():
 
 
 
-def physics_test():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--test", help="Numer of test episodes", action="store", type=int, default=100)
-    parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist_test")
-    parser.add_argument("-c", "--criterion", help="The criterion to test on", action="store", type=str, default="all")
-    parser.add_argument("-v", "--version", help="The version to test", action="store", type=str, default="physics-base")
-    parser.add_argument("-s", "--save", help="Save Results", action="store_true", default=False)
-    parser.add_argument("--image", help="Generate Image of all datasets", action="store_true", default=False)
-    args = parser.parse_args()
-
+def physics_test(args):
     data = AI_Data(args.dataset)
     data.sample(args.test)
 
@@ -125,8 +100,19 @@ def physics_test():
 
     
 if __name__ == "__main__":
-    #reproduce_test()
-    physics_test()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--test", help="Numer of test episodes", action="store", type=int, default=100)
+    parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist_test")
+    parser.add_argument("-c", "--criterion", help="The criterion to test on", action="store", type=str, default="all")
+    parser.add_argument("-v", "--version", help="The version to test", action="store", type=str, default="base-base")
+    parser.add_argument("-s", "--save", help="Save Results", action="store_true", default=False)
+    parser.add_argument("--image", help="Generate Image of all datasets", action="store_true", default=False)
+    args = parser.parse_args()
+    
+    if "physics" in args.version:
+        physics_test(args)
+    else:
+        reproduce_test(args)
 
 
 

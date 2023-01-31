@@ -13,14 +13,7 @@ from train_functions import hyperparameter_loader, train
 
 
 
-def reproduce():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--mnist", help="Whether to use mnist training or not", action="store_true", default=False)
-    parser.add_argument("-s", "--speed", help="Whether to use speed training or not", action="store_true", default=False)
-    parser.add_argument("-n", "--modelName", help="Name of Model to be trained", action="store", default="new_model")
-    parser.add_argument("-d", "--dataset", help="Name of Dataset to train with", action="store", default="mnist_train")
-    args = parser.parse_args()
-
+def reproduce(args):
     model_name= args.modelName
     model_path = f"pretrained_models/reproduce/{model_name}"
 
@@ -77,14 +70,7 @@ def reproduce():
 
 
 
-def physics():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--mnist", help="Whether to use mnist training or not", action="store_true", default=False)
-    parser.add_argument("-s", "--speed", help="Whether to use speed training or not", action="store_true", default=False)
-    parser.add_argument("-n", "--modelName", help="Name of Model to be trained", action="store", default="new_model")
-    parser.add_argument("-d", "--dataset", help="Name of Dataset to train with", action="store", default="mnist_train")
-    args = parser.parse_args()
-
+def physics(args):
     model_name= args.modelName
     model_path = f"pretrained_models/physics/{model_name}"
 
@@ -142,13 +128,16 @@ def physics():
         )
 
 
-
-
-
-
 if __name__ == "__main__":
-    #reproduce()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-m", "--mnist", help="Whether to use mnist training or not", action="store_true", default=False)
+    parser.add_argument("-s", "--speed", help="Whether to use speed training or not", action="store_true", default=False)
+    parser.add_argument("-n", "--modelName", help="Name of Model to be trained", action="store", default="new_model")
+    parser.add_argument("-d", "--dataset", help="Name of Dataset to train with", action="store", default="mnist_train")
+    parser.add_argument("-p", "--physics", help="Run the physics version", action="store_true", default=False)
+    args = parser.parse_args()
 
-    physics()
-
-
+    if args.physics:
+        physics(args)
+    else:
+        reproduce(args)
