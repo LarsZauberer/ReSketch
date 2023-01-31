@@ -1,51 +1,63 @@
+from keras.models import Sequential
+from keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Dropout
+from keras.optimizers import SGD, Adam
+
 import numpy as np
-
-from models.mnist_model.models import EfficientCapsNet
-import onnx
-from onnx_tf.backend import prepare
-from keras.models import model_from_json
-
 
 
 class Predictor():
-    def __init__(self):
-        #for mnist test
-        self.mnist_model = EfficientCapsNet('MNIST', mode='test', verbose=False)
-        self.mnist_model.load_graph_weights()
-        
-        # For quickdraw test
-        # reference: https://analyticsindiamag.com/converting-a-model-from-pytorch-to-tensorflow-guide-to-onnx/
-        q_model = onnx.load("src/models/quickdraw_model/quickdraw.onnx")
-        self.tf_q_model = prepare(q_model)
-        
-        # For emnist test
-        json_file = open('src/models/emnist_model/model.json', 'r')
-        loaded_model_json = json_file.read()
-        json_file.close()
-        self.emnist_model = model_from_json(loaded_model_json)
-        self.emnist_model.load_weights('src/models/emnist_model/model.h5')
+    def __init__(self, mnist=False, emnist=False, quickdraw=False):
 
+        if mnist:
+            self.mnist_model = Model()
+            self.mnist_model.model.load_weights("src/models/mnist_model/model_hand.h5")
+
+        if emnist:
+            self.emnist_model = Model()
+            self.emnist_model.model.load_weights("src/models/emnist_model/model_hand.h5")
+
+        if quickdraw:
+            self.quickdraw_model = Model()
+            self.quickdraw_model.model.load_weights("src/models/quickdraw_model/model_hand.h5")
+    
 
     def mnist(self, img):
-        img = np.array([img.reshape(28, 28, 1)])
-        predict = self.mnist_model.predict(img)
-
-        choice = np.argmax(predict[0][0])
-
-        # Too unsure. Should not be validated
-        if predict[0][0][choice] < 0.75:
-            choice = -1
+        return self.mnist_model.predict(img)
         
-        return choice
-
+    def emnist(self, img):
+        return self.emnist_model.predict(img)
 
     def quickdraw(self, img):
-        img = img.reshape(28 * 28)
-        predict = self.tf_q_model.run(np.array([img], dtype=np.float32))
-        return np.argmax(predict[0])
+        return self.quickdraw_model.predict(img)
 
 
-    def emnist(self, img):
-        img = img.reshape(28 * 28)
-        predict = self.emnist_model(np.array([img], dtype=np.float32))
-        return np.argmax(predict[0])
+
+class Model():
+    def __init__(self):
+        self.build_network()
+
+    def build_network(self):
+        self.model = Sequential()
+
+        self.model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='relu', input_shape=(28,28,1)))
+        self.model.add(MaxPool2D(pool_size=(2, 2), strides=2))
+
+        self.model.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu', padding = 'same'))
+        self.model.add(MaxPool2D(pool_size=(2, 2), strides=2))
+
+        self.model.add(Conv2D(filters=128, kernel_size=(3, 3), activation='relu', padding = 'valid'))
+        self.model.add(MaxPool2D(pool_size=(2, 2), strides=2))
+
+        self.model.add(Flatten())
+
+        self.model.add(Dense(128,activation ="relu"))
+        self.model.add(Dense(256,activation ="relu"))
+
+        self.model.add(Dense(26,activation ="softmax"))
+
+        self.model.compile(optimizer = Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+
+
+    def predict(self, img):
+        return np.argmax(self.model(np.array([img])))
+

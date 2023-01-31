@@ -22,7 +22,7 @@ def hyperparameter_loader(path, modelName):
 
 def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t_accuracy: bool = False, t_datarec : bool = False, t_speed : bool = False, t_vis: bool = False):
     #initialize
-    predict = Predictor()
+    predict = Predictor(mnist=True, emnist=True, quickdraw=True)
     data.shuffle()
     env.referenceData = data.pro_data
     ep_counter = 0
