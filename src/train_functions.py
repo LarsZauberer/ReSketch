@@ -34,10 +34,6 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
 
     # Main process
     for episode in range(n_episodes):
-
-
-       
-
         if not replay_fill: env.curEpisode += 1
         total_counter += 1
         global_obs, local_obs = env.reset()
