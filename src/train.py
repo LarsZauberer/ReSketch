@@ -17,6 +17,12 @@ from extras.logger import initialize_logging, critical
 
 @critical
 def reproduce(args):
+    """
+    reproduce Train a reproducte model
+
+    :param args: Argparsing arguments
+    :type args: Namespace
+    """
     model_name= args.modelName
     model_path = f"pretrained_models/reproduce/{model_name}"
 
@@ -74,6 +80,12 @@ def reproduce(args):
 
 @critical
 def physics(args):
+    """
+    physics Train a physics model
+
+    :param args: Arguments from argparsing
+    :type args: Namespace
+    """
     model_name= args.modelName
     model_path = f"pretrained_models/physics/{model_name}"
 

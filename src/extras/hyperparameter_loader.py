@@ -2,7 +2,9 @@ from pathlib import Path
 import json
 import logging
 
+from extras.logger import critical
 
+@critical
 def hyperparameter_loader(path: str, modelName: str):
     """
     hyperparameter_loader Load the hyperparameters from the file
