@@ -1,5 +1,6 @@
 import argparse
 import json
+import logging
 
 from data_statistics.learn_plotter import Learn_Plotter
 from data.ai_data import AI_Data
@@ -11,8 +12,9 @@ from physics_modules.nn_agent import Agent as Phy_Agent
 
 from train_functions import hyperparameter_loader, train
 
+from extras.logger import initialize_logging, critical
 
-
+@critical
 def reproduce(args):
     model_name= args.modelName
     model_path = f"pretrained_models/reproduce/{model_name}"
@@ -69,7 +71,7 @@ def reproduce(args):
         )
 
 
-
+@critical
 def physics(args):
     model_name= args.modelName
     model_path = f"pretrained_models/physics/{model_name}"
@@ -136,8 +138,19 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--dataset", help="Name of Dataset to train with", action="store", default="mnist_train")
     parser.add_argument("-p", "--physics", help="Run the physics version", action="store_true", default=False)
     args = parser.parse_args()
+    
+    initialize_logging()
+    log = logging.getLogger()
+    
+    log.debug(f"MNIST Variation: {args.mnist}")
+    log.debug(f"SPEED Variation: {args.speed}")
+    log.debug(f"Dataset: {args.dataset}")
+    log.debug(f"Model name: {args.modelName}")
+    log.debug(f"PHYSICS Variation: {args.physics}")
 
     if args.physics:
+        log.info(f"Starting a physics trainer")
         physics(args)
     else:
+        log.info(f"Starting a reproduce trainer")
         reproduce(args)

@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+import logging
 
 from data.ai_data import AI_Data
 from reproduce_modules.environment import Environment as Rep_Env
@@ -11,7 +12,12 @@ from physics_modules.nn_agent import Agent as Phy_Agent
     
 from test_functions import test_env, hyperparameter_loader
 
+from extras.logger import critical, initialize_logging
+
+@critical
 def reproduce_test(args):
+    log = logging.getLogger("Tester")
+    
     data = AI_Data(args.dataset)
     data.sample(args.test)
 
@@ -43,7 +49,7 @@ def reproduce_test(args):
     
     reward, accuracy, datarec, speed = [float('%.3f' % s) for s in scores]
 
-    print(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}')
+    log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}')
 
     
     
@@ -52,8 +58,10 @@ def reproduce_test(args):
             f.write(f'reward: {reward}, accuracy: {accuracy}, {data.dataset} recognition: {datarec}, speed {speed}')
 
 
-
+@critical
 def physics_test(args):
+    log = logging.getLogger("Tester")
+    
     data = AI_Data(args.dataset)
     data.sample(args.test)
 
@@ -88,7 +96,7 @@ def physics_test(args):
     
     reward, accuracy, datarec, speed = [float('%.3f' % s) for s in scores]
 
-    print(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}')
+    log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}')
 
     
     
@@ -101,17 +109,30 @@ def physics_test(args):
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--test", help="Numer of test episodes", action="store", type=int, default=100)
+    parser.add_argument("-t", "--test", help="Number of test episodes", action="store", type=int, default=100)
     parser.add_argument("-d", "--dataset", help="Name of the dataset to run the test on", action="store", type=str, default="mnist_test")
     parser.add_argument("-c", "--criterion", help="The criterion to test on", action="store", type=str, default="all")
     parser.add_argument("-v", "--version", help="The version to test", action="store", type=str, default="base-base")
     parser.add_argument("-s", "--save", help="Save Results", action="store_true", default=False)
     parser.add_argument("--image", help="Generate Image of all datasets", action="store_true", default=False)
+    parser.add_argument("--debug", help="Verbose for the logging", action="store_true", default=False)
     args = parser.parse_args()
     
+    initialize_logging(args)
+    log = logging.getLogger()
+    
+    # Print all the configuration
+    log.debug(f"Number of test episodes: {args.test}")
+    log.debug(f"Dataset: {args.dataset}")
+    log.debug(f"Criterion to test for: {args.criterion}")
+    log.debug(f"Model Name: {args.version}")
+    log.debug(f"Should the results be saved? - {args.save}")
+    
     if "physics" in args.version:
+        log.info(f"Recognized a physics model")
         physics_test(args)
     else:
+        log.info(f"Recognized a reproduce model")
         reproduce_test(args)
 
 
