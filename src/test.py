@@ -10,7 +10,7 @@ from physics_modules.environment import Environment as Phy_Env
 from physics_modules.nn_agent import Agent as Phy_Agent
 
     
-from test_functions import test_env, hyperparameter_loader
+from extras.test_functions import test_env, hyperparameter_loader
 
 from extras.logger import critical, initialize_logging
 
