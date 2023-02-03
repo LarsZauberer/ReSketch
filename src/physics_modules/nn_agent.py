@@ -7,6 +7,9 @@ from tensorflow.keras.utils import plot_model
 import numpy as np
 from time import sleep
 from pathlib import Path
+import logging
+
+log = logging.getLogger("nn_agent")
 
 
 class DeepQNetwork(object):
@@ -77,7 +80,7 @@ class DeepQNetwork(object):
         """
         load_checkpoint Load a network checkpoint from the file
         """
-        print("...Loading checkpoint...")
+        log.info("...Loading checkpoint...")
 
         path = Path(path + '/deepqnet.ckpt')
         self.dqn.load_weights(path)
@@ -86,7 +89,7 @@ class DeepQNetwork(object):
         """
         save_checkpoint Save a network checkpoint to the file
         """
-        print("...Saving checkpoint...")
+        log.info("...Saving checkpoint...")
 
         path = Path(path + '/deepqnet.ckpt')
         self.dqn.save_weights(path)
@@ -298,5 +301,5 @@ class Agent(object):
         """
         update_graph Update the q_next Network. Set it to the weights of the q_eval network.
         """
-        #print("...Updating Network...")
+        #log.info("...Updating Network...")
         self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())

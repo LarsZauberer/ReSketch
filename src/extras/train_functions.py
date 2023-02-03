@@ -2,8 +2,14 @@ import argparse
 import json
 import numpy as np
 from pathlib import Path
+import logging
+
+from extras.logger import critical
+
+log = logging.getLogger("trainer")
 
 
+@critical
 def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, model_path, save_training=True, vis_compare=12, mnist=False, speed=False):
     """
     train Trains a specific model in an environment
@@ -44,7 +50,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
     #Fill Replay Buffer
     no_rec = True
     replay_fill = True
-    print("...filling Replay Buffer...")
+    log.info("...filling Replay Buffer...")
 
     # Main process
     for episode in range(n_episodes):
@@ -98,11 +104,11 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             if real_ep % abs(vis_compare) == 0:
                 avg_score = np.mean(scores)
                 scores = []
-                print(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
+                log.info(f"episode: {real_ep}, score: {score}, average score: {'%.3f' % avg_score}, epsilon: {'%.3f' % agent.epsilon}")
                 if vis_compare > 0: env.render()
                 learn_plot.update_plot(real_ep, avg_score)
             else:
-                print(f"episode: {real_ep}, score: {score}")
+                log.info(f"episode: {real_ep}, score: {score}")
 
             scores.append(score)
 
