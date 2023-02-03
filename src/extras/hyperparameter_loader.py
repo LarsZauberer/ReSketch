@@ -26,6 +26,6 @@ def hyperparameter_loader(path: str, modelName: str):
         log = logging.getLogger("hyperparameter_loader")
         log.warning(f"This is not a known model -> Returning default hyperparameters")
         #No known Model: give default Values
-        hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 100, "n_episodes": 50, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
+        hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 3000, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
     
     return hyp_data

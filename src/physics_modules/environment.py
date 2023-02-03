@@ -262,17 +262,12 @@ class Environment(object):
         canv_inp = self.canvas.reshape(self.s, self.s, 1)
         inp = np.array([ref_inp, canv_inp])
         
-        # Predict
-        out = self.rec_model.mnist(inp)
-        # Get index of max
-        ref = np.argmax(out[0][0])
-        canv = np.argmax(out[0][1])
-        
-        # Too unsure. Should not be validated
-        if out[0][1][canv] < 0.75:
-            canv = -1
-        
+        ref = self.rec_model.mnist(ref_inp)
+        canv = self.rec_model.mnist(canv_inp)
+
         return ref, canv
+
+
 
 
     def agent_is_done(self, done_accuracy : float, recognition : bool = False):
