@@ -150,9 +150,10 @@ if __name__ == "__main__":
     parser.add_argument("-n", "--modelName", help="Name of Model to be trained", action="store", default="new_model")
     parser.add_argument("-d", "--dataset", help="Name of Dataset to train with", action="store", default="mnist_train")
     parser.add_argument("-p", "--physics", help="Run the physics version", action="store_true", default=False)
+    parser.add_argument("--debug", help="Verbose for the logging", action="store_true", default=False)
     args = parser.parse_args()
     
-    initialize_logging()
+    initialize_logging(args)
     log = logging.getLogger()
     
     log.debug(f"MNIST Variation: {args.mnist}")
