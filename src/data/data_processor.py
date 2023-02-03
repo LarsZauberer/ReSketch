@@ -3,6 +3,9 @@ import numpy as np
 import math
 import json
 import matplotlib.pyplot as plt
+import logging
+
+log = logging.getLogger()
 
 
 class Data_Processer():
@@ -55,8 +58,8 @@ class Data_Processer():
         train_data = self.emnist_json_formatter(ref_train, grayscales)
         test_data = self.emnist_json_formatter(ref_test, grayscales)
 
-        print(len(test_data[0]))
-        print(len(train_data[0]))
+        log.debug(f"Length of test_data[0]: {len(test_data[0])}")
+        log.debug(f"len(train_data[0]): {len(train_data[0])}")
     
         with open("src/data/processed_data/emnist_train.json", "w") as f:
             json.dump(train_data, f)

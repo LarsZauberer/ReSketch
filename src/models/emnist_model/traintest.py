@@ -8,10 +8,11 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 import json
+import logging
 
 from rich.progress import track
 
-
+log = logging.getLogger("traintest")
 
 
 
@@ -38,17 +39,17 @@ def train():
 
     #Reshaping the training & test dataset so that it can be put in the model...
     train_X = train_x.reshape(train_x.shape[0],train_x.shape[1],train_x.shape[2],1)
-    print("New shape of train data: ", train_X.shape)
+    log.info("New shape of train data: ", train_X.shape)
 
     test_X = test_x.reshape(test_x.shape[0], test_x.shape[1], test_x.shape[2],1)
-    print("New shape of train data: ", test_X.shape)
+    log.info("New shape of train data: ", test_X.shape)
 
     # Converting the labels to categorical values...
     train_yOHE = to_categorical(train_y, num_classes = 26, dtype='int')
-    print("New shape of train labels: ", train_yOHE.shape)
+    log.info("New shape of train labels: ", train_yOHE.shape)
 
     test_yOHE = to_categorical(test_y, num_classes = 26, dtype='int')
-    print("New shape of test labels: ", test_yOHE.shape)
+    log.info("New shape of test labels: ", test_yOHE.shape)
 
 
     # CNN model...
@@ -85,10 +86,10 @@ def train():
 
 
     # Displaying the accuracies & losses for train & validation set...
-    print("The validation accuracy is :", history.history['val_accuracy'])
-    print("The training accuracy is :", history.history['accuracy'])
-    print("The validation loss is :", history.history['val_loss'])
-    print("The training loss is :", history.history['loss'])
+    log.info("The validation accuracy is :", history.history['val_accuracy'])
+    log.info("The training accuracy is :", history.history['accuracy'])
+    log.info("The validation loss is :", history.history['val_loss'])
+    log.info("The training loss is :", history.history['loss'])
 
 
 def test():
@@ -141,7 +142,7 @@ def test():
         accuracy += int(i == j)
     accuracy /= len(y)
 
-    print(accuracy)
+    log.info(accuracy)
 
 
 if __name__ == "__main__":
