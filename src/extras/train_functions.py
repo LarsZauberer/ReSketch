@@ -57,6 +57,8 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
     progress.__enter__()
     replay_fill_task = progress.add_task("[red]Replay Buffer Filling", total=episode_mem_size)
 
+    never_ask_again = False
+
     # Main process
     for episode in range(n_episodes):
         if not replay_fill: env.curEpisode += 1
@@ -70,6 +72,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
         
         per_episode_replay_buffer = []
         stop_step = -1
+        dont_ask_again = False
 
         for step in range(n_steps):
             """ if stop_step >= 0:
@@ -88,6 +91,25 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
             else:
                 action = np.random.choice(env.n_actions)
+            
+            # Supervised stopping
+            weight = 1
+            if score > 0.5 and not replay_fill and total_counter - episode_mem_size < 200 and not dont_ask_again and not never_ask_again:
+                env.render()
+                log.debug(f"Triggered supervised help in step: {step}")
+                inp = input("> ")
+                if inp == "1":
+                    dont_ask_again = True
+                elif inp == "2":
+                    pass
+                elif inp == "3":
+                    action = 98  # Stop action
+                    weight = 1
+                elif inp == "4":
+                    action = 98  # Stop action
+                    weight = 10
+                elif inp == "q":
+                    never_ask_again = True
 
             # Check if the agent wants to stop at this current step
             if env.translate_action(action) == True:
@@ -100,7 +122,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 
                 # Calculate the new reward
                 log.debug(f"Score before: {score}")
-                reward = env.stop_reward(score=score, step=step, weight=1)
+                reward = env.stop_reward(score=score, step=step, weight=weight)
                 log.debug(f"Stop reward: {reward}")
             else:
                 # Draw further normally

@@ -188,7 +188,10 @@ class Agent(object):
         # Check if the agent should explore
         rand = np.random.random()
         if rand < self.epsilon or replay_fill:
-            action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
+            while True:
+                action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
+                if action != 98:
+                    break
         else:
             if self.counter % self.replace_target == 0 and self.counter > 0:
                 # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
