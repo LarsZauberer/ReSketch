@@ -102,6 +102,7 @@ class Agent(object):
                  replace_target=1000):
 
         self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
+        self.n_actions += 1 # Stop Action
         self.action_space = [i for i in range(self.n_actions)]  # All the actions the agent can choose
         self.gamma = gamma  # Is the learnrate
         self.mem_size = mem_size  # The allocated memory size (The number of slots for saved observation)

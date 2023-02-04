@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from models.Predictor import Predictor
 
-
+from extras.logger import critical
 
 
 class Environment(object):
@@ -29,7 +29,7 @@ class Environment(object):
 
         # possible outputs
         # For each pixel, is an action option (location of that pixel)
-        self.n_actions = 2*patchsize*patchsize
+        self.n_actions = 2*patchsize*patchsize + 1  # +1 für die Stop action
 
         self.curEpisode = 0
 
@@ -92,6 +92,8 @@ class Environment(object):
         :return: Wether it is legal or not
         :rtype: bool
         """
+        if action == True:
+            return True
         if action[0] > len(self.canvas[0])-1 or action[0] < 0:
             return False
         if action[1] > len(self.canvas)-1 or action[1] < 0:
@@ -100,6 +102,9 @@ class Environment(object):
 
     def translate_action(self, agent_action: int):
         # Calculate the x and y position coordinates of action in the current patch
+        if agent_action - 2*self.p**2 == 0:
+            return True
+        
         action = [0, 0]
         x = agent_action % self.p
         y = agent_action // self.p
@@ -158,6 +163,25 @@ class Environment(object):
 
 
         return reward
+
+    @critical
+    def stop_reward(self, score: float, step: int, weight: float = 0) -> float:
+        """
+        stop_reward The stop action reward for the agent
+
+        :param score: the accumulated reward of this episode
+        :type score: float
+        :param step: which step in the action is it (has to be less than 64)
+        :type step: int
+        :return: The reward for the agent for choosing the stop action
+        :rtype: float
+        """
+        assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
+        
+        """ if score < 0:  # Already very bad drawing -> Not a good idea to stop now
+            return 0 """
+        
+        return score * weight * (64-step)
 
     def speed_reward(self, step : int):
         if step == None:
