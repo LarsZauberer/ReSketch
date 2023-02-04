@@ -93,7 +93,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 action = np.random.choice(env.n_actions)
             
             # Supervised stopping
-            weight = 1
+            """ weight = 1
             if score > 0.5 and not replay_fill and total_counter - episode_mem_size < 200 and not dont_ask_again and not never_ask_again:
                 env.render()
                 log.debug(f"Triggered supervised help in step: {step}")
@@ -109,7 +109,11 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                     action = 98  # Stop action
                     weight = 10
                 elif inp == "q":
-                    never_ask_again = True
+                    never_ask_again = True """
+
+            if total_counter - episode_mem_size < 200 and score > 0.5 and not replay_fill:
+                log.debug(f"Forced to stop at step: {step}")
+                action = 98
 
             # Check if the agent wants to stop at this current step
             if env.translate_action(action) == True:
@@ -122,7 +126,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 
                 # Calculate the new reward
                 log.debug(f"Score before: {score}")
-                reward = env.stop_reward(score=score, step=step, weight=weight)
+                reward = env.stop_reward(score=score, step=step, weight=0.1)
                 log.debug(f"Stop reward: {reward}")
             else:
                 # Draw further normally
