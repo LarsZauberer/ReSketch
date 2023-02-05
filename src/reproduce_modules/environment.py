@@ -102,7 +102,10 @@ class Environment(object):
 
     def translate_action(self, agent_action: int):
         # Calculate the x and y position coordinates of action in the current patch
+        
+        
         if agent_action - 2*self.p**2 == 0:
+            #print("stop")
             return True
         
         action = [0, 0]
@@ -164,8 +167,11 @@ class Environment(object):
 
         return reward
 
+    
+
+
     @critical
-    def stop_reward(self, score: float, step: int, weight: float = 0) -> float:
+    def stop_reward(self, score: float, step: int) -> float:
         """
         stop_reward The stop action reward for the agent
 
@@ -176,12 +182,24 @@ class Environment(object):
         :return: The reward for the agent for choosing the stop action
         :rtype: float
         """
+
         assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
-        
-        """ if score < 0:  # Already very bad drawing -> Not a good idea to stop now
-            return 0 """
-        
-        return score * weight * (64-step)
+
+        ACC = 2.5
+        SPEED = 2.5
+        WEIGHT = 0.5
+
+
+        sign = 1
+        if score < 0: sign = -1
+
+        speed_factor = 1 - (step/64)**SPEED
+        accuracy_factor = sign*(abs(score)**ACC)
+
+        return accuracy_factor * speed_factor * WEIGHT
+
+
+
 
     def speed_reward(self, step : int):
         if step == None:

@@ -51,7 +51,7 @@ class Learn_Plotter():
         ax.set_xlabel("Episode", fontsize=13)
         ax.set_ylabel("akkumulierter Reward", fontsize=13)  
 
-        fig.savefig(f"src/result_stats/learnplot.png", bbox_inches='tight')
+        fig.savefig(f"src/data_statistics/learnplot.png", bbox_inches='tight')
         
         mp.show()
     
@@ -139,7 +139,7 @@ class Traintest_Learn_Plotter():
 
 
 if __name__ == '__main__':
-    lp = Learn_Plotter(path="src/result_stats/plotlearn_data.json")
+    lp = Learn_Plotter(path="src/data_statistics/plotlearn_data.json")
     lp.plot()
 
 
