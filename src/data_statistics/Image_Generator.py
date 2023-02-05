@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import ImageGrid
 from matplotlib import cm, colors
 
-def generate_image(self, images, columns=2):
+def generate_image(images, columns=2):
         num = len(images)
         rows = int(num/columns)
         
@@ -46,7 +46,7 @@ def generate_image(self, images, columns=2):
         
         fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="horizontal", fraction=0.046, pad=0.04, label="Steps", location="bottom")
 
-        plt.savefig(f"src/images/base-{self.version}-{self.dataset}.png", bbox_inches='tight')
+        plt.savefig(f"results/reproduce/images/new_test.png", bbox_inches='tight')
         plt.pause(5)
 
 

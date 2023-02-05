@@ -51,7 +51,7 @@ def reproduce_test(args):
         t_accuracy=True,
         t_datarec=True,
         t_speed=True,
-        t_vis=False
+        t_vis=True
         )
     
     reward, accuracy, datarec, speed = [float('%.3f' % s) for s in scores]
