@@ -169,10 +169,12 @@ class Environment(object):
         reward += rec_const_reward
 
         # Penality for the overdrawn pixel
-        max_penalty_per_pixel = 0.01
-        penalty_per_pixel = (max_penalty_per_pixel / 1) * score
-        # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
-        reward -= penalty_per_pixel * overdrawn
+        free_overdraw = 3
+        if overdrawn - free_overdraw > 0:  # Agent can overdraw 3 pixel for free
+            max_penalty_per_pixel = 0.02
+            penalty_per_pixel = (max_penalty_per_pixel / 1) * score
+            # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
+            reward -= penalty_per_pixel * (overdrawn - free_overdraw)
 
         return reward
 
