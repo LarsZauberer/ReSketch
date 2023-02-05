@@ -72,7 +72,7 @@ def reproduce(args):
         n_steps=n_steps,
         model_path=model_path,
         save_training=True,
-        vis_compare=12,
+        vis_compare=-12,
         mnist=mnist,
         speed=speed
         )
