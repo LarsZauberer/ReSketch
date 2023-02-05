@@ -2,10 +2,14 @@ import json
 import numpy as np
 from rich.progress import track
 
+import logging
+
 from models.Predictor import Predictor 
 from data_statistics.Image_Generator import generate_image
 
 from extras.logger import critical
+
+log = logging.getLogger("tester")
 
 @critical
 def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t_accuracy: bool = False, t_datarec : bool = False, t_speed : bool = False, t_vis: bool = False):
@@ -42,7 +46,27 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t
             else:
                 action = np.random.choice(env.n_actions)
 
-            next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=1, rec_reward=0.1, without_rec=True, min_decrement=0.3)
+
+            # Check if the agent wants to stop at this current step
+            if env.translate_action(action) == True:
+                log.debug(f"AI is choosing the stop action in step: {step}")
+                stop_step = step
+                
+                # Everything stays the same
+                next_gloabal_obs = global_obs
+                next_local_obs = local_obs
+                
+                # Calculate the new reward
+                log.debug(f"Score before: {score}")
+                reward = env.stop_reward(score=score, step=step)   
+                log.info(f"stop_reward, {score},  {step}, {reward}")           
+                log.debug(f"Stop reward: {reward}")
+            else:
+                # Draw further normally
+                next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=1, rec_reward=0.1, without_rec=True, min_decrement=0.3)
+
+
+            
             global_obs = next_gloabal_obs
             local_obs = next_local_obs
             
@@ -59,6 +83,12 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t
                         rec = predict.mnist(env.reference) == predict.mnist(env.canvas)
                     if rec and done_step == 64:
                         done_step = step
+
+            if env.translate_action(action) == True:
+                break
+
+
+            
         if t_reward: 
             reward_scores.append(score)
         if t_accuracy: 
@@ -85,6 +115,6 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t
     if t_accuracy: scores.append(np.mean(accuracy_scores))
     if t_datarec: scores.append(np.mean(datarec_scores))
     if t_speed: scores.append(np.mean(speed_scores))
-    if t_vis: generate_image(columns=2)
+    if t_vis: generate_image(images, columns=2)
             
     return scores
