@@ -124,8 +124,8 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 
                 # Calculate the new reward
                 log.debug(f"Score before: {score}")
-                log.info(f"stop_reward, {score},  {step}, {reward}")     
-                reward = env.stop_reward(score=score, step=step)              
+                reward = env.stop_reward(score=score, step=step)  
+                log.info(f"stop_reward, {score},  {step}, {reward}")               
                 log.debug(f"Stop reward: {reward}")
             else:
                 # Draw further normally

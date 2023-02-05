@@ -185,13 +185,13 @@ class Environment(object):
 
         assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
 
-        ACC = 2.5
+        ACC = 3
         SPEED = 2.5
         WEIGHT = 0.5
         sign = 1
         if score < 0: sign = -1
         speed_factor = 1 - (step/64)**SPEED
-        accuracy_factor = sign*(abs(score)**ACC)
+        accuracy_factor = sign*(abs(score)**ACC) -0.1
 
         return accuracy_factor * speed_factor * WEIGHT
 
