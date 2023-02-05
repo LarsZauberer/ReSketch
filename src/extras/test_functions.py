@@ -50,7 +50,6 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t
             # Check if the agent wants to stop at this current step
             if env.translate_action(action) == True:
                 log.debug(f"AI is choosing the stop action in step: {step}")
-                stop_step = step
                 
                 # Everything stays the same
                 next_gloabal_obs = global_obs
@@ -58,8 +57,7 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t
                 
                 # Calculate the new reward
                 log.debug(f"Score before: {score}")
-                reward = env.stop_reward(score=score, step=step)   
-                log.info(f"stop_reward, {score},  {step}, {reward}")           
+                reward = env.stop_reward(score=score, step=step)         
                 log.debug(f"Stop reward: {reward}")
             else:
                 # Draw further normally

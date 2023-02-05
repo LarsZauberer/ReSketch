@@ -188,11 +188,8 @@ class Environment(object):
         ACC = 2.5
         SPEED = 2.5
         WEIGHT = 0.5
-
-
         sign = 1
         if score < 0: sign = -1
-
         speed_factor = 1 - (step/64)**SPEED
         accuracy_factor = sign*(abs(score)**ACC)
 

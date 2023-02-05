@@ -124,7 +124,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 
                 # Calculate the new reward
                 log.debug(f"Score before: {score}")
-                print("stop_reward", score, step)
+                log.info(f"stop_reward, {score},  {step}, {reward}")     
                 reward = env.stop_reward(score=score, step=step)              
                 log.debug(f"Stop reward: {reward}")
             else:
@@ -151,6 +151,8 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 
             if env.translate_action(action) == True:
                 break
+                            
+    
         
         if speed:
             speed_reward = env.speed_reward(done_step)
@@ -161,6 +163,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
         # Learn Process visualization
         if total_counter > episode_mem_size:
             progress.update(replay_fill_task, visible=False)
+            agent.reduce_epsilon(4000)
             real_ep = total_counter - episode_mem_size
             if real_ep % abs(vis_compare) == 0:
                 avg_score = np.mean(scores)

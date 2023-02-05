@@ -107,7 +107,7 @@ class Agent(object):
         self.gamma = gamma  # Is the learnrate
         self.mem_size = mem_size  # The allocated memory size (The number of slots for saved observation)
         self.counter = 0  # Counter of every step
-        self.epsilon = epsilon  # The epsilon value of the agent. The exploration value
+        
         self.batch_size = batch_size  # How big each batch of inputs is
         self.replace_target = replace_target  # When to update the q_next network
         self.global_input_dims = global_input_dims  # The input dimensions of the whole canvas.
@@ -117,6 +117,12 @@ class Agent(object):
                                    local_input_dims=local_input_dims, name='q_next')  # The QNetwork to compute the q-values on the next state of the canvas
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
                                    local_input_dims=local_input_dims, name='q_eval') # The QNetwork to compute the q-values on the current state of the canvas
+
+        
+        
+        self.start_epsilon = epsilon
+        self.epsilon = self.start_epsilon
+        
 
         # Dimensions of Replay buffer memory
         glob_mem_shape = (
@@ -135,8 +141,8 @@ class Agent(object):
         self.reward_memory = np.zeros(self.mem_size)
         self.illegal_list_memory = np.zeros(illegal_list_shape)
 
-        self.recent_mem = 10
-        self.recent_actions = np.zeros(self.recent_mem)
+        
+        
 
     def store_transition(self, global_state: np.array, local_state: np.array, next_gloabal_state: np.array, next_local_state: np.array, action: int, reward: float, illegal_list : np.array):
         """
@@ -280,15 +286,27 @@ class Agent(object):
             x=[global_state_batch, local_state_batch], y=q_target)
         
 
-        # reduces Epsilon: Network relies less on exploration over time
+        
+
+    def reduce_epsilon(self, episodes : int):
+         # reduces Epsilon: Network relies less on exploration over time
         if self.counter > self.mem_size and self.epsilon > 0:
-            
-
-
             if self.epsilon > 0.05:
+                epsilon_diff = self.start_epsilon-0.05
+                self.epsilon -=  epsilon_diff/episodes
+
                 self.epsilon -= 1e-5  # go constant at 25000 steps
-            elif self.epsilon <= 0.05:
+            else:
                 self.epsilon = 0.05
+        
+        
+
+
+
+
+
+       
+            
 
     
 
