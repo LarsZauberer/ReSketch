@@ -3,6 +3,7 @@ import json
 import numpy as np
 from pathlib import Path
 import logging
+from rich.progress import Progress
 
 from extras.logger import critical
 
@@ -51,11 +52,16 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
     no_rec = True
     replay_fill = True
     log.info("...filling Replay Buffer...")
+    
+    progress = Progress()
+    progress.__enter__()
+    replay_fill_task = progress.add_task("[red]Replay Buffer Filling", total=episode_mem_size)
 
     # Main process
     for episode in range(n_episodes):
         if not replay_fill: env.curEpisode += 1
         total_counter += 1
+        progress.update(replay_fill_task, advance=1)
         global_obs, local_obs = env.reset()
         score = 0
 
@@ -73,7 +79,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             else:
                 action = np.random.choice(env.n_actions)
 
-            next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=0.1, min_decrement=0.3, without_rec=no_rec)
+            next_gloabal_obs, next_local_obs, reward = env.step(score, action, decrementor=n_episodes-episode_mem_size, rec_reward=0.1, min_decrement=0.3, without_rec=no_rec)
 
             if done_step == None and not replay_fill and speed: 
                 if env.agent_is_done(done_accuracy): done_step = step
@@ -100,6 +106,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             
         # Learn Process visualization
         if total_counter > episode_mem_size:
+            progress.update(replay_fill_task, visible=False)
             real_ep = total_counter - episode_mem_size
             if real_ep % abs(vis_compare) == 0:
                 avg_score = np.mean(scores)

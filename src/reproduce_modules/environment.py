@@ -4,6 +4,7 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
+import logging
 
 from models.Predictor import Predictor
 
@@ -50,7 +51,7 @@ class Environment(object):
         # Mnist Model -> Recognition of symbol
         self.rec_model = Predictor(mnist=True)
         
-    def step(self, agent_action: int, decrementor : int, rec_reward : float, min_decrement : float, without_rec : bool = False):
+    def step(self, score: float, agent_action: int, decrementor : int, rec_reward : float, min_decrement : float, without_rec : bool = False):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
@@ -71,7 +72,7 @@ class Environment(object):
         self.set_agentPos(action)
 
         # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(decrementor=decrementor, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=without_rec) if self.isDrawing else 0.0
+        reward = self.reward(score=score, decrementor=decrementor, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=without_rec) if self.isDrawing else 0.0
 
         # Ending the timestep
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
@@ -114,17 +115,28 @@ class Environment(object):
         return action
 
 
-    def reward(self, decrementor = 1000, rec_reward = 1, min_decrement = 0.3,  without_rec : bool = False):
+    def reward(self, score: float, decrementor = 1000, rec_reward = 1, min_decrement = 0.3,  without_rec : bool = False):
         """
         reward Calculate the reward based on gained similarity and length of step
 
         :return: The reward value
         :rtype: float
         """
+        
+        log = logging.getLogger("reward function")
+        
         reward = 0
         similarity = 0
+        
+        overdrawn: int = 0      
+        
         for i in range(self.s):
             for j in range(self.s):
+                # Check for overdrawn pixel
+                if self.canvas[i][j] > 1:
+                    overdrawn += 1
+                    self.canvas[i][j] = 1  # Reset to normalized color view
+                # When the there is a difference -> It is 1 or -1 (squared to become 1). If it's similar -> 0
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
         similarity /= self.maxScore
 
@@ -156,6 +168,11 @@ class Environment(object):
                 rec_const_reward = 0 
         reward += rec_const_reward
 
+        # Penality for the overdrawn pixel
+        max_penalty_per_pixel = 0.01
+        penalty_per_pixel = (max_penalty_per_pixel / 1) * score
+        # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
+        reward -= penalty_per_pixel * overdrawn
 
         return reward
 
@@ -174,7 +191,7 @@ class Environment(object):
         :type pos: list
         """
         if self.isDrawing:
-            self.canvas = drawline(self.agentPos, pos, self.canvas)
+            self.canvas = drawline(self.agentPos, pos, self.canvas, with_overdrawn=True)
             self.renderCanvas = drawline(self.agentPos, pos, self.renderCanvas, color=0.25+0.75*self.curStep/64)
         self.agentPos = pos
         self.update_distmap()
@@ -285,7 +302,7 @@ class Environment(object):
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward(without_rec=True)
+        self.reward(score=0, without_rec=True)
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
@@ -347,7 +364,7 @@ class Environment(object):
 
 
 # draws Line directly on bitmap to save convert
-def drawline(setpos, pos, canvas, color : float = 1):
+def drawline(setpos, pos, canvas, with_overdrawn: bool = False, color : float = 1):
     """
     drawline Draw a line on a specified canvas.
 
@@ -404,7 +421,10 @@ def drawline(setpos, pos, canvas, color : float = 1):
                 # Check out of bounds
                 if pix[1]+weight-y >= len(canvas) or pix[1]+weight-y < 0:
                     continue
-                canvas[pix[1]+weight-y][pix[0]] = color
+                if with_overdrawn:
+                    canvas[pix[1]+weight-y][pix[0]] += color
+                else:
+                    canvas[pix[1]+weight-y][pix[0]] = color
                 
                     
     
@@ -431,9 +451,9 @@ def drawline(setpos, pos, canvas, color : float = 1):
                 # Check out of bounds
                 if pix[0]+weight-x >= len(canvas) or pix[0]+weight-x < 0:
                     continue
-                canvas[pix[1]][pix[0]+weight-x] = color
+                if with_overdrawn:
+                    canvas[pix[1]][pix[0]+weight-x] += color
+                else:
+                    canvas[pix[1]][pix[0]+weight-x] = color
 
     return canvas
-
-
-
