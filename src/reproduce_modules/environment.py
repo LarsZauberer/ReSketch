@@ -177,7 +177,7 @@ class Environment(object):
             # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
             reward -= penalty_per_pixel * (overdrawn - free_overdraw)
             
-        # Winkel zwischen Vektoren
+        # Angle between direction vectors
         new_direction = [0, 0]
         new_direction[0] = action[0] - self.agentPos[0]
         new_direction[1] = action[1] - self.agentPos[1]
