@@ -36,6 +36,7 @@ class Environment(object):
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
+        self.lastDirection = [0, 0]
         self.maxScore = 1 # Maximum Reward (changes with reference Image) = base Similarity between empty canvas and reference        
         self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
         self.curRef = -1 #current reference image, counter that increments with every episode
@@ -72,7 +73,7 @@ class Environment(object):
         self.set_agentPos(action)
 
         # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(score=score, decrementor=decrementor, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=without_rec) if self.isDrawing else 0.0
+        reward = self.reward(score=score, action=action, decrementor=decrementor, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=without_rec) if self.isDrawing else 0.0
 
         # Ending the timestep
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
@@ -115,7 +116,7 @@ class Environment(object):
         return action
 
 
-    def reward(self, score: float, decrementor = 1000, rec_reward = 1, min_decrement = 0.3,  without_rec : bool = False):
+    def reward(self, score: float, action: list, decrementor = 1000, rec_reward = 1, min_decrement = 0.3,  without_rec : bool = False):
         """
         reward Calculate the reward based on gained similarity and length of step
 
@@ -175,6 +176,22 @@ class Environment(object):
             penalty_per_pixel = (max_penalty_per_pixel / 1) * score
             # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
             reward -= penalty_per_pixel * (overdrawn - free_overdraw)
+            
+        # Winkel zwischen Vektoren
+        new_direction = [0, 0]
+        new_direction[0] = action[0] - self.agentPos[0]
+        new_direction[1] = action[1] - self.agentPos[1]
+        length_new_direction = ma.sqrt(new_direction[0]**2 + new_direction[1]**2)
+        length_last_direction = ma.sqrt(self.lastDirection[0]**2 + self.lastDirection[1]**2)
+        
+        if length_last_direction == 0 or length_new_direction == 0:
+            phi = 0
+        else:
+            phi = ma.acos((new_direction[0]*self.lastDirection[0] + new_direction[1] * self.lastDirection[1])/(length_last_direction * length_new_direction))
+        
+        fac = (1/ma.pi) * phi
+        
+        reward -= fac * 0.05
 
         return reward
 
@@ -192,6 +209,8 @@ class Environment(object):
         :param pos: Koordinates of the new position
         :type pos: list
         """
+        self.lastDirection[0] = pos[0] - self.agentPos[0]
+        self.lastDirection[1] = pos[1] - self.agentPos[1]
         if self.isDrawing:
             self.canvas = drawline(self.agentPos, pos, self.canvas, with_overdrawn=True)
             self.renderCanvas = drawline(self.agentPos, pos, self.renderCanvas, color=0.25+0.75*self.curStep/64)
@@ -300,11 +319,12 @@ class Environment(object):
         self.renderCanvas = np.zeros((self.s, self.s))
         self.set_agentPos((random.randint(1, self.s-2),
                           random.randint(1, self.s-2)))
+        self.lastDirection = [0, 0]
         
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward(score=0, without_rec=True)
+        self.reward(score=0, action=[0, 0], without_rec=True)
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
