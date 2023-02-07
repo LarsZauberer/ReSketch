@@ -183,7 +183,7 @@ class Environment(object):
         :rtype: float
         """
 
-        assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
+        """ assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
 
         ACC = 3
         SPEED = 2.5
@@ -193,7 +193,13 @@ class Environment(object):
         speed_factor = 1 - (step/64)**SPEED
         accuracy_factor = sign*(abs(score)**ACC) -0.1
 
-        return accuracy_factor * speed_factor * WEIGHT
+        return accuracy_factor * speed_factor * WEIGHT """
+
+        if score > 0.75:
+            return 0.1
+        else:
+            return -0.02
+
 
 
 

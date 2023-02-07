@@ -163,7 +163,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
         # Learn Process visualization
         if total_counter > episode_mem_size:
             progress.update(replay_fill_task, visible=False)
-            agent.reduce_epsilon(4000)
+            agent.reduce_epsilon(1000)
             real_ep = total_counter - episode_mem_size
             if real_ep % abs(vis_compare) == 0:
                 avg_score = np.mean(scores)
