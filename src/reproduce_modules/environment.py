@@ -182,27 +182,25 @@ class Environment(object):
         :return: The reward for the agent for choosing the stop action
         :rtype: float
         """
+        assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
 
-        """ assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
+        ACC_THRESHOLD = 0.7
+        SPEED = 3.5
+        WEIGHT = 0.7
 
-        ACC = 3
-        SPEED = 2.5
-        WEIGHT = 0.5
-        sign = 1
-        if score < 0: sign = -1
-        speed_factor = 1 - (step/64)**SPEED
-        accuracy_factor = sign*(abs(score)**ACC) -0.1
-
-        return accuracy_factor * speed_factor * WEIGHT """
-
-        if score > 0.75:
-            return 0.1
+        if score < ACC_THRESHOLD:
+            accuracy_factor = -0.01
         else:
-            return -0.02
+            accuracy_factor = 0.1
 
+        if SPEED == 0:
+            speed_factor = 1
+        else:
+            speed_factor = 1 - (step/64)**SPEED
 
+        return accuracy_factor * speed_factor * WEIGHT
 
-
+       
 
     def speed_reward(self, step : int):
         if step == None:

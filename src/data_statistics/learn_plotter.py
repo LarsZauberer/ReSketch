@@ -34,8 +34,6 @@ class Learn_Plotter():
         with open(self.path, "w") as f:
             json.dump([self.episodes, self.averages], f)
 
-        mp.show()
-
     def plot(self):
         data = []
         with open(self.path, "r") as p:

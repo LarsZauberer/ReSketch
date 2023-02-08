@@ -91,25 +91,6 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
             else:
                 action = np.random.choice(env.n_actions)
-            
-            # Supervised stopping
-            """ weight = 1
-            if score > 0.5 and not replay_fill and total_counter - episode_mem_size < 200 and not dont_ask_again and not never_ask_again:
-                env.render()
-                log.debug(f"Triggered supervised help in step: {step}")
-                inp = input("> ")
-                if inp == "1":
-                    dont_ask_again = True
-                elif inp == "2":
-                    pass
-                elif inp == "3":
-                    action = 98  # Stop action
-                    weight = 1
-                elif inp == "4":
-                    action = 98  # Stop action
-                    weight = 10
-                elif inp == "q":
-                    never_ask_again = True """
 
             
 
