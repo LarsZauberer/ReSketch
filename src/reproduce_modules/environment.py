@@ -188,6 +188,8 @@ class Environment(object):
         SPEED = 3.5
         WEIGHT = 0.7
 
+        #accuracy_factor = score-ACC_THRESHOLD
+
         if score < ACC_THRESHOLD:
             accuracy_factor = -0.01
         else:
@@ -197,8 +199,15 @@ class Environment(object):
             speed_factor = 1
         else:
             speed_factor = 1 - (step/64)**SPEED
+      
 
         return accuracy_factor * speed_factor * WEIGHT
+
+
+    
+
+
+
 
        
 
