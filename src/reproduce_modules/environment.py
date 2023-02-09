@@ -30,7 +30,6 @@ class Environment(object):
         # For each pixel, is an action option (location of that pixel)
         self.n_actions = 2*patchsize*patchsize + 1  # +1 für die Stop action
 
-        self.curEpisode = 0
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
@@ -47,10 +46,8 @@ class Environment(object):
         self.renderCanvas = np.zeros((self.s, self.s))
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
 
-        # Mnist Model -> Recognition of symbol
-        self.rec_model = Predictor(mnist=True)
         
-    def step(self, score: float, agent_action: int, decrementor : int, rec_reward : float, min_decrement : float, without_rec : bool = False):
+    def step(self, score: float, agent_action):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
@@ -64,15 +61,12 @@ class Environment(object):
             `ref_patch` and `canvas_patch` and an int with the `reward`
         :rtype: tuple
         """
-        
         self.isDrawing = 1
         action = self.translate_action(agent_action)
-
         self.set_agentPos(action)
 
         # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(score=score, action=action, decrementor=decrementor, rec_reward=rec_reward, min_decrement=min_decrement, without_rec=without_rec) if self.isDrawing else 0.0
-
+        reward = self.reward(score=score, action=action) if self.isDrawing else 0.0
         # Ending the timestep
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch]), reward
 
@@ -80,7 +74,6 @@ class Environment(object):
         for action in range(self.n_actions):
             if not self.move_isLegal(self.translate_action(action)):
                 illegal_list[action] = 1 # 1 == illegal, 0 == legal
-
         return illegal_list
 
     def move_isLegal(self, action):
@@ -93,6 +86,7 @@ class Environment(object):
         :rtype: bool
         """
         if action == True:
+            #way to illegalize stopAction
             return True
         if action[0] > len(self.canvas[0])-1 or action[0] < 0:
             return False
@@ -101,9 +95,6 @@ class Environment(object):
         return True
 
     def translate_action(self, agent_action: int):
-        # Calculate the x and y position coordinates of action in the current patch
-        
-        
         if agent_action - 2*self.p**2 == 0:
             #print("stop")
             return True
@@ -121,59 +112,35 @@ class Environment(object):
 
         return action
 
-
-    def reward(self, score: float, action: list, decrementor = 1000, rec_reward = 1, min_decrement = 0.3,  without_rec : bool = False):
+    def reward(self, score: float, action):
         """
         reward Calculate the reward based on gained similarity and length of step
 
         :return: The reward value
         :rtype: float
         """
-        
-        log = logging.getLogger("reward function")
-        
         reward = 0
         similarity = 0
         
         overdrawn: int = 0      
-        
         for i in range(self.s):
             for j in range(self.s):
                 # Check for overdrawn pixel
                 if self.canvas[i][j] > 1:
                     overdrawn += 1
                     self.canvas[i][j] = 1  # Reset to normalized color view
+                
                 # When the there is a difference -> It is 1 or -1 (squared to become 1). If it's similar -> 0
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
         similarity /= self.maxScore
-
-        
-        if without_rec:
-            factor = 1 
-        else:
-            factor = 1 - self.curEpisode/decrementor
-        if factor < min_decrement:
-            factor = min_decrement
-        
-
             
         # Only use the newly found similar pixels for the reward
-        reward = (self.lastSim - similarity) * factor
+        reward = self.lastSim - similarity
         if self.maxScore == 1:
             self.maxScore = similarity
             self.lastSim = 1
         else:
             self.lastSim = similarity
-
-    
-        rec_const_reward = 0
-        if  1 - similarity > 0.2 and (not without_rec):
-            a, b = self.predict_mnist()
-            if a == b:
-                rec_const_reward = rec_reward * (1 - factor)
-            else:
-                rec_const_reward = 0 
-        reward += rec_const_reward
 
         # Penality for the overdrawn pixel
         free_overdraw = 3
@@ -182,27 +149,21 @@ class Environment(object):
             penalty_per_pixel = (max_penalty_per_pixel / 1) * score
             # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
             reward -= penalty_per_pixel * (overdrawn - free_overdraw)
-            
+        
         # Angle between direction vectors
         new_direction = [0, 0]
         new_direction[0] = action[0] - self.agentPos[0]
         new_direction[1] = action[1] - self.agentPos[1]
         length_new_direction = ma.sqrt(new_direction[0]**2 + new_direction[1]**2)
         length_last_direction = ma.sqrt(self.lastDirection[0]**2 + self.lastDirection[1]**2)
-        
         if length_last_direction == 0 or length_new_direction == 0:
             phi = 0
         else:
             phi = ma.acos((new_direction[0]*self.lastDirection[0] + new_direction[1] * self.lastDirection[1])/(length_last_direction * length_new_direction))
-        
         fac = (1/ma.pi) * phi
-        
         reward -= fac * 0.05
 
         return reward
-
-    
-
 
     @critical
     def stop_reward(self, score: float, step: int) -> float:
@@ -237,21 +198,6 @@ class Environment(object):
 
         return accuracy_factor * speed_factor * WEIGHT
 
-
-    
-
-
-
-
-       
-
-    def speed_reward(self, step : int):
-        if step == None:
-            return 1
-        return (2 - step/64)
-    
-
-
     def set_agentPos(self, pos: list):
         """
         set_agentPos Sets the agent to a new position.
@@ -268,7 +214,6 @@ class Environment(object):
         self.update_distmap()
         self.update_patch()
         self.update_colmap()
-        #self.update_stepmap()
 
     def update_distmap(self):
         """
@@ -291,16 +236,6 @@ class Environment(object):
             for x in range(self.s):
                 self.colmap[y][x] = self.isDrawing
 
-    def update_stepmap(self):
-        """
-        update_colmap Calculate a new colmap
-        The colmap tells the agent if he is drawing or not
-        """
-        rel_speed = self.curStep/64
-        for y in range(self.s):
-            for x in range(self.s):
-                self.stepmap[y][x] = rel_speed
-
     def update_patch(self):
         """
         update_patch Calculate a local input patch of the agent
@@ -319,36 +254,6 @@ class Environment(object):
 
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
-
-
-    def predict_mnist(self):
-        # Format the input for the model
-        ref_inp = self.reference.reshape(self.s, self.s, 1)
-        canv_inp = self.canvas.reshape(self.s, self.s, 1)
-        inp = np.array([ref_inp, canv_inp])
-        
-        # Predict
-        out = self.rec_model.mnist(inp)
-        # Get index of max
-        ref = np.argmax(out[0][0])
-        canv = np.argmax(out[0][1])
-        
-        # Too unsure. Should not be validated
-        if out[0][1][canv] < 0.75:
-            canv = -1
-        
-        return ref, canv
-
-
-    def agent_is_done(self, done_accuracy : float, recognition : bool = False):
-        if (1 - self.lastSim) > done_accuracy:
-            if recognition:
-                ref, canv = self.predict_mnist()
-                if ref == canv:
-                    return True
-            else:
-                return True
-        return False
 
 
     def reset(self):
@@ -374,7 +279,7 @@ class Environment(object):
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward(score=0, action=[0, 0], without_rec=True)
+        self.reward(score=0, action=[0, 0])
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 

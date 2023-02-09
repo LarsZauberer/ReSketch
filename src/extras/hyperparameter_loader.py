@@ -20,12 +20,11 @@ def hyperparameter_loader(path: str, modelName: str):
     with open(Path(path), "r") as f:
         hyp_data = json.load(f)
     if hyp_data.get(modelName, False):
-        #General model names: "base", "mnist", "speed" "mnist-speed"
         hyp_data = hyp_data[modelName]
     else:
         log = logging.getLogger("hyperparameter_loader")
         log.warning(f"This is not a known model -> Returning default hyperparameters")
         #No known Model: give default Values
-        hyp_data = {"gamma": 0.70, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 3000, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
+        hyp_data = {"gamma": 0.70, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 50, "n_episodes": 3000, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
     
     return hyp_data

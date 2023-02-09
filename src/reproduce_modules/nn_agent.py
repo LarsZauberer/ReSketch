@@ -171,12 +171,6 @@ class Agent(object):
         self.new_global_state_memory[index] = next_gloabal_state
         self.new_local_state_memory[index] = next_local_state
 
-    def update_speedreward(self, reward = 1.1):
-        start_i = (self.counter % self.mem_size) - 64
-        for i in range(64):
-            index = start_i+i
-            self.reward_memory[index] *= reward
-
 
     def choose_action(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
         """
@@ -202,17 +196,11 @@ class Agent(object):
             if self.counter % self.replace_target == 0 and self.counter > 0:
                 # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
                 self.update_graph()
+            
             # create batch of states (prediciton must be in batches)
-            # Create a batch containing only one real state (all zeros for the other states)
-
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
-            """ for _ in range(self.batch_size-1):
-                glob_batch = np.append(glob_batch, np.array(
-                    [np.zeros(self.global_input_dims)]), axis=0)
-                loc_batch = np.append(loc_batch, np.array(
-                    [np.zeros(self.local_input_dims)]), axis=0) """
-
+            
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
@@ -222,15 +210,12 @@ class Agent(object):
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
 
-
         return action
 
     def learn(self):
         """
         learn the Training of The agent/network. Based on deep Q-learning
         """
-        
-
         # randomly samples Memory.
         # chooses as many states from Memory as batch_size requires
         max_mem = self.counter if self.counter < self.mem_size else self.mem_size
@@ -251,14 +236,8 @@ class Agent(object):
         # gives the outpus (Q-values) of current states and next states. 
         # It gives this output of every state in the batch
         # type: np.array example: [ [0.23, 0.64, 0.33, ..., n_actions], ..., batch_size]
-
-
         q_eval = np.array(self.q_eval.dqn([global_state_batch, local_state_batch]))
         q_next = np.array(self.q_next.dqn([new_global_state_batch, new_local_state_batch]))
-
-        
-
-
 
         q_target = np.copy(q_eval)
         for i, il_list in enumerate(illegal_list_batch):
@@ -266,19 +245,11 @@ class Agent(object):
                 if item == 1: #if illegal
                     q_target[i][j] = 0
 
-        
-
-        
-     
 
         # Calculates optimal output for training. ( Bellman Equation !! )
         idx = np.arange(self.batch_size)
         q_target[idx, action_batch] = reward_batch + \
         self.gamma*np.max(q_next, axis=1)
-
-     
-
-       
 
         # Calls training
         # Basic Training: gives input and desired output.
@@ -298,17 +269,6 @@ class Agent(object):
                 self.epsilon -= 1e-5  # go constant at 25000 steps
             else:
                 self.epsilon = 0.05
-        
-        
-
-
-
-
-
-       
-            
-
-    
 
     def save_models(self, path):
         """

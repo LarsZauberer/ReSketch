@@ -26,12 +26,7 @@ def physics(args):
     model_name= args.modelName
     model_path = f"pretrained_models/reproduce/{model_name}"
 
-    # Options
-    mnist = args.mnist
-    speed = args.speed
-
     hyp_data = hyperparameter_loader("src/phy_opti.json", model_name)
-
     #Manual hyperparameters:
     #hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 3000} 
 
@@ -43,12 +38,10 @@ def physics(args):
     batch_size = 64
     n_episodes = int(hyp_data["n_episodes"]) + episode_mem_size
     n_steps = 64
-    
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
     loc_in_dims = (2, patch_size, patch_size)
     mem_size = episode_mem_size*n_steps
-
 
     # load Data
     learn_plot = Learn_Plotter(path="src/data_statistics/plotlearn_data.json")
@@ -62,7 +55,6 @@ def physics(args):
                   "mem_size": mem_size, "batch_size": batch_size, "n_actions": n_actions}
     agent = Phy_Agent(**agent_args)
     
-
     # Start training
     train(
         env=env,
@@ -74,11 +66,8 @@ def physics(args):
         n_steps=n_steps,
         model_path=model_path,
         save_training=True,
-        vis_compare=-12,
-        mnist=mnist,
-        speed=speed
+        vis_compare=-12
         )
-
 
 
 @critical
@@ -92,14 +81,9 @@ def reproduce(args):
     model_name= args.modelName
     model_path = f"pretrained_models/reproduce/{model_name}"
 
-    # Options
-    mnist = args.mnist
-    speed = args.speed
-
     hyp_data = hyperparameter_loader("src/opti.json", model_name)
     #Manual hyperparameters:
     #hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 3000} 
-
 
     # Agent, Environment constants
     canvas_size = 28
@@ -108,7 +92,6 @@ def reproduce(args):
     batch_size = 64
     n_episodes = int(hyp_data["n_episodes"]) + episode_mem_size
     n_steps = 64
-    
     # further calculations
     glob_in_dims = (4, canvas_size, canvas_size)
     loc_in_dims = (2, patch_size, patch_size)
@@ -139,18 +122,11 @@ def reproduce(args):
         model_path=model_path,
         save_training=True,
         vis_compare=12,
-        mnist=mnist,
-        speed=speed
         )
-
-
-
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--mnist", help="Whether to use mnist training or not", action="store_true", default=False)
-    parser.add_argument("-s", "--speed", help="Whether to use speed training or not", action="store_true", default=False)
     parser.add_argument("-n", "--modelName", help="Name of Model to be trained", action="store", default="new_model")
     parser.add_argument("-d", "--dataset", help="Name of Dataset to train with", action="store", default="mnist_train")
     parser.add_argument("-p", "--physics", help="Run the physics version", action="store_true", default=False)
@@ -160,8 +136,6 @@ if __name__ == "__main__":
     initialize_logging(args)
     log = logging.getLogger()
     
-    log.debug(f"MNIST Variation: {args.mnist}")
-    log.debug(f"SPEED Variation: {args.speed}")
     log.debug(f"Dataset: {args.dataset}")
     log.debug(f"Model name: {args.modelName}")
     log.debug(f"PHYSICS Variation: {args.physics}")

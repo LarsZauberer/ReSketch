@@ -118,6 +118,9 @@ class Agent(object):
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
                                    local_input_dims=local_input_dims, name='q_eval', model=model) # The QNetwork to compute the q-values on the current state of the canvas
 
+        self.start_epsilon = epsilon
+        self.epsilon = self.start_epsilon
+
         # Dimensions of Replay buffer memory
         glob_mem_shape = (
             self.mem_size, global_input_dims[0], global_input_dims[1], global_input_dims[2])
@@ -134,9 +137,6 @@ class Agent(object):
         self.action_memory = np.zeros(self.mem_size, dtype=np.int8)
         self.reward_memory = np.zeros(self.mem_size)
         self.illegal_list_memory = np.zeros(illegal_list_shape)
-
-        self.recent_mem = 10
-        self.recent_actions = np.zeros(self.recent_mem)
 
     def store_transition(self, global_state: np.array, local_state: np.array, next_gloabal_state: np.array, next_local_state: np.array, action: int, reward: float, illegal_list : np.array):
         """
@@ -165,12 +165,6 @@ class Agent(object):
         self.new_global_state_memory[index] = next_gloabal_state
         self.new_local_state_memory[index] = next_local_state
 
-    def update_speedreward(self, reward = 1.1):
-        start_i = (self.counter % self.mem_size) - 64
-        for i in range(64):
-            index = start_i+i
-            self.reward_memory[index] *= reward
-
 
     def choose_action(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
         """
@@ -191,7 +185,6 @@ class Agent(object):
             action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
                 
         else:
-            # update q_next after certain step
             if self.counter % self.replace_target == 0:
                 # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
                 self.update_graph()
@@ -199,16 +192,9 @@ class Agent(object):
             # create batch of states (prediciton must be in batches)
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
-            """ for _ in range(self.batch_size-1):
-                glob_batch = np.append(glob_batch, np.array(
-                    [np.zeros(self.global_input_dims)]), axis=0)
-                loc_batch = np.append(loc_batch, np.array(
-                    [np.zeros(self.local_input_dims)]), axis=0) """
 
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
-
-
 
             while illegal_list[np.argmax(actions)] == 1:
                 actions[np.argmax(actions)] = -1
@@ -249,9 +235,6 @@ class Agent(object):
         q_eval = np.array(self.q_eval.dqn([global_state_batch, local_state_batch]))
         q_next = np.array(self.q_next.dqn([new_global_state_batch, new_local_state_batch]))
 
-       
-        
-
         q_target = np.copy(q_eval)
         
         for i, il_list in enumerate(illegal_list_batch):
@@ -259,10 +242,6 @@ class Agent(object):
                 if item == 1: #if illegal
                     q_target[i][j] = 0
 
-        
-
-        
-    
 
         # Calculates optimal output for training. ( Bellman Equation !! )
         idx = np.arange(self.batch_size)
@@ -273,13 +252,16 @@ class Agent(object):
         # Basic Training: gives input and desired output.
         self.q_eval.dqn.train_on_batch(
             x=[global_state_batch, local_state_batch], y=q_target)
-        
 
-        # reduces Epsilon: Network relies less on exploration over time
+    def reduce_epsilon(self, episodes : int):
+         # reduces Epsilon: Network relies less on exploration over time
         if self.counter > self.mem_size and self.epsilon > 0:
             if self.epsilon > 0.05:
+                epsilon_diff = self.start_epsilon-0.05
+                self.epsilon -=  epsilon_diff/episodes
+
                 self.epsilon -= 1e-5  # go constant at 25000 steps
-            elif self.epsilon <= 0.05:
+            else:
                 self.epsilon = 0.05
 
 
