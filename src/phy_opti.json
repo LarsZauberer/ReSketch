@@ -1,4 +1,4 @@
-{"base": {"gamma": 0.63, "epsilon": 0.57, "alpha": 0.000496, "replace_target": 1921, "episode_mem_size": 148, "n_episodes": 3000, "friction": 0.30, "vel_1": 0.90, "vel_2": 1.50},
- "speed": {"gamma": 0.23, "epsilon": 0.00011, "alpha": 0.000422, "replace_target": 2676, "episode_mem_size": 748, "n_episodes": 460, "friction": 0.30, "vel_1": 0.90, "vel_2": 1.50},
- "mnist": {"gamma": 1.0, "epsilon": 0.0, "alpha": 0.000151, "replace_target": 4793, "episode_mem_size": 100, "n_episodes": 2042, "friction": 0.36, "vel_1": 0.7, "vel_2": 1.90, "min_decrement": 0.1, "rec_reward": 0.25}, 
- "mnist-speed": {"gamma": 0.729, "epsilon": 0.146, "alpha": 6.28e-05, "replace_target": 4727, "episode_mem_size": 616, "n_episodes": 1714, "friction": 0.45, "vel_1": 0.72, "vel_2": 1.62, "min_decrement": 0.14, "rec_reward": 0.188}}
+{"base": {"gamma": 0.63, "epsilon": 0, "epsilon_episodes": 1000, "alpha": 0.000496, "replace_target": 1921, "episode_mem_size": 148, "n_episodes": 3000, "friction": 0.30, "vel_1": 0.90, "vel_2": 1.50},
+ "speed": {"gamma": 0.23, "epsilon": 0, "epsilon_episodes": 1000, "alpha": 0.000422, "replace_target": 2676, "episode_mem_size": 748, "n_episodes": 460, "friction": 0.30, "vel_1": 0.90, "vel_2": 1.50},
+ "mnist": {"gamma": 1.0, "epsilon": 0, "epsilon_episodes": 1000, "alpha": 0.000151, "replace_target": 4793, "episode_mem_size": 100, "n_episodes": 2042, "friction": 0.36, "vel_1": 0.7, "vel_2": 1.90, "min_decrement": 0.1, "rec_reward": 0.25}, 
+ "mnist-speed": {"gamma": 0.729, "epsilon": 0, "epsilon_episodes": 1000, "alpha": 6.28e-05, "replace_target": 4727, "episode_mem_size": 616, "n_episodes": 1714, "friction": 0.45, "vel_1": 0.72, "vel_2": 1.62, "min_decrement": 0.14, "rec_reward": 0.188}}

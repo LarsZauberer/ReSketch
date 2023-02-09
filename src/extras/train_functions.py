@@ -94,7 +94,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             
         # Learn Process visualization
         if episode > episode_mem_size:
-            agent.reduce_epsilon(1000)
+            agent.reduce_epsilon()
 
             progress.update(replay_fill_task, visible=False)
 

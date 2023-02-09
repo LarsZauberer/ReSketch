@@ -99,7 +99,7 @@ class DeepQNetwork(object):
 
 
 class Agent(object):
-    def __init__(self, alpha, gamma, mem_size, epsilon, global_input_dims, local_input_dims, batch_size, n_actions,
+    def __init__(self, alpha, gamma, mem_size, epsilon, epsilon_episodes, global_input_dims, local_input_dims, batch_size, n_actions,
                  replace_target=1000, model='current'):
 
         self.n_actions = n_actions  # How many action options the agent has. -> Index of the action to choose
@@ -107,7 +107,6 @@ class Agent(object):
         self.gamma = gamma  # Is the learnrate
         self.mem_size = mem_size  # The allocated memory size (The number of slots for saved observation)
         self.counter = 0  # Counter of every step
-        self.epsilon = epsilon  # The epsilon value of the agent. The exploration value
         self.batch_size = batch_size  # How big each batch of inputs is
         self.replace_target = replace_target  # When to update the q_next network
         self.global_input_dims = global_input_dims  # The input dimensions of the whole canvas.
@@ -118,6 +117,7 @@ class Agent(object):
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
                                    local_input_dims=local_input_dims, name='q_eval', model=model) # The QNetwork to compute the q-values on the current state of the canvas
 
+        self.epsilon_episodes = epsilon_episodes
         self.start_epsilon = epsilon
         self.epsilon = self.start_epsilon
 
@@ -253,12 +253,12 @@ class Agent(object):
         self.q_eval.dqn.train_on_batch(
             x=[global_state_batch, local_state_batch], y=q_target)
 
-    def reduce_epsilon(self, episodes : int):
+    def reduce_epsilon(self):
          # reduces Epsilon: Network relies less on exploration over time
         if self.counter > self.mem_size and self.epsilon > 0:
             if self.epsilon > 0.05:
                 epsilon_diff = self.start_epsilon-0.05
-                self.epsilon -=  epsilon_diff/episodes
+                self.epsilon -=  epsilon_diff/self.epsilon_episodes
 
                 self.epsilon -= 1e-5  # go constant at 25000 steps
             else:
