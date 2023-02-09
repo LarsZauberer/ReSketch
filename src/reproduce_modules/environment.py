@@ -10,7 +10,7 @@ from extras.logger import critical
 
 
 class Environment(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, do_render : bool = True):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : bool = False, with_overdraw : bool = False, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -30,7 +30,6 @@ class Environment(object):
         # For each pixel, is an action option (location of that pixel)
         self.n_actions = 2*patchsize*patchsize + 1  # +1 für die Stop action
 
-
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
         self.lastDirection = [0, 0]
@@ -41,6 +40,10 @@ class Environment(object):
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
         self.set_agentPos([random.randint(1, self.s-2),
                           random.randrange(1, self.s-2)])  # Set a random start location for the agent (but with one pixel margin)
+
+        # variations
+        self.with_stopAction = with_stopAction
+        self.with_overdraw = with_overdraw
 
         # rendering / visualization
         self.renderCanvas = np.zeros((self.s, self.s))
@@ -86,8 +89,9 @@ class Environment(object):
         :rtype: bool
         """
         if action == True:
-            #way to illegalize stopAction
-            return True
+            #llegalize stopAction
+            if self.with_stopAction: return True
+            else: return False
         if action[0] > len(self.canvas[0])-1 or action[0] < 0:
             return False
         if action[1] > len(self.canvas)-1 or action[1] < 0:
@@ -142,26 +146,27 @@ class Environment(object):
         else:
             self.lastSim = similarity
 
-        # Penality for the overdrawn pixel
-        free_overdraw = 3
-        if overdrawn - free_overdraw > 0:  # Agent can overdraw 3 pixel for free
-            max_penalty_per_pixel = 0.02
-            penalty_per_pixel = (max_penalty_per_pixel / 1) * score
-            # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
-            reward -= penalty_per_pixel * (overdrawn - free_overdraw)
-        
-        # Angle between direction vectors
-        new_direction = [0, 0]
-        new_direction[0] = action[0] - self.agentPos[0]
-        new_direction[1] = action[1] - self.agentPos[1]
-        length_new_direction = ma.sqrt(new_direction[0]**2 + new_direction[1]**2)
-        length_last_direction = ma.sqrt(self.lastDirection[0]**2 + self.lastDirection[1]**2)
-        if length_last_direction == 0 or length_new_direction == 0:
-            phi = 0
-        else:
-            phi = ma.acos((new_direction[0]*self.lastDirection[0] + new_direction[1] * self.lastDirection[1])/(length_last_direction * length_new_direction))
-        fac = (1/ma.pi) * phi
-        reward -= fac * 0.05
+        if self.with_overdraw:
+            # Penality for the overdrawn pixel
+            free_overdraw = 3
+            if overdrawn - free_overdraw > 0:  # Agent can overdraw 3 pixel for free
+                max_penalty_per_pixel = 0.02
+                penalty_per_pixel = (max_penalty_per_pixel / 1) * score
+                # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
+                reward -= penalty_per_pixel * (overdrawn - free_overdraw)
+            
+            # Angle between direction vectors
+            new_direction = [0, 0]
+            new_direction[0] = action[0] - self.agentPos[0]
+            new_direction[1] = action[1] - self.agentPos[1]
+            length_new_direction = ma.sqrt(new_direction[0]**2 + new_direction[1]**2)
+            length_last_direction = ma.sqrt(self.lastDirection[0]**2 + self.lastDirection[1]**2)
+            if length_last_direction == 0 or length_new_direction == 0:
+                phi = 0
+            else:
+                phi = ma.acos((new_direction[0]*self.lastDirection[0] + new_direction[1] * self.lastDirection[1])/(length_last_direction * length_new_direction))
+            fac = (1/ma.pi) * phi
+            reward -= fac * 0.05
 
         return reward
 
