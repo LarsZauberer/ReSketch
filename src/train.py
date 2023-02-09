@@ -1,5 +1,4 @@
 import argparse
-import json
 import logging
 
 from data_statistics.learn_plotter import Learn_Plotter
@@ -15,68 +14,6 @@ from extras.hyperparameter_loader import hyperparameter_loader
 
 from extras.logger import initialize_logging, critical
 
-@critical
-def reproduce(args):
-    """
-    reproduce Train a reproducte model
-
-    :param args: Argparsing arguments
-    :type args: Namespace
-    """
-    model_name= args.modelName
-    model_path = f"pretrained_models/reproduce/{model_name}"
-
-    # Options
-    mnist = args.mnist
-    speed = args.speed
-
-    hyp_data = hyperparameter_loader("src/opti.json", model_name)
-
-    #Manual hyperparameters:
-    #hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 3000} 
-
-    # Agent, Environment constants
-    canvas_size = 28
-    patch_size = 7
-    episode_mem_size = int(hyp_data["episode_mem_size"])
-    batch_size = 64
-    n_episodes = int(hyp_data["n_episodes"]) + episode_mem_size
-    n_steps = 64
-    
-    # further calculations
-    glob_in_dims = (4, canvas_size, canvas_size)
-    loc_in_dims = (2, patch_size, patch_size)
-    mem_size = episode_mem_size*n_steps
-
-    # load Data
-    learn_plot = Learn_Plotter(path="src/data_statistics/plotlearn_data.json")
-    data = AI_Data(dataset=args.dataset)
-    data.sample(n_episodes)
-
-
-    env = Rep_Env(canvas_size, patch_size, data.pro_data)
-    agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
-                  "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
-                  "mem_size": mem_size, "batch_size": batch_size}
-    agent = Rep_Agent(**agent_args)
-    
-
-    # Start training
-    train(
-        env=env,
-        agent=agent,
-        data=data,
-        learn_plot=learn_plot,
-        episode_mem_size=episode_mem_size,
-        n_episodes=n_episodes,
-        n_steps=n_steps,
-        model_path=model_path,
-        save_training=True,
-        vis_compare=-12,
-        mnist=mnist,
-        speed=speed
-        )
-
 
 @critical
 def physics(args):
@@ -87,7 +24,7 @@ def physics(args):
     :type args: Namespace
     """
     model_name= args.modelName
-    model_path = f"pretrained_models/physics/{model_name}"
+    model_path = f"pretrained_models/reproduce/{model_name}"
 
     # Options
     mnist = args.mnist
@@ -141,6 +78,73 @@ def physics(args):
         mnist=mnist,
         speed=speed
         )
+
+
+
+@critical
+def reproduce(args):
+    """
+    reproduce Train a reproducte model
+
+    :param args: Argparsing arguments
+    :type args: Namespace
+    """
+    model_name= args.modelName
+    model_path = f"pretrained_models/reproduce/{model_name}"
+
+    # Options
+    mnist = args.mnist
+    speed = args.speed
+
+    hyp_data = hyperparameter_loader("src/opti.json", model_name)
+    #Manual hyperparameters:
+    #hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 3000} 
+
+
+    # Agent, Environment constants
+    canvas_size = 28
+    patch_size = 7
+    episode_mem_size = int(hyp_data["episode_mem_size"])
+    batch_size = 64
+    n_episodes = int(hyp_data["n_episodes"]) + episode_mem_size
+    n_steps = 64
+    
+    # further calculations
+    glob_in_dims = (4, canvas_size, canvas_size)
+    loc_in_dims = (2, patch_size, patch_size)
+    mem_size = episode_mem_size*n_steps
+
+    # load Data
+    learn_plot = Learn_Plotter(path="src/data_statistics/plotlearn_data.json")
+    data = AI_Data(dataset=args.dataset)
+    data.sample(n_episodes)
+
+
+    env = Rep_Env(canvas_size, patch_size, data.pro_data)
+    agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
+                  "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
+                  "mem_size": mem_size, "batch_size": batch_size}
+    agent = Rep_Agent(**agent_args)
+    
+
+    # Start training
+    train(
+        env=env,
+        agent=agent,
+        data=data,
+        learn_plot=learn_plot,
+        episode_mem_size=episode_mem_size,
+        n_episodes=n_episodes,
+        n_steps=n_steps,
+        model_path=model_path,
+        save_training=True,
+        vis_compare=12,
+        mnist=mnist,
+        speed=speed
+        )
+
+
+
 
 
 if __name__ == "__main__":
