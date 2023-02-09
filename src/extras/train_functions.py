@@ -52,7 +52,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
     no_rec = True
     replay_fill = True
     log.info("...filling Replay Buffer...")
-
+    
     progress = Progress()
     progress.__enter__()
     replay_fill_task = progress.add_task("[red]Replay Buffer Filling", total=episode_mem_size)
@@ -92,6 +92,8 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             else:
                 action = np.random.choice(env.n_actions)
 
+             
+
             
 
             # Check if the agent wants to stop at this current step
@@ -110,7 +112,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 log.debug(f"Stop reward: {reward}")
             else:
                 # Draw further normally
-                next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=n_episodes-episode_mem_size, rec_reward=0.1, min_decrement=0.3, without_rec=no_rec)
+                next_gloabal_obs, next_local_obs, reward = env.step(score, action, decrementor=n_episodes-episode_mem_size, rec_reward=0.1, min_decrement=0.3, without_rec=no_rec)
 
             if done_step == None and not replay_fill and speed: 
                 if env.agent_is_done(done_accuracy): done_step = step
