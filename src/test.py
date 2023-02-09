@@ -14,6 +14,8 @@ from extras.test_functions import test_env
 from extras.hyperparameter_loader import hyperparameter_loader
 
 from extras.logger import critical, initialize_logging
+from data_statistics.Image_Generator import generate_image
+
 
 
 @critical
@@ -48,15 +50,11 @@ def physics_test(args):
         agent=agent,
         data=data,
         n_episodes=args.test,
-        t_reward=True,
-        t_accuracy=True,
-        t_datarec=True,
-        t_speed=True,
-        t_vis=False
         )
     
-    reward, accuracy, datarec, speed = [float('%.3f' % s) for s in scores]
+    reward, accuracy, datarec, speed = [float('%.3f' % s) for s in scores[-1]]
     log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}')
+    generate_image(scores[-1])
 
     if args.save:
         with open(Path(f"results/reproduce-{args.version}-{args.dataset}.txt"), "w") as f:
@@ -94,17 +92,13 @@ def reproduce_test(args):
         env=env,
         agent=agent,
         data=data,
-        n_episodes=args.test,
-        t_reward=True,
-        t_accuracy=True,
-        t_datarec=True,
-        t_speed=True,
-        t_vis=True
+        n_episodes=args.test
         )
-    
-    reward, accuracy, datarec, speed = [float('%.3f' % s) for s in scores]
 
+    
+    reward, accuracy, datarec, speed = [float('%.3f' % s) for s in scores[:-1]]
     log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}')
+    generate_image(scores[-1])
 
     if args.save:
         with open(Path(f"results/reproduce-{args.version}-{args.dataset}.txt"), "w") as f:
