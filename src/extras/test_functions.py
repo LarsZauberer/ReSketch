@@ -1,12 +1,8 @@
-import json
 import numpy as np
 from rich.progress import track
-
 import logging
-
 from models.Predictor import Predictor 
 from data_statistics.Image_Generator import generate_image
-
 from extras.logger import critical
 
 log = logging.getLogger("tester")
