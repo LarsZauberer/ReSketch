@@ -42,7 +42,7 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_reward: bool = False, t
             else:
                 action = np.random.choice(env.n_actions)
 
-            next_gloabal_obs, next_local_obs, reward = env.step(action, decrementor=1, rec_reward=0.1, without_rec=True, min_decrement=0.3)
+            next_gloabal_obs, next_local_obs, reward = env.step(score, action, decrementor=1, rec_reward=0.1, without_rec=True, min_decrement=0.3)
             global_obs = next_gloabal_obs
             local_obs = next_local_obs
             
