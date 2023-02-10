@@ -84,7 +84,7 @@ def reproduce_test(args):
     env = Rep_Env(canvas_size, patch_size, data.pro_data)
     agent_args = {"gamma": 0, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
-                  "mem_size": 1000, "batch_size": 64}
+                  "mem_size": 1000, "batch_size": 64, "epsilon_episodes": 0}
     agent = Rep_Agent(**agent_args)
     agent.load_models(f"pretrained_models/reproduce/{args.version}")
 
