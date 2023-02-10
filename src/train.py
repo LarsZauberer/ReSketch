@@ -103,7 +103,7 @@ def reproduce(args):
     data.sample(n_episodes)
 
 
-    env = Rep_Env(canvas_size, patch_size, data.pro_data, with_stopAction=args.stopAction, with_overdraw=args.overdraw)
+    env = Rep_Env(canvas_size, patch_size, data.pro_data, with_stopAction=args.stopAction, with_overdraw=args.overdraw, with_angle=args.angle)
     agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size}
@@ -132,6 +132,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--physics", help="Run the physics version", action="store_true", default=False)
     parser.add_argument("-s", "--stopAction", help="Run the stopAction version", action="store_true", default=False)
     parser.add_argument("-o", "--overdraw", help="Run the Overdraw reward function", action="store_true", default=False)
+    parser.add_argument("-a", "--angle", help="Run the Angle Penalty reward function", action="store_true", default=False)
     parser.add_argument("--debug", help="Verbose for the logging", action="store_true", default=False)
     args = parser.parse_args()
     
@@ -143,6 +144,7 @@ if __name__ == "__main__":
     log.info(f"PHYSICS Variation: {args.physics}")
     log.info(f"StopAction Variation: {args.stopAction}")
     log.info(f"overdraw Variation: {args.overdraw}")
+    log.info(f"Angle Penalty Variation: {args.angle}")
 
     if args.physics:
         physics(args)

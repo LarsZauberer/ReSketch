@@ -10,7 +10,7 @@ from extras.logger import critical
 
 
 class Environment(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : bool = False, with_overdraw : bool = False, do_render : bool = True):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : bool = False, with_overdraw : bool = False, with_angle: bool = False, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -44,6 +44,7 @@ class Environment(object):
         # variations
         self.with_stopAction = with_stopAction
         self.with_overdraw = with_overdraw
+        self.with_angle = with_angle
 
         # rendering / visualization
         self.renderCanvas = np.zeros((self.s, self.s))
@@ -154,7 +155,8 @@ class Environment(object):
                 penalty_per_pixel = (max_penalty_per_pixel / 1) * score
                 # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
                 reward -= penalty_per_pixel * (overdrawn - free_overdraw)
-            
+           
+        if self.with_angle: 
             # Angle between direction vectors
             new_direction = [0, 0]
             new_direction[0] = action[0] - self.agentPos[0]
