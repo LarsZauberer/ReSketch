@@ -117,5 +117,4 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
         # save weights
         agent.save_models(model_path)
         learn_plot.save_plot()
-    progress.__exit__()
     
