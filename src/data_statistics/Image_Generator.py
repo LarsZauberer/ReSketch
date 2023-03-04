@@ -34,12 +34,7 @@ def generate_image(images, columns=2):
                         ax.set_title("ReSketch")
                         labeled += 1
                     else:
-                        if labeled == 0:
-                            ax.set_title("MNIST")
-                        elif labeled == 2:
-                            ax.set_title("EMNIST")
-                        else:
-                            ax.set_title("QuickDraw")
+                        ax.set_title("Reference")
                         labeled += 1
             else:
                 ax.imshow(im, cmap="bone", vmin=0, vmax=255)
@@ -47,7 +42,42 @@ def generate_image(images, columns=2):
         fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="horizontal", fraction=0.046, pad=0.04, label="Steps", location="bottom")
 
         plt.savefig(f"results/reproduce/images/new_test.png", bbox_inches='tight')
-        plt.pause(5)
+        plt.pause(10)
+
+
+def generate_generative_image(images, columns=3):
+    num = len(images)
+    rows = int(num/columns)
+    
+
+    fig = plt.figure(figsize=(10., 15.))
+    grid = ImageGrid(fig, 111,  
+                    nrows_ncols=(rows, columns), 
+                    axes_pad=0.1,  
+                    )
+
+    sorted_images = []
+    for img in images:
+        sorted_images.append(img.reshape((28,28)))
+
+    for ax, im in zip(grid, sorted_images):
+        # Iterating over the grid returns the Axes.
+        ax.axis("off")
+        ax.imshow(im, cmap="bone", vmin=0, vmax=255)
+    
+    fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="horizontal", fraction=0.046, pad=0.5, label="Steps", location="bottom")
+
+    plt.savefig(f"results/reproduce/images/new_test.png", bbox_inches='tight')
+    plt.pause(5)
+
+
+
+
+
+
+
+
+
 
 
 #image of all datasets

@@ -20,6 +20,8 @@ class Environment(object):
         self.colmap = np.zeros((self.s, self.s))
         self.stepmap = np.zeros((self.s, self.s))
         self.curStep = 0
+        
+        self.generative = False
 
         # Input local stream
         self.ref_patch = np.zeros((self.p, self.p))

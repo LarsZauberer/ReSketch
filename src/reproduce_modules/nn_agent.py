@@ -1,7 +1,7 @@
 import os
 import tensorflow as tf
 from keras import Model
-from keras.layers import Conv2D, Dense, Flatten, Input, concatenate
+from keras.layers import Conv2D, Dense, Flatten, Lambda, Activation, Input, concatenate
 #from tensorflow.keras.utils import plot_model
 
 import numpy as np
@@ -9,12 +9,13 @@ from time import sleep
 from pathlib import Path
 import logging
 
+
 log = logging.getLogger("nn_agent")
 
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions: int, batch_size: int, name: str,
-                 global_input_dims: int, local_input_dims: int, fc1_dims: int = 512):
+                 global_input_dims: int, local_input_dims: int,  softmax : bool = False, softmax_temp : float = 0.05, fc1_dims: int = 1024):
         
         self.lr = lr  # The optimization learning rate of the network model
         self.n_actions = n_actions  # How many actions the agent has available -> Index of the action to execute
@@ -25,7 +26,8 @@ class DeepQNetwork(object):
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated input. The local patch of the canvas.
         self.fc1_dims = fc1_dims  # Dimensions of the last dense layer
         self.batch_size = batch_size  # How many inputs sending into the network
-        
+        self.softmax_temp = softmax_temp
+        self.softmax = softmax
 
         # Generate the network
         self.build_network()
@@ -58,12 +60,18 @@ class DeepQNetwork(object):
             name="Flatten", data_format="channels_first")(concat_model)
         dense1 = Dense(self.fc1_dims, activation="relu",
                        name="Fully_Connected_1")(concat_model)
-        out = Dense(self.n_actions, activation="relu", name="Action-Space")(dense1)
 
-        # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
-        # Output of the netword are Q-values. each Q-value represents an action
-        self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
-        
+    
+        out = Dense(self.n_actions, name="Action-Space")(dense1)
+
+        if self.softmax:
+            softmax_temp = Lambda(lambda x: x / self.softmax_temp, name="Softmax_Temperature")(out)
+            softmax = Activation("softmax", name="Softmax")(softmax_temp)
+            self.dqn = Model(inputs=[glob_in, loc_in], outputs=[softmax])
+        else:
+            # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
+            # Output of the netword are Q-values. each Q-value represents an action
+            self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
 
         # Network is ready for calling / Training
         self.dqn.compile(loss="mean_squared_error", optimizer=tf.keras.optimizers.Adam(
@@ -98,7 +106,7 @@ class DeepQNetwork(object):
 
 
 class Agent(object):
-    def __init__(self, alpha, gamma, mem_size, epsilon, epsilon_episodes, global_input_dims, local_input_dims, batch_size,
+    def __init__(self, alpha, gamma, mem_size, epsilon, epsilon_episodes, global_input_dims, local_input_dims, batch_size, softmax,
                  replace_target=1000):
 
         self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
@@ -111,18 +119,16 @@ class Agent(object):
         self.replace_target = replace_target  # When to update the q_next network
         self.global_input_dims = global_input_dims  # The input dimensions of the whole canvas.
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated patch of the canvas
+        self.softmax = softmax
 
         self.q_next = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_next')  # The QNetwork to compute the q-values on the next state of the canvas
+                                   local_input_dims=local_input_dims, softmax=softmax, name='q_next')  # The QNetwork to compute the q-values on the next state of the canvas
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, name='q_eval') # The QNetwork to compute the q-values on the current state of the canvas
+                                   local_input_dims=local_input_dims, softmax=softmax, name='q_eval') # The QNetwork to compute the q-values on the current state of the canvas
 
         self.epsilon_episodes = epsilon_episodes
         self.start_epsilon = epsilon
         self.epsilon = self.start_epsilon
-        
-
-        
 
         # Dimensions of Replay buffer memory
         glob_mem_shape = (
@@ -172,6 +178,8 @@ class Agent(object):
         self.new_local_state_memory[index] = next_local_state
 
 
+
+
     def choose_action(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
         """
         choose_action Agent should choose an action from the action_space
@@ -183,6 +191,7 @@ class Agent(object):
         :return: Index of the action the agent wants to take
         :rtype: int
         """
+
         action = 0
 
         # Check if the agent should explore
@@ -192,25 +201,75 @@ class Agent(object):
                 action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1 and i != 98])
             else:
                 action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
-        else:
-            if self.counter % self.replace_target == 0 and self.counter > 0:
-                # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
-                self.update_graph()
-            
+        else:    
             # create batch of states (prediciton must be in batches)
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
+
             
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
+
+            """ for i, el in enumerate(illegal_list):
+                if el == 1:
+                    actions[i] = 0
+            try:
+                actions /= np.sum(actions)
+            except:
+                print(np.sum(actions))
+                print(actions) """
+
             while illegal_list[np.argmax(actions)] == 1:
                 actions[np.argmax(actions)] = -1
 
+
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
+            
 
         return action
+
+        
+
+
+    def choose_action_softmax(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
+        if replay_fill:
+            action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1 and i != 98])
+        else:
+            rand = np.random.random()
+            if rand < 0.003:
+                return 98
+
+            glob_batch = np.array([global_state])
+            loc_batch = np.array([local_state])
+
+            # Ask the QNetwork for an action
+            actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
+
+            for i, el in enumerate(illegal_list):
+                if int(el) == 1:
+                    actions[i] = 0
+
+            actions = list(enumerate(actions))
+            actions = sorted(actions, key=lambda x: x[1])
+            actions = [(0, 0) for _ in actions[:-4]] + actions[-4:]
+            action_sum = np.sum([i[1] for i in actions])
+            actions = [(i[0], i[1]/action_sum) for i in actions]
+            probabilities = [i[1] for i in actions]
+            
+            action = np.random.choice(len(actions), 1, p=probabilities)
+            action = actions[action[0]][0]
+            while(illegal_list[action] == 1):
+                action = np.random.choice(len(actions), 1, p=probabilities)
+                action = actions[action[0]][0]
+                
+        return action
+        
+
+    
+    
+
 
     def learn(self):
         """
@@ -287,4 +346,10 @@ class Agent(object):
         update_graph Update the q_next Network. Set it to the weights of the q_eval network.
         """
         #log.info("...Updating Network...")
-        self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
+        self.counter += 1
+        if self.counter % self.replace_target == 0 and self.counter > 0:
+            self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
+
+    def set_softmax_temp(self, temp):
+        self.q_eval.softmax_temp = temp
+        self.q_next.softmax_temp = temp

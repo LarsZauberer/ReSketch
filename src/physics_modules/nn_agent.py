@@ -183,7 +183,7 @@ class Agent(object):
         rand = np.random.random()
         if rand < self.epsilon or replay_fill:
             action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
-                
+            
         else:
             if self.counter % self.replace_target == 0:
                 # Updates the q_next network. closes the gap between q_eval and q_next to avoid q_next getting outdated
@@ -198,7 +198,7 @@ class Agent(object):
 
             while illegal_list[np.argmax(actions)] == 1:
                 actions[np.argmax(actions)] = -1
-
+            
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
 
@@ -284,4 +284,6 @@ class Agent(object):
         update_graph Update the q_next Network. Set it to the weights of the q_eval network.
         """
         #log.info("...Updating Network...")
-        self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
+        self.counter += 1
+        if self.counter % self.replace_target == 0 and self.counter > 0:
+            self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())

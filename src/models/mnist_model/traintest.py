@@ -45,10 +45,10 @@ def train():
     log.info("New shape of train data: ", test_X.shape)
 
     # Converting the labels to categorical values...
-    train_yOHE = to_categorical(train_y, num_classes = 26, dtype='int')
+    train_yOHE = to_categorical(train_y, num_classes = 10, dtype='int')
     log.info("New shape of train labels: ", train_yOHE.shape)
 
-    test_yOHE = to_categorical(test_y, num_classes = 26, dtype='int')
+    test_yOHE = to_categorical(test_y, num_classes = 10, dtype='int')
     log.info("New shape of test labels: ", test_yOHE.shape)
 
 
@@ -69,7 +69,7 @@ def train():
     model.add(Dense(128,activation ="relu"))
     model.add(Dense(256,activation ="relu"))
 
-    model.add(Dense(26,activation ="softmax"))
+    model.add(Dense(10,activation ="softmax"))
 
 
 
@@ -95,11 +95,12 @@ def train():
 def test():
     with open("src/models/mnist_model/mnist_test.json", "r") as f:
         data = json.load(f)
+
     
     x = []
     y = []
     for i, letter in enumerate(data):
-        for image in letter:
+        for image in letter[:10]:
             x.append(np.reshape(image, (28, 28)))
             y.append(i)
     x = np.array(x)
@@ -122,7 +123,7 @@ def test():
     model.add(Dense(128,activation ="relu"))
     model.add(Dense(256,activation ="relu"))
 
-    model.add(Dense(26,activation ="softmax"))
+    model.add(Dense(10,activation ="softmax"))
 
     model.compile(optimizer = Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -134,7 +135,9 @@ def test():
 
     for img in track(x, description="predicting"):
         img = np.array([img])
-        predictions.append(np.argmax(model(img)))
+        softmax = sample(model(img))
+        print(np.argmax(softmax), np.max(softmax))
+        predictions.append(np.argmax(softmax))
 
     #calculate accuracy
     accuracy = 0
@@ -142,11 +145,17 @@ def test():
         accuracy += int(i == j)
     accuracy /= len(y)
 
-    log.info(accuracy)
+    print(accuracy)
+
+
+def sample(a, temperature=4):
+    # helper function to sample an index from a probability array
+    a = np.log(a) / temperature
+    a = np.exp(a) / np.sum(np.exp(a))   
+    return a
 
 
 if __name__ == "__main__":
-    train()
     test()
 
     
