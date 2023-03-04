@@ -153,6 +153,9 @@ dmypy.json
 *.npy
 
 
+pretrained_models/
+
+
 /src/nn_memory/q_eval/checkpoint
 src/nn_memory/q_eval/deepqnet.ckpt.data-00000-of-00001
 src/nn_memory/q_eval/deepqnet.ckpt.index
