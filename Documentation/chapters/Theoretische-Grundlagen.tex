@@ -22,8 +22,8 @@ Learning Modell menschliches Urteilsvermögen zu erlernen
 Ein Beispielproblem für ein Machine Learning Modell ist die Erkennung von
 handgeschriebenen Ziffern. Ein Computerprogramm soll durch den Input eines
 Bildes mit einer handgeschriebenen Ziffer eine korrekte Beurteilung treffen, um
-welche Ziffer es sich handelt. Mit anderen Worten soll der Output des
-Computerprogramms der Ziffer entsprechen, die auf dem Bild des Inputs zu sehen
+welche Ziffer es sich handelt. Das heisst, der Output des
+Computerprogramms soll der Ziffer entsprechen, die auf dem Bild des Inputs zu sehen
 ist (siehe \autoref{fig:rec-maschine}). Jedes Computerprogramm, das dieses
 Problem löst, fällt in den Bereich der künstlichen Intelligenz. Machine Learning
 Modelle geben einen Ansatz für die Umsetzung eines solchen Computerprogramms.
@@ -44,7 +44,7 @@ Datenpunkt in den analysierten Daten durch einen Menschen festgelegt sein
 \cite{trahasch_31_2020}. Das heisst, ausgedrückt durch den Fachbegriff, dass
 die Daten labeled sein müssen \cite{luis_g_serrano_21_2021}. Weitere Teilbereiche
 von Machine Learning sind Unsupervised Learning und Reinforcement Learning
-\cite{arora_supervised_2020}. Beachte Abschnitt \ref{chap:t_rl} für eine
+\cite{arora_supervised_2020}. Siehe Abschnitt \ref{chap:t_rl} für eine
 tiefgreifendere Einführung in Reinforcement Learning.
  
 Machine Learning Modelle sind hauptsächlich in der Programmiersprache Python
@@ -84,15 +84,15 @@ dem Training durch die Analyse von Trainingsdaten aus einem Datenset. Das Modell
 gibt zu jedem Datenpunkt die Beurteilung, um welche Zahl es sich handelt. Das
 Datenset ist labeled (siehe \doubleref{chap:t_ml}). Falls die Beurteilung des
 Modells nicht mit der bekannten korrekten Lösung übereinstimmt, passt sich das
-Modell automatisch an. Dadurch soll die Beurteilungen für zukünftige Datenpunkte
+Modell auf automatisierte Weise an. Dadurch soll die Beurteilungen für zukünftige Datenpunkte
 genauer werden. Die Testphase misst die Genauigkeit des Modells auf Testdaten.
 Die Testdaten bestehen aus Datenpunkten, die in den Trainingsdaten nicht
 enthalten sind.
  
 Zusammengefasst kann ein Machine Learning Modell Daten beurteilen und sich
-selbst anpassen, um die Beurteilungen zu verbessern. Künstliche neuronale Netze
-(siehe \doubleref{sub:t_ml_nn}) umfassen diese Funktionalität und finden daher in
-Machine Learning Modellen Anwendung.
+selbst anpassen, um die Beurteilungen zu verbessern. Diese Eigenschaften sind in künstlichen neuronalen Netzen
+(siehe \doubleref{sub:t_ml_nn}) vorhanden, wodurch diese in
+Machine Learning Modellen Anwendung finden.
  
 \subsection{Künstliche neuronale Netze}\label{sub:t_ml_nn} Ein neuronales Netz
 ist, im biologischen Sinne, ``eine beliebige Anzahl Neuronen, die miteinander
@@ -115,8 +115,6 @@ Inputs wird jeder Input mit seinem Gewicht multipliziert. Die Grösse des
 Gewichtes bestimmt somit den Einfluss des zugehörigen Inputs auf den Output des
 Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
 
-
-
 % Bild Neuron
 \begin{figure}[!ht]
    \centering
@@ -126,10 +124,23 @@ Neurons. \cite{nielsen_neural_2015}\cite{simplilearn_what_2021}
  
 Neuronale Netze in Machine Learning Modellen verwenden kompliziertere Neuronen
 als das Perzeptron Neuron, wie zum Beispiel das Sigmoid Neuron. Die Neuronen
-unterscheiden sich in ihrer \emph{Activation-Function} und somit im Verhalten ihres
+unterscheiden sich in ihrer \emph{Activation Function} und somit im Verhalten ihres
 Outputs \cite{pragati_baheti_activation_2022}. So nimmt der Output im Sigmoid Neuron
 beispielsweise auch Werte zwischen $0$ und $1$ an, in einem stetigen Übergang
 zwischen den beiden Grenzen (siehe \autoref{fig:percep-v-sig}) \cite{kumar_sigmoid_2019}.
+
+\emph{Softmax} und \emph{ReLU} (rectified linear unit) sind weitere Activation
+Functions. ReLU ist die am weitesten verbreitete Activation Function in Deep
+Learning und wird häufig für \emph{Hidden Layers} verwendet (source...). Softmax wird im   %Todo: Quelle
+Vergleich meistens für die Activation Function des \emph{Output Layers}                   %Todo: Quelle
+verwendet. Diese Begriffe werden im nächsten Abschnitt genauer erläutert.
+Softmax bestimmt die Ausgabe aus dem Output Layer so, dass die Werte von allen
+Neuronen sich zu Eins addieren. Softmax konvertiert somit die Ausgabe aus einem
+neuronalen Netz in eine Wahrscheinlichkeitsverteilung. Softmax kann mit einem
+Parameter, genannt Temperatur, kombiniert werden. Dieser Parameter beeinflusst
+die Standardabweichung der Wahrscheinlichkeitsverteilung. Mit steigender
+Temperatur wird die Verteilung dabei uniformer und mit sinkender Temperatur
+nimmt die Differenz zwischen den einzelnen Werten zu.
 
 \newpage
 %Bild sigmoid vs perceptro
@@ -190,7 +201,6 @@ dass die Genauigkeit der Beurteilung mit den angepassten Gewichten grösser
 ist. Die genaue Anpassung erfolgt in den meisten Machine Learning Modellen durch
 den Backpropagation Algorithmus
 \cite{ognjanovski_everything_2020}\cite{david_e_rumelhart_learning_nodate}.
- 
 
 \newpage
  
@@ -277,15 +287,15 @@ Umgebung verändert sich in Zeitschritten, genannt \emph{Steps}. In jedem Step
 führt der Agent eine \emph{Action} aus, welche die Umgebung beeinflusst. Die
 Entscheidung, welche Action der Agent wählt, basiert auf einer
 \emph{Observation} der Umgebung \cite[S. 2]{mnih_playing_2013}. Die Observation
-umfasst alle Daten der Umgebung, die für die Entscheidung relevant sind. Sein Entscheidungsprozess findet durch ein neuronales Netz statt
-(siehe \doubleref{sub:t_ml_nn}). Der Input in dieses neuronale Netz ist die
-Observation der Umgebung und der Output beschreibt die Action, die der Agent
-ausführt. Jedes Neuron des Outputs beschreibt eine spezifische Action des
-Agents. Der Agent kann somit nur eine feste Anzahl Actions ausführen. Alle
-Actions zusammen werden \emph{Action-Space} \cite[S.
-67]{sutton_reinforcement_2014} genannt. Jede Action im Action-Space besitzt
-einen \emph{Q-Value}, der dem Output des zugehörigen Neurons entspricht (siehe
-\autoref{fig:reinforce-1}) \cite{wang_deep_2021}. 
+umfasst alle Daten der Umgebung, die für die Entscheidung relevant sind. Sein
+Entscheidungsprozess findet durch ein neuronales Netz statt (siehe
+\doubleref{sub:t_ml_nn}). Der Input in dieses neuronale Netz ist die Observation
+der Umgebung und der Output beschreibt die Action, die der Agent ausführt. Jedes
+Neuron des Outputs beschreibt eine spezifische Action des Agents. Der Agent kann
+somit nur eine feste Anzahl Actions ausführen. Alle Actions zusammen werden
+\emph{Action-Space} \cite[S. 67]{sutton_reinforcement_2014} genannt. Jede Action
+im Action-Space besitzt einen \emph{Q-Value}, der dem Output des zugehörigen
+Neurons entspricht (siehe \autoref{fig:reinforce-1}) \cite{wang_deep_2021}. 
 
 
 %bild reinforcement schema 1
@@ -295,16 +305,22 @@ einen \emph{Q-Value}, der dem Output des zugehörigen Neurons entspricht (siehe
     \caption{Funktionsweise eines Reinforcement Learning Modells. (eigene Abbildung)}\label{fig:reinforce-1}
  \end{figure}
 
-Die schlussendliche
-Entscheidung, welche Action ausgeführt wird, basiert auf der
-\emph{Epsilon-Greedy} Strategie \cite[S. 34]{sutton_reinforcement_2014}. Diese
-Strategie sieht vor, dass die Entscheidung mit einer Wahrscheinlichkeit von
-$\epsilon$ (Epsilon) auf eine zufällige Action fällt. Ansonsten fällt die
-Entscheidung auf diejenige Action mit dem höchsten Q-Value. Durch die zufälligen
-Actions erkundet der Agent die Umgebung, in der Hoffnung, auf bessere Optionen
-für zukünftige Entscheidungen zu stossen.
-\cite{rajendra_koppula_exploration_nodate}.
- 
+Die schlussendliche Entscheidung der auszuführenden Aktion wird durch eine
+\emph{Policy} bestimmt. Softmax und Epsilon Greedy sind 2 Beispiele für eine
+Policy \cite[S. 34]{sutton_reinforcement_2014}. Die Epsilon-Greedy Strategie
+sieht vor, dass die Entscheidung mit einer Wahrscheinlichkeit von $\epsilon$
+(Epsilon) auf eine zufällige Action fällt. 
+
+Ansonsten fällt die Entscheidung auf
+diejenige Action mit dem höchsten Q-Value. Durch die zufälligen Actions erkundet
+der Agent die Umgebung, in der Hoffnung, auf bessere Optionen für zukünftige
+Entscheidungen zu stossen. \cite{rajendra_koppula_exploration_nodate}.
+
+Die Softmax Policy wählt Aktionen auf Basis einer Wahrscheinlichkeitsverteilung.
+Jede Aktion wird also mit einer gewissen Wahrscheinlichkeit ausgeführt. Die
+Wahrscheinlichkeitsverteilung berechnet sich aus der Softmax Activation Function
+von dem Output Layer des neuronalen Netzes.
+
 Die Umgebung wird durch die Actions des Agents beeinflusst. Dieser Einfluss wird
 durch die \emph{Reward-Function} gemessen. Die Reward-Function gibt eine
 rationale Zahl, den \emph{Reward} aus \cite[S. 75]{sutton_reinforcement_2014}.
@@ -412,60 +428,3 @@ $11\times11$ Bereich (bezeichnet als Local image Patch \cite[S.
 zweite Bild beschreibt denselben Bereich von der Zeichenfläche \cite[S. 4
 ff.]{zhou_learning_2018}. Der Global Stream und der Local Stream werden durch
 eine Concatenation Layer (siehe \doubleref{sub:t_ml_nn}) zusammengeführt.
- 
-\section{Git und GitHub}\label{chap:t_git} Git und Github sind weit verbreitete
-Hilfsmittel für Softwareentwickler. Git ist ein Programm, während GitHub ein
-Service ist, der dieses Programm in der Cloud zugänglich macht. GitHub hat
-zusätzliche Funktionen, die die Zusammenarbeit zwischen mehreren Entwicklern
-erleichtern. Die genaue Funktion und das Zusammenspiel dieser beiden Hilfsmittel
-wird nachfolgend erläutert.
- 
-\subsection{Git}\label{sub:t_git_git} Git erkennt Veränderungen im Programmcode eines
-Projektes und speichert diese Veränderungen jeweils in einer neuen Version ab. Die
-einzelnen Versionen des Projektes bleiben dabei zu jedem Zeitpunkt abrufbar.
-Dieses Konzept nennt sich Version Control
-\cite{atlassian_what_nodate}. Das Programm wurde 2005 von Linus
-Torvald entwickelt \cite{noauthor_git_2021}. Versionen des Projektes werden
-manuell durch einen Commit gespeichert. Es wird empfohlen, nur jeweils ein
-bestimmtes Problem oder eine bestimmte Funktion pro Commit anzugehen
-\cite{noauthor_5_2019}. Für grössere Funktionen oder Probleme kann ein Branch
-erstellt werden. Ein Branch ermöglicht eine abgekapselte Entwicklung eines
-Projektes \cite{guillermo_brachetta_what_2022}. Zum Beispiel kann das Projekt in
-mehreren Branches gleichzeitig und unabhängig voneinander entwickelt werden
-\cite{guillermo_brachetta_what_2022}. Eine weit verbreitete Arbeitsweise und
-Branch Struktur mit Git ist Git Flow
-\cite{noauthor_what_2022}\cite{atlassian_git-flow-workflow_nodate}. Git Flow
-schlägt einen Main Branch, einen Develop Branch und verschiedene
-Feature Branches vor \cite{atlassian_git-flow-workflow_nodate}. Professionelle
-Anwendungen von Git Flow verwenden ausserdem sogenannte Release Branches und
-Hotfix Branches \cite{cameron_mckenzie_gitflow_2021}. Im Main Branch sind
-offizielle Versionen des Projektes gespeichert, im Develop Branch wird das
-Projekt als ganzes entwickelt und in jedem Feature Branch wird eine
-Funktionalität in das Projekt implementiert (siehe \autoref{fig:git-branch}).
-
-\newpage
-% bild branch structure
-\begin{figure}[!ht]
-   \centering
-   \includegraphics[width=\textwidth-2cm]{images/theorie/git-branch.png}
-   \caption{Branch Struktur von GitFlow \cite{atlassian_git-flow-workflow_nodate}}\label{fig:git-branch}
-\end{figure}
- 
-\subsection{GitHub}\label{sub:t_git_gh}
-GitHub wurde 2008 von Chris Wanstrath, PJ Hyett, Scott Chacon und Tom
-Preston-Werner entwickelt \cite{noauthor_github_2021}. GitHub ist ein Service,
-der Projekte, die mit Git verwalten werden, in der Cloud speichert. Dadurch kann
-ein Projekt überall und von beliebig vielen Personen entwickelt werden.
-\cite{noauthor_github_2021}.
- 
-GitHub besitzt verschiedene Hilfsmittel, die die Zusammenarbeit zwischen
-Entwicklern weiter vereinfachen. Beispiele dafür sind
-\guillemotleft{}Issues\guillemotright{} und \guillemotleft{}Project
-Boards\guillemotright{}. Diese Hilfsmittel ermöglichen Organisation,
-Strukturierung und Arbeitsteilung. Ein weiteres Hilfsmittel sind Pull Requests.
-Eine Pull Reqeust wird dann gestellt, wenn die Arbeit an einem Branch fertig
-ist. Durch Pull Requests können die Entwickler des Projektes die Funktionalität
-eines Branches überprüfen. Wenn ein Branch nicht die gewünschte Aufgabe erfüllt,
-kann die Pull Request abgelehnt werden. Erst, wenn eine Pull Request angonommen
-wird, kann der Branch wieder mit dem ursprünglichen Branch zusammengeführt
-werden. \cite{atlassian_pull_nodate}.
