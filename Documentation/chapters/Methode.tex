@@ -44,7 +44,7 @@ bis auf die neue Grösse der Bilder nicht. Die Pixel der Bilder, wie auch die
 Zeichenfläche, nehmen den Wert von einem Bit an. Eine Null repräsentiert einen
 schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild und eine Eins
 einen weissen (gezeichneten) Pixel. Die genaue Architektur des neuronalen Netzes
-ist in der \autoref{fig:architecture} angegeben.
+ist in der folgenden Abbildung angegeben (siehe \autoref{fig:architecture}). 
  
 %Bild architecture
 \begin{figure}[!ht]
@@ -69,20 +69,33 @@ der Agent entweder zeichnend oder nicht zeichnend ausführen (siehe
 \end{figure}
  
 Falls der Agent die Action zeichnend ausführt, zieht das Programm einen Strich
-zwischen der alten und der neuen Position. Mit anderen Worten werden alle Pixel
-der Zeichenfläche zwischen den beiden Positionen weiss. Der Strich hat eine
+zwischen der alten und der neuen Position. Das bedeutet, dass alle Pixel
+der Zeichenfläche zwischen den beiden Positionen weiss werden. Der Strich hat eine
 festgelegte Breite von $3$ Pixeln. Am Anfang jeder Episode, also mit jeder neuen
 Ziffer, startet der Agent in einer zufälligen Position im nicht zeichnenden
 Zustand. Am Anfang jeder Episode ist die Zeichenfläche leer, also vollkommen
 Schwarz.
- 
-Actions des Agents, die ihn über die vorgegebene Zeichenfläche hinaus
-positionieren würden, sind nicht zulässig. Diese Actions können vom Agent nicht
-gewählt werden und ihr optimaler Q-Value (siehe \doubleref{sub:t_rl_func}) ist
-in jedem Fall $0$. Das hat zur Folge, dass nach dem Training die allermeisten
-unzulässigen Actions einen Q-Value nahe oder gleich $0$ haben. Das senkt die
+
+
+\subsection{Erweiterungen}\label{sub:m_grund_erweiterungen} Die folgenden
+Eigenschaften des Grundprogramms sind Erweiterungen der Architektur von
+Doodle-SDQ.
+
+Die erste Erweiterung beschreibt die behandlung von illegalen Actions. Alle
+Actions, die den Agent über die vorgegebene Zeichenfläche hinaus positionieren
+würden, sind nicht zulässig. Diese Actions sind für den Agent nicht wählbar
+und ihr optimaler Q-Value (siehe \doubleref{sub:t_rl_func}) ist in jedem Fall
+$0$. Das hat zur Folge, dass nach dem Training die allermeisten unzulässigen
+Actions einen Q-Value nahe oder gleich $0$ haben. Das senkt die
 Wahrscheinlichkeit, dass der Agent versucht, eine unzulässige Action
 auszuführen.
+
+Die zweite Erweiterung betrifft den Action-Space mit der Einführung einer Stopp
+Action. Wenn der Agent diese Action wählt, bricht die Zeichnung ab. Der Agent
+kann somit frei entscheiden, wann die Zeichnung fertig ist. Die Stopp Action
+kann während dem Training dem Agent verboten werden. In diesem Fall wird die
+Action als unzulässig behandelt.
+
  
 \subsection{Präparierung der Daten und Optimierung}\label{sub:m_grund_data}
 Die Trainingsdaten bestehen aus $36'000$ Bildern von handgeschriebenen Ziffern
@@ -104,25 +117,24 @@ So stimmen die Bilder mit den Zeichnungen, die der Agent produzieren kann,
 \end{figure}
  
  
-Das Grundprogramm trainiert mit $3'000$ Bildern, von denen jede Ziffer $300$
+Das Grundprogramm trainiert mit $5'000$ Bildern, von denen jede Ziffer $500$
 Bilder ausmacht. Die restlichen Bilder in den Trainingsdaten sind für mögliche 
-Erweiterungen aufgehoben. Der Agent zeichnet jedes der $3'000$ Bilder ein Mal und
-trainiert somit für $3'000$ Episodes. Die Der Agent zeichnet für $64$ Steps pro
-Episode.
+Erweiterungen aufgehoben. Der Agent zeichnet jedes der $5'000$ Bilder ein Mal und
+trainiert somit für $5'000$ Episodes. Der Agent zeichnet für $64$ Steps pro
+Episode, falls die Stopp Action nicht früher gewählt wird.
  
-Die Hyperparameter des Grundprogramms, wie auch die der Variationen (siehe
-\doubleref{chap:m_var}) sind durch den Bayesian Optimization Algorithmus
-optimiert (siehe \doubleref{sub:t_ml_hyper}). Die Implementierung des
-Algorithmus in Python stammt von \cite{fernando_nogueira_bayesian_2014}. Der
+Die Hyperparameter aller Versionen der KI sind durch den Bayesian Optimization
+Algorithmus optimiert (siehe \doubleref{sub:t_ml_hyper}). Die Implementierung
+des Algorithmus in Python stammt von \cite{fernando_nogueira_bayesian_2014}. Der
 Algorithmus ändert sich für verschiedene Variationen der KI nicht und ist somit
 Teil des Grundprogramms. Mit jeder Iteration des Baysian Optimization
 Algorithmus trainiert das Reinforcement Learning Modell für eine vom Algorithmus
 selbst bestimmte Anzahl Episodes. Die Zielvariable, die durch den Baysian
 Optimization Algorithmus maximiert werden soll, wird am Ende jeder Iteration des
 Trainings in der Testumgebung berechnet (siehe \doubleref{sub:m_auswert_test}).
-Auf welchem der drei Kriterien (siehe \doubleref{chap:m_eval}) die Zielvariable
+Unter welchem Kriterium (siehe \doubleref{chap:m_eval}) der Wert der
+Zielvariable berechnet wird ist frei wählbar  
 basiert, ist frei wählbar.
- 
  
  
 \section{Evaluation der Leistung}\label{chap:m_eval}
