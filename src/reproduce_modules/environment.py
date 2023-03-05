@@ -215,9 +215,21 @@ class Environment(object):
         :rtype: float """
        
         assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
-
         
         if self.show_Reference:
+            prediction = self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.8
+            if prediction < 0:
+                return -0.02
+            else:
+                return prediction
+        else:
+            prediction = self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.8
+            if prediction < 0:
+                return -0.01
+            else:
+                return prediction
+
+        """ if self.show_Reference:
             prediction = self.rec_model.mnist(self.canvas)
             if prediction == self.label:
                 return 0.1
@@ -228,7 +240,7 @@ class Environment(object):
             if prediction == self.label:
                 return 0.3
             else:
-                return -0.005
+                return -0.005 """
 
 
     def stop_reward(self, score: float, step: int):

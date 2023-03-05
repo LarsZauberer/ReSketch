@@ -108,7 +108,7 @@ def reproduce(args):
                   "mem_size": mem_size, "batch_size": batch_size}
     agent = Rep_Agent(**agent_args)
 
-    agent.set_softmax_temp(0.03)
+    agent.set_softmax_temp(0.05)
     
     # Start training
     train(

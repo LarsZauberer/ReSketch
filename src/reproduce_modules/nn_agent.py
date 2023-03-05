@@ -253,7 +253,7 @@ class Agent(object):
 
             actions = list(enumerate(actions))
             actions = sorted(actions, key=lambda x: x[1])
-            actions = [(0, 0) for _ in actions[:-4]] + actions[-4:]
+            actions = [(0, 0) for _ in actions[:-5]] + actions[-5:]
             action_sum = np.sum([i[1] for i in actions])
             actions = [(i[0], i[1]/action_sum) for i in actions]
             probabilities = [i[1] for i in actions]
