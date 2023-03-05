@@ -22,11 +22,11 @@ Learning Modell menschliches Urteilsvermögen zu erlernen
 Ein Beispielproblem für ein Machine Learning Modell ist die Erkennung von
 handgeschriebenen Ziffern. Ein Computerprogramm soll durch den Input eines
 Bildes mit einer handgeschriebenen Ziffer eine korrekte Beurteilung treffen, um
-welche Ziffer es sich handelt. Das heisst, der Output des
-Computerprogramms soll der Ziffer entsprechen, die auf dem Bild des Inputs zu sehen
-ist (siehe \autoref{fig:rec-maschine}). Jedes Computerprogramm, das dieses
-Problem löst, fällt in den Bereich der künstlichen Intelligenz. Machine Learning
-Modelle geben einen Ansatz für die Umsetzung eines solchen Computerprogramms.
+welche Ziffer es sich handelt. Das heisst, der Output des Computerprogramms soll
+der Ziffer entsprechen, die auf dem Bild des Inputs zu sehen ist (siehe
+\autoref{fig:rec-maschine}). Jedes Computerprogramm, das dieses Problem löst,
+fällt in den Bereich der künstlichen Intelligenz. Machine Learning Modelle geben
+einen Ansatz für die Umsetzung eines solchen Computerprogramms.
  
 % Bild: Recognition machine
 \begin{figure}[!ht]
@@ -250,7 +250,7 @@ höchsten gefundenen Wert der Zielvariable auslösen, werden gespeichert.
  
 \section{Reinforcement Learning}\label{chap:t_rl}
 Reinforcement Learning bedeutet zusammengefasst: Lernen durch Interaktion mit
-einer Umgebung. \cite{osinski_what_2018}. Genauer gesagt soll ein Machine
+einer Umgebung. \cite{osinski_what_2018}. Spezifischer soll ein Machine
 Learning Modell durch Rückmeldungen aus einer Umgebung ein bestimmtes Verhalten
 erlernen.
  
@@ -305,21 +305,21 @@ Neurons entspricht (siehe \autoref{fig:reinforce-1}) \cite{wang_deep_2021}.
     \caption{Funktionsweise eines Reinforcement Learning Modells. (eigene Abbildung)}\label{fig:reinforce-1}
  \end{figure}
 
-Die schlussendliche Entscheidung der auszuführenden Aktion wird durch eine
+Die schlussendliche Entscheidung der auszuführenden Action wird durch eine
 \emph{Policy} bestimmt. Softmax und Epsilon Greedy sind 2 Beispiele für eine
-Policy \cite[S. 34]{sutton_reinforcement_2014}. Die Epsilon-Greedy Strategie
-sieht vor, dass die Entscheidung mit einer Wahrscheinlichkeit von $\epsilon$
-(Epsilon) auf eine zufällige Action fällt. 
+Policy \cite[S. 34]{sutton_reinforcement_2014}. 
 
-Ansonsten fällt die Entscheidung auf
-diejenige Action mit dem höchsten Q-Value. Durch die zufälligen Actions erkundet
-der Agent die Umgebung, in der Hoffnung, auf bessere Optionen für zukünftige
-Entscheidungen zu stossen. \cite{rajendra_koppula_exploration_nodate}.
-
-Die Softmax Policy wählt Aktionen auf Basis einer Wahrscheinlichkeitsverteilung.
-Jede Aktion wird also mit einer gewissen Wahrscheinlichkeit ausgeführt. Die
-Wahrscheinlichkeitsverteilung berechnet sich aus der Softmax Activation Function
-von dem Output Layer des neuronalen Netzes.
+Die Epsilon-Greedy Policy sieht vor, dass die Entscheidung mit einer
+Wahrscheinlichkeit von $\epsilon$ (Epsilon) auf eine zufällige Action fällt.
+Ansonsten fällt die Entscheidung auf diejenige Action mit dem höchsten Q-Value.
+Durch die zufälligen Actions erkundet der Agent die Umgebung, in der Hoffnung,
+auf bessere Optionen für zukünftige Entscheidungen zu stossen.
+\cite{rajendra_koppula_exploration_nodate}. Die Softmax Policy wählt Actions auf
+Basis einer Wahrscheinlichkeitsverteilung. Jede Action wird also mit einer
+gewissen Wahrscheinlichkeit ausgeführt. Die Wahrscheinlichkeit für eine Action
+entspricht dem Q-Value dieser Action. Die Wahrscheinlichkeitsverteilung
+berechnet sich dabei aus der Softmax Activation Function von dem Output Layer
+des neuronalen Netzes.
 
 Die Umgebung wird durch die Actions des Agents beeinflusst. Dieser Einfluss wird
 durch die \emph{Reward-Function} gemessen. Die Reward-Function gibt eine
@@ -354,7 +354,7 @@ Das Training läuft in \emph{Episodes} \cite[S. 14]{sutton_reinforcement_2014}.
 Eine Episode umfasst eine gewisse Anzahl Steps und am Anfang jeder Episode wird
 die Umgebung in einen Ausgangszustand zurückgesetzt. Die Resultate der Steps
 werden in dem \emph{Replay-Buffer} gespeichert. Dazu gehören die Observations
-der Umgebung, die jeweiligen Actions und der jeweilige Rewards. Der
+der Umgebung, die jeweiligen Actions und der jeweilige Reward. Der
 Replay-Buffer enthält Speicherplatz für eine bestimmte Anzahl Steps. Während dem
 Training werden zufällige Steps aus dem Replay-Buffer gewählt, auf die das
 neuronale Netz trainiert. Das neuronale Netz trainiert also auf Daten aus der
@@ -365,8 +365,7 @@ gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
 Netz mit einer grossen Vielfalt an Steps trainiert. Das bewirkt ein stabileres
 Lernverhalten als ein chronologisches Training auf einzelne Steps.
 \cite{phd_how_2021}.
- 
- 
+
 \section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
 Strichbildern ist ein Teilbereich von der Tätigkeit des Zeichnens allgemein. Es
 gibt verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger
@@ -411,9 +410,9 @@ werden soll.
 Die Observation der Umgebung und somit der Input in das neuronale Netz (siehe
 \doubleref{sub:t_rl_func}) ist in zwei Teile gegliedert: der Global Stream und
 der Local Stream \cite[S. 4]{zhou_learning_2018}. Der Global Stream hat eine
-Form von $28\times28\times4$. Der Input ist somit dreidimensional. Die Form kann
-als $4$ aufeinandergestapelte Bilder angesehen werden, die jeweils eine Grösse
-von $28\times28$ Pixeln haben. Dabei beschreibt eine rationale Zahl den Wert von
+Form von $84\times84\times4$. Der Input ist somit dreidimensional. Die Form kann
+als $4$ aufeinandergestapelte Bilder (genannt \emph{Channels}) angesehen werden, die jeweils eine Grösse
+von $84\times84$ Pixeln haben. Dabei beschreibt eine rationale Zahl den Wert von
 jedem Pixel in einem Bild. Das erste Bild im Global Stream ist die Vorlage, die
 abgezeichnet werden soll. Das zweite Bild ist die Zeichenfläche im aktuellen
 Zustand. Das dritte Bild beschreibt die Position des Agents durch seine relative
@@ -422,9 +421,11 @@ der Agent im zeichnenden Zustand ist oder nicht. Wenn alle Pixel dieses letzten
 Bildes den Wert $1$ haben, ist der Agent im zeichnenden Zustand. Wenn alle Pixel
 den Wert $0$ haben, ist der Agent nicht im zeichnenden Zustand. Der Local Stream
 hat eine Form von $11\times11\times2$. Er ist somit auch dreidimensional und
-beschreibt zwei gestapelte Bilder. Das erste Bild umfasst die Vorlage in dem
+beschreibt zwei gestapelte Bilder (zwei Channels). Das erste Bild umfasst die Vorlage in dem
 $11\times11$ Bereich (bezeichnet als Local image Patch \cite[S.
 5]{zhou_learning_2018}), in dem sich der Agent in einem Step bewegen kann. Das
 zweite Bild beschreibt denselben Bereich von der Zeichenfläche \cite[S. 4
 ff.]{zhou_learning_2018}. Der Global Stream und der Local Stream werden durch
 eine Concatenation Layer (siehe \doubleref{sub:t_ml_nn}) zusammengeführt.
+Vor der Zusammenführung hat das neuronale Netz mehrere Convolutional Layers und
+nach der Zusammenführung jeweils einen Dense Layer und Output Layer (ebenfalls Dense).
