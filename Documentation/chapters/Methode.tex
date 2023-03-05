@@ -139,7 +139,7 @@ basiert, ist frei wählbar.
  
 \section{Evaluation der Leistung}\label{chap:m_eval}
 In diesem Unterkapitel sind die Kriterien definiert, welche die Leistung der
-künstlichen Intelligenz evaluieren. Mit anderen Worten beschreiben die
+künstlichen Intelligenz evaluieren. Spezifischer beschreiben die
 Kriterien, wie gut die KI nachzeichnet. Für eine präzise und objektive
 Evaluation sind alle Kriterien durch einen Zahlenwert repräsentiert. Die
 Kriterien und ihre jeweilige Berechnung werden nachfolgend beschrieben.
@@ -152,18 +152,17 @@ Wert $1$. Wird in der Vorlage eine Fünf erkannt, aber in der Zeichnung eine
 Vier, hat das Kriterium den Wert $0$
  
 Das erkannte Motiv wird durch eine zweite KI beurteilt (siehe
-\doubleref{sub:t_ml_func}). Diese zweite KI beurteilt ein Motiv nur als erkannt,
-wenn das zugehörige Neuron im Output des neuronalen Netzes einen Wert von über
-$0.75$ hat. Das entspricht laut dem neuronalen Netz mit einer hohen
-Wahrscheinlichkeit der korrekten Beurteilung.
- 
-Um die verschiedenen Arten von Strichbildern, die die KI zeichnen soll, zu
-erkennen, existieren vortrainierte Machine Learning Modelle. Die in dieser
-Arbeit implementierten vortrainierten Modelle sind in der \autoref{tab:models}
-ersichtlich. Diese Modelle sind mit denselben Daten trainiert, die in der
-Testumgebung (siehe \doubleref{sub:m_auswert_test}) als Vorlage zum Abzeichnen
-dienen.
- 
+\doubleref{sub:t_ml_func}). Diese klassifizierden Machine Learning Modelle sind
+spezifisch auf Bilder ohne Graustufen trainiert, welche die nachzeichnende KI
+dieser Arbeit produzieren kann. Der Output Layer der klassifiziernden KI hat
+Softmax mit einer hohen Temperatur als Activation Function (siehe
+\doubleref{chap:t_ml}). Das versichert, dass die KI nur eine eindeutige
+Klassifizierung trifft wenn die Wahrscheinlichkeit für dessen Richtigkeit hoch
+ist. Für die verschiedenen Arten von Strichbildern, welche die KI zeichnen soll,
+werden spezifische klassifizierende Machine Learning Modelle mit den zugehörigen
+Datensets trainiert. Diese Modelle, zusammen mit ihrer Genauigkeit, sind in der
+folgenden Tabelle (siehe \autoref{tab:models}) aufgeführt
+
 \begin{table}[!ht]
  \centering
  \begin{tabular}{|l|l|l|l|}
@@ -196,20 +195,15 @@ was einer prozentualen Übereinstimmung von $100\%$ entspricht (siehe
  \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung. (eigene Abbildung)}\label{fig:ubereinstimmung}
 \end{figure}
  
-\subsection{Geschwindigkeit}\label{sub:m_eval_speed}
-Dieses Kriterium beschreibt, wie schnell die Zeichnung der KI fertig ist. Der
-Wert dieses Kriteriums entspricht der Anzahl Steps bis zur Fertigstellung der
-Zeichnung. Eine kleinere Anzahl Steps entspricht einer schnelleren Fertigstellung
-der Zeichnung und somit einer besseren Leistung bezogen auf dieses Kriterium.
- 
-Eine Zeichnung gilt als fertig, wenn die prozentuale Übereinstimmung (siehe
-\doubleref{sub:m_eval_proc}) mindestens $70\%$ beträgt und die Zahl der
-Definition entsprechend erkannt wird (siehe \doubleref{sub:m_eval_rec}). Wenn
-die Zeichnung bis zum Ende der Episode die Bedingungen einer fertigen Zeichnung
-nicht erfüllt, hat dieses Kriterium den Wert $64$. Das entspricht der Anzahl
-Steps, die von der KI pro Episode insgesamt begangen werden (siehe
-\doubleref{sub:m_grund_data}).
- 
+\subsection{Geschwindigkeit}\label{sub:m_eval_speed} Dieses Kriterium
+beschreibt, wie schnell die Zeichnung der KI fertig ist. Der Wert des Kriteriums
+entspricht dabei der Anzahl Steps bis zur Fertigstellung. Der Punkt der
+Fertigstellung ist dabei bei der letzten zeichnenden Action des Agents
+definiert. Falls der Agent sich also nach dem Zeichnen weiterhin
+nicht-Zeichnende Actions ausführt, so werden diese nicht mehr zu der Zeichnung
+gezählt, weil die Zeichnung nicht beeinflusst wird.
+
+
  
 \section{Variationen}\label{chap:m_var}
 Dieses Unterkapitel beschreibt verschiedene Variationen, ausgehend vom
