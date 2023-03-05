@@ -1,27 +1,31 @@
-\chapter{Methode}\label{chap:m}
-Die Methode dieser Untersuchung besteht darin, die in der Fragestellung
-beschriebene künstliche Intelligenz (KI) zu entwickeln und dessen Leistung
-auszuwerten. Die Diskussion dieser Resultate führt schlussendlich zu einer
-Antwort auf die Fragestellung. Die Entwicklung der KI besteht aus zwei Teilen.
-Der eine Teil umfasst die Definition der Kriterien, nach denen die Leistung der
-KI evaluiert wird (siehe \doubleref{chap:m_eval}). Der andere Teil umfasst die
-Entwicklung der KI (siehe \doubleref{chap:m_grund}), zusammen mit verschiedenen
-Variationen davon (siehe \doubleref{chap:m_var}). Die Variationen haben jeweils
-einen unterschiedlichen Fokus auf die definierten Kriterien. Die Auswertung
-(siehe \doubleref{chap:m_auswert}) der Leistung der KI bezieht sich ebenfalls
-auf die definierten Kriterien.
- 
-\section{Grundprogramm}\label{chap:m_grund} Die KI ist abhängig von den
-Kriterien, die dessen Leistung definieren (siehe \doubleref{chap:m_eval}). Mit
-anderen Worten trainiert die KI auf diese Kriterien. Das Ziel des
-Grundprogramms ist, die allgemeine Trainingsumgebung für die KI
-bereitzustellen. Dieses Grundprogramm ist unabhängig von einem spezifischen
-Kriterium und ermöglicht das Training auf ein beliebiges Kriterium.
-Reinforcement Learning Modelle mit einer undefinierten Reward-Function (siehe
-\doubleref{sub:t_rl_func}) umfassen diese Eigenschaften. Das Grundprogramm ist
-in Python unter der Verwendung des Keras Frameworks implementiert (siehe
-\doubleref{chap:t_ml}).
- 
+\chapter{Methode}\label{chap:m} Die Methode dieser Untersuchung besteht darin,
+die in der Fragestellung beschriebene künstliche Intelligenz (KI) zu entwickeln
+und dessen Leistung auszuwerten (siehe \doubleref{chap:m_auswert}). Die
+Diskussion dieser Resultate führt schlussendlich zu einer Antwort auf die
+Fragestellung. Die Entwicklung der KI besteht aus zwei Teilen. Der eine Teil
+umfasst die Definition der Kriterien, nach denen die Leistung der KI evaluiert
+wird (siehe \doubleref{chap:m_eval}). Der andere Teil umfasst die Entwicklung
+der KI. Dazu gehört die Entwicklung einer grundlegenden Architektur (siehe
+\doubleref{chap:m_grund}), sowie die Vollendung der KI mit verschiedenen
+Variationen und Ansätzen (siehe \doubleref{chap:m_var}). Die Variationen sind
+dabei Versuche, die Leistung der KI zu maximieren oder ihr Verhalten zu
+verändern. Ein spezielle Variation, die sich dabei von der ursprünglichen
+Absicht entfernt, ist die Umwandlung in eine generative KI, die nicht mehr
+Nachzechnet und stattdessen eigene Zeichnungen ohne Vorlage kreiert (siehe
+\doubleref{chap:m_generativ}).
+
+
+\section{Grundprogramm}\label{chap:m_grund} Das Grundprogramm ist eine flexibel
+anwendbare Architektur der KI, die als Grundlage für eine Vielzahl an
+Variationen dient. Das Grundprogramm bietet dabei eine Trainingsumgebung für die
+KI, eine Zeichenumgebung und das Reinforcement Learning Modell (Deep
+Q-Learning), zusammen mit dem Agent und dem neuronalen Netz (siehe
+\doubleref{sub:t_rl_func}). Das Grundprogramm beinhaltet dabei keine
+Reward-Function und ist somit keine funktionale Version der KI.
+Das Grundprogramm ist in Python unter der Verwendung des Keras
+Frameworks implementiert (siehe \doubleref{chap:t_ml}).
+
+
 \subsection{Doodle-SDQ als Basis}\label{sub:m_grund_dood} Das Reinforcement
 Learning Modell des Grundprogramms basiert auf Doodle-SDQ (siehe
 \doubleref{sub:t_ver_dood}). Von Doodle-SDQ ist das neuronale Netz, bezogen auf
