@@ -90,7 +90,7 @@ class Model():
         return np.argmax(softmax)
         
     def soft_predict(self, img):
-        return self.softmax_sample(self.model(np.array([img])))
+        return self.softmax_sample(self.model(np.array([img])))[0]
        
     
 
