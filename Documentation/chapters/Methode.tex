@@ -161,16 +161,17 @@ Klassifizierung trifft wenn die Wahrscheinlichkeit für dessen Richtigkeit hoch
 ist. Für die verschiedenen Arten von Strichbildern, welche die KI zeichnen soll,
 werden spezifische klassifizierende Machine Learning Modelle mit den zugehörigen
 Datensets trainiert. Diese Modelle, zusammen mit ihrer Genauigkeit, sind in der
-folgenden Tabelle (siehe \autoref{tab:models}) aufgeführt
+folgenden Tabelle (siehe \autoref{tab:models}) aufgeführt. Das Neuronale Netz
+der Modelle stammt aus einem online Machine Learning Kurs \cite{wang_deep_2021}. %Todo Quelle Online Modelle
 
 \begin{table}[!ht]
- \centering
+ \centering  
  \begin{tabular}{|l|l|l|l|}
  \hline
-     Art & Entwickler & Trainiert mit \\ \hline
-     Ziffern & \cite{mazzia__2022} & MNIST \\ \hline
-     Buchstaben & \cite{mor_emnist_2022} & EMNIST Letters \\ \hline
-     \makecell{Strichbilder\\von Objekten} & \cite{lam_linus_keras_2022} & Auswahl aus QuickDraw \\ \hline
+     Art & Trainiert mit & Genauigkeit [\%]\\ \hline
+     Ziffern & MNIST & 99\\ \hline
+     Buchstaben  & EMNIST Letters & 91\\ \hline
+     \makecell{Strichbilder\\von Objekten}  & Auswahl aus QuickDraw & 98\\ \hline
  \end{tabular}
  \caption{Vortrainierte Modelle}\label{tab:models}
 \end{table}
@@ -202,6 +203,19 @@ Fertigstellung ist dabei bei der letzten zeichnenden Action des Agents
 definiert. Falls der Agent sich also nach dem Zeichnen weiterhin
 nicht-Zeichnende Actions ausführt, so werden diese nicht mehr zu der Zeichnung
 gezählt, weil die Zeichnung nicht beeinflusst wird.
+
+\subsection{Zeichnende Zeit}\label{sub:m_eval_zeichnend} Das Kriterium der
+zeichnenden Zeit beschreibt, in wie vielen Steps pro Episode die KI eine
+zeichnende Action ausführt. Dieser Wert ist als ein prozentualer Anteil
+angegeben und berechnet sich somit aus der Anzahl zeichnender Steps dividiert
+durch die Anzahl aller Steps pro Zeichnung.
+
+\subsection{Übermalung}\label{sub:m_eval_uebermalung} Das Kriterium der
+Übermalung beschreibt, wie viele Pixel pro zeichnung mehrfach bemalt werden.
+Jeder Pixel, auf dem die KI also zwei oder mehr Mal malt, erhöht den Wert dieses
+Kriteriums um Eins. Jeder Pixel trägt dabei höchstens einmal zu diesem Kriterium
+bei. Das heisst, dass vielfach bemalte Pixel gleich behandelt werden wie
+zweimal bemalte Pixel. 
 
 
  
