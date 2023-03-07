@@ -223,7 +223,7 @@ class Environment(object):
             else:
                 return prediction
         else:
-            prediction = self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.8
+            prediction = (self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.6)*0.5
             if prediction < 0:
                 return -0.01
             else:
