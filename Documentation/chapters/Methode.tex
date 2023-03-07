@@ -390,6 +390,67 @@ $-0.05$ aus.
  
 
 
+\section{Generative Zeichner}\label{chap:m_gen} Die generativen Zeichner sind
+eine Gruppe an Variationen der KI, die sich von der Aufgabe des Nachzeichnens
+entfernen. Trotzdem basieren auch diese Versionen auf dem Grundprogramm (siehe
+\doubleref{chap:m_grund}) und verändern dieses kaum. Die Aufgabe der generativen
+Zeichner lautet, Motive ohne eine Vorlage zu zeichnen. So soll die KI nach dem
+Training mit einem bestimmten Motiv eigene Zeichnungen von diesem Motiv
+erstellen können. Beispielsweise soll die generative KI (also ein generativer
+Zeichner) auf das Zeichnen der Zahl Zwei trainiert werden, damit diese nach dem
+Training ohne eine Vorlage der Zahl eine Zwei zeichnen kann.
+
+\subsection{Trainingsstrategie}\label{chap:m_gen_train} Die Strategie des
+Trainings für die generative KI unterscheidet sich von derjenigen der
+nachzeichnenden KI stark, da die nachzeichnende KI nach dem Training ohne
+Vorlage nichts zeichnet.
+
+Die Trainingsstrategie der generativen KI funktioniert folgendermassen: Im Input
+Channel des neuronalen Netzes (siehe \doubleref{sub:t_ml_nn}), wo der
+nachzeichnenden KI das Bild der Vorlage gegeben wird, hat die generative KI ein
+vollkommen schwarzes Bild (Alle Werte der Bitmap sind $0$). Der Channel für die
+Vorlage wird nicht entfernt, weil während dem Training der generativen KI zu
+einem gewissen Anteil trotz dessen Aufgabe eine Vorlage gegeben wird. Die
+Wahrscheinlichkeit, dass für eine Episode der KI eine Vorlage gezeigt wird,
+sinkt dabei linear über das Training hinweg von $1$ auf $0.25$. Zu Beginn des
+Trainings unterscheidet sich die generative KI somit nicht von der
+nachzeichnenden KI. Erst nachdem die generative KI das Nachzeichnen weitgehend
+erlernt hat, erlernt diese ihre eigentliche Aufgabe, indem sie zunehmend
+seltener eine Vorlage erhält.
+
+Die generative KI verwendet die Basis Reward-Function (siehe
+\doubleref{sub:m_var_base}) unabhängig davon, ob in der aktuellen Episode eine
+Vorlage gezeigt wird oder nicht. Da die Basis Reward-Function eine Vorlage
+benötigt, mit der die Zeichnung verglichen werden kann, hat die generative KI
+während dem Training im Hintergrund immer eine Vorlage. Das bedeutet, dass wenn
+dem neuronalen Netz der generativen KI keine Vorlage gezeigt wird, so hat die
+Reward-Function trotzdem eine Vorlage als Vergleich zu der Zeichnung.
+Prinzipiell ist ein generativer Zeichner während dem Training also ein blinder
+Nachzeichner. Der relevantere Reward für die generative KI basiert allerdings
+nicht auf auf dem Kriterium der prozentualen Übereinstimmung, welches die Basis
+Reward-Function verwendet, sondern auf dem Kriterium der Erkennbarkeit (siehe
+\doubleref{sub:m_eval_rec}). Da ein generativer Zeichner ein Motiv ohne weitere
+Spezifikationen zeichnen soll, ist die Erkennbarkeit des Motives von grösster
+Priorität. Die generative KI verwendet deswegen neben der Basis Reward-Function
+ebenfalls die auf Erkennbarkeit spezialisierte Reward-Function (siehe
+\doubleref{sub:m_var_rec}). 
+
+Anders als die Nachzeichnende KI, startet die generative KI für jede Zeichnung
+am selben vordefinierten Ort. Das verringert den Trainingsaufwand, aber bedeutet
+auch, dass nach dem Training die KI eine einzige Ausgangslage kennt und durch
+die deterministische Auswahl der Actions eine einzige Zeichnung produziert. 
+
+
+
+Diskussion Gedanken
+(Generierer nur möglich mit nachzeichner)
+(Prozess des Nachzeichnens entscheidend für Generierer)
+
+
+
+
+\subsection{Nicht deterministische Zeichnungen}\label{chap:m_gen_det}
+
 
 
 
