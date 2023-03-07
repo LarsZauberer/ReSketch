@@ -435,10 +435,13 @@ Priorität. Die generative KI verwendet deswegen neben der Basis Reward-Function
 ebenfalls die auf Erkennbarkeit spezialisierte Reward-Function (siehe
 \doubleref{sub:m_var_rec}). 
 
-Anders als die Nachzeichnende KI, startet die generative KI für jede Zeichnung
+Anders als die nachzeichnende KI, startet die generative KI für jede Zeichnung
 am selben vordefinierten Ort. Das verringert den Trainingsaufwand, aber bedeutet
-auch, dass nach dem Training die KI eine einzige Ausgangslage kennt und durch
-die deterministische Auswahl der Actions eine einzige Zeichnung produziert. 
+auch, dass nach dem Training die KI nur eine einzige Ausgangslage kennt. Nach
+dem Training ist die Wahl der Actions deterministsch, Da die KI stets die Action
+mit dem höchsten Q-Value wählt (siehe \doubleref{chap:m_auswert}). Zusammen mit
+der unveränderlichen Ausgangslage führt der Determinismus dazu, dass die KI nur
+eine einzige Zeichnung produzieren kann. 
 
 
 
@@ -447,9 +450,63 @@ Diskussion Gedanken
 (Prozess des Nachzeichnens entscheidend für Generierer)
 
 
+\subsection{Nicht deterministische Zeichnungen}\label{chap:m_gen_det} Damit die
+generative KI unterschiedliche Bilder zeichnet und nicht deterministisch ist,
+benötigt der Zeichenprozess ein Element von Zufall. Es gibt verschiedene Ansätze
+um diesen Zufall zu integrieren.
+
+Der erste Ansatz ist, nach dem Training der generativen KI die Softmax Policy
+zur Wahl der Actions zu verwenden (siehe \doubleref{sub:t_rl_func}). Die Softmax
+Policy macht die Wahl der Action in jedem Step vom Zufall abhängig. Ausserdem
+hat die Softmax Policy gegenüber von Epsilon-Greedy den Vorteil, dass Actions
+nie komplett vom Zufall bestimmt werden, sondern nach einer bestimmten
+Wahrscheinlichkeitsverteilung gewählt werden. Als weiterer Vorteil ist die
+Wahrscheinlichkeitsverteilung durch die Softmax Temperatur variierbar. Diese
+Eigenschaft ist für den Erfolg der Softmax Policy als Lösung für das Problem der
+deterministischen Zeichnungen entscheidend, weil die KI nur mit einer geringen
+Freiheit in der Wahl der Actions umgehen kann: Eine einzige falsche Action kann
+bereits dazu führen, dass das Motiv der Zeichnung nicht mehr erkennbar ist. Eine
+tiefe Softmax Temperatur, in einem Intervall zwischen $0.03$ und $0.01$,
+versichert, dass Actions mit einem geringen Q-Value nur in seltenen Fällen
+gewählt werden.
+
+Trotz geringer Softmax Temperatur ist die Freiheit in der Wahl der Actions zu
+gross und führt dazu, dass die generative KI häufig keine erkennbaren Bilder
+produziert. Eine Weiterführung des ersten Ansatz ist deshalb die Beschränkung
+der Wahl auf die $5$ Actions mit der höchsten Wahrscheinlichkeit. Diese
+Weiterführung hat mehr Erfolg als der erste Ansatz, weil Actions mit einer
+tiefen Wahrscheinlichkeit gar nicht mehr ausgeführt werden können. Ansonsten
+würde fast in jeder Zeichnung mindestens eine unwahrscheinliche Action
+ausgeführt werden.
+
+Die nachzeichnende KI verwendet standardmässig Epsilon-Greedy anstelle der
+Softmax-Policy, weil die Leistung in allen Kriterien ohne die Softmax Activation
+deutlich höher ist. Wird allerdings wie im ersten Ansatz nach dem Training die
+Softmax Policy verwendet, so sollte die KI auch mit der Softmax Policy
+trainieren. Die Softmax Temperatur ist während dem Training statisch als $0.05$
+definiert. Eine dynamische Anpassung der Softmax Temperatur während dem Training
+beeinflusst das Verhalten der KI nicht bemerkbar.
+
+Der zweite Ansatz ist, den Input in das neuronale Netz auf zufällige Weise
+anzupassen, da ein unterschiedlicher Input zu unterschiedlichen Beurteilungen
+führt. Eine Möglichkeit, um den Zufall zu integrieren, liegt im Channel des
+Inputs in das neuronale Netz, wo der KI eine Vorlage gezeigt wird. Der
+generativen KI wird generell ein in diesem Channel ein schwarzes Bild anstelle
+einer Vorlage gezeigt. Werden die Werte der Pixel dieses schwarzen Bildes mit
+zufälligen Werten zwischen $0$ und $1$ ersetzt, so verändert sich der Input in
+das neuronale Netz und somit auch der Output. Die KI trifft also Entscheidungen,
+die von zufälligen Werten abhängen. Damit dieser Ansatz funktioniert, muss
+bereits während dem Training diese Zufallsquelle integriert werden.
 
 
-\subsection{Nicht deterministische Zeichnungen}\label{chap:m_gen_det}
+%Todo: Änderung der Startposition
+
+
+
+
+
+
+
 
 
 
