@@ -219,13 +219,13 @@ class Environment(object):
         if self.show_Reference:
             prediction = self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.8
             if prediction < 0:
-                return -0.02
+                return prediction*0.5
             else:
                 return prediction
         else:
             prediction = (self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.6)*0.5
             if prediction < 0:
-                return -0.01
+                return prediction
             else:
                 return prediction
 

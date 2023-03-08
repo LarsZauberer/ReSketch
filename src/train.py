@@ -156,12 +156,16 @@ def generative(args):
     data = AI_Data(dataset=args.dataset)
     data.sample_by_category(2, n_episodes)
 
+    
+
 
     env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=True, with_liftpen=args.liftpen, with_overdraw=args.overdraw, generative=True)
     agent_args = {"softmax": True, "gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size}
     agent = Rep_Agent(**agent_args)
+
+    agent.set_softmax_temp(0.07)
 
     # Start training
     train(

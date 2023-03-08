@@ -64,14 +64,14 @@ class DeepQNetwork(object):
     
         out = Dense(self.n_actions, name="Action-Space")(dense1)
 
-        if self.softmax:
+        """ if self.softmax:
             softmax_temp = Lambda(lambda x: x / self.softmax_temp, name="Softmax_Temperature")(out)
             softmax = Activation("softmax", name="Softmax")(softmax_temp)
             self.dqn = Model(inputs=[glob_in, loc_in], outputs=[softmax])
-        else:
-            # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
-            # Output of the netword are Q-values. each Q-value represents an action
-            self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
+        else: """
+        # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
+        # Output of the netword are Q-values. each Q-value represents an action
+        self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
 
         # Network is ready for calling / Training
         self.dqn.compile(loss="mean_squared_error", optimizer=tf.keras.optimizers.Adam(
@@ -254,21 +254,41 @@ class Agent(object):
             actions = list(enumerate(actions))
             actions = sorted(actions, key=lambda x: x[1])
             actions = [(0, 0) for _ in actions[:-5]] + actions[-5:]
-            action_sum = np.sum([i[1] for i in actions])
-            actions = [(i[0], i[1]/action_sum) for i in actions]
-            probabilities = [i[1] for i in actions]
+            """ action_sum = np.sum([i[1] for i in actions])
+            actions = [(i[0], i[1]/action_sum) for i in actions] """
+
+
             
-            action = np.random.choice(len(actions), 1, p=probabilities)
-            action = actions[action[0]][0]
+            probabilities = [i[1] for i in actions]
+
+            probabilities = list(probabilities[:-5]) + list(self.apply_softmax(probabilities[-5:]))
+            
+
+            action = np.argmax(np.random.multinomial(1000, probabilities))
+
+
+            #action = np.random.choice(len(actions), 1, p=probabilities)
+
+    
+            action = actions[action][0]
+
             while(illegal_list[action] == 1):
-                action = np.random.choice(len(actions), 1, p=probabilities)
-                action = actions[action[0]][0]
+                #action = np.random.choice(len(actions), 1, p=probabilities)
+
+                action = np.argmax(np.random.multinomial(1000, probabilities))
+                action = actions[action][0]
                 
         return action
         
 
     
-    
+    def apply_softmax(self, actions):
+
+        actions = np.array(actions) / self.q_eval.softmax_temp
+        actions = np.exp(actions)/np.exp(actions).sum()
+        actions[-1] += 1 - actions.sum()
+
+        return actions
 
 
     def learn(self):

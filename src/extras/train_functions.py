@@ -74,8 +74,8 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
 
             # Choose Action
             if not all(a == 1 for a in illegal_moves):
-                #action = agent.choose_action_softmax(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
+                action = agent.choose_action_softmax(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
+                #action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
                 
                 """ if env.show_Reference:
                     action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
