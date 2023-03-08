@@ -1,0 +1,1 @@
+mnist-recognition: 0.0, speed 0.0, drawratio: 0.0
