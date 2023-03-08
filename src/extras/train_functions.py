@@ -91,7 +91,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             if env.translate_action(action) == True:
                 #Agent chooses stop-action
                 if env.generative:
-                    reward = env.generative_stop_reward(step=step)
+                    reward = env.generative_stop_reward(step=step, score=score)
                 else:
                     reward = env.stop_reward(score=score, step=step) 
                 log.info(f"stopAction in Step: {step}, Accuracy: {score}, stopReward: {reward}")   

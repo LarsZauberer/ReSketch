@@ -203,7 +203,7 @@ class Environment(object):
         return reward
 
     @critical
-    def generative_stop_reward(self: float, step: int) -> float:
+    def generative_stop_reward(self: float, step: int, score: float) -> float:
         
         """ stop_reward The stop action reward for the agent
 
@@ -222,6 +222,22 @@ class Environment(object):
                 return prediction*0.5
             else:
                 return prediction
+
+            """ ACC_THRESHOLD = 0.85
+            SPEED = 2.5
+            WEIGHT = 0.5
+
+            #accuracy_factor = score-ACC_THRESHOLD
+            if score < ACC_THRESHOLD:
+                accuracy_factor = -0.01
+            else:
+                accuracy_factor = 0.1
+            if SPEED == 0:
+                speed_factor = 1
+            else:
+                speed_factor = 1 - (step/64)**SPEED
+
+            return accuracy_factor * speed_factor * WEIGHT """
         else:
             prediction = (self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.6)*0.5
             if prediction < 0:
