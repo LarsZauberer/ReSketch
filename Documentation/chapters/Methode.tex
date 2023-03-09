@@ -220,8 +220,6 @@ Kriteriums um Eins. Jeder Pixel trägt dabei höchstens einmal zu diesem Kriteri
 bei. Das heisst, dass vielfach bemalte Pixel gleich behandelt werden wie
 zweimal bemalte Pixel. 
 
-
- 
 \section{Variationen}\label{chap:m_var} Dieses Unterkapitel beschreibt die
 Variationen der KI. Jede Variation erweitert das Grundprogramm (siehe
 \doubleref{chap:m_grund}) zu einer funktionalen, nachzeichnenden KI. Die meisten
@@ -267,10 +265,10 @@ Die Variation verwendet die Stopp Action (siehe
 \doubleref{sub:m_grund_erweiterungen}). Sobald die nachzeichnende KI die Stopp
 Action wählt, überprüft die klassifizierende KI, ob das Bild erkennbar ist. Der
 Reward entspricht dabei dem Output des Neurons, welches die Zahl beurteilt, die
-nachgezeichnet werden sollte. Dieser Output wird als Reward um $0.7$ verringert.
-Der maximale Reward für eine erkennbare Zahl ist somit $1 - 0.7 = 0.3$. Negative
-Rewards sind standardisiert auf $-0.02$ gesetzt. Diese Standardisierung verhindert, dass
-die KI zu hohe negative Rewards erhält.
+nachgezeichnet werden sollte. Dieser Output wird als Reward um $0.8$ verringert.
+Der maximale Reward für eine erkennbare Zahl ist somit $1 - 0.8 = 0.2$. Negative
+Rewards werden mit einem Faktor von $0.5$ multipliziert, damit die KI nicht zu
+hohe negativen Rewards erhält.
 
 \subsection{Spezialisierung auf Geschwindigkeit}\label{sub:m_var_speed} Diese
 Variation verwendet die Stopp Action in der Reward-Function um eine möglichst
@@ -282,12 +280,12 @@ erst ab einer prozentualen Übereinstimmung von mehr als $80\%$ einen positiven
 Reward aus. Ansonsten ist der Reward der Stopp Action negativ. Der Reward über
 und unter dieser Schwelle von $80\%$ ist eine statische Zahl. Eine prozentuale
 Übereinstimmung von $90\%$ löst also keinen grösseren Reward aus als eine
-prozentuale Übereinstimmung von $80\%$ aus. Experimente mit dynamischen Rewards
+prozentuale Übereinstimmung von $80\%$. Experimente mit dynamischen Rewards
 scheiterten bisher. Ein möglicher Grund dafür ist, dass die KI je nach Situation
 zu hohe oder zu niedrige Rewards erhält.
 
 Der Reward wird mit einem Faktor multipliziert, der von der Geschwindigkeit
-abhängt. Dieser Faktor ist nicht Linear und stattdessen durch die folgende Funktion definiert:
+abhängt. Dieser Faktor ist nicht linear und stattdessen durch die folgende Funktion definiert:
 $$ f_{speed} = 1 - (\frac{t}{64})^{3}$$ (Siehe Abbildung Funktion) Dabei ist
 $t$ der aktuelle Step und die Zahl $64$ entspricht der maximalen Anzahl Steps,
 was somit den Wert der geringsten möglichen Geschwindigkeit ausmacht. Die Kurve
@@ -311,8 +309,7 @@ definierten Betrag. Pro Action ist allerdings das übermalen von drei Pixeln
 erlaubt und somit von negativen Rewards befreit. Diese Variation ist ohne
 die Stopp Action verwendbar, kann aber auch mit dieser kombiniert werden.
 
- 
- 
+
 \subsection{Physikalische Umgebung}\label{sub:m_var_phy} Diese Variation
 spezialisiert sich auf kein Kriterium. Stattdessen verändert sie die Umgebung,
 sowie auch den Input und den Output des neuronalen Netzes (siehe
@@ -387,8 +384,6 @@ keine Actions mehr wählen, die ihn innerhalb der Grenzen der Zeichenflächen
 halten würden. Als Lösung wird diesen Fällen die Geschwindigkeit des Agents auf den
 Nullvektor zurückgesetzt und die Reward-Function löst einen negativen Reward von
 $-0.05$ aus.
- 
-
 
 \section{Generative Zeichner}\label{chap:m_gen} Die generativen Zeichner sind
 eine Gruppe an Variationen der KI, die sich von der Aufgabe des Nachzeichnens
@@ -398,7 +393,7 @@ Zeichner lautet, Motive ohne eine Vorlage zu zeichnen. So soll die KI nach dem
 Training mit einem bestimmten Motiv eigene Zeichnungen von diesem Motiv
 erstellen können. Beispielsweise soll die generative KI (also ein generativer
 Zeichner) auf das Zeichnen der Zahl Zwei trainiert werden, damit diese nach dem
-Training ohne eine Vorlage der Zahl eine Zwei zeichnen kann.
+Training ohne eine Vorlage eine Zwei zeichnen kann.
 
 \subsection{Trainingsstrategie}\label{chap:m_gen_train} Die Strategie des
 Trainings für die generative KI unterscheidet sich von derjenigen der
@@ -416,7 +411,8 @@ sinkt dabei linear über das Training hinweg von $1$ auf $0.25$. Zu Beginn des
 Trainings unterscheidet sich die generative KI somit nicht von der
 nachzeichnenden KI. Erst nachdem die generative KI das Nachzeichnen weitgehend
 erlernt hat, erlernt diese ihre eigentliche Aufgabe, indem sie zunehmend
-seltener eine Vorlage erhält.
+seltener eine Vorlage erhält. die generative KI trainiert insgesamt für $6'000$
+Episoden
 
 Die generative KI verwendet die Basis Reward-Function (siehe
 \doubleref{sub:m_var_base}) unabhängig davon, ob in der aktuellen Episode eine
@@ -444,7 +440,7 @@ der unveränderlichen Ausgangslage führt der Determinismus dazu, dass die KI nu
 eine einzige Zeichnung produzieren kann. 
 
 
-
+%Todo: In diskussion einfügen
 Diskussion Gedanken
 (Generierer nur möglich mit nachzeichner)
 (Prozess des Nachzeichnens entscheidend für Generierer)
@@ -498,15 +494,10 @@ das neuronale Netz und somit auch der Output. Die KI trifft also Entscheidungen,
 die von zufälligen Werten abhängen. Damit dieser Ansatz funktioniert, muss
 bereits während dem Training diese Zufallsquelle integriert werden.
 
-
 %Todo: Änderung der Startposition
+%Todo: Mehr Text
 
-
-
-
- 
 \section{Auswertung}\label{chap:m_auswert}
-
 Die Auswertung beschreibt das sammeln der Leistungsdaten der verschiedenen
 Variationen und Versionen der KI. Diese Daten machen das Resultat der Methode
 aus. Die Leistungsdaten beruhen auf den objektiven Werten der definierten
@@ -514,9 +505,7 @@ Kriterien (siehe \doubleref{chap:m_eval}). Die Auswertung wird für die
 Variationen der nachzeichnenden KI und die Variationen der generativen KI
 separat beschrieben, da diese sich in den beiden Fällen unterscheidet.
 
-
-\subsection{Auswertung der nachzeichnenden KI}
-
+\subsection{Auswertung der nachzeichnenden KI}\label{chap:m_auswert_nachzeich}
 Die Variationen der nachzeichnenden KI werden auf ihre Leistung für drei
 verschiedene Datensets geprüft. Die drei Datensets enthalten verschiedene Arten
 von Strichbildern und jeweils eine klassifizerende KI, welche die spezifischen
@@ -551,4 +540,32 @@ hat, ergibt der Durchschnitt aus allen Werten dieses Kriteriums eine prozentuale
 Angabe (in Dezimalform) darüber, in wie vielen Fällen das richtige Motiv erkannt
 wird.
 
-\subsection{Auswertung der generativen Zeichner} 
+\subsection{Auswertung der generativen Zeichner}\label{chap:m_auswert_gen}
+
+Die Variationen der generativen KI werden auf ihre Leistung in dem Kriterium der
+Erkennbarkeit, der Geschwindigkeit und der zeichnenden Zeit geprüft (siehe
+\doubleref{chap:m_eval}). Die übrigen Kriterien ergeben ohne eine
+nachzuzeichnende Vorlage keinen Sinn. Anders als im Training wird der
+generativen KI in der Testumgebung in keinem Fall eine Vorlage gezeigt. Die
+Startposition ist auf die selbe vordefinierten Position wie im Training gesetzt.
+Die Wahl der Actions ist nicht deterministisch, weil die KI in diesem Fall nur
+eine einzige Zeichnung produzieren könnte. Stattdessen unterliegt die Wahl der
+Actions den selben Zufallselementen (siehe \doubleref{sub:m_gen_det}) wie im
+Training der jeweils getesteten Variation.
+
+Im Test generiert die KI 500 Bilder. Das Motiv der Bilder hängt dabei davon ab,
+worauf die Variation trainiert ist. Eine Variation wird auf fünf verschiedene
+Motive trainiert und anschliessend getestet. Die drei Motive sind: eine Null,
+eine Zwei, eine Acht, ein F und eine Blume aus dem QuickDraw Datenset (siehe
+\autoref{fig:generative_motives}). Wenn eine Variation im Test die Softmax
+Policy verwendet (siehe \doubleref{sub:t_rl_func}), dann ist die Softmax
+Temperatur unabhängig von derjenigen im Training bestimmbar. Die Softmax
+Temperatur beeinflusst dabei wie viel Varianz in den Zeichnungen ist.
+
+%Todo Abbildung Null, Zwei, Acht, F, Bluem
+%\label{fig:generative_motives}
+
+Wie im Test der nachzeichnenden KI (siehe \doubleref{chap:m_auswert_nachzeich}),
+entspricht die Leistung einer Variation dem Durchschnitt der Werte in den
+verwendeten Kriterien nach jeder Zeichnung.
+
