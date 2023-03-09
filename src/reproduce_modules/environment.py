@@ -239,9 +239,9 @@ class Environment(object):
 
             return accuracy_factor * speed_factor * WEIGHT """
         else:
-            prediction = (self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.6)*0.5
+            prediction = self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.8
             if prediction < 0:
-                return prediction
+                return prediction*0.5
             else:
                 return prediction
 

@@ -57,6 +57,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             rand = np.random.random()
             thres = 1 - 1.5*(episode-episode_mem_size)/(n_episodes-episode_mem_size)
             if thres < 0.30: thres = 0.30
+            agent.set_softmax_temp(0.05 + (1-thres)*0.08)
             if rand > thres:
                 env.show_Reference = False
             else:
