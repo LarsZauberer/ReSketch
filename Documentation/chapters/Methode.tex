@@ -504,83 +504,51 @@ bereits während dem Training diese Zufallsquelle integriert werden.
 
 
 
-
-
-
-
-
-
-
-
  
 \section{Auswertung}\label{chap:m_auswert}
-Die Auswertung der Daten über die Leistung der künstlichen Intelligenz liefert
-das Resultat der Methode. Die Auswertung berechnet den Zahlenwert der
-definierten Kriterien (siehe \doubleref{chap:m_eval}) für verschiedene Variationen
-der KI.
- 
-Die Variationen werden auf ihre Leistung für drei verschiedene Datensets
-geprüft. Die drei Datensets beinhalten verschiedene Arten von
-Strichbildern (siehe \autoref{tab:models}). Im Falle des QuickDraw Datensets
-wird die KI allerdings nur auf das Nachzeichnen von zehn Motiven überprüft. Die
-zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer', `Bulldozer', `Uhr',
-`Wolke', `Computer', `Auge' und `Blume' (siehe
-\autoref{fig:quickdraw-examples}). Die Bilder in den drei Datensets sind gleich
-verarbeitet wie die Trainingsdaten (siehe \doubleref{sub:m_grund_data}).
- 
+
+Die Auswertung beschreibt das sammeln der Leistungsdaten der verschiedenen
+Variationen und Versionen der KI. Diese Daten machen das Resultat der Methode
+aus. Die Leistungsdaten beruhen auf den objektiven Werten der definierten
+Kriterien (siehe \doubleref{chap:m_eval}). Die Auswertung wird für die
+Variationen der nachzeichnenden KI und die Variationen der generativen KI
+separat beschrieben, da diese sich in den beiden Fällen unterscheidet.
+
+
+\subsection{Auswertung der nachzeichnenden KI}
+
+Die Variationen der nachzeichnenden KI werden auf ihre Leistung für drei
+verschiedene Datensets geprüft. Die drei Datensets enthalten verschiedene Arten
+von Strichbildern und jeweils eine klassifizerende KI, welche die spezifischen
+Strichbilder erkennen kann (siehe \autoref{tab:models}). Im Falle des QuickDraw
+Datensets wird die KI allerdings nur auf das Nachzeichnen von zehn Motiven
+überprüft. Die zehn Motive sind: `Amboss', `Apfel', `Besen', `Eimer',
+`Bulldozer', `Uhr', `Wolke', `Computer', `Auge' und `Blume' (siehe
+\autoref{fig:quickdraw-examples}). Die Bilder in den drei Datensets werden im
+Training nicht verwendet, sind aber gleich verarbeitet wie die Trainingsdaten
+(siehe \doubleref{sub:m_grund_data}).
+
 %Bild images dataset
 \begin{figure}[!ht]
- \centering
- \includegraphics[width=\textwidth]{images/methode/quickdraw-examples.png}
- \caption{Beispiele der verwendeten Motive aus dem QuickDraw Datenset. (eigene Abbildung)}\label{fig:quickdraw-examples}
+    \centering
+    \includegraphics[width=\textwidth]{images/methode/quickdraw-examples.png}
+    \caption{Beispiele der verwendeten Motive aus dem QuickDraw Datenset. (eigene Abbildung)}\label{fig:quickdraw-examples}
 \end{figure}
- 
- 
-Die Variationen (siehe \doubleref{chap:m_var}) der KI umfassen zwei Umgebungen und
-drei Reward-Functions (siehe \doubleref{sub:t_rl_func}). Für jede Variation ist zur
-Vereinfachung eine Abkürzung definiert.
-\newpage
-\begin{itemize}
- \item \doubleref{chap:m_grund} Umgebung: Grund
- \item \doubleref{sub:m_var_phy}: Physik
- \item \doubleref{sub:m_var_base}: Basis
- \item \doubleref{sub:m_var_speed}: Speed
- \item \doubleref{sub:m_var_rec} (von MNIST Ziffern): MNIST
-\end{itemize}
- 
-Die folgenden Kombinationen an Variationen der künstlichen Intelligenz werden
-ausgewertet. Diese Kombinationen stellen einzelne Versionen der KI dar
-\begin{itemize}
- \item Grund-Basis
- \item Grund-MNIST
- \item Grund-Speed
- \item Grund-MNIST-Speed
- \item Physik-Basis
- \item Physik-MNIST
- \item Physik-Speed
- \item Physik-MNIST-Speed
-\end{itemize}
- 
-\subsection{Testumgebung}\label{sub:m_auswert_test} Die Leistungen der
-verschiedenen Variationen der künstlichen Intelligenz werden in einer
-Testumgebung (siehe \doubleref{sub:t_ml_func}) ausgewertet. Zwischen der
-Trainingsumgebung und der Testumgebung sind drei relevante Unterschiede. Erstens
-trainiert die KI in der Testumgebung nicht. Die Testumgebung übernimmt eine
-trainierte Version der KI und verändert diese während dem Test nicht. Zweitens
-wählt der Agent in keinem Fall mehr eine zufällige Action. Stattdessen wählt er
-immer die Action mit dem höchsten Q-Value (gleichbedeutend mit $\epsilon = 0$)
-(siehe \doubleref{sub:t_rl_func}). Der Dritte Unterschied liegt in den
-Strichbildern, die für die künstliche Intelligenz als Vorlage dienen. Im Test
-zeichnet das Computerprogramm $2000$ Bilder aus einem der drei zur Verfügung
-stehenden Datensets (siehe \autoref{tab:models}).
- 
-Am Ende jeder Episode (das heisst jeder Zeichnung), wird der Zahlenwert für die
-verschiedenen Kriterien (siehe \doubleref{chap:m_eval}) ihrer Definition
-entsprechend ausgewertet und gespeichert. Der Durchschnitt aller gespeicherten
-Werte eines Kriteriums entspricht der Leistung der getesteten Variation in
-diesem Kriterium. Das Kriterium der Erkennbarkeit verwendet zur Auswertung
-dasjenige vortrainierte Modell, das auf denselben Daten trainiert ist, die im
-Test verwendet werden (siehe \doubleref{sub:m_eval_rec}). Da das Kriterium der
-Erkennbarkeit entweder den Wert $0$ oder $1$ hat, ergibt der Durchschnitt aus
-allen Werten dieses Kriteriums eine prozentuale Angabe (in Dezimalform) darüber,
-in wie vielen Fällen das richtige Motiv erkannt wird.
+
+Eine Testumgebung erfasst die Leistung der KI (siehe \doubleref{sub:t_ml_func}).
+Zwischen der Trainingsumgebung und der Testumgebung sind zwei relevante
+Unterschiede. Erstens trainiert die KI in der Testumgebung nicht. Die
+Testumgebung übernimmt eine trainierte Version der nachzeichnenden KI und
+verändert diese während dem Test nicht. Zweitens wählt der Agent Die Actions
+deterministisch. In jedem Step wird die Action mit dem höchsten Q-Value gewählt.
+
+Im Test zeichnet die KI $2'000$ Strichbilder nach. Am Ende jeder Zeichnung wird
+der Zahlenwert der verschiedenen Kriterien (siehe \doubleref{chap:m_eval}) ihrer
+Definition entsprechend berechnet und gespeichert. Der Durchschnitt aller
+gespeicherten Werte eines Kriteriums entspricht der Leistung der KI in diesem
+Kriterium. Da das Kriterium der Erkennbarkeit entweder den Wert $0$ oder $1$
+hat, ergibt der Durchschnitt aus allen Werten dieses Kriteriums eine prozentuale
+Angabe (in Dezimalform) darüber, in wie vielen Fällen das richtige Motiv erkannt
+wird.
+
+\subsection{Auswertung der generativen Zeichner} 
