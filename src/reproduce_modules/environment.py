@@ -217,7 +217,7 @@ class Environment(object):
         assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
         
         if self.show_Reference:
-            prediction = self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.8
+            prediction = self.rec_model.mnist(self.canvas, mode="soft")[self.label] - 0.8
             if prediction < 0:
                 return prediction*0.5
             else:
@@ -239,7 +239,7 @@ class Environment(object):
 
             return accuracy_factor * speed_factor * WEIGHT """
         else:
-            prediction = self.rec_model.mnist(self.canvas, mode="soft")[2] - 0.8
+            prediction = self.rec_model.mnist(self.canvas, mode="soft")[self.label] - 0.8
             if prediction < 0:
                 return prediction*0.5
             else:

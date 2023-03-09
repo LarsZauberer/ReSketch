@@ -154,7 +154,7 @@ def generative(args):
     # load Data
     learn_plot = Learn_Plotter(path="src/data_statistics/plotlearn_data.json")
     data = AI_Data(dataset=args.dataset)
-    data.sample_by_category(2, n_episodes)
+    data.sample_by_category(8, n_episodes)
 
     
 
