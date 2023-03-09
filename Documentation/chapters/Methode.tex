@@ -291,7 +291,7 @@ $t$ der aktuelle Step und die Zahl $64$ entspricht der maximalen Anzahl Steps,
 was somit den Wert der geringsten möglichen Geschwindigkeit ausmacht. Die Kurve
 der verwendeten Funktion verhindert, dass der Reward zu schnell abfällt.
 
-\subsection{Spezialisierung auf zeichnende Zeit}
+\subsection{Spezialisierung auf zeichnende Zeit}\label{sub:m_var_penlift}
 Diese Variation hat zum Ziel, den Wert des Kriteriums der zeichnenden Zeit zu
 maximieren. Das heisst, die KI soll sich so wenig wie möglich bewegen ohne dabei
 zu zeichnen. Dieser Effekt wird dadurch angestrebt, dass nicht zeichnende
@@ -302,7 +302,7 @@ Spezialisierung auf Geschwindigkeit oder Erkennbarkeit), weil die KI nach einer
 gewissen Anzahl Steps keine nützlichen Actions mehr hat und ohne Stopp Action in
 diesem Fall unschuldig negative Rewards erhalten würde.
 
-\subsection{Spezialisierung auf keine Übermalung}
+\subsection{Spezialisierung auf keine Übermalung}\label{sub:m_var_overdraw}
 Diese Variation versucht, die KI davon abzuhalten, Pixel mehrfach zu übermalen.
 Jeder übermalte Pixel senkt dabei den Reward der Basis Reward-Function um einen
 definierten Betrag. Pro Action ist allerdings das übermalen von drei Pixeln
@@ -395,7 +395,7 @@ erstellen können. Beispielsweise soll die generative KI (also ein generativer
 Zeichner) auf das Zeichnen der Zahl Zwei trainiert werden, damit diese nach dem
 Training ohne eine Vorlage eine Zwei zeichnen kann.
 
-\subsection{Trainingsstrategie}\label{chap:m_gen_train} Die Strategie des
+\subsection{Trainingsstrategie}\label{sub:m_gen_train} Die Strategie des
 Trainings für die generative KI unterscheidet sich von derjenigen der
 nachzeichnenden KI stark, da die nachzeichnende KI nach dem Training ohne
 Vorlage nichts zeichnet.
@@ -446,7 +446,7 @@ Diskussion Gedanken
 (Prozess des Nachzeichnens entscheidend für Generierer)
 
 
-\subsection{Nicht deterministische Zeichnungen}\label{chap:m_gen_det} Damit die
+\subsection{Nicht deterministische Zeichnungen}\label{sub:m_gen_det} Damit die
 generative KI unterschiedliche Bilder zeichnet und nicht deterministisch ist,
 benötigt der Zeichenprozess ein Element von Zufall. Es gibt verschiedene Ansätze
 um diesen Zufall zu integrieren.
@@ -505,7 +505,7 @@ Kriterien (siehe \doubleref{chap:m_eval}). Die Auswertung wird für die
 Variationen der nachzeichnenden KI und die Variationen der generativen KI
 separat beschrieben, da diese sich in den beiden Fällen unterscheidet.
 
-\subsection{Auswertung der nachzeichnenden KI}\label{chap:m_auswert_nachzeich}
+\subsection{Auswertung der nachzeichnenden KI}\label{sub:m_auswert_nachzeich}
 Die Variationen der nachzeichnenden KI werden auf ihre Leistung für drei
 verschiedene Datensets geprüft. Die drei Datensets enthalten verschiedene Arten
 von Strichbildern und jeweils eine klassifizerende KI, welche die spezifischen
@@ -540,7 +540,7 @@ hat, ergibt der Durchschnitt aus allen Werten dieses Kriteriums eine prozentuale
 Angabe (in Dezimalform) darüber, in wie vielen Fällen das richtige Motiv erkannt
 wird.
 
-\subsection{Auswertung der generativen Zeichner}\label{chap:m_auswert_gen}
+\subsection{Auswertung der generativen Zeichner}\label{sub:m_auswert_gen}
 
 Die Variationen der generativen KI werden auf ihre Leistung in dem Kriterium der
 Erkennbarkeit, der Geschwindigkeit und der zeichnenden Zeit geprüft (siehe
@@ -565,7 +565,7 @@ Temperatur beeinflusst dabei wie viel Varianz in den Zeichnungen ist.
 %Todo Abbildung Null, Zwei, Acht, F, Bluem
 %\label{fig:generative_motives}
 
-Wie im Test der nachzeichnenden KI (siehe \doubleref{chap:m_auswert_nachzeich}),
+Wie im Test der nachzeichnenden KI (siehe \doubleref{sub:m_auswert_nachzeich}),
 entspricht die Leistung einer Variation dem Durchschnitt der Werte in den
 verwendeten Kriterien nach jeder Zeichnung.
 
