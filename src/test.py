@@ -128,7 +128,7 @@ def generative_test(args):
     agent = Rep_Agent(**agent_args)
     agent.load_models(f"pretrained_models/generative/{args.name}")
 
-    agent.set_softmax_temp(0.01)
+    agent.set_softmax_temp(0.1)
 
     scores = generative_test_env(
         env=env,
