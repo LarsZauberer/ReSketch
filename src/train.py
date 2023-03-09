@@ -137,7 +137,7 @@ def generative(args):
 
     hyp_data = hyperparameter_loader("src/opti.json", model_name)
     #Manual hyperparameters:
-    hyp_data = {"gamma": 0.8, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 4500} 
+    hyp_data = {"gamma": 0.8, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 6000} 
 
     # Agent, Environment constants
     canvas_size = 28
