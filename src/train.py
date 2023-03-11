@@ -83,7 +83,7 @@ def reproduce(args):
 
     #hyp_data = hyperparameter_loader("src/opti.json", model_name)
     #Manual hyperparameters:
-    hyp_data = {"gamma": 0.7, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.00015, "replace_target": 6000, "episode_mem_size": 90, "n_episodes": 5000} 
+    hyp_data = {"gamma": 0.7, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.00015, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 5000} 
 
     # Agent, Environment constants
     canvas_size = 28
@@ -102,7 +102,7 @@ def reproduce(args):
     data = AI_Data(dataset=args.dataset)
     data.sample(n_episodes)
 
-    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=args.stopAction, with_liftpen=args.liftpen, with_overdraw=args.overdraw, generative=False)
+    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=args.stopAction, with_liftpen=args.liftpen, with_overdraw=args.overdraw, with_noisy=False, generative=False)
     agent_args = {"softmax": args.softmax,"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size}
@@ -137,7 +137,7 @@ def generative(args):
 
     hyp_data = hyperparameter_loader("src/opti.json", model_name)
     #Manual hyperparameters:
-    hyp_data = {"gamma": 0.8, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 50, "n_episodes": 6000} 
+    hyp_data = {"gamma": 0.8, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 6000} 
 
     # Agent, Environment constants
     canvas_size = 28
@@ -159,7 +159,7 @@ def generative(args):
     
 
 
-    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=2, with_liftpen=args.liftpen, with_overdraw=args.overdraw, generative=True)
+    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=2, with_liftpen=args.liftpen, with_overdraw=args.overdraw, with_noisy=args.noisyPixel, generative=True)
     agent_args = {"softmax": args.softmax, "gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size}
@@ -193,6 +193,7 @@ if __name__ == "__main__":
     parser.add_argument("-s", "--stopAction", help="Run the stopAction version", action="store", default=0)
     parser.add_argument("-o", "--overdraw", help="Run the Overdraw reward function", action="store_true", default=False)
     parser.add_argument("-l", "--liftpen", help="Run the liftpen reward function", action="store_true", default=False)
+    parser.add_argument("-np", "--noisyPixel", help="Run the noisypixel variation", action="store_true", default=False)
     parser.add_argument("--debug", help="Verbose for the logging", action="store_true", default=False)
     args = parser.parse_args()
     
@@ -207,6 +208,7 @@ if __name__ == "__main__":
     log.info(f"StopAction Variation: {args.stopAction}")
     log.info(f"Overdraw Variation: {args.overdraw}")
     log.info(f"Liftpen Variation: {args.liftpen}")
+    log.info(f"noisy-pixel Variation: {args.noisyPixel}")
 
 
     if args.physics:

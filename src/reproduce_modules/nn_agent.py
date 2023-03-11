@@ -191,8 +191,8 @@ class Agent(object):
         :return: Index of the action the agent wants to take
         :rtype: int
         """
-        action = 0
 
+        action = 0
         # Check if the agent should explore
         rand = np.random.random()
         if rand < self.epsilon or replay_fill:
@@ -209,27 +209,12 @@ class Agent(object):
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
-
-            """ for i, el in enumerate(illegal_list):
-                if el == 1:
-                    actions[i] = 0
-            try:
-                actions /= np.sum(actions)
-            except:
-                print(np.sum(actions))
-                print(actions) """
-
             while illegal_list[np.argmax(actions)] == 1:
                 actions[np.argmax(actions)] = -1
-
-
             # Take the index of the maximal value -> action
             action = int(np.argmax(actions))
             
-
         return action
-
-        
 
 
     def choose_action_softmax(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
