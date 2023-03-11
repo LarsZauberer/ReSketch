@@ -15,7 +15,7 @@ log = logging.getLogger("nn_agent")
 
 class DeepQNetwork(object):
     def __init__(self, lr, n_actions: int, batch_size: int, name: str,
-                 global_input_dims: int, local_input_dims: int,  softmax : bool = False, softmax_temp : float = 0.05, fc1_dims: int = 1024):
+                 global_input_dims: int, local_input_dims: int, fc1_dims: int = 1024):
         
         self.lr = lr  # The optimization learning rate of the network model
         self.n_actions = n_actions  # How many actions the agent has available -> Index of the action to execute
@@ -26,8 +26,6 @@ class DeepQNetwork(object):
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated input. The local patch of the canvas.
         self.fc1_dims = fc1_dims  # Dimensions of the last dense layer
         self.batch_size = batch_size  # How many inputs sending into the network
-        self.softmax_temp = softmax_temp
-        self.softmax = softmax
 
         # Generate the network
         self.build_network()
@@ -69,6 +67,7 @@ class DeepQNetwork(object):
             softmax = Activation("softmax", name="Softmax")(softmax_temp)
             self.dqn = Model(inputs=[glob_in, loc_in], outputs=[softmax])
         else: """
+
         # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
         # Output of the netword are Q-values. each Q-value represents an action
         self.dqn = Model(inputs=[glob_in, loc_in], outputs=[out])
@@ -106,8 +105,8 @@ class DeepQNetwork(object):
 
 
 class Agent(object):
-    def __init__(self, alpha, gamma, mem_size, epsilon, epsilon_episodes, global_input_dims, local_input_dims, batch_size, softmax,
-                 replace_target=1000):
+    def __init__(self, alpha, gamma, mem_size, epsilon, epsilon_episodes, global_input_dims, local_input_dims, batch_size, 
+                 softmax, softmax_temp : float = 0.05, replace_target=1000):
 
         self.n_actions = local_input_dims[0]*(local_input_dims[1]**2)  # How many action options the agent has. -> Index of the action to choose
         self.n_actions += 1 # Stop Action
@@ -120,11 +119,12 @@ class Agent(object):
         self.global_input_dims = global_input_dims  # The input dimensions of the whole canvas.
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated patch of the canvas
         self.softmax = softmax
+        self.softmax_temp = softmax_temp
 
         self.q_next = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, softmax=softmax, name='q_next')  # The QNetwork to compute the q-values on the next state of the canvas
+                                   local_input_dims=local_input_dims, name='q_next')  # The QNetwork to compute the q-values on the next state of the canvas
         self.q_eval = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
-                                   local_input_dims=local_input_dims, softmax=softmax, name='q_eval') # The QNetwork to compute the q-values on the current state of the canvas
+                                   local_input_dims=local_input_dims, name='q_eval') # The QNetwork to compute the q-values on the current state of the canvas
 
         self.epsilon_episodes = epsilon_episodes
         self.start_epsilon = epsilon
@@ -191,7 +191,6 @@ class Agent(object):
         :return: Index of the action the agent wants to take
         :rtype: int
         """
-
         action = 0
 
         # Check if the agent should explore
@@ -284,7 +283,7 @@ class Agent(object):
     
     def apply_softmax(self, actions):
 
-        actions = np.array(actions) / self.q_eval.softmax_temp
+        actions = np.array(actions) / self.softmax_temp
         actions = np.exp(actions)/np.exp(actions).sum()
         actions[-1] += 1 - actions.sum()
 
@@ -371,5 +370,5 @@ class Agent(object):
             self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
 
     def set_softmax_temp(self, temp):
-        self.q_eval.softmax_temp = temp
-        self.q_next.softmax_temp = temp
+        self.softmax_temp = temp
+        self.softmax_temp = temp

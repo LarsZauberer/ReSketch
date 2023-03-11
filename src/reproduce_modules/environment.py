@@ -10,7 +10,7 @@ from extras.logger import critical
 
 
 class Environment(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : bool = False, with_liftpen : bool = False,  with_overdraw : bool = False, generative : bool = False, do_render : bool = True):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : int = 0,  with_liftpen : bool = False, with_overdraw : bool = False, generative : bool = False, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -46,16 +46,14 @@ class Environment(object):
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
 
         
-        """ if generative:
+        if generative:
             self.set_agentPos([4,4])
         else:
-            self.set_agentPos([np.random.choice(range(1, 27)), np.random.choice(range(1, 27))]) """
+            self.set_agentPos([np.random.choice(range(1, 27)), np.random.choice(range(1, 27))])
         
-        self.set_agentPos([4,4])
-            
-
+      
         # variations
-        self.with_stopAction = with_stopAction
+        self.with_stopAction = int(with_stopAction)
         self.with_overdraw = with_overdraw
         self.with_liftpen = with_liftpen
         self.generative = generative
@@ -122,7 +120,7 @@ class Environment(object):
         """
         if action == True:
             #llegalize stopAction
-            if self.with_stopAction: return True
+            if self.with_stopAction > 0: return True
             else: return False
         if action[0] > len(self.canvas[0])-1 or action[0] < 0:
             return False
@@ -202,84 +200,25 @@ class Environment(object):
 
         return reward
 
-    @critical
-    def generative_stop_reward(self: float, step: int, score: float) -> float:
-        
-        """ stop_reward The stop action reward for the agent
-
-        :param score: the accumulated reward of this episode
-        :type score: float
-        :param step: which step in the action is it (has to be less than 64)
-        :type step: int
-        :return: The reward for the agent for choosing the stop action
-        :rtype: float """
-       
-        assert step < 64, f"step ({step}) is greater than 64"  # Assert that the step count is less than 64
-        
-        if self.show_Reference:
-            prediction = self.rec_model.mnist(self.canvas, mode="soft")[self.label] - 0.8
-            if prediction < 0:
-                return prediction*0.5
-            else:
-                return prediction
-
-            """ ACC_THRESHOLD = 0.85
-            SPEED = 2.5
-            WEIGHT = 0.5
-
-            #accuracy_factor = score-ACC_THRESHOLD
-            if score < ACC_THRESHOLD:
-                accuracy_factor = -0.01
-            else:
-                accuracy_factor = 0.1
-            if SPEED == 0:
-                speed_factor = 1
-            else:
-                speed_factor = 1 - (step/64)**SPEED
-
-            return accuracy_factor * speed_factor * WEIGHT """
-        else:
-            prediction = self.rec_model.mnist(self.canvas, mode="soft")[self.label] - 0.8
-            if prediction < 0:
-                return prediction*0.5
-            else:
-                return prediction
-
-        """ if self.show_Reference:
-            prediction = self.rec_model.mnist(self.canvas)
-            if prediction == self.label:
-                return 0.1
-            else:
-                return -0.01
-        else:
-            prediction = self.rec_model.mnist(self.canvas)
-            if prediction == self.label:
-                return 0.3
-            else:
-                return -0.005 """
-
 
     def stop_reward(self, score: float, step: int):
-        ACC_THRESHOLD = 0.85
-        SPEED = 2.5
-        WEIGHT = 0.5
-
-        #accuracy_factor = score-ACC_THRESHOLD
-
-
-        if score < ACC_THRESHOLD:
-            accuracy_factor = -0.01
+        if self.with_stopAction == 1:
+            ACC_THRESHOLD = 0.85
+            SPEED = 2.5
+            WEIGHT = 0.5
+            if score < ACC_THRESHOLD: accuracy_factor = -0.01
+            else: accuracy_factor = 0.1
+            if SPEED == 0: speed_factor = 1
+            else: speed_factor = 1 - (step/64)**SPEED
+            return accuracy_factor * speed_factor * WEIGHT
+        elif self.with_stopAction == 2:
+            prediction = self.rec_model.mnist(self.canvas, mode="soft")[self.label] - 0.8
+            if prediction < 0:
+                return prediction*0.5
+            else:
+                return prediction
         else:
-            accuracy_factor = 0.1
-
-        if SPEED == 0:
-            speed_factor = 1
-        else:
-            speed_factor = 1 - (step/64)**SPEED
-
-        return accuracy_factor * speed_factor * WEIGHT
-
-        
+            return 0
 
 
     def set_agentPos(self, pos: list):
@@ -365,11 +304,11 @@ class Environment(object):
         self.canvas = np.zeros((self.s, self.s))
         self.renderCanvas = np.zeros((self.s, self.s))
         
-        """ if self.generative:
+        if self.generative:
             self.set_agentPos([4,4])
         else:
-            self.set_agentPos([np.random.choice(range(1, 27)), np.random.choice(range(1, 27))]) """
-        self.set_agentPos([4,4])
+            self.set_agentPos([np.random.choice(range(1, 27)), np.random.choice(range(1, 27))])
+    
 
         self.lastDirection = [0, 0]
 
