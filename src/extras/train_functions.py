@@ -75,33 +75,24 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
 
             # Choose Action
             if not all(a == 1 for a in illegal_moves):
-                action = agent.choose_action_softmax(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                #action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
-                
-                """ if env.show_Reference:
-                    action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
+                if agent.softmax:
+                    action = agent.choose_action_softmax(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
                 else:
-                    action = agent.choose_action_softmax(global_obs, local_obs, illegal_moves, replay_fill=replay_fill) """
+                    action = action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=replay_fill)
             else:
                 action = np.random.choice(env.n_actions)
 
             
-            
-
              # Make Step
             if env.translate_action(action) == True:
                 #Agent chooses stop-action
-                if env.generative:
-                    reward = env.generative_stop_reward(step=step, score=score)
-                else:
-                    reward = env.stop_reward(score=score, step=step) 
+                reward = env.stop_reward(score=score, step=step) 
                 log.info(f"stopAction in Step: {step}, Accuracy: {score}, stopReward: {reward}")   
             else:
                 # Draw further normally
                 next_gloabal_obs, next_local_obs, reward = env.step(score, action)
 
             
-
             # Save step information
             agent.store_transition(global_obs, local_obs, next_gloabal_obs, next_local_obs, action, reward, illegal_moves)
 
@@ -110,7 +101,6 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             score += reward
 
             
-
             #learn
             agent.update_graph()
             if step % 4 == 0 and episode > episode_mem_size:
