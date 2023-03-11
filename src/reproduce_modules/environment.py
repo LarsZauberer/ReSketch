@@ -10,7 +10,7 @@ from extras.logger import critical
 
 
 class Environment(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : int = 0,  with_liftpen : bool = False, with_overdraw : bool = False, generative : bool = False, do_render : bool = True):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : int = 0,  with_liftpen : bool = False, with_overdraw : bool = False, with_noisy : bool = False, generative : bool = False, do_render : bool = True):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -56,6 +56,7 @@ class Environment(object):
         self.with_stopAction = int(with_stopAction)
         self.with_overdraw = with_overdraw
         self.with_liftpen = with_liftpen
+        self.with_noisy = with_noisy
         self.generative = generative
 
         self.overdrawn_perepisode = 0
@@ -98,8 +99,12 @@ class Environment(object):
             shown_ref = self.reference
             shown_patch = self.ref_patch
         else:
-            shown_ref = np.zeros((28,28))
-            shown_patch = np.zeros((7,7))
+            if self.with_noisy:
+                shown_ref = np.random.random((self.s,self.s))
+                shown_patch = np.random.random((self.p,self.p))
+            else:
+                shown_ref = np.zeros((self.s,self.s))
+                shown_patch = np.zeros((self.p,self.p))
 
         return np.array([shown_ref, self.canvas, self.distmap, self.colmap]), np.array([shown_patch, self.canvas_patch]), reward
 
@@ -323,8 +328,12 @@ class Environment(object):
             shown_ref = self.reference
             shown_patch = self.ref_patch
         else:
-            shown_ref = np.zeros((28,28))
-            shown_patch = np.zeros((7,7))
+            if self.with_noisy:
+                shown_ref = np.random.random((self.s,self.s))
+                shown_patch = np.random.random((self.p,self.p))
+            else:
+                shown_ref = np.zeros((self.s,self.s))
+                shown_patch = np.zeros((self.p,self.p))
 
         return np.array([shown_ref, self.canvas, self.distmap, self.colmap]), np.array([shown_patch, self.canvas_patch])
 

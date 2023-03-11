@@ -140,6 +140,8 @@ def generative_test_env(env, agent, n_episodes, n_steps=64):
                         action = agent.choose_action_softmax(global_obs, local_obs, illegal_moves, replay_fill=False)
                     else:
                         action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=False)
+
+                        print(action)
             else:
                 action = np.random.choice(env.n_actions)
 
