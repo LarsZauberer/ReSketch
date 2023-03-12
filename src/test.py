@@ -120,7 +120,7 @@ def generative_test(args):
     # initialize environment
     canvas_size = 28
     patch_size = 7
-    env = Rep_Env(canvas_size, patch_size, referenceData=np.full((args.test, 28, 28), 1), with_stopAction=True, with_noisy=args.noisyPixel)
+    env = Rep_Env(canvas_size, patch_size, referenceData=np.full((args.test, 28, 28), 1), generative=True, with_stopAction=True, with_noisy=args.noisyPixel)
 
     agent_args = {"softmax": args.softmax, "gamma": 0, "epsilon_episodes": 1000, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
