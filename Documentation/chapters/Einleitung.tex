@@ -7,21 +7,20 @@ steuernde Computerprogramm eine künstliche Intelligenz. Die Entwicklung eines
 intelligenten Computerprogrammes birgt verschiedene Herausforderung. Der
 fähigste und am weitesten verbreitete Ansatz an diese Herausforderungen liefert
 Machine Learning. Diese Arbeit ist eine Untersuchung Im Bereich Machine
-Learning. Spezifischer befindet sich die Arbeit im Bereich Reinforcement
+Learning. Spezifischer befindet sich die Arbeit im Bereich von Deep Reinforcement
 Learning, einem Teilgebiet von Machine Learning.
  
 Die Fragestellung der Untersuchung lautet: Inwiefern kann eine künstliche
-Intelligenz lernen, Strichbilder auf eine physische Weise nachzuzeichnen, sodass
-diese durch ein automatisches System richtig erkannt werden?
- 
+Intelligenz lernen, Strichbilder auf eine physische Weise nachzuzeichnen?
+
 Für ein gegebenes Strichbild soll die künstliche Intelligenz (KI) erlernen, ein
-möglichst gleiches Bild daneben zeichnen zu können. Die Frage ist, ob die KI das
-Nachzeichnen genug gut lernen kann, damit die Zeichnung von einem automatischen
-System richtig erkannt wird. Richtig erkannt heisst grundsätzlich, dass eine
-zweite KI (ein automatisches System) in der Zeichnung dasselbe Motiv wie in der
-Vorlage erkennt. Wenn das zutrifft, kann die künstliche Intelligenz erfolgreich
-nachzeichnen. Es existieren allerdings weitere Kriterien, die die Leistung der
-KI bei der Tätigkeit des Nachzeichnens beurteilen.
+möglichst gleiches Bild daneben zeichnen zu können. Der Prozess des
+Nachzeichnens ist dabei durch verschiedene Kriterien definiert, die in dieser
+Arbeit beschrieben werden. Die KI soll das Nachzeichnen von Strichbildern
+allgemein erlernen. Strichbilder können Ziffern, Buchstaben, Formen, Symbole und
+weitere einfache Zeichnungen sein. Die KI soll diese verschiedenen Motive
+vergleichbar gut nachzeichnen. Das Format der Zeichnungen ist dabei auf eine
+feste grösse und eine Farbtiefe von $1$ (schwarzweiss) beschränkt.
  
 Nachzeichnen ist eine menschliche Tätigkeit. Menschen führen beim Zeichnen durch
 gewisse Handbewegungen einen Stift, wodurch das Nachzeichnen mit physischen
@@ -29,20 +28,16 @@ Einschränkungen verbunden ist. Der Stift teleportiert sich nicht, sondern beweg
 sich mit einer limitierten Geschwindigkeit. Die KI soll das Nachzeichnen mit
 ähnlichen physischen Einschränkungen erlernen. Das heisst, die KI soll lernen,
 einen Stift zu führen. Die physischen Einschränkungen sind für die KI jedoch
-simuliert und im Vergleich zu der echten Welt vereinfacht.
+simuliert und im Vergleich zu der echten Welt vereinfacht. Trotzdem sollte es
+möglich sein, mit der KI einen zeichnenden Roboter zu steuern
  
-Die KI soll das Nachzeichnen von Strichbildern allgemein erlernen. Strichbilder
-können Ziffern, Buchstaben, Formen, Symbole und allgemeine Kritzeleien sein. Die
-KI soll diese verschiedenen Motive vergleichbar gut nachzeichnen
-
-
-Mit den vorangehenden Ausführungen sowie durch die Weiterführung der Arbeit
-werden folgende Unterfragen behandelt:
+Die Untersuchung behandelt folgende Unterfragen, welche die Fragestellung
+herunterbrechen und ausweiten.
 \begin{itemize}
    \item Wie kann die Architektur einer KI aussehen, die das Nachzeichnen erlernt?
    \item Wie lässt sich die Leistung der KI in ihrer Aufgabe beurteilen?
    \item Wie lässt sich die Leistung der KI in ihrer Aufgabe verbessern?
    \item Wie ändert sich die Leistung der KI für Strichbilder, die im Training nicht enthalten sind?
    \item Wie und inwiefern lässt sich das Verhalten der KI mit menschlichem Zeichnen vergleichen?
-   \item Kann die KI Zahlen ohne Vorlage nachzeichnen?
+   \item Kann eine KI Strichbilder ohne Vorlage nachzeichnen?
 \end{itemize}

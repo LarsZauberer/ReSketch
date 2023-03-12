@@ -1,11 +1,86 @@
-\chapter{Diskussion}\label{chap:d}
-Die Diskussion analysiert die Resultate der Methode (siehe \doubleref{chap:m}),
-um daraus eine Antwort auf die Fragestellung zu bilden. Zu diesem Zweck werden
-einige allgemeine Feststellungen getroffen und die Unterfragen beantwortet
-(siehe \doubleref{chap:d_frage}). Im zweiten Teil der Diskussion folgt ein Fazit,
-ein Ausblick (siehe \doubleref{chap:d_faz-aus}), und eine Selbstreflexion (siehe
-\doubleref{chap:d_reflex}). Dabei verschiebt sich der Fokus von der Fragestellung
-weg und auf eine allgemeinere Betrachtung der Arbeit.
+\chapter{Diskussion}\label{chap:d} 
+Die Diskussion analysiert die Resultate der Methode, um daraus eine Antwort auf
+die Fragestellung abzuleiten. Zu diesem Zweck werden die einzelnen Unterfragen
+dieser Arbeit behandelt. Darauf folgt ein Fazit und ein Ausblick zusammen mit
+möglichen Anwendungsbereichen für die verschiedenen Versionen der künstlichen
+Intelligenz
+
+\section{Diskussion der Fragestellung}\label{chap:d_frage}
+Die Fragestellung der Untersuchung lautet: Inwiefern kann eine künstliche
+Intelligenz lernen, Strichbilder auf eine physische Weise nachzuzeichnen?
+
+
+
+
+
+
+Beantwortung der Fragestellung
+	• Mit Resultaten Zusammengefasste Antwort auf Frage -> Genauer in Unterfragen
+	• Wie kann die Architektur einer KI aussehen, die das Nachzeichnen erlernt?
+		○ So wie Beschrieben. Reinforcement Learning. 
+	• Wie lässt sich die Leistung der KI in ihrer Aufgabe beurteilen?
+		○ Durch die definierten Kriterien. 
+		○ Sind alle Objektiv -> Gut. Es wären Allerdings auch andere Kriterien denkbar
+		○ Beurteilung durch Erkennbarkeit. Ist Sonderfall, weil Verwendung von Classifier. Classifier nicht 100% Genau. Je nachdem falsche Beurteilung. Vor allem Problem, dass KI Dinge als erkennbar angibt, die für Grossteil der Menschen nicht erkennbar wären 
+		○ Kriterium der Geschwindigkeit, der zeichnenden Zeit und der Übermalung sind spezifisch dafür, dass die Ki das Motiv möglichst in einem Schwung zeichnet.
+	• Wie lässt sich die Leistung der KI in ihrer Aufgabe verbessern. 
+		○ Erreicht eine gute Leistung in vielen Kriterien, indem die sich lediglich auf das Kriterium der Übereinstimmung fokussiert.
+		○ Einführung der Stopp Action verbessert allerdings die Geschwindigkeit überall, wo diese verwendet wird (Rec, Speed, No-Liftpen)
+		○ Rec Version verbessert die Leistung nicht, weil die Leistung der Grundversion bereits gut genug ist
+		○ No-Liftpen Variation verbessert den Wert in Kriterium der zeichnenden Zeit auch nur marginal im Vergleich zu Speed Version, weil der Wert bereits sehr hoch ist.
+		○ No-Overdraw + Speed erreicht im Vergleich zu der Speed Version leicht bessere Werte
+		○ No-Overdraw ohne Speed erreich im Vergleich zu der Base Version viel bessere Werte.
+		○ Die Physics Version verschlechtert die Leistung in allen Kriterien. Die KI kann mit den physikalischen Simulationen nicht gut umgehen
+	• Wie ändert sich die Leistung der KI für Strichbilder, die im Training nicht enthalten sind
+		○ Keine grossen Änderungen
+		○ -> Spezifischere Analyse mit spezifischeren Werten
+	• Wie und inwiefern lässt sich das Verhalten der KI mit menschlichem Zeichnen vergleichen
+		○ KI bewegt sich mit beschränkter Geschwindigkeit und kann nur am Ort zeichnen, wo sie sich gerade befindet. Diese Simulation eines Stiftes wäre in die physische Welt übersetzbar. Das heisst, in zeichnender Roboter wäre durch die KI bedienbar.
+		○ Physik Version stellt ein Versuch dar, Verhalten der KI noch näher an menschliches Zeichnen zu bringen, indem die Umgebung der physichen Welt angenähert ist. Dieser Versuch ist gescheitert, weil die KI dadurch allgemein schlechter zeichnet und menschliches Zeichnen deswegen nicht repräsentieren kann
+		○ Training auf die einzelnen Kriterien der KI nähert allerdings menschliches Zeichnen an. Das Kriterium der Geschwindigkeit, der zeichnenden Zeit und der Übermalung ergeben zusammen ein Mass für den "Schwung" einer Zeichnung. Indem die Leistung in diesen Kriterien maximiert wird, steigt der Schwung mit dem die KI zeichnet. Schwung ist ein wichtiges Element für den menschlichen Prozess des Zeichnens. Indem die KI also auf ihren Schwung trainiert wird, nähert sie das menschliche Zeichnen durchaus an.
+	• Kann die KI Strichbilder ohne Vorlage zeichnen
+		○ Ja. Eine abgewandelte Form der nachzeichnenden KI kann Strichbilder mit einem ausgewählten Motiv zeichnen, solange im Training auf dieses Motiv trainiert wird.
+		○ Da die KI ohne Vorlage eigene Zeichnungen produzieren kann, entwickelt sie gewissermassen eine eigene Handschrift. Diese Tatsache stellt nicht nur einen Fortschritt in der Nachahmung von menschlichem Verhalten durch Computer dar, sondern gibt auch Einblicke, wie Menschen ihre Handschrift entwickeln. 
+		○ Es stellt sich heraus, dass die KI dieser Arbeit nur lernen kann, eigene Bilder zu zeichnen, wenn diese zuvor Beispiele vom gewünschten Motiv gesehen hat und das Nachzeichnen von diesen Motiven erlernt hat.
+
+
+
+
+
+
+
+
+
+
+
+
+Fazit und Ausblick 
+	• Die Resultate deuten darauf hin, dass die nachzeichnende KI tatsächlich das Nachzeichnen von beliebigen Strichbildern erlernt hat. 
+	• Diese Antwort unterliegt allerdings einigen Annahmen und Voraussetzungen, die weiter diskutiert werden können.
+	• Beispielsweise ist das Format der Strichbilder vorausgesetzt. Die KI kann in einem bestimmten Format beliebige Bilder nachzeichnen, aber in einem anderen Format kann sie nicht zeichnen.
+	• Spezifisch kann die KI kleine Bilder mit einer Auflösung von 28x28 Pixeln in schwarzweiss und einer festen Strichbreite zeichnen. 
+	• Diese Voraussetzungen schränken die nachzeichnende KI ein. In der Auflösung von diesen Einschränkungen liegt Entwicklungspotenzial.
+	• Eine weitere Voraussetzung liegt in der Definition des Nachzeichnens. Die KI erlernt das nachzeichnen nach einer selbst bestimmten Definition. Die Kriterien dieser Definition sind für den Trainingsprozess einer künstlichen Intelligenz sinnvoll gewählt, aber es wären auch andere Kriterien denkbar.
+	• Die Qualität der nachzeichnenden KI und der generativen KI hängt von der Verlässlichkeit der klassifizierenden KI ab, die im Training verwendet wird. Da diese nicht eine Genauigkeit von 100% erreicht, ist das Training nicht optimal. Ausserdem sind die Resultate im Kriterium der Erkennbarkeit durch die Imperfektion der klassifizierenden KI leicht verfälscht.
+	• Ausserdem sind die Hyperparameter von einigen Variationen der KI vermutlich nicht optimal gewählt, da ein angemessener Optimierungsprozess zu viel Rechenaufwand bedeuten würde. Die Leistung der KI liegt somit vermutlich leicht unter ihrem vollen Potenzial
+	
+
+Anwendungsbereiche
+	• Nachzeichnende KI
+		○ In der Robotik. Für zeichnende Roboter. Sollte eine weiterentwickelte Version der nachzeichnenden KI vielfältigere Bilder produzieren können, So könnte ein Roboter durch die KI von beliebigen Bildern Zeichnungen Anlegen können.
+		○ Weiterer Anwendungsbereich wäre die Vektorisierung. Damit ist die Umwandlung von Rastergrafiken in Vektorgrafiken gemeint. Diese Konvertierung benötigt einen Nachzeichenprozess. Die nachzeichnende KI kann für diese Aufgabe verwendet werden. Um in der Praxis Anwendung zu finden, müsste die KI allerdings was den Rechenaufwand angeht effizienter werden.
+	• Generative KI
+		○ Eine Anwendung der Generativen KI wäre die Nachahmung von Handschriften. Wenn der KI im Training zufällige Beispiele von einem Motiv gezeigt werden, entwickelt die KI einen eigenen Weg um dieses Motiv zu zeichnen. Wenn der KI allerdings Strichbilder von einer ausgewählten Person gegeben werden, würde die KI die Handschrift dieser Person annähern. Inwiefern die Zeichnungen der KI tatsächlich der Handschrift einer Person entsprechen, ist allerdings nur subjektiv bestimmbar 
+
+		
+	
+
+
+
+
+
+
+
  
  
 \section{Fragestellung und Unterfragen}\label{chap:d_frage}
