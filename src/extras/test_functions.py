@@ -141,14 +141,13 @@ def generative_test_env(env, agent, n_episodes, n_steps=64):
                     else:
                         action = agent.choose_action(global_obs, local_obs, illegal_moves, replay_fill=False)
 
-                        print(action)
             else:
                 action = np.random.choice(env.n_actions)
 
             # Check if the agent wants to stop at this current step
             if env.translate_action(action) == True:
                 log.info(f"stopaction in step {step}")
-                reward = env.generative_stop_reward(step=step, score=score)  
+                reward = env.stop_reward(step=step, score=score)  
 
                 next_gloabal_obs = global_obs  
                 next_local_obs = local_obs

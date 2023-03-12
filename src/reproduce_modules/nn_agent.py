@@ -201,6 +201,10 @@ class Agent(object):
             else:
                 action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1])
         else:    
+            rand = np.random.random()
+            if rand < 0.003:
+                return 98
+
             # create batch of states (prediciton must be in batches)
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
