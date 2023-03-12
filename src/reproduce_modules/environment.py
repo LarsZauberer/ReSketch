@@ -100,8 +100,8 @@ class Environment(object):
             shown_patch = self.ref_patch
         else:
             if self.with_noisy:
-                shown_ref = np.random.random((self.s,self.s))
-                shown_patch = np.random.random((self.p,self.p))
+                shown_ref = np.random.random((self.s,self.s))*0.5
+                shown_patch = np.random.random((self.p,self.p))*0.5
             else:
                 shown_ref = np.zeros((self.s,self.s))
                 shown_patch = np.zeros((self.p,self.p))
@@ -329,8 +329,8 @@ class Environment(object):
             shown_patch = self.ref_patch
         else:
             if self.with_noisy:
-                shown_ref = np.random.random((self.s,self.s))
-                shown_patch = np.random.random((self.p,self.p))
+                shown_ref = np.random.random((self.s,self.s))*0.5
+                shown_patch = np.random.random((self.p,self.p))*0.5
             else:
                 shown_ref = np.zeros((self.s,self.s))
                 shown_patch = np.zeros((self.p,self.p))
