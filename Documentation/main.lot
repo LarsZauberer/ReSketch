@@ -5,13 +5,15 @@
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
-\contentsline {table}{\numberline {3.1}{\ignorespaces Vortrainierte Modelle\relax }}{22}{table.caption.16}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Vortrainierte Modelle\relax }}{22}{table.caption.17}%
 \addvspace {10pt}
 \contentsline {table}{\numberline {4.1}{\ignorespaces Testen auf MNIST Datenset | 2000 Tests\relax }}{34}{table.caption.21}%
 \contentsline {table}{\numberline {4.2}{\ignorespaces Testen auf EMNIST Letters Datenset | 2000 Tests\relax }}{34}{table.caption.22}%
 \contentsline {table}{\numberline {4.3}{\ignorespaces Testen auf QuickDraw-Datenset | 2000 Tests\relax }}{34}{table.caption.23}%
 \contentsline {table}{\numberline {4.4}{\ignorespaces Testen auf QuickDraw-Datenset | 2000 Tests\relax }}{35}{table.caption.24}%
 \addvspace {10pt}
-\contentsline {table}{\numberline {5.1}{\ignorespaces Grund-Basis Leistung\relax }}{46}{table.caption.34}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Physik-Basis Leistung\relax }}{46}{table.caption.35}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Grund-Basis Leistung\relax }}{43}{table.caption.29}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Physik-Basis Leistung\relax }}{43}{table.caption.30}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Grund-Basis Leistung\relax }}{48}{table.caption.36}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Physik-Basis Leistung\relax }}{48}{table.caption.37}%
 \addvspace {10pt}

@@ -147,7 +147,27 @@ Nachzeichnens, nach der die künstliche Intelligenz bewertet wird. Für eine
 präzise und objektive Evaluation sind alle Kriterien durch einen Zahlenwert
 repräsentiert. Die Kriterien und ihre jeweilige Berechnung werden nachfolgend
 beschrieben.
+
+\subsection{Prozentuale Übereinstimmung}\label{sub:m_eval_proc}
+Dieses Kriterium beschreibt die prozentuale Übereinstimmung der weissen
+(gezeichneten) Pixel zwischen der Vorlage und der Zeichnung der KI (siehe
+\doubleref{chap:m_grund}). Der Wert $K$ dieses Kriteriums zu dem Step $t$
+berechnet sich aus folgender Formel:
+\[ K(t) = \frac{G(t)}{G_{\max}} \] $G_{\max}$ entspricht der Anzahl aller
+weissen Pixeln in der Vorlage. $G(t)$ entspricht der Anzahl der weissen Pixel,
+die zwischen der Vorlage und der Zeichenfläche übereinstimmen. Die Pixel, die
+nicht übereinstimmen, zählen negativ für $G(t)$. $G(t)$ und somit auch $K(t)$
+können dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1,
+was einer prozentualen Übereinstimmung von $100\%$ entspricht (siehe
+\autoref{fig:ubereinstimmung}).
  
+%bild übereinstimmung
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[width=\textwidth]{images/methode/ubereinstimm.png}
+ \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung. (eigene Abbildung)}\label{fig:ubereinstimmung}
+\end{figure}
+
 \subsection{Erkennbarkeit}\label{sub:m_eval_rec}
 Das Kriterium der Erkennbarkeit beschreibt, ob in der Vorlage das gleiche Motiv
 wie in der Zeichnung der künstlichen Intelligenz erkannt wird. Wenn
@@ -180,46 +200,27 @@ der Modelle stammt aus einem online Machine Learning Kurs \cite{wang_deep_2021}.
  \caption{Vortrainierte Modelle}\label{tab:models}
 \end{table}
  
-\subsection{Prozentuale Übereinstimmung}\label{sub:m_eval_proc}
-Dieses Kriterium beschreibt die prozentuale Übereinstimmung der weissen
-(gezeichneten) Pixel zwischen der Vorlage und der Zeichnung der KI (siehe
-\doubleref{chap:m_grund}). Der Wert $K$ dieses Kriteriums zu dem Step $t$
-berechnet sich aus folgender Formel:
-\[ K(t) = \frac{G(t)}{G_{\max}} \] $G_{\max}$ entspricht der Anzahl aller
-weissen Pixeln in der Vorlage. $G(t)$ entspricht der Anzahl der weissen Pixel,
-die zwischen der Vorlage und der Zeichenfläche übereinstimmen. Die Pixel, die
-nicht übereinstimmen, zählen negativ für $G(t)$. $G(t)$ und somit auch $K(t)$
-können dadurch auch negative Werte annehmen. Der maximale Wert von $K(t)$ ist 1,
-was einer prozentualen Übereinstimmung von $100\%$ entspricht (siehe
-\autoref{fig:ubereinstimmung}).
- 
-%bild übereinstimmung
-\begin{figure}[!ht]
- \centering
- \includegraphics[width=\textwidth]{images/methode/ubereinstimm.png}
- \caption{Drei Beispiele für den Wert des Kriteriums der Übereinstimmung. (eigene Abbildung)}\label{fig:ubereinstimmung}
-\end{figure}
- 
 \subsection{Geschwindigkeit}\label{sub:m_eval_speed} Dieses Kriterium
 beschreibt, wie schnell die Zeichnung der KI fertig ist. Der Wert des Kriteriums
 entspricht dabei der Anzahl Steps bis zur Fertigstellung. Der Punkt der
 Fertigstellung ist dabei bei der letzten zeichnenden Action des Agents
 definiert. Falls der Agent sich also nach dem Zeichnen weiterhin
 nicht-Zeichnende Actions ausführt, so werden diese nicht mehr zu der Zeichnung
-gezählt, weil die Zeichnung nicht beeinflusst wird.
+gezählt, weil die Zeichnung nicht beeinflusst wird. Tiefere Werte in diesem Kriterium entsprechen einer höheren Geschwindigkeit
 
 \subsection{Zeichnende Zeit}\label{sub:m_eval_zeichnend} Das Kriterium der
 zeichnenden Zeit beschreibt, in wie vielen Steps pro Episode die KI eine
 zeichnende Action ausführt. Dieser Wert ist als ein prozentualer Anteil
 angegeben und berechnet sich somit aus der Anzahl zeichnender Steps dividiert
-durch die Anzahl aller Steps pro Zeichnung.
+durch die Anzahl aller Steps pro Zeichnung. In diesem Kriterium sind generell hohe Werte erwünscht.
 
 \subsection{Übermalung}\label{sub:m_eval_uebermalung} Das Kriterium der
 Übermalung beschreibt, wie viele Pixel pro zeichnung mehrfach bemalt werden.
 Jeder Pixel, auf dem die KI also zwei oder mehr Mal malt, erhöht den Wert dieses
 Kriteriums um Eins. Jeder Pixel trägt dabei höchstens einmal zu diesem Kriterium
-bei. Das heisst, dass vielfach bemalte Pixel gleich behandelt werden wie
-zweimal bemalte Pixel. 
+bei. Das heisst, dass vielfach bemalte Pixel gleich behandelt werden wie zweimal
+bemalte Pixel. Möglichst Tiefe Werte entsprechen generell der besten Leistung in
+diesem Kriterium
 
 \section{Variationen}\label{chap:m_var} Dieses Unterkapitel beschreibt die
 Variationen der KI. Jede Variation erweitert das Grundprogramm (siehe
