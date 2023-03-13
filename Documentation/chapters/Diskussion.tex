@@ -48,124 +48,93 @@ die Zeichnungen schnell und möglichst in einem Ansatz fertiggestellt werden.
 
 \subsection{Wie lässt sich die Leistung der KI in ihrer Aufgabe verbessern?}\label{subsub:d_frage_unter_3}
 
+Die verschiedenen Variationen zeigen, dass ein spezifisches Training auf ein
+Kriterium in den meisten Fällen die Leistung der nachzeichnenden KI in diesem
+Kriterium erhöht. Einige Variationen sind dabei effektiver als andere:
+
+%Todo: Waiting for results
 
 
+Die \emph{Physics} Variation verbessert die Leistung der nachzeichnenden KI
+nicht. Für jedes Kriterium existieren andere Variationen, die deutlich bessere
+Werte erreichen. Dieses Resultat deutet darauf hin, dass die KI mit den
+Physiksimulationen nicht gut umgehen kann. Möglicherweise liegt das Scheitern
+von diesem Ansatz daran, dass die Umgebung dadurch zu viele Faktoren hat, welche die
+Bewegungen der KI beeinflussen.
 
 
-○ Erreicht eine gute Leistung in vielen Kriterien, indem die sich lediglich auf das Kriterium der Übereinstimmung fokussiert.
-		○ Einführung der Stopp Action verbessert allerdings die Geschwindigkeit überall, wo diese verwendet wird (Rec, Speed, No-Liftpen)
-		○ Rec Version verbessert die Leistung nicht, weil die Leistung der Grundversion bereits gut genug ist
-		○ No-Liftpen Variation verbessert den Wert in Kriterium der zeichnenden Zeit auch nur marginal im Vergleich zu Speed Version, weil der Wert bereits sehr hoch ist.
-		○ No-Overdraw + Speed erreicht im Vergleich zu der Speed Version leicht bessere Werte
-		○ No-Overdraw ohne Speed erreich im Vergleich zu der Base Version viel bessere Werte.
-		○ Die Physics Version verschlechtert die Leistung in allen Kriterien. Die KI kann mit den physikalischen Simulationen nicht gut umgehen
-	• Wie ändert sich die Leistung der KI für Strichbilder, die im Training nicht enthalten sind
-
-
-
-Bezogen auf die definierten Kriterien erreicht die Grund-Basis Version Werte,
-die durch die implementierten Variationen nicht verbessert werden. Die
-Grund-Speed Version ist hierbei eine Ausnahme (siehe \doubleref{chap:d_frage}).
-Insgesamt sind die meisten Variationen der KI ein gescheiterter Versuch der
-Verbesserung der Leistung. Die Grund-Basis Version erfuhr allerdings während
-dessen Entwicklung signifikante Verbesserungen. Die grössten Verbesserungen
-stammen aus der Optimierung der Hyperparameter durch den Baysian Optimization
-Algorithmus (siehe \doubleref{sub:m_grund_data}). Diese Optimierung steigerte
-die Leistung der Grund-Basis Version im Kriterium der prozentualen
-Übereinstimmung um $40-50\%$.
- 
-
- 
 \subsection{Wie ändert sich die Leistung der KI für Strichbilder, die im Training nicht enthalten sind?}\label{subsub:d_frage_unter_4}
-In allen acht Versionen bleibt die Leistung der KI zwischen den drei Datensets
+
+In allen Versionen bleibt die Leistung der KI zwischen den drei Datensets
 (siehe \autoref{tab:models}) vergleichbar. Die Tabellen (siehe \autoref{tab:Grund-3-datasets} und \autoref{tab:Phy-3-datasets})
-zeigen die Leistung der Grund-Basis Version und der
-Physik-Basis Version in den drei definierten Kriterien, getestet auf die drei
-Datensets. Der Wert der Übereinstimmung zwischen dem MNIST Datenset und dem
-EMNIST Datenset ist beinahe identisch. Für beide Versionen ist der Wert der
-Übereinstimmung für das QuickDraw Datenset niedriger. Insgesamt ist die KI in
-diesem Kriterium jedoch kaum beeinflusst durch die Wahl des Datensets. Die
-Analyse der anderen zwei Kriterien führt zu einer ähnlichen Schlussfolgerung.
-Interessant ist, dass vor allem die Grund-Basis Version eine viel höhere
-Geschwindigkeit im Zeichnen von MNIST Zahlen hat, als im Zeichnen von EMNIST
-Buchstaben. Obwohl die Formen zu einem grossen Teil ähnlich sind, scheint die KI durch
-das spezifische Training auf MNIST Ziffern eine höhere Geschwindigkeit zu
-entwickeln.
- 
+zeigen die Leistung
+
 \begin{table}[!ht]
-   \centering
-   \caption{Grund-Basis Leistung}\label{tab:Grund-3-datasets}
-   \begin{tabular}{|l|l|l|l|}
-       \hline
-           ~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
-           MNIST & 86.5 & 86.6 & 24.5 \\ \hline
-           EMNIST & 86.8 & 74.5 & 38.2 \\ \hline
-           QuickDraw & 79.1 & 80.5 & 39.1 \\ \hline 
-       \end{tabular}
-\end{table}
- 
-\begin{table}[!ht]
-   \centering
-   \caption{Physik-Basis Leistung}\label{tab:Phy-3-datasets}
-   \begin{tabular}{|l|l|l|l|}
-       \hline
-           ~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
-           MNIST  & 56.4 & 46.4 & 62.5 \\ \hline
-           EMNIST & 57.6 & 32.4 & 63.5 \\ \hline
-           QuickDraw & 48.1 & 55.7 & 63.8 \\ \hline
-       \end{tabular}
-\end{table}
- 
- 
+	\centering
+	\caption{Grund-Basis Leistung}\label{tab:Grund-3-datasets}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+			~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
+			MNIST & 86.5 & 86.6 & 24.5 \\ \hline
+			EMNIST & 86.8 & 74.5 & 38.2 \\ \hline
+			QuickDraw & 79.1 & 80.5 & 39.1 \\ \hline 
+		\end{tabular}
+ \end{table}
+  
+ \begin{table}[!ht]
+	\centering
+	\caption{Physik-Basis Leistung}\label{tab:Phy-3-datasets}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+			~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
+			MNIST  & 56.4 & 46.4 & 62.5 \\ \hline
+			EMNIST & 57.6 & 32.4 & 63.5 \\ \hline
+			QuickDraw & 48.1 & 55.7 & 63.8 \\ \hline
+		\end{tabular}
+ \end{table}
+  
+
+%Todo: Waiting for Results
+
+
+
 \subsection{Wie und inwiefern lässt sich das Verhalten der KI mit menschlichem Zeichnen vergleichen?}\label{subsub:d_frage_unter_5}
-Die Antwort auf diese Frage leitet sich nicht aus den objektiven Resultaten ab,
-sondern basiert auf subjektiven Beobachtungen. Die Bewegungen in der
-Physik-Version der künstlichen Intelligenz basieren grundsätzlich auf denselben
-Gesetzen wie die Bewegungen in der echten Welt. Allerdings sind die Bewegungen
-stark vereinfacht im Vergleich zu menschlichen Bewegungen. Ausserdem ist für die
-künstliche Intelligenz der Druck des Stiftes nicht veränderbar. Zumindest
-konzeptuell nähert die künstliche Intelligenz menschliches Zeichnen,
-bezogen auf die physischen Einschränkungen, an. Einige menschliche Gewohnheiten
-sind bei der künstlichen Intelligenz allerdings nicht beobachtbar. Zum Beispiel
-beginnt die künstliche Intelligenz beim Zeichnen von Ziffern an zufälligen
-Orten, während Menschen in der Regel für jede Ziffer an derselben Stelle
-ansetzen.
+
+Die nachzeichnende KI bewegt sich mit beschränkter Geschwindigkeit und kann nur
+an dem Ort zeichnen, wo sie sich gerade befindet. Durch diese Einschränkungen in
+der Freiheit der Bewegungen wären diese in die physische Welt übersetzbar.  Das
+heisst, in zeichnender Roboter wäre prinzipiell mit der nachzeichnenden KI
+bedienbar.
+
+Die \emph{Physics} Variation stellt einen Versuch dar, menschliches Zeichnen
+weiter anzunähern. Dieser Versuch ist allerdings gescheitert, weil die KI
+dadurch allgemein schlechter zeichnet als die anderen Variationen. Andere
+Variationen nähern menschliches Zeichnen eher an. Die Variationen, welche die
+Leistung der KI in den Kriterien der Geschwindigkeit, der zeichnenden Zeit und
+der Übermalung verbessern, nähern das menschliche Zeichnen durch eine Zunahme an
+`Schwung' an. Schwung ist ein wichtiges Element für den menschlichen Prozess des
+Zeichnens. Die \emph{Speed} Variation kommt insgesamt dem menschlichen Zeichnen
+am nächsten, da diese in allen Kriterien gute Werte erreicht und somit nicht nur
+mit `Schwung' zeichnet, sondern auch mit Präzision.
 
 
-\subsection{Kann eine KI Strichbilder ohne Vorlage nachzeichnen?}\label{subsub:d_frage_unter_6} 
+\subsection{Kann eine KI Strichbilder ohne Vorlage
+nachzeichnen?}\label{subsub:d_frage_unter_6} Ja. Eine abgewandelte Form der
+nachzeichnenden KI kann Strichbilder mit einem ausgewählten Motiv zeichnen,
+solange diese im Training mit dem gewähten Motiv trainiert.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Beantwortung der Fragestellung
-	
-	• Wie lässt sich die Leistung der KI in ihrer Aufgabe beurteilen?
-		○ Durch die definierten Kriterien. 
-		○ Sind alle Objektiv -> Gut. Es wären Allerdings auch andere Kriterien denkbar
-		○ Beurteilung durch Erkennbarkeit. Ist Sonderfall, weil Verwendung von Classifier. Classifier nicht 100% Genau. Je nachdem falsche Beurteilung. Vor allem Problem, dass KI Dinge als erkennbar angibt, die für Grossteil der Menschen nicht erkennbar wären 
-		○ Kriterium der Geschwindigkeit, der zeichnenden Zeit und der Übermalung sind spezifisch dafür, dass die Ki das Motiv möglichst in einem Schwung zeichnet.
-	• Wie lässt sich die Leistung der KI in ihrer Aufgabe verbessern. 
-		
-		○ Keine grossen Änderungen
-		○ -> Spezifischere Analyse mit spezifischeren Werten
-	• Wie und inwiefern lässt sich das Verhalten der KI mit menschlichem Zeichnen vergleichen
-		○ KI bewegt sich mit beschränkter Geschwindigkeit und kann nur am Ort zeichnen, wo sie sich gerade befindet. Diese Simulation eines Stiftes wäre in die physische Welt übersetzbar. Das heisst, in zeichnender Roboter wäre durch die KI bedienbar.
-		○ Physik Version stellt ein Versuch dar, Verhalten der KI noch näher an menschliches Zeichnen zu bringen, indem die Umgebung der physichen Welt angenähert ist. Dieser Versuch ist gescheitert, weil die KI dadurch allgemein schlechter zeichnet und menschliches Zeichnen deswegen nicht repräsentieren kann
-		○ Training auf die einzelnen Kriterien der KI nähert allerdings menschliches Zeichnen an. Das Kriterium der Geschwindigkeit, der zeichnenden Zeit und der Übermalung ergeben zusammen ein Mass für den "Schwung" einer Zeichnung. Indem die Leistung in diesen Kriterien maximiert wird, steigt der Schwung mit dem die KI zeichnet. Schwung ist ein wichtiges Element für den menschlichen Prozess des Zeichnens. Indem die KI also auf ihren Schwung trainiert wird, nähert sie das menschliche Zeichnen durchaus an.
-	• Kann die KI Strichbilder ohne Vorlage zeichnen
-		○ Ja. Eine abgewandelte Form der nachzeichnenden KI kann Strichbilder mit einem ausgewählten Motiv zeichnen, solange im Training auf dieses Motiv trainiert wird.
-		○ Da die KI ohne Vorlage eigene Zeichnungen produzieren kann, entwickelt sie gewissermassen eine eigene Handschrift. Diese Tatsache stellt nicht nur einen Fortschritt in der Nachahmung von menschlichem Verhalten durch Computer dar, sondern gibt auch Einblicke, wie Menschen ihre Handschrift entwickeln. 
-		○ Es stellt sich heraus, dass die KI dieser Arbeit nur lernen kann, eigene Bilder zu zeichnen, wenn diese zuvor Beispiele vom gewünschten Motiv gesehen hat und das Nachzeichnen von diesen Motiven erlernt hat.
+Da die KI also ohne eine Vorlage eigene Zeichnungen produzieren kann, entwickelt
+sie gewissermassen eine eigene Handschrift. Diese Tatsache stellt nicht nur
+einen Fortschritt in der Nachahmung von menschlichem Verhalten durch Computer
+dar, sondern gibt auch Einblicke darin, wie Menschen ihre Handschrift
+entwickeln. Es stellt sich heraus, dass die KI dieser Arbeit nur lernen kann,
+eigene Bilder zu zeichnen, wenn diese zuvor Beispiele vom gewünschten Motiv
+gesehen hat und das Nachzeichnen von diesen Motiven erlernt hat. Das Lernen der
+künstlichen Intelligenz gleicht somit dem Lernen von Kindern. Auch Kinder
+erlernen in ihren ersten Schuljahren häufig das Schreiben von Zahlen und
+Buchstaben, indem sie diese mit einem Stift nachfahren. Erst nachdem sie in
+dieser Aufgabe geübt sind, beginnen die meisten Kinder, eigene Zeichen zu
+Schreiben selber 
 
 
 
