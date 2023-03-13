@@ -203,8 +203,7 @@ class Agent(object):
         else:    
             rand = np.random.random()
             
-            if rand < self.epsilon*0.01:
-                return 98
+            
 
             # create batch of states (prediciton must be in batches)
             glob_batch = np.array([global_state])
@@ -213,6 +212,11 @@ class Agent(object):
             
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
+
+
+            if rand < self.epsilon*0.01:
+                actions[98] = np.max(actions)+1
+
 
             while illegal_list[np.argmax(actions)] == 1:
                 actions[np.argmax(actions)] = -1
@@ -230,10 +234,6 @@ class Agent(object):
             if rand < self.epsilon*0.01:
                 return 98
 
-            
-
-            
-
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
 
@@ -247,27 +247,13 @@ class Agent(object):
             actions = list(enumerate(actions))
             actions = sorted(actions, key=lambda x: x[1])
             actions = [(0, 0) for _ in actions[:-5]] + actions[-5:]
-            """ action_sum = np.sum([i[1] for i in actions])
-            actions = [(i[0], i[1]/action_sum) for i in actions] """
-
-
-            
             probabilities = [i[1] for i in actions]
-
             probabilities = list(probabilities[:-5]) + list(self.apply_softmax(probabilities[-5:]))
             
-
             action = np.argmax(np.random.multinomial(1000, probabilities))
 
-
-            #action = np.random.choice(len(actions), 1, p=probabilities)
-
-    
             action = actions[action][0]
-
             while(illegal_list[action] == 1):
-                #action = np.random.choice(len(actions), 1, p=probabilities)
-
                 action = np.argmax(np.random.multinomial(1000, probabilities))
                 action = actions[action][0]
                 

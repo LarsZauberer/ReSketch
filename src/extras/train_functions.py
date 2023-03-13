@@ -40,7 +40,6 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
     
     #prepare Data
     data.shuffle()
-    env.referenceData = data.pro_data
 
     #Fill Replay Buffer
     replay_fill = True

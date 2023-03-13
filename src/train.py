@@ -103,7 +103,7 @@ def reproduce(args):
     data.sample(n_episodes)
 
     env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=args.stopAction, with_liftpen=args.liftpen, with_overdraw=args.overdraw, with_noisy=False, generative=False)
-    agent_args = {"softmax": args.softmax,"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
+    agent_args = {"softmax": args.softmax, "gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size}
     agent = Rep_Agent(**agent_args)
@@ -116,7 +116,7 @@ def reproduce(args):
         agent=agent,
         data=data,
         learn_plot=learn_plot,
-        episode_mem_size=episode_mem_size,
+        episode_mem_size=episode_mem_size, 
         n_episodes=n_episodes,
         n_steps=n_steps,
         model_path=model_path,
