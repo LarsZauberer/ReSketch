@@ -1,18 +1,20 @@
 \begin{abstract}\label{abstract} ReSketch ist eine künstliche Intelligenz, die
-versucht, Strichbilder auf eine physische Weise nachzuzeichnen. Strichbilder
-sind in diesem Fall beispielsweise Ziffern oder Buchstaben. Um die Frage zu
-beantworten, inwiefern das möglich ist, sind definierende Kriterien des
-Nachzeichnens festgelegt. So soll die künstliche Intelligenz zum Beispiel nur
-Bewegungen ausführen können, die auch mit einem Stift möglich wären. Die
-künstliche Intelligenz erlernt das Nachzeichnen nach diesen Kriterien durch Deep
-Q-Learning, einem Reinforcement Learning Modell. Das Modell basiert auf der
-Arbeit hinter Doodle-SDQ \cite{zhou_learning_2018}, erfährt aber konzeptuelle
-Variationen, wie die Integration einer Physiksimulation. Die künstliche
-Intelligenz ist auf das Nachzeichnen von Ziffern trainiert. Ein Test dieser
-trainierten künstlichen Intelligenz auf Buchstaben und andere Arten von
-Strichbildern führt zur Antwort auf die Frage, ob eine künstliche Intelligenz
-das Nachzeichnen im Allgemeinen erlernen kann.
+Strichbilder nachzeichnen kann. Strichbilder sind beispielsweise Ziffern oder
+Buchstaben. Die künstliche Intelligenz kann sich beim Zeichnen so bewegen, wie
+es mit einem echten Stift möglich wäre. ReSketch funktioniert mit Deep
+Q-Learning, einem Reinforcement Learning Modell. Das Modell basiert dabei auf
+der Arbeit hinter Doodle-SDQ \cite{zhou_learning_2018}, erfährt aber
+verschiedene Erweiterungen. Die Leistung von dem Modell wird durch vordefinierte
+Kriterien evaluiert, deren Werte das Resultat dieser Arbeit ausmachen. ReSketch
+erreicht eine Übereinstimmung von $90\%$ zwischen der Vorlage und dem
+nachgezeichneten Bild. Ausserdem kann die fertige KI beliebige Arten von
+Strichbildern nachzeichnen, obwohl diese lediglich auf das Zeichnen von Zahlen
+trainiert ist. Eine zweite künstliche Intelligenz, die auf der nachzeichnenden
+KI basiert, entfernt sich von der ursprünglichen Aufgabe und erlernt das
+Zeichnen von Strichbildern ohne jegliche Vorlage. Diese KI entwickelt somit
+gewissermassen eine eigene Handschrift.
 \end{abstract}
+
     
 \newpage
     
@@ -21,7 +23,7 @@ der künstlichen Intelligenz. Die Fragestellung der Untersuchung wird mithilfe
 einer selbst programmierten künstlichen Intelligenz beantwortet.
     
 Wir haben uns für das Thema künstliche Intelligenz entschieden, weil damit
-praktische Arbeit mit intellektueller Forschung verbunden werden kann. Das Thema
+praktische Arbeit mit intellektueller Forschung verbunden wird. Das Thema
 ermöglicht ausgeprägte, praktische Programmierarbeiten, was uns zuspricht.
 Zusätzlich ermöglicht künstliche Intelligenz einfache Forschung. Mit einfacher
 Forschung ist dabei nicht der Grad der Komplexität gemeint, sondern die Vielfalt
@@ -38,8 +40,9 @@ Diese Arbeit ist für uns eine erste vertiefte Erfahrung mit dem Gebiet der
 künstlichen Intelligenz. Wir erhoffen uns durch diese Erfahrung einen
 erweiterten Horizont, neues Wissen und verbesserte Programmierkenntnisse.
     
-Vielen Dank an unseren Betreuer, Dr.\ Nicolas Ruh, für die hilfreichen
-Vorschläge, die ausgeprägte Beratung und das Vertrauen in uns. Vielen Dank auch
-an Dieter Koch für die Zweitbeurteilung und an Günther Wasser für das
-Korrekturlesen dieser Arbeit.
+Vielen Dank an unseren Betreuer der Maturarbeit, Dr.\ Nicolas Ruh und an unseren
+Experten im Rahmen des nationalen Wettbewerbs von Schweizer Jugend Forscht, Dr.\
+Michael Tschannen, für die hilfreichen Vorschläge, die ausgeprägte Beratung und
+das an uns weitergegebene technische Wissen. Vielen Dank auch an Dieter Koch für
+die Zweitbeurteilung und an Günther Wasser für das Korrekturlesen dieser Arbeit.
     
