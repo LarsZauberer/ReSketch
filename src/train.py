@@ -28,7 +28,7 @@ def physics(args):
     model_path = f"pretrained_models/reproduce/{model_name}"
 
     # Hyperparameters
-    hyp_data = {"gamma": 0.70, "epsilon": 0.3, "epsilon_episodes": 1000, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 5000, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
+    hyp_data = {"gamma": 0.70, "epsilon": 0.3, "epsilon_episodes": 1000, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 90, "n_episodes": 5000, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
 
     # Agent, Environment constants
     canvas_size = 28
@@ -84,7 +84,7 @@ def reproduce(args):
     model_path = f"pretrained_models/reproduce/{model_name}"
 
     # Hyperparameters
-    hyp_data = {"gamma": 0.7, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.00015, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 5000} 
+    hyp_data = {"gamma": 0.7, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.00015, "replace_target": 6000, "episode_mem_size": 90, "n_episodes": 5000} 
 
     # Agent, Environment constants
     canvas_size = 28
@@ -139,7 +139,7 @@ def generative(args):
     model_path = f"pretrained_models/generative/{model_name}"
 
     # Hyperparameters
-    hyp_data = {"gamma": 0.8, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 6000} 
+    hyp_data = {"gamma": 0.8, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 90, "n_episodes": 6000} 
 
     # Agent, Environment constants
     canvas_size = 28
@@ -155,8 +155,8 @@ def generative(args):
 
     # load Data
     learn_plot = Learn_Plotter(path="src/data_statistics/plotlearn_data.json")
-    data = AI_Data(dataset=args.dataset)
-    data.sample_by_category(2, n_episodes)
+    data = AI_Data(dataset=args.dataset, motive=int(args.genMotive))
+    data.sample_by_category(data.motive, n_episodes)
 
     # create Environment + Agent
     env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=2, with_liftpen=args.liftpen, with_overdraw=args.overdraw, with_noisy=args.noisyPixel, generative=True)
@@ -185,14 +185,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--modelName", help="Name of Model to be trained", action="store", default="new_model")
     parser.add_argument("-d", "--dataset", help="Name of Dataset to train with", action="store", default="mnist_train")
-    parser.add_argument("-sm", "--softmax", help="Run the NN with Softmax activation", action="store_true", default=False)
-    
-    parser.add_argument("-p", "--physics", help="Run the physics version", action="store_true", default=False)
-    parser.add_argument("-g", "--generative", help="Run the Generative version", action="store_true", default=False)
+
+    parser.add_argument("-p", "--physics", help="Run the physics version", action="store_true", default=False)    
     parser.add_argument("-s", "--stopAction", help="Run the stopAction version", action="store", default=0)
     parser.add_argument("-o", "--overdraw", help="Run the Overdraw reward function", action="store_true", default=False)
     parser.add_argument("-l", "--liftpen", help="Run the liftpen reward function", action="store_true", default=False)
+
+    parser.add_argument("-g", "--generative", help="Run the Generative version", action="store_true", default=False)
     parser.add_argument("-np", "--noisyPixel", help="Run the noisypixel variation", action="store_true", default=False)
+    parser.add_argument("-sm", "--softmax", help="Run the NN with Softmax activation", action="store_true", default=False)
+    parser.add_argument("-gm", "--genMotive", help="generative Motive", action="store", default=2)
 
     parser.add_argument("--debug", help="Verbose for the logging", action="store_true", default=False)
     args = parser.parse_args()
