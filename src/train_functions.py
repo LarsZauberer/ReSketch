@@ -51,6 +51,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
     # Main process
     for episode in range(n_episodes):
 
+        # for generative training
         env.show_Reference = True
         if env.generative:
             rand = np.random.random()
@@ -81,8 +82,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             else:
                 action = np.random.choice(env.n_actions)
 
-            
-             # Make Step
+            # Make Step
             if env.translate_action(action) == True:
                 #Agent chooses stop-action
                 reward = env.stop_reward(score=score, step=step) 
@@ -91,7 +91,6 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 # Draw further normally
                 next_gloabal_obs, next_local_obs, reward = env.step(action)
 
-            
             # Save step information
             agent.store_transition(global_obs, local_obs, next_gloabal_obs, next_local_obs, action, reward, illegal_moves)
 
@@ -99,8 +98,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             local_obs = next_local_obs
             score += reward
             env.score = score
-
-            
+   
             #learn
             agent.update_graph()
             if step % 4 == 0 and episode > episode_mem_size:
@@ -129,12 +127,9 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
 
             scores.append(score)
 
-
     #finish Training
     log.info("training completed")
     if save_training:
         # save weights
         agent.save_models(model_path)
         learn_plot.save_plot()
-   
-    

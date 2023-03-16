@@ -2,7 +2,7 @@ import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
-from physics_modules.physics import Physic_Engine
+from extras.physics_modules.physics import Physic_Engine
 
 from models.Predictor import Predictor
 
