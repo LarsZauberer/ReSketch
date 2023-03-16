@@ -1,1 +1,0 @@
-mnist-recognition: 1.0, speed 39.55, drawratio: 0.771
