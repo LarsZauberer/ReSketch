@@ -43,30 +43,20 @@ class DeepQNetwork(object):
                             padding="same", data_format='channels_first')(glob_conv1)
         glob_conv3 = Conv2D(64, (3, 3), strides=1, activation="relu", name="Global_Conv_3",
                             padding="same", data_format='channels_first')(glob_conv2)
-
         # local convolution
         loc_in = Input(shape=self.local_input_dims,
                        name="Local_Stream", batch_size=self.batch_size)
         loc_conv1 = Conv2D(128, (11, 11), strides=1, activation="relu",
                            name="Local_Conv_1", padding="same", data_format='channels_first')(loc_in)
-
         # concat
         concat_model = concatenate([glob_conv3, loc_conv1], name="Concatenation", axis=1)
-
         # Fully connected Layers
         concat_model = Flatten(
             name="Flatten", data_format="channels_first")(concat_model)
         dense1 = Dense(self.fc1_dims, activation="relu",
                        name="Fully_Connected_1")(concat_model)
-
-    
+        # Output
         out = Dense(self.n_actions, name="Action-Space")(dense1)
-
-        """ if self.softmax:
-            softmax_temp = Lambda(lambda x: x / self.softmax_temp, name="Softmax_Temperature")(out)
-            softmax = Activation("softmax", name="Softmax")(softmax_temp)
-            self.dqn = Model(inputs=[glob_in, loc_in], outputs=[softmax])
-        else: """
 
         # Inputs of the network are global and local states: glob_in = [4x28x28], loc_in = [2x7x7]
         # Output of the netword are Q-values. each Q-value represents an action
@@ -77,26 +67,16 @@ class DeepQNetwork(object):
             learning_rate=self.lr), metrics=["accuracy"])
 
         #plot_model(self.dqn, to_file=f"src/images/{self.name}.png", show_shapes=True)
-
-
         #calling: dqn([global_state_batch, local_state_batch])
         #training: dqn.train_on_batch(x=[global_state_batch, local_state_batch], y=q_target)
 
     def load_checkpoint(self, path):
-        """
-        load_checkpoint Load a network checkpoint from the file
-        """
         log.info("...Loading checkpoint...")
-
         path = Path(path + '/deepqnet.ckpt')
         self.dqn.load_weights(path)
 
     def save_checkpoint(self, path):
-        """
-        save_checkpoint Save a network checkpoint to the file
-        """
         log.info("...Saving checkpoint...")
-
         path = Path(path + '/deepqnet.ckpt')
         self.dqn.save_weights(path)
 
@@ -147,8 +127,6 @@ class Agent(object):
         self.reward_memory = np.zeros(self.mem_size)
         self.illegal_list_memory = np.zeros(illegal_list_shape)
 
-        
-        
 
     def store_transition(self, global_state: np.array, local_state: np.array, next_gloabal_state: np.array, next_local_state: np.array, action: int, reward: float, illegal_list : np.array):
         """
@@ -178,20 +156,7 @@ class Agent(object):
         self.new_local_state_memory[index] = next_local_state
 
 
-
-
     def choose_action(self, global_state: np.array, local_state: np.array, illegal_list : np.array, replay_fill: bool = False):
-        """
-        choose_action Agent should choose an action from the action_space
-
-        :param global_state: The whole canvas
-        :type global_state: np.array
-        :param local_state: The small patch of the canvas
-        :type local_state: np.array
-        :return: Index of the action the agent wants to take
-        :rtype: int
-        """
-
         action = 0
         # Check if the agent should explore
         rand = np.random.random()
@@ -203,20 +168,15 @@ class Agent(object):
         else:    
             rand = np.random.random()
             
-            
-
             # create batch of states (prediciton must be in batches)
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
-
             
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
-
             if rand < self.epsilon*0.01:
                 actions[98] = np.max(actions)+1
-
 
             while illegal_list[np.argmax(actions)] == 1:
                 actions[np.argmax(actions)] = -1
@@ -236,10 +196,10 @@ class Agent(object):
 
             glob_batch = np.array([global_state])
             loc_batch = np.array([local_state])
-
             # Ask the QNetwork for an action
             actions = np.array(self.q_eval.dqn([glob_batch, loc_batch])[0])
 
+            # elliminate illegal actions
             for i, el in enumerate(illegal_list):
                 if int(el) == 1:
                     actions[i] = 0
@@ -248,8 +208,7 @@ class Agent(object):
             actions = sorted(actions, key=lambda x: x[1])
             actions = [(0, 0) for _ in actions[:-5]] + actions[-5:]
             probabilities = [i[1] for i in actions]
-            probabilities = list(probabilities[:-5]) + list(self.apply_softmax(probabilities[-5:]))
-            
+            probabilities = list(probabilities[:-5]) + list(self.apply_softmax(probabilities[-5:])) # only the 5 highest probabilities are not 0 and use Softmax
             action = np.argmax(np.random.multinomial(1000, probabilities))
 
             action = actions[action][0]
@@ -259,21 +218,12 @@ class Agent(object):
                 
         return action
         
-
-    
     def apply_softmax(self, actions):
-
         actions = np.array(actions) / self.softmax_temp
-        actions = np.exp(actions)/np.exp(actions).sum()
-        actions[-1] += 1 - actions.sum()
-
+        actions = np.exp(actions)/np.exp(actions).sum() # calculate Softmax
         return actions
 
-
     def learn(self):
-        """
-        learn the Training of The agent/network. Based on deep Q-learning
-        """
         # randomly samples Memory.
         # chooses as many states from Memory as batch_size requires
         max_mem = self.counter if self.counter < self.mem_size else self.mem_size
@@ -296,13 +246,13 @@ class Agent(object):
         # type: np.array example: [ [0.23, 0.64, 0.33, ..., n_actions], ..., batch_size]
         q_eval = np.array(self.q_eval.dqn([global_state_batch, local_state_batch]))
         q_next = np.array(self.q_next.dqn([new_global_state_batch, new_local_state_batch]))
-
         q_target = np.copy(q_eval)
+
+        #set target value of illegal actions to 0
         for i, il_list in enumerate(illegal_list_batch):
             for j, item in enumerate(il_list):
                 if item == 1: #if illegal
                     q_target[i][j] = 0
-
 
         # Calculates optimal output for training. ( Bellman Equation !! )
         idx = np.arange(self.batch_size)
@@ -314,41 +264,28 @@ class Agent(object):
         self.q_eval.dqn.train_on_batch(
             x=[global_state_batch, local_state_batch], y=q_target)
         
-
     def reduce_epsilon(self):
          # reduces Epsilon: Network relies less on exploration over time
         if self.counter > self.mem_size and self.epsilon > 0:
             if self.epsilon > 0.05:
                 epsilon_diff = self.start_epsilon-0.05
                 self.epsilon -=  epsilon_diff/self.epsilon_episodes
-
-                self.epsilon -= 1e-5  # go constant at 25000 steps
             else:
                 self.epsilon = 0.05
 
     def save_models(self, path):
-        """
-        save_models Save the Networks
-        """
         self.q_eval.save_checkpoint(path + "/q_eval")
         self.q_next.save_checkpoint(path + "/q_next")
 
     def load_models(self, path):
-        """
-        load_models Load the Networks
-        """
         self.q_eval.load_checkpoint(path + "/q_eval")
         self.q_next.load_checkpoint(path + "/q_next")
 
     def update_graph(self):
-        """
-        update_graph Update the q_next Network. Set it to the weights of the q_eval network.
-        """
-        #log.info("...Updating Network...")
         self.counter += 1
         if self.counter % self.replace_target == 0 and self.counter > 0:
             self.q_next.dqn.set_weights(self.q_eval.dqn.get_weights())
 
     def set_softmax_temp(self, temp):
         self.softmax_temp = temp
-        self.softmax_temp = temp
+

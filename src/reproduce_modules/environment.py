@@ -1,18 +1,14 @@
-import random
 import numpy as np
 import math as ma
 import matplotlib.pyplot as plt
-import logging
-
 from models.Predictor import Predictor
 
-from extras.logger import critical
 
 
 class Environment(object):
     def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : int = 0,  with_liftpen : bool = False, with_overdraw : bool = False, with_noisy : bool = False, generative : bool = False, do_render : bool = True):
         self.s = sidelength
-        self.p = patchsize  # sidelength of patch (local Input). must be odd
+        self.p = patchsize
 
         # Input gloabal stream
         self.referenceData = referenceData
@@ -27,31 +23,30 @@ class Environment(object):
         self.canvas_patch = np.zeros((self.p, self.p))
 
         # possible outputs
-        # For each pixel, is an action option (location of that pixel)
-        self.n_actions = 2*patchsize*patchsize + 1  # +1 für die Stop action
+        # For each pixel is an action option (location of that pixel)
+        self.n_actions = 2*patchsize*patchsize + 1  # +1 for stop action
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
-        self.lastDirection = [0, 0]
-        self.maxScore = 1 # Maximum Reward (changes with reference Image) = base Similarity between empty canvas and reference  
+        self.maxScore = 1 # Maximum Similarity Reward (changes with reference Image) = base Similarity between empty canvas and reference  
         
         self.label = 0
         if len(self.referenceData[0]) == 2:
             self.label, self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
         else:
             self.reference = referenceData[0]
-
         self.curRef = -1 #current reference image, counter that increments with every episode
+        self.show_Reference = True
+
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
 
-        
+        # set start position
         if generative:
             self.set_agentPos([4,4])
         else:
             self.set_agentPos([np.random.choice(range(1, 27)), np.random.choice(range(1, 27))])
         
-      
         # variations
         self.with_stopAction = int(with_stopAction)
         self.with_overdraw = with_overdraw
@@ -59,40 +54,25 @@ class Environment(object):
         self.with_noisy = with_noisy
         self.generative = generative
 
+        # variation variables
         self.overdrawn_perepisode = 0
-        
-
-        self.show_Reference = True
-        # Mnist Model -> Recognition of symbol
+        self.score = 0
         self.rec_model = Predictor(mnist=True)
 
         # rendering / visualization
         self.renderCanvas = np.zeros((self.s, self.s))
         if do_render: self.fig, self.axs = plt.subplots(1, 2, figsize=[10,7])
 
-        
-    def step(self, score: float, agent_action):
-        """
-        step execute a timestep. Creates a new canvas state in account of the action
-        index input
 
-        :param agent_action: the index of the action to be executed
-        :type agent_action: int
-        :param n_step: number of the current step
-        :type n_step: int
-        :return: the data of the environment after the timestep (observation for the agent). It is containing an np array with
-            `reference`, `canvas`, `distmap` and `colmap` another np array with
-            `ref_patch` and `canvas_patch` and an int with the `reward`
-        :rtype: tuple
-        """
+    # Convert Action of Agent into observation    
+    def step(self, agent_action):
         self.isDrawing = 1
         action = self.translate_action(agent_action)
         self.set_agentPos(action)
 
-        # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
+        # Calculate the reward for the action in this step. The reward can be 0 because it is gaining the reward only for new pixels
         liftpen = -0.01 if self.with_liftpen else 0
-        reward = self.reward(score=score, action=action) if self.isDrawing else liftpen
-        # Ending the timestep
+        reward = self.reward() if self.isDrawing else liftpen
 
         #show the reference or not (important for generative)
         if self.show_Reference:
@@ -100,41 +80,41 @@ class Environment(object):
             shown_patch = self.ref_patch
         else:
             if self.with_noisy:
+                # random Pixels
                 shown_ref = np.random.random((self.s,self.s))*0.5
                 shown_patch = np.random.random((self.p,self.p))*0.5
             else:
+                # black image
                 shown_ref = np.zeros((self.s,self.s))
                 shown_patch = np.zeros((self.p,self.p))
 
+        #return observation
         return np.array([shown_ref, self.canvas, self.distmap, self.colmap]), np.array([shown_patch, self.canvas_patch]), reward
 
+
+    # Return List of all illegal actions
     def illegal_actions(self, illegal_list : np.array):
         for action in range(self.n_actions):
             if not self.move_isLegal(self.translate_action(action)):
                 illegal_list[action] = 1 # 1 == illegal, 0 == legal
         return illegal_list
 
-    def move_isLegal(self, action):
-        """
-        move_isLegal Check if an action is legel.
 
-        :param action: The action to validate
-        :type action: list
-        :return: Wether it is legal or not
-        :rtype: bool
-        """
-        if action == True:
-            #llegalize stopAction
-            if self.with_stopAction > 0: return True
-            else: return False
-        if action[0] > len(self.canvas[0])-1 or action[0] < 0:
+    # Determine if move is legal
+    def move_isLegal(self, action):
+        if action == True: # Stop Action
+            return bool(self.with_stopAction)
+        if action[0] > self.s-1 or action[0] < 0:
             return False
-        if action[1] > len(self.canvas)-1 or action[1] < 0:
+        if action[1] > self.s-1 or action[1] < 0:
             return False
         return True
 
+
+    # translate agent action into real action
     def translate_action(self, agent_action: int):
-        if agent_action - 2*self.p**2 == 0:
+        # stop action
+        if agent_action == 2*self.p**2:
             return True
         
         action = [0, 0]
@@ -147,20 +127,14 @@ class Environment(object):
         ownpos = (self.p-1)/2
         action = [int(self.agentPos[0]+x-ownpos),
                   int(self.agentPos[1]+y-ownpos)]
-
         return action
 
-    def reward(self, score: float, action):
-        """
-        reward Calculate the reward based on gained similarity and length of step
 
-        :return: The reward value
-        :rtype: float
-        """
+    def reward(self):
         reward = 0
         similarity = 0
-        
-        overdrawn: int = 0      
+        overdrawn = 0  
+
         for i in range(self.s):
             for j in range(self.s):
                 # Check for overdrawn pixel
@@ -171,6 +145,7 @@ class Environment(object):
                 
                 # When the there is a difference -> It is 1 or -1 (squared to become 1). If it's similar -> 0
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
+    
         similarity /= self.maxScore
             
         # Only use the newly found similar pixels for the reward
@@ -181,31 +156,25 @@ class Environment(object):
         else:
             self.lastSim = similarity
 
+
         if self.with_overdraw:
+            # Penality for the overdrawn pixel
+            free_overdraw = 3
+            if overdrawn - free_overdraw > 0:  # Agent can overdraw 3 pixel for free
+                reward -= 0.01 * (overdrawn - free_overdraw)
+
+        """ if self.with_overdraw:
             # Penality for the overdrawn pixel
             free_overdraw = 3
             if overdrawn - free_overdraw > 0:  # Agent can overdraw 3 pixel for free
                 max_penalty_per_pixel = 0.02
                 penalty_per_pixel = (max_penalty_per_pixel / 1) * score
                 # log.debug(f"Overdrawn penalty: {penalty_per_pixel * overdrawn}")
-                reward -= penalty_per_pixel * (overdrawn - free_overdraw)
+                reward -= penalty_per_pixel * (overdrawn - free_overdraw) """
             
-            """ # Angle between direction vectors
-            new_direction = [0, 0]
-            new_direction[0] = action[0] - self.agentPos[0]
-            new_direction[1] = action[1] - self.agentPos[1]
-            length_new_direction = ma.sqrt(new_direction[0]**2 + new_direction[1]**2)
-            length_last_direction = ma.sqrt(self.lastDirection[0]**2 + self.lastDirection[1]**2)
-            if length_last_direction == 0 or length_new_direction == 0:
-                phi = 0
-            else:
-                phi = ma.acos((new_direction[0]*self.lastDirection[0] + new_direction[1] * self.lastDirection[1])/(length_last_direction * length_new_direction))
-            fac = (1/ma.pi) * phi
-            reward -= fac * 0.05 """
-
         return reward
 
-
+    # Calculate stop reward
     def stop_reward(self, score: float, step: int):
         if self.with_stopAction == 1:
             ACC_THRESHOLD = 0.80
@@ -225,16 +194,8 @@ class Environment(object):
         else:
             return 0
 
-
+    # set agent position
     def set_agentPos(self, pos: list):
-        """
-        set_agentPos Sets the agent to a new position.
-
-        :param pos: Koordinates of the new position
-        :type pos: list
-        """
-        self.lastDirection[0] = pos[0] - self.agentPos[0]
-        self.lastDirection[1] = pos[1] - self.agentPos[1]
         if self.isDrawing:
             self.canvas = drawline(self.agentPos, pos, self.canvas, with_overdrawn=True)
             self.renderCanvas = drawline(self.agentPos, pos, self.renderCanvas, color=0.25+0.75*self.curStep/64)
@@ -244,10 +205,6 @@ class Environment(object):
         self.update_colmap()
 
     def update_distmap(self):
-        """
-        update_distmap Calculate a new distmap
-        The distmap tells the agent as a heatmap where he is.
-        """
         x0 = self.agentPos[0]
         y0 = self.agentPos[1]
         for y in range(self.s):
@@ -256,19 +213,11 @@ class Environment(object):
                 self.distmap[y][x] = dist  # Save the distance to the distmap
 
     def update_colmap(self):
-        """
-        update_colmap Calculate a new colmap
-        The colmap tells the agent if he is drawing or not
-        """
         for y in range(self.s):
             for x in range(self.s):
                 self.colmap[y][x] = self.isDrawing
 
     def update_patch(self):
-        """
-        update_patch Calculate a local input patch of the agent
-        The local patch is a concentrated smaller part of the canvas
-        """
         # Get start locations of the patch
         patchX = int(self.agentPos[0]-(self.p-1)/2)
         patchY = int(self.agentPos[1]-(self.p-1)/2)
@@ -283,25 +232,16 @@ class Environment(object):
                 self.ref_patch[y][x] = self.reference[yInd][xInd]
                 self.canvas_patch[y][x] = self.canvas[yInd][xInd]
 
-
     def reset(self):
-        """
-        reset Reset the canvas to the initial state.
-
-        :return: Returns an array with the inital state maps
-        :rtype: np.array
-        """
         # Get another reference image
         self.curRef += 1
         self.curRef = self.curRef % len(self.referenceData)
-
         if len(self.referenceData[0]) == 2:
-            
-            self.label, self.reference = self.referenceData[self.curRef] # Pick just the first image of the reference data in the first initialization
+            self.label, self.reference = self.referenceData[self.curRef]
         else:
             self.reference = self.referenceData[self.curRef]
         
-
+        self.score = 0
         self.overdrawn_perepisode = 0
         self.isDrawing = 0
         
@@ -309,21 +249,19 @@ class Environment(object):
         self.canvas = np.zeros((self.s, self.s))
         self.renderCanvas = np.zeros((self.s, self.s))
         
+        #reset position
         if self.generative:
             self.set_agentPos([4,4])
         else:
             self.set_agentPos([np.random.choice(range(1, 27)), np.random.choice(range(1, 27))])
     
 
-        self.lastDirection = [0, 0]
-
-        
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward(score=0, action=[0, 0])
+        self.reward()
 
-
+        #show reference or not
         if self.show_Reference:
             shown_ref = self.reference
             shown_patch = self.ref_patch
@@ -391,9 +329,6 @@ class Environment(object):
 
        
        
-
-            
-
 ###############################################################################
 
 # Utility Functions

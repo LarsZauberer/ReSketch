@@ -89,7 +89,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
                 log.info(f"stopAction in Step: {step}, Accuracy: {score}, stopReward: {reward}")   
             else:
                 # Draw further normally
-                next_gloabal_obs, next_local_obs, reward = env.step(score, action)
+                next_gloabal_obs, next_local_obs, reward = env.step(action)
 
             
             # Save step information
@@ -98,6 +98,7 @@ def train(env, agent, data, learn_plot, episode_mem_size, n_episodes, n_steps, m
             global_obs = next_gloabal_obs
             local_obs = next_local_obs
             score += reward
+            env.score = score
 
             
             #learn
