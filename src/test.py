@@ -118,6 +118,7 @@ def generative_test(args):
     canvas_size = 28
     patch_size = 7
     env = Rep_Env(canvas_size, patch_size, referenceData=np.full((args.test, 28, 28), 1), generative=True, with_stopAction=True, with_noisy=args.noisyPixel)
+    env.label = int(args.genMotive)
 
     agent_args = {"softmax": args.softmax, "gamma": 0, "epsilon_episodes": 1000, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
@@ -156,6 +157,7 @@ if __name__ == "__main__":
     parser.add_argument("-g", "--generative", help="Run the Generative version", action="store_true", default=False)
     parser.add_argument("-sm", "--softmax", help="Run the NN with Softmax activation", action="store_true", default=False)
     parser.add_argument("-np", "--noisyPixel", help="Run the NoisyPixel version", action="store_true", default=False)
+    parser.add_argument("-gm", "--genMotive", help="generative Motive", action="store", default=2)
     parser.add_argument("--debug", help="Verbose for the logging", action="store_true", default=False)
     args = parser.parse_args()
     

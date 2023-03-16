@@ -136,7 +136,7 @@ def generative_test_env(env, agent, n_episodes, n_steps=64):
                 next_local_obs = local_obs
             else:
                 # Draw further normally
-                next_gloabal_obs, next_local_obs, reward = env.step(score, action)
+                next_gloabal_obs, next_local_obs, reward = env.step(action)
 
             if env.isDrawing: 
                 last_step = step
