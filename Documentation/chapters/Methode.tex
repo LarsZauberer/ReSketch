@@ -230,8 +230,9 @@ definierten Kriterien (siehe \doubleref{chap:m_eval}). Jede der Variationen
 versucht, die Leistung in einem ausgewählten Kriterium zu maximieren. Eine
 Anpassung der Reward-Function (siehe \doubleref{sub:t_rl_func}) zielt auf diesen
 Effekt ab. Die verschiedenen Variationen sind teilweise untereinander
-kombinierbar. Eine der Variationen ist auf kein Kriterium spezialisiert und
-versucht stattdessen allgemein das Verhalten der KI zu verbessern.
+kombinierbar. Eine der Variationen (siehe \doubleref{sub:m_var_phy}) ist auf
+kein Kriterium spezialisiert und versucht stattdessen allgemein das Verhalten
+der KI zu verbessern.
  
 \subsection{Basis Reward-Function}\label{sub:m_var_base} Die Basis
 Reward-Function ist die einfachste Erweiterung des Grundprogramms. Diese
@@ -242,17 +243,16 @@ der Action und der prozentualen Übereinstimmung nach dem Ausführen der Action
 (also $K(t-1)$ und $K(t)$). Somit wird der Reward $R$ zum Step $t$ durch
 folgende Formel berechnet.
 \[ R(t) = K(t) - K(t-1) \] Der Reward eines Steps entspricht folglich nicht der
-gesamten prozentualen Übereinstimmung zu einem Step. Stattdessen entspricht der
-Reward der Veränderung der prozentualen Übereinstimmung, ausgelöst durch die
+gesamten prozentualen Übereinstimmung zu einem Step. Stattdessen Berechnet sich der
+Reward aus der Veränderung der prozentualen Übereinstimmung, ausgelöst durch die
 Action in einem Step. Der akkumulierte Reward (siehe \doubleref{sub:t_rl_func})
 enstspricht dem absoluten Wert der prozentualen Übereinstimmung. 
 
-Die prozentuale Übereinstimmung ist das grundlegendste Kriterium für die
-Tätigkeit des Nachzeichnens und hat ausserdem den Vorteil, dass kleine
-Verbesserungen bereits zu einem positiven Reward führen können. Das ist in den
-ersten Episoden des Trainings für die KI von entscheidender Bedeutung. Aus
-diesem Grund ist die Basis Reward-Function zumindest in ähnlicher Form in allen
-anderen Variationen ebenfalls vertreten.
+Die prozentuale Übereinstimmung hat den Vorteil, dass kleine Verbesserungen
+bereits zu einem positiven Reward führen können. Das ist in den ersten Episoden
+des Trainings für die KI von entscheidender Bedeutung. Aus diesem Grund ist die
+Basis Reward-Function zumindest in ähnlicher Form in allen anderen Variationen
+ebenfalls vertreten.
 
 \subsection{Spezialisierung auf Erkennbarkeit}\label{sub:m_var_rec} Das
 Kriterium der Erkennbarkeit kann, anders als die anderen Kriterien, nur
@@ -279,25 +279,29 @@ sich dabei aus folgendem Prinzip: Umso früher der Agent die Stopp Action
 auswählt, desto höher ist der Reward für diese Action. Um zu verhindern, dass
 der Agent die Stopp Action direkt im ersten Step wählt, löst die Reward-Function
 erst ab einer prozentualen Übereinstimmung von mehr als $80\%$ einen positiven
-Reward aus. Ansonsten ist der Reward der Stopp Action negativ. Der Reward über
-und unter dieser Schwelle von $80\%$ ist eine statische Zahl. Eine prozentuale
-Übereinstimmung von $90\%$ löst also keinen grösseren Reward aus als eine
-prozentuale Übereinstimmung von $80\%$. Experimente mit dynamischen Rewards
-scheiterten bisher. Ein möglicher Grund dafür ist, dass die KI je nach Situation
-zu hohe oder zu niedrige Rewards erhält.
+Reward aus. Ansonsten ist der Reward der Stopp Action negativ. Der Reward für
+die Stopp Action über und unter dieser Schwelle von $80\%$ ist eine statische
+Zahl. Eine prozentuale Übereinstimmung von $90\%$ löst also keinen grösseren
+Reward aus als eine prozentuale Übereinstimmung von $80\%$. Experimente mit
+dynamischen Rewards scheiterten bisher. Ein möglicher Grund dafür ist, dass die
+KI je nach Situation zu hohe oder zu niedrige Rewards erhält.
 
 Der Reward wird mit einem Faktor multipliziert, der von der Geschwindigkeit
 abhängt. Dieser Faktor ist nicht linear und stattdessen durch die folgende Funktion definiert:
-$$ f_{speed} = 1 - (\frac{t}{64})^{3}$$ (Siehe Abbildung Funktion) Dabei ist
+$$ f_{speed} = 1 - (\frac{t}{64})^{2.5}$$ (Siehe \autoref{fig:speed-function}) Dabei ist
 $t$ der aktuelle Step und die Zahl $64$ entspricht der maximalen Anzahl Steps,
 was somit den Wert der geringsten möglichen Geschwindigkeit ausmacht. Die Kurve
 der verwendeten Funktion verhindert, dass der Reward zu schnell abfällt.
+
+\label{fig:speed-function}
+%Todo Abbildung Funktion
+
 
 \subsection{Spezialisierung auf zeichnende Zeit}\label{sub:m_var_penlift}
 Diese Variation hat zum Ziel, den Wert des Kriteriums der zeichnenden Zeit zu
 maximieren. Das heisst, die KI soll sich so wenig wie möglich bewegen ohne dabei
 zu zeichnen. Dieser Effekt wird dadurch angestrebt, dass nicht zeichnende
-Aktionen einen negativen Reward von $-0.05$ auslösen. Ansonsten unterscheidet
+Aktionen einen negativen Reward von $-0.01$ auslösen. Ansonsten unterscheidet
 sich die Reward Function von der Basis Reward-Function nicht. Auch diese
 Variation verwendet die Stopp Action (spezifisch in Kombination mit der
 Spezialisierung auf Geschwindigkeit oder Erkennbarkeit), weil die KI nach einer
@@ -305,9 +309,9 @@ gewissen Anzahl Steps keine nützlichen Actions mehr hat und ohne Stopp Action i
 diesem Fall unschuldig negative Rewards erhalten würde.
 
 \subsection{Spezialisierung auf keine Übermalung}\label{sub:m_var_overdraw}
-Diese Variation versucht, die KI davon abzuhalten, Pixel mehrfach zu übermalen.
+Diese Variation versucht die KI davon abzuhalten, Pixel mehrfach zu übermalen.
 Jeder übermalte Pixel senkt dabei den Reward der Basis Reward-Function um einen
-definierten Betrag. Pro Action ist allerdings das übermalen von drei Pixeln
+definierten Betrag. Pro Action ist allerdings das Übermalen von drei Pixeln
 erlaubt und somit von negativen Rewards befreit. Diese Variation ist ohne
 die Stopp Action verwendbar, kann aber auch mit dieser kombiniert werden.
 
