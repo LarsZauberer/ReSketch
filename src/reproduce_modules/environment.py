@@ -90,7 +90,7 @@ class Environment(object):
         self.set_agentPos(action)
 
         # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
-        liftpen = -0.005 if self.with_liftpen else 0
+        liftpen = -0.01 if self.with_liftpen else 0
         reward = self.reward(score=score, action=action) if self.isDrawing else liftpen
         # Ending the timestep
 
@@ -208,7 +208,7 @@ class Environment(object):
 
     def stop_reward(self, score: float, step: int):
         if self.with_stopAction == 1:
-            ACC_THRESHOLD = 0.85
+            ACC_THRESHOLD = 0.80
             SPEED = 2.5
             WEIGHT = 0.5
             if score < ACC_THRESHOLD: accuracy_factor = -0.01

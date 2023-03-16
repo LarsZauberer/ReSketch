@@ -1,0 +1,1 @@
+reward: 0.829, accuracy: 0.807, mnist recognition: 0.97, speed 19.51

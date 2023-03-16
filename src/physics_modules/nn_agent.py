@@ -99,7 +99,7 @@ class DeepQNetwork(object):
 
 
 class Agent(object):
-    def __init__(self, alpha, gamma, mem_size, epsilon, epsilon_episodes, global_input_dims, local_input_dims, batch_size, n_actions,
+    def __init__(self, alpha, gamma, mem_size, epsilon, epsilon_episodes, global_input_dims, local_input_dims, batch_size, n_actions, softmax=False,
                  replace_target=1000, model='current'):
 
         self.n_actions = n_actions  # How many action options the agent has. -> Index of the action to choose
@@ -111,6 +111,7 @@ class Agent(object):
         self.replace_target = replace_target  # When to update the q_next network
         self.global_input_dims = global_input_dims  # The input dimensions of the whole canvas.
         self.local_input_dims = local_input_dims  # The dimensions of the concentrated patch of the canvas
+        self.softmax = softmax
 
         self.q_next = DeepQNetwork(alpha, self.n_actions, self.batch_size, global_input_dims=global_input_dims,
                                    local_input_dims=local_input_dims, name='q_next', model=model)  # The QNetwork to compute the q-values on the next state of the canvas
