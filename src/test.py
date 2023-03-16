@@ -3,16 +3,15 @@ from pathlib import Path
 import logging
 
 from data.ai_data import AI_Data
-from reproduce_modules.environment import Environment as Rep_Env
-from reproduce_modules.nn_agent import Agent as Rep_Agent
+from modules.environment import Environment as Rep_Env
+from modules.nn_agent import Agent as Rep_Agent
 
-from physics_modules.environment import Environment as Phy_Env
-from physics_modules.nn_agent import Agent as Phy_Agent
+from extras.physics_modules.environment import Environment as Phy_Env
+from extras.physics_modules.nn_agent import Agent as Phy_Agent
 
 import numpy as np
     
-from extras.test_functions import test_env, generative_test_env
-from extras.hyperparameter_loader import hyperparameter_loader
+from test_functions import test_env, generative_test_env
 
 from extras.logger import critical, initialize_logging
 from data_statistics.Image_Generator import generate_image, generate_generative_image
