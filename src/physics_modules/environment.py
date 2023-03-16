@@ -42,6 +42,7 @@ class Environment(object):
             angle = ma.pi/6*i
             self.actions.append( (float('%.2f' % (ma.cos(angle)*vel_2)) , float('%.2f' % (ma.sin(angle)*vel_2))) )
 
+        self.score = 0
 
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
@@ -60,7 +61,7 @@ class Environment(object):
     
         
         
-    def step(self, score, agent_action):
+    def step(self, agent_action):
         """
         step execute a timestep. Creates a new canvas state in account of the action
         index input
@@ -87,7 +88,7 @@ class Environment(object):
             self.phy.velocity = [0, 0]
 
         # Calculate the reward for the action in this turn. The reward can be 0 because it is gaining the reward only for new pixels
-        reward = self.reward(score=score, action=action) if self.isDrawing else 0.0
+        reward = self.reward() if self.isDrawing else 0.0
         reward += penalty
 
         # Ending the timestep
@@ -134,7 +135,7 @@ class Environment(object):
         return x, y
 
 
-    def reward(self, score, action):
+    def reward(self):
         """
         reward Calculate the reward based on gained similarity and length of step
 
@@ -240,6 +241,7 @@ class Environment(object):
         self.curRef = self.curRef % len(self.referenceData)
         self.reference = self.referenceData[self.curRef]
         
+        self.score = 0
         
         # Reset canvas 
         self.canvas = np.zeros((self.s, self.s))
@@ -255,7 +257,7 @@ class Environment(object):
         # Reset the reward by rerunning it on an empty canvas
         # This should clear the last similarity variable
         self.maxScore = 1
-        self.reward(0, 0)
+        self.reward()
 
         return np.array([self.reference, self.canvas, self.distmap, self.colmap]), np.array([self.ref_patch, self.canvas_patch])
 
