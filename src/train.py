@@ -26,9 +26,9 @@ def physics(args):
     model_name= args.modelName
     model_path = f"pretrained_models/reproduce/{model_name}"
 
-    hyp_data = hyperparameter_loader("src/phy_opti.json", model_name)
+    #hyp_data = hyperparameter_loader("src/phy_opti.json", model_name)
     #Manual hyperparameters:
-    #hyp_data = {"gamma": 0.7, "epsilon": 0, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 3000} 
+    hyp_data = {"gamma": 0.70, "epsilon": 0.3, "epsilon_episodes": 1000, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 5000, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
 
     # Agent, Environment constants
     canvas_size = 28
@@ -50,7 +50,7 @@ def physics(args):
 
 
     env =  Phy_Env(canvas_size, patch_size, data.pro_data, n_actions=n_actions, friction=hyp_data["friction"], vel_1=hyp_data["vel_1"], vel_2=hyp_data["vel_2"])
-    agent_args = {"gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
+    agent_args = {"softmax": args.softmax, "gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, "n_actions": n_actions}
     agent = Phy_Agent(**agent_args)
