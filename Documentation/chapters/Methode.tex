@@ -80,7 +80,6 @@ Das Grundprogramm verwendet als Policy für die Wahl der Actions standardmässig
 Epsilon-Greedy. Die Softmax Policy ist allerdings auch implementiert und nach
 belieben verwendbar.
 
-
 \subsection{Erweiterungen}\label{sub:m_grund_erweiterungen} Die folgenden
 Eigenschaften des Grundprogramms sind Erweiterungen der Architektur von
 Doodle-SDQ.
@@ -99,6 +98,7 @@ Action. Wenn der Agent diese Action wählt, bricht die Zeichnung ab. Der Agent
 kann somit frei entscheiden, wann die Zeichnung fertig ist. Die Stopp Action
 kann während dem Training dem Agent verboten werden. In diesem Fall wird die
 Action als unzulässig behandelt.
+
 
  
 \subsection{Präparierung der Daten und Optimierung}\label{sub:m_grund_data}
@@ -293,9 +293,14 @@ $t$ der aktuelle Step und die Zahl $64$ entspricht der maximalen Anzahl Steps,
 was somit den Wert der geringsten möglichen Geschwindigkeit ausmacht. Die Kurve
 der verwendeten Funktion verhindert, dass der Reward zu schnell abfällt.
 
-\label{fig:speed-function}
-%Todo Abbildung Funktion
-
+%bild physik actionspace
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth-6cm]{images/methode/speedplot.png}
+    \caption{Veränderung des mit dem Reward zu multiplizierenden Faktor in
+    Abhängigkeit der Anzahl Steps (eigene
+    Abbildung)}\label{fig:speed-function}
+\end{figure}
 
 \subsection{Spezialisierung auf zeichnende Zeit}\label{sub:m_var_penlift}
 Diese Variation hat zum Ziel, den Wert des Kriteriums der zeichnenden Zeit zu
@@ -314,7 +319,6 @@ Jeder übermalte Pixel senkt dabei den Reward der Basis Reward-Function um einen
 definierten Betrag. Pro Action ist allerdings das Übermalen von drei Pixeln
 erlaubt und somit von negativen Rewards befreit. Diese Variation ist ohne
 die Stopp Action verwendbar, kann aber auch mit dieser kombiniert werden.
-
 
 \subsection{Physikalische Umgebung}\label{sub:m_var_phy} Diese Variation
 spezialisiert sich auf kein Kriterium. Stattdessen verändert sie die Umgebung,
@@ -349,7 +353,6 @@ Formation angeordnet: (siehe \autoref{fig:physics-actionspace}).
  \includegraphics[width=\textwidth-6cm]{images/methode/physics-actionspace.png}
  \caption{Action-Space in der physikalischen Umgebung. (eigene Abbildung)}\label{fig:physics-actionspace}
 \end{figure}
- 
  
 Mit dem gewählten Beschleunigungsvektor $\vec{a}(t)$ berechnet sich die
 Geschwindigkeit im nächsten Step $t+1$ aus dem aktuellen Step $t$ durch folgende
@@ -446,70 +449,71 @@ der unveränderlichen Ausgangslage führt der Determinismus dazu, dass die KI nu
 eine einzige Zeichnung produzieren kann. 
 
 
-%Todo: In diskussion einfügen
-Diskussion Gedanken
-(Generierer nur möglich mit nachzeichner)
-(Prozess des Nachzeichnens entscheidend für Generierer)
-
-
 \subsection{Nicht deterministische Zeichnungen}\label{sub:m_gen_det} Damit die
-generative KI unterschiedliche Bilder zeichnet und nicht deterministisch ist,
-benötigt der Zeichenprozess ein Element von Zufall. Es gibt verschiedene Ansätze
-um diesen Zufall zu integrieren.
+generative KI sich nicht mehr deterministsch bewegt und stattdessen
+unterschiedliche Bilder zeichnen kann, benötigt der Zeichenprozess ein Element
+von Zufall. Es gibt verschiedene Ansätze, um diesen Zufall zu implementieren.
 
-Der erste Ansatz ist, nach dem Training der generativen KI die Softmax Policy
-zur Wahl der Actions zu verwenden (siehe \doubleref{sub:t_rl_func}). Die Softmax
-Policy macht die Wahl der Action in jedem Step vom Zufall abhängig. Ausserdem
-hat die Softmax Policy gegenüber von Epsilon-Greedy den Vorteil, dass Actions
-nie komplett vom Zufall bestimmt werden, sondern nach einer bestimmten
+Der erste Ansatz ist, selbst nach dem Training der generativen KI die Softmax
+Policy zur Wahl der Actions zu verwenden (siehe \doubleref{sub:t_rl_func}). Die
+Softmax Policy macht die Wahl der Action in jedem Step vom Zufall abhängig.
+Ausserdem hat die Softmax Policy gegenüber von Epsilon-Greedy den Vorteil, dass
+Actions nie komplett vom Zufall bestimmt werden, sondern nach einer
 Wahrscheinlichkeitsverteilung gewählt werden. Als weiterer Vorteil ist die
 Wahrscheinlichkeitsverteilung durch die Softmax Temperatur variierbar. Diese
-Eigenschaft ist für den Erfolg der Softmax Policy als Lösung für das Problem der
-deterministischen Zeichnungen entscheidend, weil die KI nur mit einer geringen
-Freiheit in der Wahl der Actions umgehen kann: Eine einzige falsche Action kann
-bereits dazu führen, dass das Motiv der Zeichnung nicht mehr erkennbar ist. Eine
-tiefe Softmax Temperatur, in einem Intervall zwischen $0.03$ und $0.01$,
-versichert, dass Actions mit einem geringen Q-Value nur in seltenen Fällen
-gewählt werden.
+Eigenschaft ist für den Erfolg von diesem Ansatz entscheidend, weil die KI nur
+mit einer geringen Freiheit in der Wahl der Actions umgehen kann: Eine einzige
+falsche Action kann bereits dazu führen, dass das Motiv der Zeichnung nicht mehr
+erkennbar ist. 
 
-Trotz geringer Softmax Temperatur ist die Freiheit in der Wahl der Actions zu
-gross und führt dazu, dass die generative KI häufig keine erkennbaren Bilder
-produziert. Eine Weiterführung des ersten Ansatz ist deshalb die Beschränkung
-der Wahl auf die $5$ Actions mit der höchsten Wahrscheinlichkeit. Diese
-Weiterführung hat mehr Erfolg als der erste Ansatz, weil Actions mit einer
-tiefen Wahrscheinlichkeit gar nicht mehr ausgeführt werden können. Ansonsten
-würde fast in jeder Zeichnung mindestens eine unwahrscheinliche Action
-ausgeführt werden.
+Die Freiheit der Wahl der Actions wird für die nicht deterministische generative
+KI folgendermassen eingeschränkt: Der Agent kann nur unter den fünf Actions mit
+der höchsten Q-Values (siehe \doubleref{sub:t_rl_func}) auswählen. Ohne diese
+Beschränkung würde die Wahl immer noch zu häufig auf Actions mit einer geringen
+Wahrscheinlichkeit (also einem geringen Q-Value) fallen. Ausserdem wird die
+Wahrscheinlichkeitsverteilung durch Softmax nur für die fünf wählbaren Actions
+berechnet. Die Softmax Temperatur ist für diese Berechnung tief (kleiner als
+$1$), damit die Differenz zwischen den Wahrscheinlichkeiten der Actions hoch
+bleibt.
 
-Die nachzeichnende KI verwendet standardmässig Epsilon-Greedy anstelle der
-Softmax-Policy, weil die Leistung in allen Kriterien ohne die Softmax Activation
-deutlich höher ist. Wird allerdings wie im ersten Ansatz nach dem Training die
-Softmax Policy verwendet, so sollte die KI auch mit der Softmax Policy
-trainieren. Die Softmax Temperatur ist während dem Training statisch als $0.05$
-definiert. Eine dynamische Anpassung der Softmax Temperatur während dem Training
-beeinflusst das Verhalten der KI nicht bemerkbar.
+Um im Test mit der Softmax Policy umgehen zu können, sollte die generative KI
+bereits mit der Softmax Policy trainieren. Es stellt sich heraus, dass die KI
+mit der Softmax Activation Function für den Output Layer einen deutlich tieferen
+akkumulierten Reward erreicht und dadurch auch keine guten Leistungen erzielt.
+Deswegen wird Softmax nur für die Wahl der Actions verwendet und nicht als
+Activation Function. Dadurch beeinflusst Softmax das neuronale Netz in keiner
+Weise und die KI erreicht ihre übliche Leistung (siehe
+\doubleref{sub:r_tab_nachzeich}). Die Softmax Temperatur wird über das Training
+hinweg linear um einen kleinen Betrag erhöht. Dadurch steigt der Einfluss des
+Zufalls im Verlaufe des Trainings.
 
-Der zweite Ansatz ist, den Input in das neuronale Netz auf zufällige Weise
-anzupassen, da ein unterschiedlicher Input zu unterschiedlichen Beurteilungen
-führt. Eine Möglichkeit, um den Zufall zu integrieren, liegt im Channel des
-Inputs in das neuronale Netz, wo der KI eine Vorlage gezeigt wird. Der
-generativen KI wird generell ein in diesem Channel ein schwarzes Bild anstelle
-einer Vorlage gezeigt. Werden die Werte der Pixel dieses schwarzen Bildes mit
-zufälligen Werten zwischen $0$ und $1$ ersetzt, so verändert sich der Input in
-das neuronale Netz und somit auch der Output. Die KI trifft also Entscheidungen,
-die von zufälligen Werten abhängen. Damit dieser Ansatz funktioniert, muss
-bereits während dem Training diese Zufallsquelle integriert werden.
+%bild Noisy Pixel
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[width=\textwidth]{images/methode/noisypixel.png}
+ \caption{Verwendung von zufälligen Werten als Eingabe in das neuronale Netz
+ (eigene Abbildung)}\label{fig:noisy-pixel}
+\end{figure}
 
-%Todo: Änderung der Startposition
-%Todo: Mehr Text
+Der zweite Ansatz, um die generative KI nicht deterministisch zeichnen zu
+lassen, verändert den Input in das neuronale Netz. Der Channel, mit dem der KI
+eine Vorlage gezeigt wird, kann um ein Zufallselement erweitert werden. Der
+generativen KI wird generell in diesem Channel ein schwarzes Bild anstelle einer
+Vorlage gezeigt. Werden die Werte der Pixel dieses schwarzen Bildes mit
+zufälligen Werten zwischen $0$ und $0.5$ ersetzt (siehe
+\autoref{fig:noisy-pixel}), so verändert sich der Input in das neuronale Netz
+und somit auch der Output. Die KI trifft also Entscheidungen auf der Basis von
+zufälligen Werten, wodurch sich das Resultat der Zeichnungen unterscheiden kann.
+Damit dieser Ansatz funktioniert, muss bereits während dem Training dieses
+Zufallselement implementiert werden.
 
 \section{Auswertung}\label{chap:m_auswert}
-Die Auswertung beschreibt das sammeln der Leistungsdaten der verschiedenen
+Die Auswertung beschreibt das Sammeln der Leistungsdaten der verschiedenen
 Variationen und Versionen der KI. Diese Daten machen das Resultat der Methode
 aus. Die Leistungsdaten beruhen auf den objektiven Werten der definierten
 Kriterien (siehe \doubleref{chap:m_eval}). Die Auswertung wird für die
 Variationen der nachzeichnenden KI und die Variationen der generativen KI
-separat beschrieben, da diese sich in den beiden Fällen unterscheidet.
+separat beschrieben, da diese sich unterscheiden.
 
 \subsection{Auswertung der nachzeichnenden KI}\label{sub:m_auswert_nachzeich}
 Die Variationen der nachzeichnenden KI werden auf ihre Leistung für drei
@@ -535,9 +539,10 @@ Zwischen der Trainingsumgebung und der Testumgebung sind zwei relevante
 Unterschiede. Erstens trainiert die KI in der Testumgebung nicht. Die
 Testumgebung übernimmt eine trainierte Version der nachzeichnenden KI und
 verändert diese während dem Test nicht. Zweitens wählt der Agent Die Actions
-deterministisch. In jedem Step wird die Action mit dem höchsten Q-Value gewählt.
+deterministisch. In jedem Step wird diejenige Action mit dem höchsten Q-Value
+gewählt.
 
-Im Test zeichnet die KI $2'000$ Strichbilder nach. Am Ende jeder Zeichnung wird
+Im Test zeichnet die KI $1'000$ Strichbilder nach. Am Ende jeder Zeichnung wird
 der Zahlenwert der verschiedenen Kriterien (siehe \doubleref{chap:m_eval}) ihrer
 Definition entsprechend berechnet und gespeichert. Der Durchschnitt aller
 gespeicherten Werte eines Kriteriums entspricht der Leistung der KI in diesem
@@ -550,8 +555,8 @@ wird.
 
 Die Variationen der generativen KI werden auf ihre Leistung in dem Kriterium der
 Erkennbarkeit, der Geschwindigkeit und der zeichnenden Zeit geprüft (siehe
-\doubleref{chap:m_eval}). Die übrigen Kriterien ergeben ohne eine
-nachzuzeichnende Vorlage keinen Sinn. Anders als im Training wird der
+\doubleref{chap:m_eval}). Die übrigen Kriterien sind ohne eine
+nachzuzeichnende Vorlage nicht auswertbar. Anders als im Training wird der
 generativen KI in der Testumgebung in keinem Fall eine Vorlage gezeigt. Die
 Startposition ist auf die selbe vordefinierten Position wie im Training gesetzt.
 Die Wahl der Actions ist nicht deterministisch, weil die KI in diesem Fall nur
@@ -559,19 +564,17 @@ eine einzige Zeichnung produzieren könnte. Stattdessen unterliegt die Wahl der
 Actions den selben Zufallselementen (siehe \doubleref{sub:m_gen_det}) wie im
 Training der jeweils getesteten Variation.
 
-Im Test generiert die KI 500 Bilder. Das Motiv der Bilder hängt dabei davon ab,
+Im Test generiert die KI 1000 Bilder. Das Motiv der Bilder hängt dabei davon ab,
 worauf die Variation trainiert ist. Eine Variation wird auf fünf verschiedene
-Motive trainiert und anschliessend getestet. Die drei Motive sind: eine Null,
+Motive trainiert und anschliessend getestet. Die fünf Motive sind: eine Null,
 eine Zwei, eine Acht, ein F und eine Blume aus dem QuickDraw Datenset (siehe
 \autoref{fig:generative_motives}). Wenn eine Variation im Test die Softmax
 Policy verwendet (siehe \doubleref{sub:t_rl_func}), dann ist die Softmax
-Temperatur unabhängig von derjenigen im Training bestimmbar. Die Softmax
-Temperatur beeinflusst dabei wie viel Varianz in den Zeichnungen ist.
+Temperatur unabhängig von derjenigen im Training bestimmbar.
 
 %Todo Abbildung Null, Zwei, Acht, F, Bluem
-%\label{fig:generative_motives}
+\label{fig:generative_motives}
 
 Wie im Test der nachzeichnenden KI (siehe \doubleref{sub:m_auswert_nachzeich}),
 entspricht die Leistung einer Variation dem Durchschnitt der Werte in den
-verwendeten Kriterien nach jeder Zeichnung.
-
+verwendeten Kriterien für jede Zeichnung.
