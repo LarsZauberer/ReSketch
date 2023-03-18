@@ -84,7 +84,7 @@ def reproduce(args):
     model_path = f"pretrained_models/reproduce/{model_name}"
 
     # Hyperparameters
-    hyp_data = {"gamma": 0.7, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.00015, "replace_target": 6000, "episode_mem_size": 90, "n_episodes": 5000} 
+    hyp_data = {"gamma": 0.7, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.00015, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 5000} 
 
     # Agent, Environment constants
     canvas_size = 28
@@ -139,7 +139,7 @@ def generative(args):
     model_path = f"pretrained_models/generative/{model_name}"
 
     # Hyperparameters
-    hyp_data = {"gamma": 0.8, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 90, "n_episodes": 6000} 
+    hyp_data = {"gamma": 0.8, "epsilon_episodes": 2000, "epsilon": 0.3, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 6000} 
 
     # Agent, Environment constants
     canvas_size = 28
