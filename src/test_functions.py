@@ -65,9 +65,9 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_vis: bool = True):
 
         reward_scores.append(score)
         accuracy_scores.append(1 - env.lastSim)
-        if data.dataset == "emnist":
+        if env.dataset == "emnist":
             rec = env.label == predict.emnist(env.canvas, mode="test")
-        elif data.dataset == "quickdraw":
+        elif env.dataset == "quickdraw":
             rec = env.label == predict.quickdraw(env.canvas, mode="test")
         else:
             rec = env.label == predict.mnist(env.canvas, mode="test")
@@ -150,7 +150,14 @@ def generative_test_env(env, agent, n_episodes, n_steps=64):
             if env.translate_action(action) == True:
                 break
 
-        rec = env.label == predict.mnist(env.canvas, mode="test")
+        if env.dataset == "emnist":
+            rec = env.label == predict.emnist(env.canvas, mode="test")
+        elif env.dataset == "quickdraw":
+            rec = env.label == predict.quickdraw(env.canvas, mode="test")
+        else:
+            rec = env.label == predict.mnist(env.canvas, mode="test")
+
+
         datarec_scores.append(int(rec))
         speed_scores.append(last_step)
         if last_step == 0: drawratio_scores.append(0)

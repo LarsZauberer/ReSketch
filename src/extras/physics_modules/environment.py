@@ -9,7 +9,7 @@ from models.Predictor import Predictor
 
 
 class Environment(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, friction: float = 0.2, vel_1: float = 0.8, vel_2: float = 1.2):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, n_actions : int,  do_render : bool = True, friction: float = 0.2, vel_1: float = 0.8, vel_2: float = 1.2, dataset="mnist", with_overdraw=False):
         self.s = sidelength
         self.p = patchsize  # sidelength of patch (local Input). must be odd
 
@@ -44,10 +44,21 @@ class Environment(object):
 
         self.score = 0
 
+        self.dataset = dataset
+        self.with_overdraw = with_overdraw
+
         # initializes rest
         self.lastSim = 0  # Last similarity between reference and canvas
         self.maxScore = 1 # Maximum Reward (changes with reference Image) = base Similarity between empty canvas and reference        
-        self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
+        
+        self.overdrawn_perepisode = 0
+
+        self.label = 0
+        if len(self.referenceData[0]) == 2:
+            self.label, self.reference = referenceData[0] # Pick just the first image of the reference data in the first initialization
+        else:
+            self.reference = referenceData[0]
+        
         self.curRef = -1 #current reference image, counter that increments with every episode
         self.isDrawing = 0 # 0 = not Drawing, 1 = Drawing (not bool because NN)
         self.agentPos = [0, 0] # initialize agent position to top left corner of the image
@@ -146,6 +157,11 @@ class Environment(object):
         similarity = 0
         for i in range(self.s):
             for j in range(self.s):
+                # Check for overdrawn pixel
+                if self.canvas[i][j] > 1:
+                    self.overdrawn_perepisode += 1
+                    self.canvas[i][j] = 1  # Reset to normalized color view
+
                 similarity += (self.canvas[i][j] - self.reference[i][j])**2
         similarity /= self.maxScore
 
@@ -169,7 +185,7 @@ class Environment(object):
         :type pos: list
         """
         if self.isDrawing:
-            self.canvas = drawline(self.agentPos, pos, self.canvas)
+            self.canvas = drawline(self.agentPos, pos, self.canvas, with_overdrawn=self.with_overdraw)
             self.renderCanvas = drawline(self.agentPos, pos, self.renderCanvas, color=0.25+0.75*self.curStep/64)
         self.agentPos = pos
         self.update_distmap()
@@ -239,7 +255,14 @@ class Environment(object):
         # Get another reference image
         self.curRef += 1
         self.curRef = self.curRef % len(self.referenceData)
-        self.reference = self.referenceData[self.curRef]
+
+        self.overdrawn_perepisode = 0
+
+        self.label = 0
+        if len(self.referenceData[0]) == 2:
+            self.label, self.reference = self.referenceData[self.curRef] # Pick just the first image of the reference data in the first initialization
+        else:
+            self.reference = self.referenceData[self.curRef]
         
         self.score = 0
         
@@ -314,7 +337,7 @@ class Environment(object):
 
 
 # draws Line directly on bitmap to save convert
-def drawline(setpos, pos, canvas, color : float = 1):
+def drawline(setpos, pos, canvas, with_overdrawn: bool = False, color : float = 1):
     """
     drawline Draw a line on a specified canvas.
 
@@ -371,7 +394,10 @@ def drawline(setpos, pos, canvas, color : float = 1):
                 # Check out of bounds
                 if pix[1]+weight-y >= len(canvas) or pix[1]+weight-y < 0:
                     continue
-                canvas[pix[1]+weight-y][pix[0]] = color
+                if with_overdrawn:
+                    canvas[pix[1]+weight-y][pix[0]] += color
+                else:
+                    canvas[pix[1]+weight-y][pix[0]] = color
                 
                     
     
@@ -398,7 +424,10 @@ def drawline(setpos, pos, canvas, color : float = 1):
                 # Check out of bounds
                 if pix[0]+weight-x >= len(canvas) or pix[0]+weight-x < 0:
                     continue
-                canvas[pix[1]][pix[0]+weight-x] = color
+                if with_overdrawn:
+                    canvas[pix[1]][pix[0]+weight-x] += color
+                else:
+                    canvas[pix[1]][pix[0]+weight-x] = color
 
     return canvas
 
