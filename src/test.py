@@ -39,7 +39,7 @@ def physics_test(args):
     glob_in_dims = (4, canvas_size, canvas_size)
     loc_in_dims = (2, patch_size, patch_size)
     
-    env =  Phy_Env(canvas_size, patch_size, data.pro_data, n_actions=n_actions, friction=0.3, vel_1=0.9, vel_2=1.5)
+    env =  Phy_Env(canvas_size, patch_size, data.labeled_pro_data, n_actions=n_actions, friction=0.3, vel_1=0.9, vel_2=1.5, with_overdraw=True, dataset=args.dataset.split("_")[0])
     agent_args = {"gamma": 0, "epsilon_episodes": 1000, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": 1000, "batch_size": 64, "n_actions": n_actions}
@@ -58,8 +58,9 @@ def physics_test(args):
     
     # process Results
     images = scores.pop(-1)
-    reward, accuracy, datarec, speed = [float('%.3f' % s) for s in scores]
-    log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}')
+
+    reward, accuracy, datarec, speed, drawratio, overdraw = [float('%.3f' % s) for s in scores]
+    log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}, drawratio: {drawratio}, overdrawn: {overdraw}')
     generate_image(images)
 
 
@@ -80,7 +81,7 @@ def reproduce_test(args):
     # initialize environment
     canvas_size = 28
     patch_size = 7
-    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=True)
+    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=True, with_overdraw=True, dataset=args.dataset.split("_")[0])
     agent_args = {"softmax": args.softmax, "gamma": 0, "epsilon_episodes": 1000, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
                   "mem_size": 1000, "batch_size": 64}
@@ -103,6 +104,10 @@ def reproduce_test(args):
     log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}, drawratio: {drawratio}, overdrawn: {overdraw}')
     generate_image(images)
 
+    with open(f"results/{args.name}-{args.dataset}", "w") as f:
+        f.write(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}, drawratio: {drawratio}, overdrawn: {overdraw}')
+
+
 
 @critical
 def generative_test(args):
@@ -117,7 +122,7 @@ def generative_test(args):
     # initialize environment
     canvas_size = 28
     patch_size = 7
-    env = Rep_Env(canvas_size, patch_size, referenceData=np.full((args.test, 28, 28), 1), generative=True, with_stopAction=True, with_noisy=args.noisyPixel)
+    env = Rep_Env(canvas_size, patch_size, referenceData=np.full((args.test, 28, 28), 1), generative=True, with_stopAction=True, with_noisy=args.noisyPixel, dataset=args.dataset.split("_")[0])
     env.label = int(args.genMotive)
 
     agent_args = {"softmax": args.softmax, "gamma": 0, "epsilon_episodes": 1000, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
@@ -143,8 +148,6 @@ def generative_test(args):
     datarec, speed, drawratio = [float('%.3f' % s) for s in scores]
     log.info(f'mnist-recognition: {datarec}, speed: {speed}, drawratio: {drawratio}' )
     generate_generative_image(images)
-
-
 
 
 

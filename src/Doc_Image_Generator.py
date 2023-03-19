@@ -24,7 +24,7 @@ from matplotlib import cm, colors
 
 
 @critical
-def reproduce_generate(model_name="base0.1", testnum = 26, rows = 8):
+def reproduce_generate(model_name="0.1", testnum = 100, rows = 8):
     # load data
     data = AI_Data("mnist_test")
     data.sample(testnum)
@@ -46,6 +46,8 @@ def reproduce_generate(model_name="base0.1", testnum = 26, rows = 8):
         )
 
     mnist_images = scores.pop(-1)[:rows]
+
+    print(scores)
 
     # load data
     data = AI_Data("emnist_test")

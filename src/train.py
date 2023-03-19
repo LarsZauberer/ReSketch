@@ -49,7 +49,7 @@ def physics(args):
     data.sample(n_episodes)
 
     # create Environment, Agent
-    env =  Phy_Env(canvas_size, patch_size, data.pro_data, n_actions=n_actions, friction=hyp_data["friction"], vel_1=hyp_data["vel_1"], vel_2=hyp_data["vel_2"])
+    env =  Phy_Env(canvas_size, patch_size, data.labeled_pro_data, n_actions=n_actions, friction=hyp_data["friction"], vel_1=hyp_data["vel_1"], vel_2=hyp_data["vel_2"])
     agent_args = {"softmax": args.softmax, "gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size, "n_actions": n_actions}
@@ -104,7 +104,7 @@ def reproduce(args):
     data.sample(n_episodes)
 
     # create Environment, Agent
-    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=args.stopAction, with_liftpen=args.liftpen, with_overdraw=args.overdraw, with_noisy=False, generative=False)
+    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=args.stopAction, with_liftpen=args.liftpen, with_overdraw=args.overdraw, with_noisy=False, generative=False, dataset=args.dataset.split("_")[0])
     agent_args = {"softmax": args.softmax, "gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size}
@@ -159,7 +159,7 @@ def generative(args):
     data.sample_by_category(data.motive, n_episodes)
 
     # create Environment + Agent
-    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=2, with_liftpen=args.liftpen, with_overdraw=args.overdraw, with_noisy=args.noisyPixel, generative=True)
+    env = Rep_Env(canvas_size, patch_size, data.labeled_pro_data, with_stopAction=2, with_liftpen=args.liftpen, with_overdraw=args.overdraw, with_noisy=args.noisyPixel, generative=True, dataset=args.dataset.split("_")[0])
     agent_args = {"softmax": args.softmax, "gamma": hyp_data["gamma"], "epsilon": hyp_data["epsilon"], "epsilon_episodes": hyp_data["epsilon_episodes"], "alpha": hyp_data["alpha"], "replace_target": int(hyp_data["replace_target"]), 
                   "global_input_dims": glob_in_dims, "local_input_dims": loc_in_dims, 
                   "mem_size": mem_size, "batch_size": batch_size}

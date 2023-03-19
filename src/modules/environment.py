@@ -6,7 +6,7 @@ from models.Predictor import Predictor
 
 
 class Environment(object):
-    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : int = 0,  with_liftpen : bool = False, with_overdraw : bool = False, with_noisy : bool = False, generative : bool = False, do_render : bool = True):
+    def __init__(self, sidelength: int, patchsize: int, referenceData: np.array, with_stopAction : int = 0,  with_liftpen : bool = False, with_overdraw : bool = False, with_noisy : bool = False, generative : bool = False, dataset="mnist", do_render : bool = True):
         self.s = sidelength
         self.p = patchsize
 
@@ -54,10 +54,14 @@ class Environment(object):
         self.with_noisy = with_noisy
         self.generative = generative
 
+        
+
         # variation variables
         self.overdrawn_perepisode = 0
         self.score = 0
-        self.rec_model = Predictor(mnist=True)
+
+        self.dataset = dataset
+        self.rec_model = Predictor(mnist=True, emnist=True, quickdraw=True)
 
         # rendering / visualization
         self.renderCanvas = np.zeros((self.s, self.s))
@@ -186,7 +190,14 @@ class Environment(object):
             else: speed_factor = 1 - (step/64)**SPEED
             return accuracy_factor * speed_factor * WEIGHT
         elif self.with_stopAction == 2:
-            prediction = self.rec_model.mnist(self.canvas, mode="soft")[self.label] - 0.8
+            if self.dataset == "emnist":
+                print("emnist")
+                prediction = self.rec_model.emnist(self.canvas, mode="soft")[self.label] - 0.8
+            elif self.dataset == "quickdraw":
+                prediction = self.rec_model.quickdraw(self.canvas, mode="soft")[self.label] - 0.8
+            else:
+                prediction = self.rec_model.mnist(self.canvas, mode="soft")[self.label] - 0.8
+
             if prediction < 0:
                 return prediction*0.5
             else:
@@ -197,7 +208,7 @@ class Environment(object):
     # set agent position
     def set_agentPos(self, pos: list):
         if self.isDrawing:
-            self.canvas = drawline(self.agentPos, pos, self.canvas, with_overdrawn=True)
+            self.canvas = drawline(self.agentPos, pos, self.canvas, with_overdrawn=self.with_overdraw)
             self.renderCanvas = drawline(self.agentPos, pos, self.renderCanvas, color=0.25+0.75*self.curStep/64)
         self.agentPos = pos
         self.update_distmap()

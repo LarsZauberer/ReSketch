@@ -1,27 +1,23 @@
-source env/bin/activate
-python src/nn_test.py -s -t 2000 --version base
-python src/nn_test.py -s -t 2000 --version mnist
-python src/nn_test.py -s -t 2000 --version speed
-python src/nn_test.py -s -t 2000 --version mnist-speed
-python src_physics/nn_test.py -s -t 2000 --version base
-python src_physics/nn_test.py -s -t 2000 --version mnist
-python src_physics/nn_test.py -s -t 2000 --version speed
-python src_physics/nn_test.py -s -t 2000 --version mnist-speed
+python src/test.py -n base0.1 -t 1000 -d mnist_test
+python src/test.py -n speed0.1 -t 1000 -d mnist_test
+python src/test.py -n rec0.1 -t 1000 -d mnist_test
+python src/test.py -n overdraw0.1 -t 1000 -d mnist_test
+python src/test.py -n p0.1 -p -t 1000 -d mnist_test
+python src/test.py -n liftpen0.1 -t 1000 -d mnist_test
 
-python src/nn_test.py -s -t 2000 --version base -d emnist
-python src/nn_test.py -s -t 2000 --version mnist -d emnist
-python src/nn_test.py -s -t 2000 --version speed -d emnist
-python src/nn_test.py -s -t 2000 --version mnist-speed -d emnist
-python src_physics/nn_test.py -s -t 2000 --version base -d emnist
-python src_physics/nn_test.py -s -t 2000 --version mnist -d emnist
-python src_physics/nn_test.py -s -t 2000 --version speed -d emnist
-python src_physics/nn_test.py -s -t 2000 --version mnist-speed -d emnist
+python src/test.py -n base0.1 -t 1000 -d emnist_test
+python src/test.py -n speed0.1 -t 1000 -d emnist_test
+python src/test.py -n rec0.1 -t 1000 -d emnist_test
+python src/test.py -n overdraw0.1 -t 1000 -d emnist_test
+python src/test.py -n p0.1 -p -t 1000 -d emnist_test
+python src/test.py -n liftpen0.1 -t 1000 -d emnist_test
 
-python src/nn_test.py -s -t 2000 --version base -d quickdraw
-python src/nn_test.py -s -t 2000 --version mnist -d quickdraw
-python src/nn_test.py -s -t 2000 --version speed -d quickdraw
-python src/nn_test.py -s -t 2000 --version mnist-speed -d quickdraw
-python src_physics/nn_test.py -s -t 2000 --version base -d quickdraw
-python src_physics/nn_test.py -s -t 2000 --version mnist -d quickdraw
-python src_physics/nn_test.py -s -t 2000 --version speed -d quickdraw
-python src_physics/nn_test.py -s -t 2000 --version mnist-speed -d quickdraw
+python src/test.py -n base0.1 -t 1000 -d quickdraw_test
+python src/test.py -n speed0.1 -t 1000 -d quickdraw_test
+python src/test.py -n rec0.1 -t 1000 -d quickdraw_test
+python src/test.py -n overdraw0.1 -t 1000 -d quickdraw_test
+python src/test.py -n p0.1 -p -t 1000 -d quickdraw_test
+python src/test.py -n liftpen0.1 -t 1000 -d quickdraw_test
+
+
+python src/test.py -g -n sm-0-0.1 -sm -gm 0 -d mnist_test
