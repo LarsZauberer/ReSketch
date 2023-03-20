@@ -92,39 +92,64 @@ von diesem Ansatz daran, dass die Umgebung dadurch zu viele Faktoren hat, welche
 Bewegungen der KI beeinflussen.
 
 
-\subsection{Wie ändert sich die Leistung der KI für Strichbilder, die im Training nicht enthalten sind?}\label{subsub:d_frage_unter_4}
+\subsection{Wie ändert sich die Leistung der KI für Strichbilder, die im Training nicht enthalten sind?}\label{subsub:d_frage_unter_4} 
+In allen Versionen bleibt die Leistung der KI zwischen den drei Datensets (siehe
+\autoref{tab:models}) vergleichbar, wie die folgenden Tabellen (siehe
+\autoref{tab:base-3-datasets} und \autoref{tab:speed-3-datasets}) zeigen.
 
-In allen Versionen bleibt die Leistung der KI zwischen den drei Datensets
-(siehe \autoref{tab:models}) vergleichbar. Die Tabellen (siehe \autoref{tab:Grund-3-datasets} und \autoref{tab:Phy-3-datasets})
-zeigen die Leistung
-
-\begin{table}[!ht]
-	\centering
-	\caption{Grund-Basis Leistung}\label{tab:Grund-3-datasets}
-	\begin{tabular}{|l|l|l|l|}
-		\hline
-			~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
-			MNIST & 86.5 & 86.6 & 24.5 \\ \hline
-			EMNIST & 86.8 & 74.5 & 38.2 \\ \hline
-			QuickDraw & 79.1 & 80.5 & 39.1 \\ \hline 
-		\end{tabular}
- \end{table}
-  
- \begin{table}[!ht]
-	\centering
-	\caption{Physik-Basis Leistung}\label{tab:Phy-3-datasets}
-	\begin{tabular}{|l|l|l|l|}
-		\hline
-			~ & Übereinstimmung \% & Erkennbarkeit \% & Geschwindigkeit \\ \hline
-			MNIST  & 56.4 & 46.4 & 62.5 \\ \hline
-			EMNIST & 57.6 & 32.4 & 63.5 \\ \hline
-			QuickDraw & 48.1 & 55.7 & 63.8 \\ \hline
-		\end{tabular}
- \end{table}
-  
 
 %Todo: Waiting for Results
 
+\begin{table}[!ht]
+    \centering
+    \caption{Vergleich der \emph{Base} Variation für die drei Datensets}\label{tab:speed-3-dataset}
+    \begin{tabular}{|l|l|l|l|l|l|}
+            \hline
+            \hline ~ & Sim $[\%]$ & Rec $[\%]$ & Speed & Drawtime $[\%]$ & Overdrawn \\ \hline
+            MNIST & 0 & 0 & 0 & 0 & 0 \\ \hline
+            EMNIST & 0 & 0 & 0 & 0 & 0 \\ \hline
+            QuickDraw & 0 & 0 & 0 & 0 & 0 \\ \hline
+        \end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \caption{Vergleich der \emph{Speed} Variation für die drei Datensets}\label{tab:speed-3-dataset}
+    \begin{tabular}{|l|l|l|l|l|l|}
+            \hline
+            \hline ~ & Sim $[\%]$ & Rec $[\%]$ & Speed & Drawtime $[\%]$ & Overdrawn \\ \hline
+            MNIST & 0 & 0 & 0 & 0 & 0 \\ \hline
+            EMNIST & 0 & 0 & 0 & 0 & 0 \\ \hline
+            QuickDraw & 0 & 0 & 0 & 0 & 0 \\ \hline
+        \end{tabular}
+\end{table}
+
+Die Werte in den Tabellen stammen direkt aus den Resultaten und zeigen, dass es
+im Vergleich der Leistung innerhalb einer Variation für die drei Datensets nur
+geringe Unterschiede gibt. Vor allem für den Vergleich zwischen dem Quickdraw
+Datenset und dem MNIST Datenset gilt diese Aussage. Für das EMNIST Letters
+Datenset ist die Leistung der KI durchschnittlich in den meisten Kriterien etwas
+tiefer.
+
+Dieser Umstand könnte zum Grund haben, dass die Buchstaben aus dem EMNIST
+Letters Datenset häufig deutlich dicker gemalt sind als die anderen Motive
+(siehe \autoref{fig:emnist-mnist}). Ausserdem erreicht die klassifizierende KI
+für Buchstaben eine niedrigere Genauigkeit als für Zahlen und QuickDraw-Motive
+(siehe \autoref{tab:models}), wodurch die Leistung im Kriterium der
+Erkennbarkeit stärker verfälscht wird als für die anderen Motive
+
+
+
+%bild Noisy Pixel
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/diskussion/emnist-mnist.png}
+	\caption{Vergleich zwischen dem MNIST Datenset und dem EMNIST Datenset
+	(eigene Abbildung)}\label{fig:emnist-mnist}
+   \end{figure}
+
+%Todo: Bild vergleich mnist emnist
+  
 
 \subsection{Wie und inwiefern lässt sich das Verhalten der KI mit menschlichem Zeichnen vergleichen?}\label{subsub:d_frage_unter_5}
 
@@ -230,7 +255,7 @@ Nachzeichenprozess. Die nachzeichnende KI kann für diese Aufgabe verwendet
 werden. Um in der Praxis Anwendung zu finden, müsste die KI allerdings was den
 Rechenaufwand angeht effizienter werden.
 
-% Bild Raster -> Vektor
+% Todo: Bild Raster -> Vektor
 \label{fig:vektorRaster}
 
 Eine Anwendung der Generativen KI wäre die Nachahmung von Handschriften. Wenn
