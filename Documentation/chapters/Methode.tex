@@ -454,6 +454,8 @@ generative KI sich nicht mehr deterministsch bewegt und stattdessen
 unterschiedliche Bilder zeichnen kann, benötigt der Zeichenprozess ein Element
 von Zufall. Es gibt verschiedene Ansätze, um diesen Zufall zu implementieren.
 
+\subsubsection*{Softmax}
+
 Der erste Ansatz ist, selbst nach dem Training der generativen KI die Softmax
 Policy zur Wahl der Actions zu verwenden (siehe \doubleref{sub:t_rl_func}). Die
 Softmax Policy macht die Wahl der Action in jedem Step vom Zufall abhängig.
@@ -486,6 +488,8 @@ Weise und die KI erreicht ihre übliche Leistung (siehe
 \doubleref{sub:r_tab_nachzeich}). Die Softmax Temperatur wird über das Training
 hinweg linear um einen kleinen Betrag erhöht. Dadurch steigt der Einfluss des
 Zufalls im Verlaufe des Trainings.
+
+\subsubsection*{Random-Noise}
 
 %bild Noisy Pixel
 \begin{figure}[!ht]
