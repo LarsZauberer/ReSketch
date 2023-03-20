@@ -1,9 +1,9 @@
 \chapter{Diskussion}\label{chap:d} 
 Die Diskussion analysiert die Resultate der Methode, um daraus eine Antwort auf
-die Fragestellung abzuleiten. Zu diesem Zweck werden die einzelnen Unterfragen
+die Fragestellung zu bilden. Zu diesem Zweck werden die einzelnen Unterfragen
 dieser Arbeit behandelt. Darauf folgt ein Fazit und ein Ausblick zusammen mit
 möglichen Anwendungsbereichen für die verschiedenen Versionen der künstlichen
-Intelligenz
+Intelligenz.
 
 \section{Diskussion der Fragestellung}\label{chap:d_frage} 
 Die Fragestellung dieser Untersuchung lautet: Inwiefern kann eine künstliche
@@ -12,13 +12,13 @@ Unterfragen erfassen die verschiedenen Aspekte dieser Fragestellung und
 erweitern diese sogar. Die Diskussion der Unterfragen macht somit die Antwort
 auf die Fragestellung aus.
 
-
 \subsection{Wie kann die Architektur einer KI aussehen, die das Nachzeichnen
 erlernt?}\label{subsub:d_frage_unter_1} Das Deep Q-Learning Modell hinter der
 nachzeichnenden KI erreicht hohe Werte in allen Kriterien und lässt sich, wie
-die verschiedenen Variationen zeigen, auf der Grundlage von unterschiedlichen Kriterien trainieren
-(siehe \doubleref{sub:r_tab_nachzeich}). Die Architektur einer nachzeichnenden
-KI kann somit so aussehen, wie sie in dieser Arbeit beschrieben ist (siehe \doubleref{chap:m_grund}).
+die verschiedenen Variationen zeigen, auf der Grundlage von unterschiedlichen
+Kriterien trainieren (siehe \doubleref{sub:r_tab_nachzeich}). Die Architektur
+einer nachzeichnenden KI kann somit so aussehen, wie sie in dieser Arbeit
+beschrieben ist (siehe \doubleref{chap:m_grund}).
 
 
 \subsection{Wie lässt sich die Leistung der KI in ihrer Aufgabe
@@ -27,33 +27,62 @@ fünf vordefinierte Kriterien beurteilen (siehe \doubleref{chap:m_eval}). Die
 Werte der Kriterien sind quantifizierbar und automatisiert berechenbar, was sie
 für die Anwendung in einer künstlichen Intelligenz geeignet macht. Allerdings
 wären auch andere Kriterien denkbar, die das Nachzeichnen definieren. Dazu
-gehören auch Subjektive Definitionen, nach denen die KI das Nachzeichnen nicht
+gehören auch subjektive Definitionen, nach denen die KI das Nachzeichnen nicht
 unbedingt erlernen kann. 
 
 Unter den Kriterien ist die Erkennbarkeit ein Sonderfall, weil die Bestimmung
 dieser auf eine klassifizierende KI angewiesen ist. Die klassifizierende KI
-erreicht keine Genauigkeit von $100\%$ und schätzt gewisse Zeichnungen aus der
+erreicht keine Genauigkeit von $100\%$ und schätzt wenige Zeichnungen aus der
 Sicht der meisten Menschen falsch ein. Da die klassifizierende KI nicht perfekt
 funktioniert, ist auch das Training der KI, in den Variationen wo diese
 verwendet wird, nicht optimal. Aus diesem Grund sind auch die Resultate im
 Kriterium der Erkennbarkeit minimal verfälscht. Die Verfälschung ist allerdings
 sehr gering, da die klassifizierende KI je nach Typ eine Genauigkeit von bis zu
-$99\%$ erreicht 
+$99\%$ erreicht. Die klassifizierende KI für Buchstaben ist allerdings deutlich
+schlechter mit einer Genauigkeit von $90\%$, was das Training und die Resultate
+beeinflusst.
 
 Die Kriterien der Geschwindigkeit, der zeichnenden Zeit und der Übermalung
 werden verwendet, weil deren Kombination ein Mass für den `Schwung' in den
-Bewegungen der KI gibt. `Schwung' heisst aus einer subjektiveren Ansicht, dass
+Bewegungen der KI gibt. `Schwung' heisst von einer subjektiveren Sichtweise, dass
 die Zeichnungen schnell und möglichst in einem Ansatz fertiggestellt werden.
 
 
-\subsection{Wie lässt sich die Leistung der KI in ihrer Aufgabe verbessern?}\label{subsub:d_frage_unter_3}
 
+\subsection{Wie lässt sich die Leistung der KI in ihrer Aufgabe verbessern?}\label{subsub:d_frage_unter_3}
 Die verschiedenen Variationen zeigen, dass ein spezifisches Training auf ein
 Kriterium in den meisten Fällen die Leistung der nachzeichnenden KI in diesem
 Kriterium erhöht. Einige Variationen sind dabei effektiver als andere:
 
-%Todo: Waiting for results
+%Todo: Change with results
 
+Die \emph{Speed} Variation und dessen Kombination mit der \emph{No-Liftpen}
+Variation erreichen die tiefsten Werte im Kriterium der Geschwindigkeit um $10$
+Steps (siehe \doubleref{sub:r_tab_nachzeich}). Diese Variationen können somit
+die Leistung der KI in ihrem ausgewählten Kriterium verbessern.
+
+Die \emph{Rec} Variation erreicht einen beinahe identischen Wert im Kriterium
+der Erkennbarkeit wie die \emph{Base} Variation und einige andere. Diese
+Variation konnte die Leistung somit nicht verbessern. Allerdings ist die
+Erkennbarkeit mit $97\%$ für Zahlen der \emph{Base} Variation auch kaum
+übertreffbar, vor allem weil die klassifizierende KI nur eine Genauigkeit von
+$99\%$ hat.
+
+Die \emph{No-Liftpen} Variation erreicht unter den Variationen die beste
+Leistung im Kriterium der zeichnenden Zeit (siehe
+\doubleref{sub:m_eval_zeichnend}) mit $98.1\%$. Die Variation erbringt somit den
+erwünschten Effekt.
+
+Die \emph{Overdraw} erreicht unter den Variationen die tiefsten Werte im
+Kriterium der Übermalung (siehe \doubleref{sub:m_eval_uebermalung}) mit $41$
+übermalten Pixeln pro Zeichnung und kann somit ebenfalls die Leistung der KI
+nach dem gewünschten Kriterium verbesseren.
+
+Die \emph{Base} Variation erreicht die beste Leistung im Kriterium der
+prozentualen Übereinstimmung, obwohl die meisten Variationen eine sehr ähnliche
+Reward Function (siehe \doubleref{sub:m_var_base}) verwenden. Das deutet darauf
+hin, dass in diesem Kriterium eine bessere Leistung erreicht wird, wenn die
+Reward Function ausschliesslich für dieses Kriterium trainiert.
 
 Die \emph{Physics} Variation verbessert die Leistung der nachzeichnenden KI
 nicht. Für jedes Kriterium existieren andere Variationen, die deutlich bessere
@@ -102,56 +131,60 @@ zeigen die Leistung
 Die nachzeichnende KI bewegt sich mit beschränkter Geschwindigkeit und kann nur
 an dem Ort zeichnen, wo sie sich gerade befindet. Durch diese Einschränkungen in
 der Freiheit der Bewegungen wären diese in die physische Welt übersetzbar.  Das
-heisst, in zeichnender Roboter wäre prinzipiell mit der nachzeichnenden KI
-bedienbar.
+heisst, dass ein zeichnender Roboter prinzipiell mit der nachzeichnenden KI
+bedienbar wäre.
 
 Die \emph{Physics} Variation stellt einen Versuch dar, menschliches Zeichnen
 weiter anzunähern. Dieser Versuch ist allerdings gescheitert, weil die KI
-dadurch allgemein schlechter zeichnet als die anderen Variationen. Andere
-Variationen nähern menschliches Zeichnen eher an. Die Variationen, welche die
-Leistung der KI in den Kriterien der Geschwindigkeit, der zeichnenden Zeit und
-der Übermalung verbessern, nähern das menschliche Zeichnen durch eine Zunahme an
-`Schwung' an. Schwung ist ein wichtiges Element für den menschlichen Prozess des
-Zeichnens. Die \emph{Speed} Variation kommt insgesamt dem menschlichen Zeichnen
-am nächsten, da diese in allen Kriterien gute Werte erreicht und somit nicht nur
-mit `Schwung' zeichnet, sondern auch mit Präzision.
+dadurch allgemein schlechter zeichnet als die anderen Variationen. die
+\emph{Speed}, \emph{Rec} und \emph{No-Penlift} Variationen (siehe
+\doubleref{chap:r}) nähern menschliches Zeichnen eher an, da diese Variationen
+den `Schwung' der Bewegungen erhöhen. Schwung ist ein wichtiges Element für den
+menschlichen Prozess des Zeichnens. Die \emph{Speed} Variation kommt insgesamt
+dem menschlichen Zeichnen am nächsten, da diese in allen Kriterien gute Werte
+erreicht und somit nicht nur mit `Schwung' zeichnet, sondern auch mit Präzision.
 
 
+%Todo mehr infos über zeichnen von Buchstaben ????
 \subsection{Kann eine KI Strichbilder ohne Vorlage
 nachzeichnen?}\label{subsub:d_frage_unter_6} Ja. Eine abgewandelte Form der
-nachzeichnenden KI kann Strichbilder mit einem ausgewählten Motiv zeichnen,
-solange diese im Training mit dem gewähten Motiv trainiert.
+nachzeichnenden KI kann Strichbilder von einem ausgewählten Motiv zeichnen,
+solange diese im Training mit dem gewähten Motiv trainiert. Das Motiv spielt
+dabei keine grosse Rolle. Die gezeichneten Zahlen erreichen die höchste
+Erkennbarkeit. Für Buchstaben, wie das F, erreicht die KI eine geringere
+Erkennbarkeit was aber wohl an der geringeren Genauigkeit der klassifizierenden
+Ki für Buchstaben liegt.
 
-Da die KI also ohne eine Vorlage eigene Zeichnungen produzieren kann, entwickelt
-sie gewissermassen eine eigene Handschrift. Diese Tatsache stellt nicht nur
-einen Fortschritt in der Nachahmung von menschlichem Verhalten durch Computer
-dar, sondern gibt auch Einblicke darin, wie Menschen ihre Handschrift
-entwickeln. Es stellt sich heraus, dass die KI dieser Arbeit nur lernen kann,
-eigene Bilder zu zeichnen, wenn diese zuvor Beispiele vom gewünschten Motiv
-gesehen hat und das Nachzeichnen von diesen Motiven erlernt hat. Das Lernen der
-künstlichen Intelligenz gleicht somit dem Lernen von Kindern. Auch Kinder
-erlernen in ihren ersten Schuljahren häufig das Schreiben von Zahlen und
-Buchstaben, indem sie diese mit einem Stift nachfahren. Erst nachdem sie in
-dieser Aufgabe geübt sind, beginnen die meisten Kinder, eigene Zeichen zu
-Schreiben selber 
+Da die KI ohne eine Vorlage eigene Zeichnungen produzieren kann, entwickelt sie
+gewissermassen eine eigene Handschrift. Diese Tatsache stellt nicht nur einen
+Fortschritt in der Nachahmung von menschlichem Verhalten durch Computer dar,
+sondern gibt auch Einblicke darin, wie Menschen ihre Handschrift entwickeln. Es
+stellt sich heraus, dass die KI dieser Arbeit nur lernen kann, eigene Bilder zu
+zeichnen, wenn diese zuvor Beispiele vom gewünschten Motiv gesehen hat und das
+Nachzeichnen von diesen Motiven erlernt hat. Das Lernen der künstlichen
+Intelligenz gleicht somit dem Lernen von Kindern. Auch Kinder erlernen in ihren
+ersten Schuljahren häufig das Schreiben von Zahlen und Buchstaben, indem sie
+diese mit einem Stift nachfahren. Erst nachdem sie in dieser Aufgabe geübt sind,
+beginnen die meisten Kinder, eigene Zeichen und Symbole zu Schreiben.
 
 
 \section{Fazit und Ausblick}\label{chap:d_faz-aus} Die Resultate und deren
 Interpretation in der Beantwortung der Unterfragen (siehe
 \doubleref{chap:d_frage}) deuten darauf hin, dass verschiedene Variationen der
-künstlichen Intelligenz hinter dieser Arbeit das Nachzeichnen von beliebigen
-Strichbildern erlernt haben. Diese Antwort unterliegt allerdings einigen
-Annahmen und Voraussetzungen, die weiter diskutiert werden können.
-Beispielsweise ist das Format der Strichbilder vorausgesetzt. Die KI kann in
-einem bestimmten Format beliebige Bilder nachzeichnen, aber in einem anderen
-Format kann sie nicht zeichnen. Spezifisch kann die KI kleine Bilder mit einer
-Auflösung von 28x28 Pixeln in schwarzweiss und einer festen Strichbreite
-zeichnen. Diese Voraussetzungen schränken die nachzeichnende KI ein. In der
-Aufhebung von diesen Einschränkungen liegt Entwicklungspotenzial. Eine weitere
-Voraussetzung liegt in der Definition des Nachzeichnens. Die KI erlernt das
-nachzeichnen nach einer selbst bestimmten Definition. Die Kriterien dieser
-Definition sind für den Trainingsprozess einer künstlichen Intelligenz sinnvoll
-gewählt, aber es wären auch andere Kriterien denkbar.
+künstlichen Intelligenz das Nachzeichnen von beliebigen Strichbildern erlernt
+haben. Diese Antwort unterliegt allerdings einigen Annahmen und Voraussetzungen,
+die weiter diskutiert werden können. Beispielsweise ist das Format der
+Strichbilder vorausgesetzt. Die KI kann in einem bestimmten Format beliebige
+Bilder nachzeichnen, aber in einem anderen Format kann sie nicht zeichnen.
+Spezifisch kann die KI kleine Bilder mit einer Auflösung von 28x28 Pixeln in
+schwarzweiss und einer festen Strichbreite zeichnen. Diese Voraussetzungen
+schränken die nachzeichnende KI ein, da viele Bilder nicht diesen
+Voraussetzungen entsprechen. In der Aufhebung von diesen Einschränkungen liegt
+Entwicklungspotenzial. Eine weitere Annahme liegt in der Definition des
+Nachzeichnens. Die KI erlernt das nachzeichnen nach einer selbst bestimmten
+Definition. Die Kriterien dieser Definition (siehe \doubleref{chap:m_eval}) sind
+für den Trainingsprozess einer künstlichen Intelligenz sinnvoll gewählt, aber es
+wären auch andere Kriterien denkbar.
 
 Die Qualität der nachzeichnenden KI und der generativen KI hängt von der
 Verlässlichkeit der klassifizierenden KI ab, die im Training verwendet wird. Da
@@ -164,18 +197,25 @@ nicht optimal gewählt, da ein angemessener Optimierungsprozess zu viel
 Rechenaufwand bedeuten würde. Die Leistung der KI liegt somit vermutlich leicht
 unter ihrem vollen Potenzial.
 
-Die generative KI kann ohne eine Vorlage selbstständig zeichnungen produzieren
+Die generative KI kann ohne eine Vorlage selbstständig Zeichnungen produzieren
 und entwickelt so in gewissem Sinne eine eigene Handschrift. Die nachzeichnende
-KI ist ein entscheidender Vorläufer dieser KI, weil diese zuerst das
-Nachzeichnen erlernen muss bis sie selbstständig zeichnen kann. Die generative
-KI kann hauptsächlich Symbole wie Zahlen und Buchstaben zeichnen. Eine mögliche
-Erweiterung wäre, dass die KI das Schreiben von ganzen Wörtern erlernt, weil
-ansonsten noch nicht von einer tatsächlichen Handschrift gesprochen werden kann
+KI ist ein entscheidender Vorläufer dieser KI, weil die generative KI zuerst das
+Nachzeichnen erlernen muss, bevor sie selbstständig zeichnen kann. So erlernt
+die KI das Zeichnen ohne Vorlage, indem sie zuerst aus verschiedenen Beispielen
+lernt. Zu einem gewissen Grad adapiert die KI die Handschrift dieser Beispiele.
+Da die KI allerdings mit tausenden Beispielen trainiert kann die Adaption und
+Vermischung dieser auch als eine eigene Handschrift der KI angesehen werden.
+
+Die generative KI kann hauptsächlich Symbole wie Zahlen und Buchstaben zeichnen.
+Eine mögliche Erweiterung wäre, dass die KI das Schreiben von ganzen Wörtern
+erlernt, weil ansonsten noch nicht von einer tatsächlichen Handschrift
+gesprochen werden kann
+
 
 \section{Anwendungsbereiche}\label{chap:d_anwendung} Für die nachzeichnende KI
-und die generative KI sind nachfolgend einige Anwendungsbereiche definiert. Es
+und die generative KI sind nachfolgend einige Anwendungsbereiche beschrieben. Es
 handelt sich dabei um Einsatzorte, bei denen diese künstlichen Intelligenzen
-einen Nutzen bieten könnten
+einen Nutzen bieten können.
 
 Die Nachzeichnende KI könnte in der Robotik Anwendung finden. Die aktuelle
 Version ist für diese Anwendung allerdings zu eingeschränkt, was die Art der
@@ -197,6 +237,6 @@ Eine Anwendung der Generativen KI wäre die Nachahmung von Handschriften. Wenn
 der KI im Training zufällige Beispiele von einem Motiv gezeigt werden,
 entwickelt die KI einen eigenen Weg um dieses Motiv zu zeichnen. Wenn der KI
 allerdings Strichbilder von einer ausgewählten Person gegeben werden, würde die
-KI die Handschrift dieser Person annähern. Inwiefern die Zeichnungen der KI
+KI die Handschrift dieser Person emulieren. Inwiefern die Zeichnungen der KI
 tatsächlich der Handschrift einer Person entsprechen, ist allerdings nur
 subjektiv bestimmbar.
