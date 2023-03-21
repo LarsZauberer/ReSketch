@@ -8,7 +8,7 @@ Weitere Informationen sind in den referenzierten Quellen einsehbar.
 \section{Machine Learning}\label{chap:t_ml} Machine Learning ist ein Teilbereich
 der künstlichen Intelligenz. Künstliche Intelligenz (KI) beschreibt das
 Nachahmen von menschlichem Verhalten durch eine Maschine oder ein System''
-\cite{noauthor_what_nodate} Mit Maschinen und Systemen sind in den allermeisten    %Todo Quelle Oxford Dict
+\cite{noauthor_oxford_nodate} Mit Maschinen und Systemen sind in den allermeisten
 Fällen Computer, beziehungsweise die steuernden Computerprogramme gemeint. Diese
 Computerprogramme bilden ein Modell von menschlichem Verhalten. Machine Learning
 Modelle entwickeln (oder erlernen) eine Mustererkennung durch die Analyse von
@@ -37,16 +37,16 @@ Machine Learning Modelle, die das Beispielproblem lösen, basieren üblicherweis
 auf Supervised Learning. Das ist ein Teilbereich von Machine Learning, wobei das
 Machine Learning Modell aus Rückmeldungen der korrekten Beurteilung, der
 Zielvariable, als Reaktion auf ihre eigenen Beurteilungen lernt
-\cite{laurenz_wuttke_was_2021-1}. Die Zielvariable muss dabei im Voraus für jeden   % Todo Quelle Paper supervised
+\cite{liu_supervised_2012}. Die Zielvariable muss dabei im Voraus für jeden
 Datenpunkt in den analysierten Daten durch einen Menschen festgelegt sein
 \cite{trahasch_31_2020}. Das heisst, ausgedrückt durch den Fachbegriff, dass
-die Daten labeled sein müssen \cite{luis_g_serrano_21_2021}. Weitere Teilbereiche
+die Daten labeled sein müssen \cite{serrano_21_2021}. Weitere Teilbereiche
 von Machine Learning sind Unsupervised Learning und Reinforcement Learning
 \cite{arora_supervised_2020}. Siehe Abschnitt \ref{chap:t_rl} für eine
 tiefgreifendere Einführung in Reinforcement Learning.
  
 Machine Learning Modelle sind hauptsächlich in der Programmiersprache Python
-implementiert \cite{sadie_bennett_why_2019}. Tensorflow und Keras sind bekannte
+implementiert \cite{sadie_why_2019}. Tensorflow und Keras sind bekannte
 Machine Learning Frameworks für Python. Als Framework stellen diese beiden
 Hilfsmittel fertige Funktionen und Algorithmen bereit, die für die Entwicklung
 von Machine Learning Modellen nötig sind
@@ -58,10 +58,10 @@ Dieser Abschnitt erklärt die Funktionsweise eines Machine Learning Modells,
 basierend auf dem Beispielproblem aus dem letzten Abschnitt (siehe \ref{chap:t_ml}).
  
 Bei den Daten, die das Machine Learning Modell analysiert, handelt es sich in
-diesem Fall um das MNIST Datenset \cite{yann_lecun_mnist_nodate}. Dieses Datenset  % Todo quelle new date
+diesem Fall um das MNIST Datenset \cite{lecun_mnist_1998}. Dieses Datenset
 wurde 1998 vom NIST (National Institute of Standards and Technology) in den USA
 veröffentlicht und beinhaltet $70'000$ Bilder von handgeschriebenen Ziffern
-\cite{yann_lecun_papers_nodate}. Jedes Bild hat eine Auflösung von $28\times28$  % todo quelle new paper
+\cite{lecun_gradient-based_1998}. Jedes Bild hat eine Auflösung von $28\times28$
 Pixeln (siehe \autoref{fig:mnist-beispiele} für Beispiele).
  
 % Bild: MNIST Beispiele
@@ -97,7 +97,7 @@ ist, im biologischen Sinne, ``eine beliebige Anzahl Neuronen, die miteinander
 Verbunden sind'' \cite{noauthor_neuronales_2021}. Ein Beispiel für ein neuronales
 Netz ist das menschliche Gehirn. Künstliche neuronale Netze modellieren
 biologische neuronale Netze in der Form von Programmcode
-\cite{noauthor_artificial_nodate}. Diese Arbeit behandelt künstliche neuronale % todo neue Quelle towards data science (differences)
+\cite{nagyfi_differences_2018}. Diese Arbeit behandelt künstliche neuronale
 Netze, nicht aber biologische. Somit handelt es sich bei jedem erwähnten
 neuronalen Netz, um ein künstliches neuronales Netz.
  
@@ -123,22 +123,23 @@ Neurons. \cite{nielsen_neural_2015}
 Neuronale Netze in Machine Learning Modellen verwenden kompliziertere Neuronen
 als das Perzeptron Neuron, wie zum Beispiel das Sigmoid Neuron. Die Neuronen
 unterscheiden sich in ihrer \emph{Activation Function} und somit im Verhalten ihres
-Outputs \cite{pragati_baheti_activation_2022}. So nimmt der Output im Sigmoid Neuron
+Outputs \cite{pragati_activation_2022}. So nimmt der Output im Sigmoid Neuron
 beispielsweise auch Werte zwischen $0$ und $1$ an, in einem stetigen Übergang
 zwischen den beiden Grenzen (siehe \autoref{fig:percep-v-sig}) \cite{kumar_sigmoid_2019}.
 
 \emph{Softmax} und \emph{ReLU} (rectified linear unit) sind weitere Activation
 Functions. ReLU ist die am weitesten verbreitete Activation Function in Deep
-Learning und wird häufig für \emph{Hidden Layers} verwendet \cite{a}. Softmax wird im   %Todo: Quelle Relu
-Vergleich meistens für die Activation Function des \emph{Output Layers}                   %Todo: Quelle softmax activation
-verwendet \cite{b}. Diese Begriffe werden im nächsten Abschnitt genauer erläutert.
-Softmax bestimmt die Ausgabe aus dem Output Layer so, dass die Werte von allen
-Neuronen sich zu Eins addieren. Softmax konvertiert somit die Ausgabe aus einem
-neuronalen Netz in eine Wahrscheinlichkeitsverteilung. Softmax kann mit einem
-Parameter, genannt Temperatur, kombiniert werden. Dieser Parameter beeinflusst
-die Standardabweichung der Wahrscheinlichkeitsverteilung. Mit steigender
-Temperatur wird die Verteilung dabei uniformer und mit sinkender Temperatur
-nimmt die Differenz zwischen den einzelnen Werten zu.
+Learning und wird häufig für \emph{Hidden Layers} verwendet
+\cite{agarap_deep_2019}. Softmax wird im Vergleich meistens für die Activation
+Function des \emph{Output Layers} verwendet \cite{koech_softmax_2021}. Diese
+Begriffe werden im nächsten Abschnitt genauer erläutert. Softmax bestimmt die
+Ausgabe aus dem Output Layer so, dass die Werte von allen Neuronen sich zu Eins
+addieren. Softmax konvertiert somit die Ausgabe aus einem neuronalen Netz in
+eine Wahrscheinlichkeitsverteilung. Softmax kann mit einem Parameter, genannt
+Temperatur, kombiniert werden. Dieser Parameter beeinflusst die
+Standardabweichung der Wahrscheinlichkeitsverteilung. Mit steigender Temperatur
+wird die Verteilung dabei uniformer und mit sinkender Temperatur nimmt die
+Differenz zwischen den einzelnen Werten zu.
 
 \newpage
 %Bild sigmoid vs perceptro
@@ -178,11 +179,11 @@ sind Fully Connected (Dense) Layers und Convolutional Layers
 von jedem Neuron als Input für jedes Neuron in der nächsten Layer. In
 Convolutional Layers trifft das nicht zu (siehe \autoref{fig:conv-v-dens}). Die
 Funktion von Convolutional Layers umfasst, wichtige Merkmale aus dem Input
-hervorzuheben \cite{deshpande_beginners_nodate}. Concatenation Layers   % Todo Quelle CNN
+hervorzuheben \cite{oshea_introduction_2015}. Concatenation Layers
 \cite{jayawardana_concatenating_2021} sind eine weitere Form von Hidden Layers,
 die zwei verschiedene Layers als Input haben und diese verbindet. Machine
 Learning Modelle werden ab mehr als einer Hidden Layer als Deep Learning Modelle
-bezeichnet \cite{jan-dirk_kranz_deep_2019}.
+bezeichnet \cite{kranz_deep_2019}.
  
 %Bilder conv-v-dens dens-v-conv
 \begin{figure}[!ht]
@@ -193,10 +194,9 @@ bezeichnet \cite{jan-dirk_kranz_deep_2019}.
  
 Ein Machine Learning Modell passt während dem Training (siehe
 \ref{sub:t_ml_func}) einzelne Gewichte im neuronalen Netz an, in der Hoffnung,
-dass die Genauigkeit der Beurteilung mit den angepassten Gewichten grösser
-ist. Die genaue Anpassung erfolgt in den meisten Machine Learning Modellen durch
-den Backpropagation Algorithmus
-\cite{david_e_rumelhart_learning_nodate}. % Todo Quelle Name Anpassen
+dass die Genauigkeit der Beurteilung mit den angepassten Gewichten grösser ist.
+Die genaue Anpassung erfolgt in den meisten Machine Learning Modellen durch den
+Backpropagation Algorithmus \cite{rumelhart_learning_1985}.
 
 \newpage
  
@@ -210,7 +210,7 @@ optimaler Wert ist im Voraus nicht bekannt.
 Hyperparameter können unter anderem durch den Baysian Optimization Algorithmus
 optimiert werden \cite{agnihotri_exploring_2020}. Dieser Algorithmus versucht,
 den Output einer Black Box Funktion zu maximieren oder zu minimieren \cite[S.
-15]{garnett_bayesian_nodate}. Eine Black Box ist ein häufig komplexes System,        % Todo Quelle datum anpassen
+15]{garnett_bayesian_2022}. Eine Black Box ist ein häufig komplexes System,
 dessen inneren Vorgänge nicht betrachtet werden \cite{noauthor_black_2021}. Bei
 einer Black Box Funktion ist folglich der Input und der Output bekannt, während
 die Verarbeitung des Inputs zum Output nicht betrachtet wird (siehe
@@ -239,7 +239,7 @@ Der Baysian Optimization Algorithmus kann bis zu 20 Hyperparameter zuverlässig
 optimieren \cite{moriconi_high-dimensional_2020}. Der Algorithmus führt die
 Black Box Funktion für eine bestimmte Anzahl Iterationen mit jeweils
 verschiedenen Parametern durch. Die Wahl der Parameter basiert dabei auf Bayes'
-Theorem \cite[S. 7]{garnett_bayesian_nodate}. Diejenigen Parameter, die den     % Todo Quelle datum anpassen
+Theorem \cite[S. 7]{garnett_bayesian_2022}. Diejenigen Parameter, die den
 höchsten gefundenen Wert der Zielvariable auslösen, werden gespeichert.
  
  
@@ -257,7 +257,7 @@ viele verschiedene Zustände einnehmen kann, als dass diese in einem Datenset
 gesammelt werden könnten. Ein Machine Learning Modell lernt aus einer Umgebung,
 indem es durch Beurteilungen (siehe \ref{sub:t_ml_func}) mit dieser
 interagiert und dadurch Erfahrungen sammelt.
-\cite{piyush_verma_what_2021}
+\cite{verma_what_2021}
  
 Als Beispiel kann die echte Welt als eine Umgebung angesehen werden. Der Mensch
 wäre in diesem Fall das Reinforcement Learning Modell. Der Mensch lernt die
@@ -308,12 +308,12 @@ Wahrscheinlichkeit von $\epsilon$ (Epsilon) auf eine zufällige Action fällt.
 Ansonsten fällt die Entscheidung auf diejenige Action mit dem höchsten Q-Value.
 Durch die zufälligen Actions erkundet der Agent die Umgebung, in der Hoffnung,
 auf bessere Optionen für zukünftige Entscheidungen zu stossen.
-\cite{rajendra_koppula_exploration_nodate}. Die Softmax Policy wählt Actions auf % Todo neue Quelle Coggan
-Basis einer Wahrscheinlichkeitsverteilung. Jede Action wird also mit einer  %Todo Quelle Softmax policy
-gewissen Wahrscheinlichkeit ausgeführt. Die Wahrscheinlichkeit für eine Action
-entspricht dem Q-Value dieser Action. Die Wahrscheinlichkeitsverteilung
-berechnet sich dabei aus der Softmax Activation Function von dem Output Layer
-des neuronalen Netzes.
+\cite{coggan_exploration_2004}. Die Softmax Policy wählt Actions auf
+Basis einer Wahrscheinlichkeitsverteilung \cite{sutton_23_1997}. Jede
+Action wird also mit einer gewissen Wahrscheinlichkeit ausgeführt. Die
+Wahrscheinlichkeit für eine Action entspricht dem Q-Value dieser Action. Die
+Wahrscheinlichkeitsverteilung berechnet sich dabei aus der Softmax Activation
+Function von dem Output Layer des neuronalen Netzes.
 
 Die Umgebung wird durch die Actions des Agents beeinflusst. Dieser Einfluss wird
 durch die \emph{Reward-Function} gemessen. Die Reward-Function gibt eine
@@ -358,14 +358,14 @@ mit einem \emph{Batch} an Steps, also mit einer gewissen Anzahl an Steps
 gleichzeitig. Der Replay-Buffer und der Batch sichern zu, dass das neuronale
 Netz mit einer grossen Vielfalt an Steps trainiert. Das bewirkt ein stabileres
 Lernverhalten als ein chronologisches Training auf einzelne Steps.
-\cite{phd_how_2021}.
+\cite{van_heeswijk_how_2021}.
 
 \section{Verwandte Arbeiten und Themen}\label{chap:t_ver} Das Nachzeichnen von
 Strichbildern ist ein Teilbereich von der Tätigkeit des Zeichnens allgemein. Es
 gibt verschiedene Ansätze, um einen Computer zeichnen zu lassen. Ein häufiger
 Ansatz ist \emph{Stroke-Based Rendering}. Stroke-Based Rendering beschreibt das
 Zeichnen von Bilder durch das Platzieren von Elementen wie Strichen
-\cite{aaron_hertzmann_stroke-based_2002}. Beispiele für Arbeiten in diesem Bereich sind
+\cite{hertzmann_stroke-based_2002}. Beispiele für Arbeiten in diesem Bereich sind
 Strokenet \cite{zheng_strokenet_2018} und ``Learning to Paint With Model-based
 Deep Reinforcement Learning'' \cite{huang_learning_2019} Andere Ansätze
 simulieren die Führung eines Stiftes. (siehe \autoref{fig:stroke-v-stift}) Ein

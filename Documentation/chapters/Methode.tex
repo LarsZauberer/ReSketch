@@ -101,7 +101,6 @@ kann während dem Training dem Agent verboten werden. In diesem Fall wird die
 Action als unzulässig behandelt.
 
 
-
 \subsection{Präparierung der Daten und Optimierung}\label{sub:m_grund_data} Die
 Trainingsdaten bestehen aus $30'000$ Bildern von handgeschriebenen Ziffern aus
 dem MNIST Datenset (siehe \ref{chap:t_ml}). Weitere $12'000$ Bilder machen
@@ -129,7 +128,7 @@ Episodes. Der Agent zeichnet für $64$ Steps pro Episode, falls die Stopp Action
  
 Die Hyperparameter aller Versionen der KI sind durch den Bayesian Optimization
 Algorithmus optimiert (siehe \ref{sub:t_ml_hyper}). Die Implementierung
-des Algorithmus in Python stammt von \cite{fernando_nogueira_bayesian_2014}. Der
+des Algorithmus in Python stammt von \cite{nogueira_bayesian_2014}. Der
 Algorithmus ändert sich für verschiedene Variationen der KI nicht und ist somit
 Teil des Grundprogramms. Mit jeder Iteration des Baysian Optimization
 Algorithmus trainiert das Reinforcement Learning Modell für eine vom Algorithmus
@@ -398,7 +397,6 @@ halten würden. Als Lösung wird diesen Fällen die Geschwindigkeit des Agents a
 Nullvektor zurückgesetzt und die Reward-Function löst einen negativen Reward von
 $-0.05$ aus.
 
-
 \section{Generative Zeichner}\label{chap:m_gen} Die generativen Zeichner sind
 eine Gruppe an Variationen der KI, die sich von der Aufgabe des Nachzeichnens
 entfernen. Trotzdem basieren auch diese Variationen auf dem Grundprogramm (siehe
@@ -582,16 +580,12 @@ eine Zwei, eine Acht, ein F und eine Blume aus dem QuickDraw Datenset (siehe
 Policy verwendet (siehe \ref{sub:t_rl_func}), dann ist die Softmax
 Temperatur unabhängig von derjenigen im Training bestimmbar.
 
-
 % Bild generative Motives
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/methode/generative-examples.png}
     \caption{Beispiele der getesteten Motive der generativen KI (eigene Abbildung)}\label{fig:generative_motives}
 \end{figure}
-
-%Todo Abbildung Null, Zwei, Acht, F, Bluem
-
 
 Wie im Test der nachzeichnenden KI (siehe \ref{sub:m_auswert_nachzeich}),
 entspricht die Leistung einer Variation dem Durchschnitt der Werte in den
