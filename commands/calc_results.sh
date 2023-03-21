@@ -20,4 +20,3 @@ python src/test.py -n p0.1 -p -t 1000 -d quickdraw_test
 python src/test.py -n liftpen0.1 -t 1000 -d quickdraw_test
 
 
-python src/test.py -g -n sm-0-0.1 -sm -gm 0 -d mnist_test

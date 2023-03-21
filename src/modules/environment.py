@@ -191,7 +191,6 @@ class Environment(object):
             return accuracy_factor * speed_factor * WEIGHT
         elif self.with_stopAction == 2:
             if self.dataset == "emnist":
-                print("emnist")
                 prediction = self.rec_model.emnist(self.canvas, mode="soft")[self.label] - 0.8
             elif self.dataset == "quickdraw":
                 prediction = self.rec_model.quickdraw(self.canvas, mode="soft")[self.label] - 0.8

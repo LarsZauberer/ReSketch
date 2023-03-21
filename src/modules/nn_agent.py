@@ -191,7 +191,7 @@ class Agent(object):
             action = np.random.choice([i for i, el in enumerate(illegal_list) if el != 1 and i != 98])
         else:
             rand = np.random.random()
-            if rand < self.epsilon*0.01:
+            if rand < 0.005:
                 return 98
 
             glob_batch = np.array([global_state])

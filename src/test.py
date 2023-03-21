@@ -63,6 +63,9 @@ def physics_test(args):
     log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}, drawratio: {drawratio}, overdrawn: {overdraw}')
     generate_image(images)
 
+    with open(f"results/{args.name}-{args.dataset}", "w") as f:
+        f.write(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}, drawratio: {drawratio}, overdrawn: {overdraw}')
+
 
 @critical
 def reproduce_test(args):
@@ -134,7 +137,7 @@ def generative_test(args):
     log.info(f"Recognized a generative model")
 
     # adjustable softmax temperature
-    agent.set_softmax_temp(0.08)
+    agent.set_softmax_temp(0.02)
  
     # Run Test
     scores = generative_test_env(

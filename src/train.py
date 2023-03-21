@@ -28,7 +28,7 @@ def physics(args):
     model_path = f"pretrained_models/reproduce/{model_name}"
 
     # Hyperparameters
-    hyp_data = {"gamma": 0.70, "epsilon": 0.3, "epsilon_episodes": 1000, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 90, "n_episodes": 5000, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
+    hyp_data = {"gamma": 0.70, "epsilon": 0.3, "epsilon_episodes": 1000, "alpha": 0.0002, "replace_target": 6000, "episode_mem_size": 900, "n_episodes": 5000, "friction": 0.3, "vel_1": 0.9, "vel_2": 1.5} 
 
     # Agent, Environment constants
     canvas_size = 28
