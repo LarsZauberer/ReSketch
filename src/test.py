@@ -61,6 +61,7 @@ def physics_test(args):
 
     reward, accuracy, datarec, speed, drawratio, overdraw = [float('%.3f' % s) for s in scores]
     log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}, drawratio: {drawratio}, overdrawn: {overdraw}')
+    
     generate_image(images)
 
     with open(f"results/{args.name}-{args.dataset}", "w") as f:
@@ -105,6 +106,7 @@ def reproduce_test(args):
     images = scores.pop(-1)
     reward, accuracy, datarec, speed, drawratio, overdraw = [float('%.3f' % s) for s in scores]
     log.info(f'reward: {reward}, accuracy: {accuracy}, {data.dataset}-recognition: {datarec}, speed {speed}, drawratio: {drawratio}, overdrawn: {overdraw}')
+    
     generate_image(images)
 
     with open(f"results/{args.name}-{args.dataset}", "w") as f:
