@@ -100,7 +100,7 @@ def test():
     x = []
     y = []
     for i, letter in enumerate(data):
-        for image in letter[:10]:
+        for image in letter:
             x.append(np.reshape(image, (28, 28)))
             y.append(i)
     x = np.array(x)
@@ -136,7 +136,7 @@ def test():
     for img in track(x, description="predicting"):
         img = np.array([img])
         softmax = sample(model(img))
-        print(np.argmax(softmax), np.max(softmax))
+        #print(np.argmax(softmax), np.max(softmax))
         predictions.append(np.argmax(softmax))
 
     #calculate accuracy
