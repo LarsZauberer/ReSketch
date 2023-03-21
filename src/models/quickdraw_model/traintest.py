@@ -139,11 +139,10 @@ def test():
         accuracy += int(i == j)
     accuracy /= len(y)
 
-    log.info(accuracy)
+    print(accuracy)
 
 
 if __name__ == "__main__":
-    train()
     test()
 
     
