@@ -139,7 +139,7 @@ def generative_test(args):
     log.info(f"Recognized a generative model")
 
     # adjustable softmax temperature
-    agent.set_softmax_temp(0.02)
+    agent.set_softmax_temp(0.2)
  
     # Run Test
     scores = generative_test_env(
@@ -152,7 +152,11 @@ def generative_test(args):
     images = scores.pop(-1)
     datarec, speed, drawratio = [float('%.3f' % s) for s in scores]
     log.info(f'mnist-recognition: {datarec}, speed: {speed}, drawratio: {drawratio}' )
+    
     generate_generative_image(images)
+
+    with open(f"results/{args.name}-{args.dataset}", "w") as f:
+        f.write(f"recognition: {datarec}, speed {speed}, drawratio: {drawratio}")
 
 
 
