@@ -38,7 +38,7 @@ funktioniert, ist auch das Training der KI, in den Variationen wo diese
 verwendet wird, nicht optimal. Aus diesem Grund sind auch die Resultate im
 Kriterium der Erkennbarkeit minimal verfälscht. Die Verfälschung ist allerdings
 sehr gering, da die klassifizierende KI je nach Typ eine Genauigkeit von bis zu
-$99\%$ erreicht. Die klassifizierende KI für Buchstaben ist allerdings deutlich
+$98\%$ erreicht. Die klassifizierende KI für Buchstaben ist allerdings deutlich
 schlechter mit einer Genauigkeit von $90\%$, was das Training und die Resultate
 beeinflusst.
 
@@ -57,24 +57,25 @@ Kriterium erhöht. Einige Variationen sind dabei effektiver als andere:
 %Todo: Change with results
 
 Die \emph{Speed} Variation und dessen Kombination mit der \emph{No-Liftpen}
-Variation erreichen die tiefsten Werte im Kriterium der Geschwindigkeit um $10$
-Steps (siehe \doubleref{sub:r_tab_nachzeich}). Diese Variationen können somit
-die Leistung der KI in ihrem ausgewählten Kriterium verbessern.
+Variation erreichen die tiefsten Werte im Kriterium der Geschwindigkeit um $9$
+Steps für das Nachzeichnen von Zahlen (siehe \doubleref{sub:r_tab_nachzeich}).
+Diese Variationen können somit die Leistung der KI in ihrem ausgewählten
+Kriterium verbessern.
 
 Die \emph{Rec} Variation erreicht einen beinahe identischen Wert im Kriterium
 der Erkennbarkeit wie die \emph{Base} Variation und einige andere. Diese
 Variation konnte die Leistung somit nicht verbessern. Allerdings ist die
 Erkennbarkeit mit $97\%$ für Zahlen der \emph{Base} Variation auch kaum
 übertreffbar, vor allem weil die klassifizierende KI nur eine Genauigkeit von
-$99\%$ hat.
+$98\%$ erreicht.
 
 Die \emph{No-Liftpen} Variation erreicht unter den Variationen die beste
 Leistung im Kriterium der zeichnenden Zeit (siehe
-\doubleref{sub:m_eval_zeichnend}) mit $98.1\%$. Die Variation erbringt somit den
-erwünschten Effekt.
+\doubleref{sub:m_eval_zeichnend}) mit $98.1\%$ für das Nachzeichnen von Zahlen.
+Die Variation erbringt somit den erwünschten Effekt.
 
 Die \emph{Overdraw} erreicht unter den Variationen die tiefsten Werte im
-Kriterium der Übermalung (siehe \doubleref{sub:m_eval_uebermalung}) mit $41$
+Kriterium der Übermalung (siehe \doubleref{sub:m_eval_uebermalung}) mit $40$
 übermalten Pixeln pro Zeichnung und kann somit ebenfalls die Leistung der KI
 nach dem gewünschten Kriterium verbesseren.
 
@@ -106,9 +107,9 @@ In allen Versionen bleibt die Leistung der KI zwischen den drei Datensets (siehe
     \begin{tabular}{|l|l|l|l|l|l|}
             \hline
             \hline ~ & Sim $[\%]$ & Rec $[\%]$ & Speed & Drawtime $[\%]$ & Overdrawn \\ \hline
-            MNIST & 0 & 0 & 0 & 0 & 0 \\ \hline
-            EMNIST & 0 & 0 & 0 & 0 & 0 \\ \hline
-            QuickDraw & 0 & 0 & 0 & 0 & 0 \\ \hline
+            MNIST & 90.8 & 97.1 & 54.7 & 0.73 & 269 \\ \hline
+            EMNIST & 89.6 & 85.0 & 60.5 & 81.9 & 315 \\ \hline
+            QuickDraw & 81.8 & 93.7 & 56.5 & 73.9 & 227 \\ \hline
         \end{tabular}
 \end{table}
 
@@ -118,9 +119,9 @@ In allen Versionen bleibt die Leistung der KI zwischen den drei Datensets (siehe
     \begin{tabular}{|l|l|l|l|l|l|}
             \hline
             \hline ~ & Sim $[\%]$ & Rec $[\%]$ & Speed & Drawtime $[\%]$ & Overdrawn \\ \hline
-            MNIST & 0 & 0 & 0 & 0 & 0 \\ \hline
-            EMNIST & 0 & 0 & 0 & 0 & 0 \\ \hline
-            QuickDraw & 0 & 0 & 0 & 0 & 0 \\ \hline
+            MNIST & 80.2 & 96.7 & 20.5 & 90.5 & 78 \\ \hline
+            EMNIST & 78.0 & 77.0 & 32.6 & 92.2 & 130 \\ \hline
+            QuickDraw & 74.5 & 85.7 & 29.5 & 89.3 & 93 \\ \hline
         \end{tabular}
 \end{table}
 
@@ -137,8 +138,6 @@ Letters Datenset häufig deutlich dicker gemalt sind als die anderen Motive
 für Buchstaben eine niedrigere Genauigkeit als für Zahlen und QuickDraw-Motive
 (siehe \autoref{tab:models}), wodurch die Leistung im Kriterium der
 Erkennbarkeit stärker verfälscht wird als für die anderen Motive
-
-
 
 %bild Noisy Pixel
 \begin{figure}[!ht]
@@ -168,14 +167,28 @@ dem menschlichen Zeichnen am nächsten, da diese in allen Kriterien gute Werte
 erreicht und somit nicht nur mit `Schwung' zeichnet, sondern auch mit Präzision.
 
 
-%Todo mehr infos über zeichnen von Buchstaben ????
-\subsection{Kann eine KI Strichbilder ohne Vorlage zeichnen?}\label{subsub:d_frage_unter_6} Ja. Eine abgewandelte Form der
+\subsection{Kann eine KI Strichbilder ohne Vorlage
+zeichnen?}\label{subsub:d_frage_unter_6} Ja. Eine abgewandelte Form der
 nachzeichnenden KI kann Strichbilder von einem ausgewählten Motiv zeichnen,
-solange diese im Training mit dem gewähten Motiv trainiert. Das Motiv spielt
-dabei keine grosse Rolle. Die gezeichneten Zahlen erreichen die höchste
-Erkennbarkeit. Für Buchstaben, wie das F, erreicht die KI eine geringere
-Erkennbarkeit was aber wohl an der geringeren Genauigkeit der klassifizierenden
-Ki für Buchstaben liegt.
+solange diese im Training mit dem gewähten Motiv trainiert. Beide Versionen der
+generativen KI erreichen dabei eine Erkennbarkeit des gewünschten Motivs von
+mehr als $90\%$. Die \emph{Random-Noise} errecht isgesamt marginal bessere
+Werte.
+
+Quantitativ gesehen erlernt die generative KI somit das Zeichnen von Motiven
+ohne eine Vorlage. Eine subjektivere Einschätzung der generierteren Bilder
+ergibt allerdings, dass die KI viele Motive nicht erkennbar nachzeichnet.
+Besonderes das Motiv: F und das Motiv: Blume sind nicht immer erkennbar, selbst
+wenn die klassifizierende KI diese so einschätzt. In dieser Fehleinschätzung
+liegt das Hauptproblem der generativen KI. Wenn die klassifizierende KI ein Bild
+falsch einschätzt, erhält die generative KI der Situation entsprechend falsche
+Rewards. Die klassifizierende KI für Zahlen erreicht die höchste Genauigkeit
+(siehe \ref{tab:models}) und aus diesem Grund zeichnet die KI Zahlen für
+Menschen am besten erkennbar nach.
+
+Der Test auf das Zeichnen von verschiedenen Zahlen spricht dafür, dass die
+generative KI die meisten Motive nachzeichnen kann, solange diese mit einer
+klassifizierenden KI mit einer hohen Zuverlässigkeit trainiert.
 
 Da die KI ohne eine Vorlage eigene Zeichnungen produzieren kann, entwickelt sie
 gewissermassen eine eigene Handschrift. Diese Tatsache stellt nicht nur einen
