@@ -87,7 +87,7 @@ class Model():
         return self.softmax_sample(self.model(np.array([img])))[0] #full prediction array
        
     
-    def softmax_sample(self, a, temperature=3.25):
+    def softmax_sample(self, a, temperature=3):
         # helper function to sample an index from a probability array
         a = np.log(a) / temperature
         a = np.exp(a) / np.sum(np.exp(a))   
