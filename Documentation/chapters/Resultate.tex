@@ -7,27 +7,27 @@ Resultate fortan verwendet werden.
 
 Die Abkürzungen der Kriterien lauten:
 \begin{itemize}
-    \item Sim (siehe \doubleref{sub:m_eval_proc})
-    \item Rec (siehe \doubleref{sub:m_eval_rec})
-    \item Speed (siehe \doubleref{sub:m_eval_speed})
-    \item Drawtime  (siehe \doubleref{sub:m_eval_zeichnend})
-    \item Overdrawn (siehe \doubleref{sub:m_eval_uebermalung})
+    \item Sim (siehe \ref{sub:m_eval_proc})
+    \item Rec (siehe \ref{sub:m_eval_rec})
+    \item Speed (siehe \ref{sub:m_eval_speed})
+    \item Drawtime  (siehe \ref{sub:m_eval_zeichnend})
+    \item Overdrawn (siehe \ref{sub:m_eval_uebermalung})
 \end{itemize}
 
 Die Abkürzungen der Variationen der nachzeichnenden KI lauten: 
 \begin{itemize}
-    \item Base (siehe \doubleref{sub:m_var_base})
-    \item Rec (siehe \doubleref{sub:m_var_rec})
-    \item Speed (siehe \doubleref{sub:m_var_speed})
-    \item No-Penlift (+ Speed) (siehe \doubleref{sub:m_var_penlift})
-    \item No-Overdraw (siehe \doubleref{sub:m_var_overdraw})
-    \item Physics (siehe \doubleref{sub:m_var_phy})
+    \item Base (siehe \ref{sub:m_var_base})
+    \item Rec (siehe \ref{sub:m_var_rec})
+    \item Speed (siehe \ref{sub:m_var_speed})
+    \item No-Penlift (+ Speed) (siehe \ref{sub:m_var_penlift})
+    \item No-Overdraw (siehe \ref{sub:m_var_overdraw})
+    \item Physics (siehe \ref{sub:m_var_phy})
 \end{itemize}
 
 Die Abkürzungen der Variationen der generativen KI lauten:
 \begin{itemize}
-    \item Softmax (siehe \doubleref{sub:m_gen_det})
-    \item Random-Noise (siehe \doubleref{sub:m_gen_det})
+    \item Softmax (siehe \ref{sub:m_gen_det})
+    \item Random-Noise (siehe \ref{sub:m_gen_det})
 \end{itemize}
 
 
@@ -35,7 +35,7 @@ Die Abkürzungen der Variationen der generativen KI lauten:
 \section{Tabellen}\label{chap:r_tab} 
 
 Der erste Teil der Resultate besteht aus Tabellen, welche die Daten über die
-Leistung der KI aus der Testumgebung (siehe \doubleref{chap:m_auswert})
+Leistung der KI aus der Testumgebung (siehe \ref{chap:m_auswert})
 zusammentragen. Die Tabellen sind dabei in diejenigen der nachzeichnenden KI und
 diejenigen der generativen KI unterteilt.
 
@@ -93,7 +93,7 @@ getestet wurde.
 generativen KI beschreiben die Leistung der beiden Variationen auf die
 ausgewählten Kriterien. Für beide Variationen gibt es eine Tabelle, die jeweils
 die Leistung dieser Variation für die fünf verschiedenen Motive (siehe
-\doubleref{sub:m_auswert_gen}). beschreibt. 
+\ref{sub:m_auswert_gen}). beschreibt. 
 
 
 \begin{table}[!ht]
@@ -144,11 +144,15 @@ angeordnet. Das linke Bild im Paar zeigt die Vorlage aus dem Datenset und das
 rechte Bild zeigt die nachgezeichnete Variante von der KI. Jede Spalte der
 Bildersammlung zeigt Bilder aus einem anderen Datenset
 
+\newpage
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/resultate/base.png}
     \caption{Bildersammlung: Base Variation}\label{fig:r-base}
 \end{figure}
+
+\newpage
 
 \begin{figure}[!ht]
     \centering
@@ -156,11 +160,15 @@ Bildersammlung zeigt Bilder aus einem anderen Datenset
     \caption{Bildersammlung: Speed Variation}\label{fig:r-speed}
 \end{figure}
 
+\newpage
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{images/resultate/rec.png}
     \caption{Bildersammlung: Rec Variation}\label{fig:r-rec}
 \end{figure}
+
+\newpage
 
 \begin{figure}[!ht]
     \centering
@@ -168,10 +176,22 @@ Bildersammlung zeigt Bilder aus einem anderen Datenset
     \caption{Bildersammlung: Overdraw Variation}\label{fig:r-overdraw}
 \end{figure}
 
-
+\newpage
 
 \subsection{Bildersammlung der generativen KI}\label{sub:r_bild_gen}
 
 Die Bildersammlungen für die Variationen der generativen KI haben fünf Spalten. Jede
 Spalte zeigt Zeichnungen der KI von einem der ausgewählten Motive (siehe
-\doubleref{sub:m_auswert_gen}).
+\ref{sub:m_auswert_gen}).
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/resultate/generative-sm.png}
+    \caption{Bildersammlung: Softmax Variation}\label{fig:r-softmax}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/resultate/generative-np.png}
+    \caption{Bildersammlung: Random-Noise Variation}\label{fig:r-randomnoise}
+\end{figure}
