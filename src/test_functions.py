@@ -19,7 +19,7 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_vis: bool = True):
     drawratio_scores = []
     overdraw_scores = []
     images = []
-    image_indexes = iter(sorted(np.random.choice(n_episodes, 10, replace=False)) + [0])
+    image_indexes = iter(sorted(np.random.choice(n_episodes, 15, replace=False)) + [0])
     curInd = next(image_indexes)
 
     env.show_Reference = True
@@ -103,7 +103,7 @@ def generative_test_env(env, agent, n_episodes, n_steps=64):
     drawratio_scores = []
 
     images = []
-    image_indexes = iter(sorted(np.random.choice(n_episodes, 12, replace=False)) + [0])
+    image_indexes = iter(sorted(np.random.choice(n_episodes, 15, replace=False)) + [0])
     curInd = next(image_indexes)
     env.show_Reference = False
     
@@ -163,7 +163,8 @@ def generative_test_env(env, agent, n_episodes, n_steps=64):
         if last_step == 0: drawratio_scores.append(0)
         else: drawratio_scores.append(drawratio/last_step)
         if episode == curInd:
-            images.append(env.gradient_render()[1])
+            if last_step > 12:
+                images.append(env.gradient_render()[1])
             curInd = next(image_indexes)
                 
     scores = []
