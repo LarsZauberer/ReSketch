@@ -121,8 +121,6 @@ def reproduce_generate(model_name="0.1", testnum = 100, rows = 8):
     plt.pause(10)
 
 
-if __name__ == "__main__":
-    reproduce_generate()
 
 
 
@@ -132,7 +130,7 @@ if __name__ == "__main__":
 
 
 @critical
-def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=False, rows = 7):
+def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=False, rows = 6):
     # initialize environment
     canvas_size = 28
     patch_size = 7
@@ -142,8 +140,8 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
                   "mem_size": 1000, "batch_size": 64}
     agent = Rep_Agent(**agent_args)
-    agent.load_models(f"pretrained_models/generative/{model_name}-0")
-    agent.set_softmax_temp(0.08)
+    agent.load_models(f"pretrained_models/generative/{model_name}.0")
+    agent.set_softmax_temp(0.1)
  
     # Run Test
     scores = generative_test_env(
@@ -151,15 +149,17 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
         agent=agent,
         n_episodes=testnum
         )
-    
-    zero_images = scores.pop(-1)
+
+    zero_images = scores.pop(-1)[:rows]
+
+   
 
     agent_args = {"softmax": softmax, "gamma": 0, "epsilon_episodes": 1000, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
                   "mem_size": 1000, "batch_size": 64}
     agent = Rep_Agent(**agent_args)
-    agent.load_models(f"pretrained_models/generative/{model_name}-2")
-    agent.set_softmax_temp(0.08)
+    agent.load_models(f"pretrained_models/generative/{model_name}.2")
+    agent.set_softmax_temp(0.1)
  
     # Run Test
     scores = generative_test_env(
@@ -174,8 +174,8 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
                   "mem_size": 1000, "batch_size": 64}
     agent = Rep_Agent(**agent_args)
-    agent.load_models(f"pretrained_models/generative/{model_name}-2")
-    agent.set_softmax_temp(0.08)
+    agent.load_models(f"pretrained_models/generative/{model_name}.8")
+    agent.set_softmax_temp(0.05)
  
     # Run Test
     scores = generative_test_env(
@@ -184,14 +184,14 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
         n_episodes=testnum
         )
     
-    eight_images = scores.pop(-1)
+    eight_images = scores.pop(-1)[:rows]
 
     agent_args = {"softmax": softmax, "gamma": 0, "epsilon_episodes": 1000, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
                   "mem_size": 1000, "batch_size": 64}
     agent = Rep_Agent(**agent_args)
-    agent.load_models(f"pretrained_models/generative/{model_name}-2")
-    agent.set_softmax_temp(0.08)
+    agent.load_models(f"pretrained_models/generative/{model_name}.F")
+    agent.set_softmax_temp(0.05)
  
     # Run Test
     scores = generative_test_env(
@@ -200,15 +200,15 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
         n_episodes=testnum
         )
     
-    f_images = scores.pop(-1)
+    f_images = scores.pop(-1)[:rows]
 
 
     agent_args = {"softmax": softmax, "gamma": 0, "epsilon_episodes": 1000, "epsilon": 0, "alpha": 0, "replace_target": 1000, 
                   "global_input_dims": (4, canvas_size, canvas_size), "local_input_dims": (2, patch_size, patch_size), 
                   "mem_size": 1000, "batch_size": 64}
     agent = Rep_Agent(**agent_args)
-    agent.load_models(f"pretrained_models/generative/{model_name}-2")
-    agent.set_softmax_temp(0.08)
+    agent.load_models(f"pretrained_models/generative/{model_name}.Flower")
+    agent.set_softmax_temp(0.2)
  
     # Run Test
     scores = generative_test_env(
@@ -217,11 +217,11 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
         n_episodes=testnum
         )
     
-    flower_images = scores.pop(-1)
+    flower_images = scores.pop(-1)[:rows]
 
 
 
-    fig = plt.figure(figsize=(10., 15.))
+    fig = plt.figure(figsize=(10., 13.5))
     grid = ImageGrid(fig, 111,  
                     nrows_ncols=(rows, 5), 
                     axes_pad=0.1,  
@@ -239,6 +239,9 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
         sorted_images.append(im_flower.reshape((28,28)))
 
 
+    print(len(sorted_images))
+
+
     labeled = 0
     titles = iter(["Null", "Zwei", "Acht", "F", "Blume"])
     for ax, im in zip(grid, sorted_images):
@@ -251,7 +254,7 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
         ax.imshow(im, cmap="bone", vmin=0, vmax=255)
     
 
-    fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="horizontal", fraction=0.046, pad=0.01, label="Steps", location="bottom")
+    fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="horizontal", fraction=0.046, label="Steps", location="bottom")
 
     plt.savefig(f"src/data_statistics/ai_images.png", bbox_inches='tight')
     plt.pause(10)
@@ -259,3 +262,5 @@ def generative_generate(model_name="g0.1", testnum = 26, softmax=False, noisy=Fa
    
 
 
+if __name__ == "__main__":
+    generative_generate(model_name="g.np", softmax=False, noisy=True, testnum=50)
