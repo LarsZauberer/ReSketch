@@ -16,14 +16,14 @@ auf die Fragestellung aus.
 erlernt?}\label{subsub:d_frage_unter_1} Das Deep Q-Learning Modell hinter der
 nachzeichnenden KI erreicht hohe Werte in allen Kriterien und lässt sich, wie
 die verschiedenen Variationen zeigen, auf der Grundlage von unterschiedlichen
-Kriterien trainieren (siehe \doubleref{sub:r_tab_nachzeich}). Die Architektur
+Kriterien trainieren (siehe \ref{sub:r_tab_nachzeich}). Die Architektur
 einer nachzeichnenden KI kann somit so aussehen, wie sie in dieser Arbeit
-beschrieben ist (siehe \doubleref{chap:m_grund}).
+beschrieben ist (siehe \ref{chap:m_grund}).
 
 
 \subsection{Wie lässt sich die Leistung der KI in ihrer Aufgabe
 beurteilen?}\label{subsub:d_frage_unter_2} Die Leistung der KI lässt sich durch
-fünf vordefinierte Kriterien beurteilen (siehe \doubleref{chap:m_eval}). Die
+fünf vordefinierte Kriterien beurteilen (siehe \ref{chap:m_eval}). Die
 Werte der Kriterien sind quantifizierbar und automatisiert berechenbar, was sie
 für die Anwendung in einer künstlichen Intelligenz geeignet macht. Allerdings
 wären auch andere Kriterien denkbar, die das Nachzeichnen definieren. Dazu
@@ -54,11 +54,9 @@ Die verschiedenen Variationen zeigen, dass ein spezifisches Training auf ein
 Kriterium in den meisten Fällen die Leistung der nachzeichnenden KI in diesem
 Kriterium erhöht. Einige Variationen sind dabei effektiver als andere:
 
-%Todo: Change with results
-
 Die \emph{Speed} Variation und dessen Kombination mit der \emph{No-Liftpen}
 Variation erreichen die tiefsten Werte im Kriterium der Geschwindigkeit um $9$
-Steps für das Nachzeichnen von Zahlen (siehe \doubleref{sub:r_tab_nachzeich}).
+Steps für das Nachzeichnen von Zahlen (siehe \ref{sub:r_tab_nachzeich}).
 Diese Variationen können somit die Leistung der KI in ihrem ausgewählten
 Kriterium verbessern.
 
@@ -71,17 +69,17 @@ $98\%$ erreicht.
 
 Die \emph{No-Liftpen} Variation erreicht unter den Variationen die beste
 Leistung im Kriterium der zeichnenden Zeit (siehe
-\doubleref{sub:m_eval_zeichnend}) mit $98.1\%$ für das Nachzeichnen von Zahlen.
+\ref{sub:m_eval_zeichnend}) mit $98.1\%$ für das Nachzeichnen von Zahlen.
 Die Variation erbringt somit den erwünschten Effekt.
 
-Die \emph{Overdraw} erreicht unter den Variationen die tiefsten Werte im
-Kriterium der Übermalung (siehe \doubleref{sub:m_eval_uebermalung}) mit $40$
+Die \emph{Overdraw} Variation erreicht unter den Variationen die tiefsten Werte im
+Kriterium der Übermalung (siehe \ref{sub:m_eval_uebermalung}) mit $40$
 übermalten Pixeln pro Zeichnung und kann somit ebenfalls die Leistung der KI
 nach dem gewünschten Kriterium verbesseren.
 
 Die \emph{Base} Variation erreicht die beste Leistung im Kriterium der
 prozentualen Übereinstimmung, obwohl die meisten Variationen eine sehr ähnliche
-Reward Function (siehe \doubleref{sub:m_var_base}) verwenden. Das deutet darauf
+Reward Function (siehe \ref{sub:m_var_base}) verwenden. Das deutet darauf
 hin, dass in diesem Kriterium eine bessere Leistung erreicht wird, wenn die
 Reward Function ausschliesslich für dieses Kriterium trainiert.
 
@@ -96,10 +94,8 @@ Bewegungen der KI beeinflussen.
 \subsection{Wie ändert sich die Leistung der KI für Strichbilder, die im Training nicht enthalten sind?}\label{subsub:d_frage_unter_4} 
 In allen Versionen bleibt die Leistung der KI zwischen den drei Datensets (siehe
 \autoref{tab:models}) vergleichbar, wie die folgenden Tabellen (siehe
-\autoref{tab:base-3-datasets} und \autoref{tab:speed-3-datasets}) zeigen.
+\autoref{tab:base-3-dataset} und \autoref{tab:speed-3-dataset}) zeigen.
 
-
-%Todo: Waiting for Results
 
 \begin{table}[!ht]
     \centering
@@ -125,24 +121,23 @@ In allen Versionen bleibt die Leistung der KI zwischen den drei Datensets (siehe
         \end{tabular}
 \end{table}
 
-Die Werte in den Tabellen stammen direkt aus den Resultaten und zeigen, dass es
-im Vergleich der Leistung innerhalb einer Variation für die drei Datensets nur
-geringe Unterschiede gibt. Vor allem für den Vergleich zwischen dem Quickdraw
-Datenset und dem MNIST Datenset gilt diese Aussage. Für das EMNIST Letters
-Datenset ist die Leistung der KI durchschnittlich in den meisten Kriterien etwas
-tiefer.
+Die Werte in den Tabellen stammen direkt aus den Resultaten (siehe \ref{chap:r})
+und zeigen, dass ein Vergleich der Leistung innerhalb einer Variation für die
+drei getesteten Datensets nur geringe Unterschiede ergibt. Allerdings ist die
+Leistung der KI für das Zeichnen von Buchstaben aus dem EMNIST Letters Datenset
+in den meisten Kriterien leicht schlechter.
 
 Dieser Umstand könnte zum Grund haben, dass die Buchstaben aus dem EMNIST
 Letters Datenset häufig deutlich dicker gemalt sind als die anderen Motive
 (siehe \autoref{fig:emnist-mnist}). Ausserdem erreicht die klassifizierende KI
 für Buchstaben eine niedrigere Genauigkeit als für Zahlen und QuickDraw-Motive
 (siehe \autoref{tab:models}), wodurch die Leistung im Kriterium der
-Erkennbarkeit stärker verfälscht wird als für die anderen Motive
+Erkennbarkeit stärker verfälscht wird als für die anderen Motive.
 
-%bild Noisy Pixel
+%bild MNIST-EMNIST vergleich
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=\textwidth]{images/diskussion/emnist-mnist.png}
+	\includegraphics[width=\textwidth-2cm]{images/diskussion/emnist-mnist.png}
 	\caption{Vergleich zwischen dem MNIST Datenset und dem EMNIST Datenset
 	(eigene Abbildung)}\label{fig:emnist-mnist}
 \end{figure}
@@ -160,7 +155,7 @@ Die \emph{Physics} Variation stellt einen Versuch dar, menschliches Zeichnen
 weiter anzunähern. Dieser Versuch ist allerdings gescheitert, weil die KI
 dadurch allgemein schlechter zeichnet als die anderen Variationen. die
 \emph{Speed}, \emph{Rec} und \emph{No-Penlift} Variationen (siehe
-\doubleref{chap:r}) nähern menschliches Zeichnen eher an, da diese Variationen
+\ref{chap:r}) nähern menschliches Zeichnen eher an, da diese Variationen
 den `Schwung' der Bewegungen erhöhen. Schwung ist ein wichtiges Element für den
 menschlichen Prozess des Zeichnens. Die \emph{Speed} Variation kommt insgesamt
 dem menschlichen Zeichnen am nächsten, da diese in allen Kriterien gute Werte
@@ -170,25 +165,25 @@ erreicht und somit nicht nur mit `Schwung' zeichnet, sondern auch mit Präzision
 \subsection{Kann eine KI Strichbilder ohne Vorlage
 zeichnen?}\label{subsub:d_frage_unter_6} Ja. Eine abgewandelte Form der
 nachzeichnenden KI kann Strichbilder von einem ausgewählten Motiv zeichnen,
-solange diese im Training mit dem gewähten Motiv trainiert. Beide Versionen der
+solange diese im Training mit dem gewähten Motiv trainiert hat. Beide Versionen der
 generativen KI erreichen dabei eine Erkennbarkeit des gewünschten Motivs von
-mehr als $90\%$. Die \emph{Random-Noise} errecht isgesamt marginal bessere
+mehr als $90\%$. Die \emph{Random-Noise} Variation errecht insgesamt marginal bessere
 Werte.
 
-Quantitativ gesehen erlernt die generative KI somit das Zeichnen von Motiven
-ohne eine Vorlage. Eine subjektivere Einschätzung der generierteren Bilder
-ergibt allerdings, dass die KI viele Motive nicht erkennbar nachzeichnet.
-Besonderes das Motiv: F und das Motiv: Blume sind nicht immer erkennbar, selbst
-wenn die klassifizierende KI diese so einschätzt. In dieser Fehleinschätzung
-liegt das Hauptproblem der generativen KI. Wenn die klassifizierende KI ein Bild
-falsch einschätzt, erhält die generative KI der Situation entsprechend falsche
-Rewards. Die klassifizierende KI für Zahlen erreicht die höchste Genauigkeit
-(siehe \ref{tab:models}) und aus diesem Grund zeichnet die KI Zahlen für
-Menschen am besten erkennbar nach.
+Die Resultate sprechen somit dafür, dass die generative KI Motive ohne Vorlage
+zeichnen kann. Eine subjektivere Einschätzung der generierteren Bilder ergibt
+allerdings, dass die KI viele Motive nicht erkennbar zeichnet. Besonderes das
+Motiv: `F' und das Motiv: `Blume' sind nicht immer erkennbar, selbst wenn die
+klassifizierende KI diese so einschätzt. In dieser Fehleinschätzung liegt das
+Hauptproblem der generativen KI. Wenn die klassifizierende KI ein Bild falsch
+einschätzt, erhält die generative KI der Situation entsprechend falsche Rewards.
+Die klassifizierende KI für Zahlen erreicht die höchste Genauigkeit (siehe
+\ref{tab:models}) und aus diesem Grund sind die Zahlen der generativen KI für
+menschliche Beurteiler am besten erkennbar.
 
 Der Test auf das Zeichnen von verschiedenen Zahlen spricht dafür, dass die
-generative KI die meisten Motive nachzeichnen kann, solange diese mit einer
-klassifizierenden KI mit einer hohen Zuverlässigkeit trainiert.
+generative KI die meisten Motive nachzeichnen könnte, solange diese auf eine 
+klassifizierenden KI mit einer hohen Zuverlässigkeit Zugriff hat.
 
 Da die KI ohne eine Vorlage eigene Zeichnungen produzieren kann, entwickelt sie
 gewissermassen eine eigene Handschrift. Diese Tatsache stellt nicht nur einen
@@ -204,47 +199,48 @@ beginnen die meisten Kinder, eigene Zeichen und Symbole zu Schreiben.
 
 
 \section{Fazit und Ausblick}\label{chap:d_faz-aus} Die Resultate und deren
-Interpretation in der Beantwortung der Unterfragen (siehe
-\doubleref{chap:d_frage}) deuten darauf hin, dass verschiedene Variationen der
-künstlichen Intelligenz das Nachzeichnen von beliebigen Strichbildern erlernt
-haben. Diese Antwort unterliegt allerdings einigen Annahmen und Voraussetzungen,
-die weiter diskutiert werden können. Beispielsweise ist das Format der
-Strichbilder vorausgesetzt. Die KI kann in einem bestimmten Format beliebige
-Bilder nachzeichnen, aber in einem anderen Format kann sie nicht zeichnen.
-Spezifisch kann die KI kleine Bilder mit einer Auflösung von 28x28 Pixeln in
-schwarzweiss und einer festen Strichbreite zeichnen. Diese Voraussetzungen
-schränken die nachzeichnende KI ein, da viele Bilder nicht diesen
-Voraussetzungen entsprechen. In der Aufhebung von diesen Einschränkungen liegt
-Entwicklungspotenzial. Eine weitere Annahme liegt in der Definition des
-Nachzeichnens. Die KI erlernt das nachzeichnen nach einer selbst bestimmten
-Definition. Die Kriterien dieser Definition (siehe \doubleref{chap:m_eval}) sind
-für den Trainingsprozess einer künstlichen Intelligenz sinnvoll gewählt, aber es
-wären auch andere Kriterien denkbar.
+Interpretation in der Beantwortung der Unterfragen (siehe \ref{chap:d_frage})
+deuten darauf hin, dass verschiedene Variationen der künstlichen Intelligenz das
+Nachzeichnen von beliebigen Strichbildern erlernt haben. Diese Antwort
+unterliegt allerdings einigen Annahmen und Voraussetzungen, die weiter
+diskutiert werden können. Beispielsweise ist das Format der Strichbilder
+vorausgesetzt. Die KI kann in einem bestimmten Format beliebige Bilder
+nachzeichnen, aber in einem anderen Format kann sie nicht zeichnen. Spezifisch
+kann die KI kleine Bilder mit einer Auflösung von 28x28 Pixeln in schwarzweiss
+und einer festen Strichbreite zeichnen. Diese Voraussetzungen schränken die
+nachzeichnende KI ein, da viele Bilder diese nicht Erfüllen. In der Aufhebung
+von diesen Einschränkungen liegt Entwicklungspotenzial. Eine weitere Annahme
+liegt in der Definition des Nachzeichnens. Die KI erlernt das Nachzeichnen nach
+einer selbst bestimmten Definition. Die Kriterien dieser Definition (siehe
+\ref{chap:m_eval}) sind für den Trainingsprozess einer künstlichen Intelligenz
+sinnvoll gewählt, aber es wären auch andere Kriterien denkbar.
 
 Die Qualität der nachzeichnenden KI und der generativen KI hängt von der
 Verlässlichkeit der klassifizierenden KI ab, die im Training verwendet wird. Da
 diese nicht eine Genauigkeit von $100\%$ erreicht, ist das Training nicht
 optimal. Ausserdem sind die Resultate im Kriterium der Erkennbarkeit durch die
-Imperfektion der klassifizierenden KI leicht verfälscht.
+Imperfektion der klassifizierenden KI leicht verfälscht. Die Verlässlichkeit der
+klassifizierenden KI ist vor allem für die Generative KI, da ihr Training stark
+davon abhängt.
 
 Ausserdem sind die Hyperparameter von einigen Variationen der KI vermutlich
 nicht optimal gewählt, da ein angemessener Optimierungsprozess zu viel
 Rechenaufwand bedeuten würde. Die Leistung der KI liegt somit vermutlich leicht
 unter ihrem vollen Potenzial.
 
-Die generative KI kann ohne eine Vorlage selbstständig Zeichnungen produzieren
-und entwickelt so in gewissem Sinne eine eigene Handschrift. Die nachzeichnende
-KI ist ein entscheidender Vorläufer dieser KI, weil die generative KI zuerst das
-Nachzeichnen erlernen muss, bevor sie selbstständig zeichnen kann. So erlernt
-die KI das Zeichnen ohne Vorlage, indem sie zuerst aus verschiedenen Beispielen
-lernt. Zu einem gewissen Grad adapiert die KI die Handschrift dieser Beispiele.
-Da die KI allerdings mit tausenden Beispielen trainiert kann die Adaption und
-Vermischung dieser auch als eine eigene Handschrift der KI angesehen werden.
+Die generative KI kann ohne eine Vorlage selbstständig Zeichnungen (bis jetzt
+vor Allem Zahlen) produzieren und entwickelt so in gewissem Sinne eine eigene
+Handschrift. Die nachzeichnende KI ist ein entscheidender Vorläufer dieser KI,
+weil die generative KI zuerst das Nachzeichnen erlernen muss, bevor sie
+selbstständig zeichnen kann. So erlernt die KI das Zeichnen ohne Vorlage, indem
+sie zuerst aus verschiedenen Beispielen lernt. Zu einem gewissen Grad adapiert
+die KI die Handschrift dieser Beispiele. Da die KI allerdings mit tausenden
+Beispielen trainiert, kann die Adaption und Vermischung dieser auch als eine
+eigene Handschrift der KI angesehen werden.
 
-Die generative KI kann hauptsächlich Symbole wie Zahlen und Buchstaben zeichnen.
-Eine mögliche Erweiterung wäre, dass die KI das Schreiben von ganzen Wörtern
-erlernt, weil ansonsten noch nicht von einer tatsächlichen Handschrift
-gesprochen werden kann
+Die generative KI kann hauptsächlich Symbole wie Zahlen zeichnen. Eine mögliche
+Erweiterung wäre, dass die KI das Schreiben von ganzen Wörtern erlernt, weil
+ansonsten noch nicht von einer tatsächlichen Handschrift gesprochen werden kann.
 
 
 \section{Anwendungsbereiche}\label{chap:d_anwendung} Für die nachzeichnende KI

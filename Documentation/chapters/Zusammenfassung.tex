@@ -20,12 +20,13 @@ diesen Kriterien machen die Ergebnisse dieser Arbeit aus. Die generative KI
 erlernt zu Beginn des Trainings mit entsprechenden Vorlagen das Nachzeichnen des
 gewünschten Strichbildes. Erst im späteren Verlauf des Trainings wird der KI
 immer seltener eine Vorlage gezeigt, bis diese vollkommen selbstständig
-zeichnet. 
- 
-%Todo: Werte anpassen
+zeichnet. Wenn die KI ohne eine Vorlage zeichnet, erfährt diese durch die
+Einschätzung eines klassifizierenden Machine Learning Modells, ob die eigene
+Zeichnung erkennbar ist.
+
 Die nachzeichnende KI erreicht eine Übereinstimmung von $90\%$ zwischen der
 Vorlage und dem nachgezeichneten Bild und stellt die Zeichnungen mit
-durchschnittlich 19 Bewegungen fertig. Die KI erzielt dabei eine vergleichbare
+durchschnittlich $20$ Bewegungen fertig. Die KI erzielt dabei eine vergleichbare
 Leistung für verschiedene Typen von Strichbildern, obwohl diese nur auf das
 Nachzeichnen von Zahlen trainiert ist. Die generative KI zeichnet das gewünschte
 Strichbild in $90$ bis $100$ Prozent der Fälle so nach, dass die Zeichnung für eine
@@ -39,7 +40,10 @@ simuliert und somit nicht physisch. Trotzdem ist durch die beschränkte Freiheit
 der Bewegungen ein zeichnender Roboter durch sie bedienbar. Die Ergebnisse der
 generativen KI zeigen, dass eine künstliche Intelligenz auch selbstständig
 zeichnen kann, sofern diese im Training Beispiele des gewünschten Motivs gesehen
-hat und das Nachzeichnen von diesen Motiven bereits erlernt hat.
+hat und das Nachzeichnen von diesen Motiven bereits erlernt hat. Die Leistung
+der generativen KI ist allerdings direkt abhängig von der Zuverlässigkeit der
+klassifizierenden KI. Falsche Einschätzungen der Zeichnungen beeinflussen die
+generative KI negativ, selbst wenn diese selten vorkommen.
  
 Die nachzeichnende KI kann beliebige Strichbilder nachzeichnen. Diese
 Strichbilder sind allerdings klein, schwarzweiss und begrenzt detailliert.
