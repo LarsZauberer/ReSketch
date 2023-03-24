@@ -54,7 +54,7 @@ Die verschiedenen Variationen zeigen, dass ein spezifisches Training auf ein
 Kriterium in den meisten Fällen die Leistung der nachzeichnenden KI in diesem
 Kriterium erhöht. Einige Variationen sind dabei effektiver als andere:
 
-Die \emph{Speed} Variation und dessen Kombination mit der \emph{No-Liftpen}
+Die \emph{Speed} Variation und dessen Kombination mit der \emph{No-Penlift}
 Variation erreichen die tiefsten Werte im Kriterium der Geschwindigkeit um $9$
 Steps für das Nachzeichnen von Zahlen (siehe \ref{sub:r_tab_nachzeich}).
 Diese Variationen können somit die Leistung der KI in ihrem ausgewählten
@@ -67,7 +67,7 @@ Erkennbarkeit mit $97\%$ für Zahlen der \emph{Base} Variation auch kaum
 übertreffbar, vor allem weil die klassifizierende KI nur eine Genauigkeit von
 $98\%$ erreicht.
 
-Die \emph{No-Liftpen} Variation erreicht unter den Variationen die beste
+Die \emph{No-Penlift} Variation erreicht unter den Variationen die beste
 Leistung im Kriterium der zeichnenden Zeit (siehe
 \ref{sub:m_eval_zeichnend}) mit $98.1\%$ für das Nachzeichnen von Zahlen.
 Die Variation erbringt somit den erwünschten Effekt.
@@ -99,7 +99,7 @@ In allen Versionen bleibt die Leistung der KI zwischen den drei Datensets (siehe
 
 \begin{table}[!ht]
     \centering
-    \caption{Vergleich der \emph{Base} Variation für die drei Datensets}\label{tab:speed-3-dataset}
+    \caption{Vergleich der \emph{Base} Variation für die drei Datensets}\label{tab:base-3-dataset}
     \begin{tabular}{|l|l|l|l|l|l|}
             \hline
             \hline ~ & Sim $[\%]$ & Rec $[\%]$ & Speed & Drawtime $[\%]$ & Overdrawn \\ \hline
@@ -153,7 +153,7 @@ bedienbar wäre.
 
 Die \emph{Physics} Variation stellt einen Versuch dar, menschliches Zeichnen
 weiter anzunähern. Dieser Versuch ist allerdings gescheitert, weil die KI
-dadurch allgemein schlechter zeichnet als die anderen Variationen. die
+dadurch allgemein schlechter zeichnet als die anderen Variationen. Die
 \emph{Speed}, \emph{Rec} und \emph{No-Penlift} Variationen (siehe
 \ref{chap:r}) nähern menschliches Zeichnen eher an, da diese Variationen
 den `Schwung' der Bewegungen erhöhen. Schwung ist ein wichtiges Element für den
@@ -167,7 +167,7 @@ zeichnen?}\label{subsub:d_frage_unter_6} Ja. Eine abgewandelte Form der
 nachzeichnenden KI kann Strichbilder von einem ausgewählten Motiv zeichnen,
 solange diese im Training mit dem gewähten Motiv trainiert hat. Beide Versionen der
 generativen KI erreichen dabei eine Erkennbarkeit des gewünschten Motivs von
-mehr als $90\%$. Die \emph{Random-Noise} Variation errecht insgesamt marginal bessere
+mehr als $90\%$. Die \emph{Random-Noise} Variation erreicht insgesamt marginal bessere
 Werte.
 
 Die Resultate sprechen somit dafür, dass die generative KI Motive ohne Vorlage
@@ -220,7 +220,7 @@ Verlässlichkeit der klassifizierenden KI ab, die im Training verwendet wird. Da
 diese nicht eine Genauigkeit von $100\%$ erreicht, ist das Training nicht
 optimal. Ausserdem sind die Resultate im Kriterium der Erkennbarkeit durch die
 Imperfektion der klassifizierenden KI leicht verfälscht. Die Verlässlichkeit der
-klassifizierenden KI ist vor allem für die Generative KI, da ihr Training stark
+klassifizierenden KI ist vor allem für die generative KI, da ihr Training stark
 davon abhängt.
 
 Ausserdem sind die Hyperparameter von einigen Variationen der KI vermutlich
@@ -229,7 +229,7 @@ Rechenaufwand bedeuten würde. Die Leistung der KI liegt somit vermutlich leicht
 unter ihrem vollen Potenzial.
 
 Die generative KI kann ohne eine Vorlage selbstständig Zeichnungen (bis jetzt
-vor Allem Zahlen) produzieren und entwickelt so in gewissem Sinne eine eigene
+vor allem Zahlen) produzieren und entwickelt so in gewissem Sinne eine eigene
 Handschrift. Die nachzeichnende KI ist ein entscheidender Vorläufer dieser KI,
 weil die generative KI zuerst das Nachzeichnen erlernen muss, bevor sie
 selbstständig zeichnen kann. So erlernt die KI das Zeichnen ohne Vorlage, indem
@@ -251,7 +251,7 @@ einen Nutzen bieten können.
 Die Nachzeichnende KI könnte in der Robotik Anwendung finden. Die aktuelle
 Version ist für diese Anwendung allerdings zu eingeschränkt, was die Art der
 Bilder angeht, die sie zeichnen kann. Sollte eine weiterentwickelte Version
-vielfältigere Bilder produzieren können, So würde ein Roboter mit der
+vielfältigere Bilder produzieren können, so würde ein Roboter mit der
 nachzeichnenden KI von beliebigen Bildern Zeichnungen anlegen können.
 
 Ein weiterer Anwendungsbereich der nachzeichnenden KI wäre die Vektorisierung.
