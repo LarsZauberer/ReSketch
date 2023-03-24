@@ -42,7 +42,7 @@ kann, hat folglich auch eine Grösse von $28\times28$ Pixeln. Der Global Stream
 (siehe \ref{sub:t_ver_dood}) des Inputs in das neuronale Netz ändert sich
 bis auf die neue Grösse der Bilder nicht. Die Pixel der Bilder, wie auch die
 Zeichenfläche, nehmen den Wert von einem Bit an. Eine Null repräsentiert einen
-schwarzen (nicht gezeichneten) Pixel an dieser Stelle im Bild und eine Eins
+schwarzen (nicht gezeichneten) Pixel und eine Eins
 einen weissen (gezeichneten) Pixel. Die genaue Architektur des neuronalen Netzes
 ist in der folgenden Abbildung angegeben (siehe \autoref{fig:architecture}). 
  
@@ -72,7 +72,7 @@ Falls der Agent die Action zeichnend ausführt, zieht das Programm einen Strich
 zwischen der alten und der neuen Position. Das bedeutet, dass alle Pixel
 der Zeichenfläche zwischen den beiden Positionen weiss werden. Der Strich hat eine
 festgelegte Breite von $3$ Pixeln. Am Anfang jeder Episode, also mit jeder neuen
-Ziffer, startet der Agent in einer zufälligen Position im nicht zeichnenden
+Ziffer, startet der Agent an einer zufälligen Position im nicht zeichnenden
 Zustand. Am Anfang jeder Episode ist die Zeichenfläche leer, also vollkommen
 Schwarz.
 
@@ -85,7 +85,7 @@ belieben verwendbar. (siehe \ref{chap:t_rl})
 Eigenschaften des Grundprogramms sind Erweiterungen der Architektur von
 Doodle-SDQ.
 
-Die erste Erweiterung beschreibt die behandlung von illegalen Actions. Alle
+Die erste Erweiterung beschreibt die Behandlung von illegalen Actions. Alle
 Actions, die den Agent über die vorgegebene Zeichenfläche hinaus positionieren
 würden, sind nicht zulässig. Diese Actions sind für den Agent nicht wählbar
 und ihr optimaler Q-Value (siehe \ref{sub:t_rl_func}) ist in jedem Fall
@@ -97,7 +97,7 @@ auszuführen.
 Die zweite Erweiterung betrifft den Action-Space mit der Einführung einer Stopp
 Action. Wenn der Agent diese Action wählt, bricht die Zeichnung ab. Der Agent
 kann somit frei entscheiden, wann die Zeichnung fertig ist. Die Stopp Action
-kann während dem Training dem Agent verboten werden. In diesem Fall wird die
+kann während dem Training deaktiviert werden. In diesem Fall wird die
 Action als unzulässig behandelt.
 
 
@@ -129,7 +129,7 @@ Episodes. Der Agent zeichnet für $64$ Steps pro Episode, falls die Stopp Action
 Die Hyperparameter aller Versionen der KI sind durch den Bayesian Optimization
 Algorithmus optimiert (siehe \ref{sub:t_ml_hyper}). Die Implementierung
 des Algorithmus in Python stammt von \cite{nogueira_bayesian_2014}. Der
-Algorithmus ändert sich für verschiedene Variationen der KI nicht und ist somit
+Algorithmus ändert sich für die verschiedenen Variationen der KI nicht und ist somit
 Teil des Grundprogramms. Mit jeder Iteration des Baysian Optimization
 Algorithmus trainiert das Reinforcement Learning Modell für eine vom Algorithmus
 selbst bestimmte Anzahl Episodes. Die Zielvariable, die durch den Baysian
@@ -185,7 +185,7 @@ Klassifizierung trifft wenn die Wahrscheinlichkeit für dessen Richtigkeit hoch
 ist. Für die verschiedenen Arten von Strichbildern, welche die KI zeichnen soll,
 werden spezifische klassifizierende Machine Learning Modelle mit den zugehörigen
 Datensets trainiert. Diese Modelle, zusammen mit ihrer Genauigkeit, sind in der
-folgenden Tabelle (siehe \autoref{tab:models}) aufgeführt. Das Neuronale Netz
+folgenden Tabelle (siehe \autoref{tab:models}) aufgeführt. Das neuronale Netz
 der Modelle stammt aus einem online Machine Learning Tutorial \cite{dataflair_handwritten_2020}.
 
 \begin{table}[!ht]
@@ -203,7 +203,7 @@ der Modelle stammt aus einem online Machine Learning Tutorial \cite{dataflair_ha
 \subsection{Geschwindigkeit}\label{sub:m_eval_speed} Dieses Kriterium
 beschreibt, wie schnell die Zeichnung der KI fertig ist. Der Wert des Kriteriums
 entspricht dabei der Anzahl Steps bis zur Fertigstellung. Der Punkt der
-Fertigstellung ist dabei bei der letzten zeichnenden Action des Agents
+Fertigstellung ist dabei, bei der letzten zeichnenden Action des Agents
 definiert. Falls der Agent nach dem Zeichnen weiterhin nicht zeichnende Actions
 ausführt, so werden diese nicht zu der Zeichnung gezählt, weil diese nicht
 beeinflusst wird. Tiefere Werte in diesem Kriterium entsprechen einer höheren
@@ -309,7 +309,7 @@ verhindert, dass der Reward zu schnell abfällt.
 
 \subsection{Spezialisierung auf zeichnende Zeit}\label{sub:m_var_penlift}
 Diese Variation hat zum Ziel, den Wert des Kriteriums der zeichnenden Zeit zu
-maximieren. Das heisst, die KI soll sich so wenig wie möglich bewegen ohne dabei
+maximieren. Das heisst, die KI soll sich so wenig wie möglich bewegen, ohne dabei
 zu zeichnen. Dieser Effekt wird dadurch angestrebt, dass nicht zeichnende
 Actions einen negativen Reward von $-0.01$ auslösen. Ansonsten unterscheidet
 sich die Reward Function von der Basis Reward-Function nicht. Auch diese
@@ -350,7 +350,7 @@ besteht neu aus $42$ Actions. $21$ der $42$ Actions beschreiben
 Beschleunigungsvektoren im zeichnenden Zustand. Die anderen $21$ Actions
 beschreiben dieselben Vektoren im nicht zeichnenden Zustand. Die 21
 verschiedenen Beschleunigungsvektoren im Actions-Space sind in der folgenden
-Formation angeordnet: (siehe \autoref{fig:physics-actionspace}).
+Formation angeordnet (siehe \autoref{fig:physics-actionspace}).
  
 %bild physik actionspace
 \begin{figure}[!ht]
@@ -419,7 +419,7 @@ Channel des neuronalen Netzes (siehe \ref{sub:t_ml_nn}), wo der
 nachzeichnenden KI das Bild der Vorlage gegeben wird, hat die generative KI ein
 vollkommen schwarzes Bild (Alle Werte der Bitmap sind $0$). Der Channel für die
 Vorlage wird nicht entfernt, weil während dem Training der generativen KI zu
-einem gewissen Anteil trotz dessen Aufgabe eine Vorlage des gewünschten Motivs
+einem gewissen Anteil trotzdessen Aufgabe eine Vorlage des gewünschten Motivs
 gegeben wird. Die Wahrscheinlichkeit, dass für eine Episode der KI eine Vorlage
 gezeigt wird, sinkt dabei linear über das Training hinweg von $1$ auf $0.25$. Zu
 Beginn des Trainings unterscheidet sich die generative KI somit nicht von der
@@ -441,14 +441,14 @@ nicht auf auf dem Kriterium der prozentualen Übereinstimmung, welches die Basis
 Reward-Function verwendet, sondern auf dem Kriterium der Erkennbarkeit (siehe
 \ref{sub:m_eval_rec}). Da ein generativer Zeichner ein Motiv ohne weitere
 Spezifikationen zeichnen soll, ist die Erkennbarkeit des Motives von grösster
-Priorität. Die generative KI verwendet deswegen neben der Basis Reward-Function
+Bedeutung. Die generative KI verwendet deswegen neben der Basis Reward-Function
 ebenfalls die auf Erkennbarkeit spezialisierte Reward-Function (siehe
 \ref{sub:m_var_rec}). 
 
 Anders als die nachzeichnende KI, startet die generative KI für jede Zeichnung
 am selben vordefinierten Ort. Das verringert den Trainingsaufwand, aber bedeutet
 auch, dass nach dem Training die KI nur eine einzige Ausgangslage kennt. Nach
-dem Training ist die Wahl der Actions deterministsch, Da die KI stets die Action
+dem Training ist die Wahl der Actions deterministsch, da die KI stets die Action
 mit dem höchsten Q-Value wählt (siehe \ref{chap:m_auswert}). Zusammen mit
 der unveränderlichen Ausgangslage führt das dazu, dass die KI nur eine einzige
 Zeichnung produzieren kann. 
@@ -550,7 +550,7 @@ Eine Testumgebung erfasst die Leistung der KI (siehe \ref{sub:t_ml_func}).
 Zwischen der Trainingsumgebung und der Testumgebung sind zwei relevante
 Unterschiede. Erstens trainiert die KI in der Testumgebung nicht. Die
 Testumgebung übernimmt eine trainierte Version der nachzeichnenden KI und
-verändert diese während dem Test nicht. Zweitens wählt der Agent Die Actions
+verändert diese während dem Test nicht. Zweitens wählt der Agent die Actions
 deterministisch. In jedem Step wird diejenige Action mit dem höchsten Q-Value
 gewählt.
 
