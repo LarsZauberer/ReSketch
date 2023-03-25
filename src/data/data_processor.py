@@ -147,27 +147,14 @@ class Data_Processer():
             json.dump(test_data, f)
 
 
-
-
-if __name__ == "__main__":
-    proc = Data_Processer()
-    proc.emnist()
-   
-   
-    """ imgs = []
-    with open("data/processed_data/quickdraw_train.json") as f:
-        imgs = json.load(f)
-
-    print(len(imgs[1]))
-
-    im = np.array(imgs[3][1]).reshape(28,28)
-
-    fig, ax = plt.subplots()
-
-    ax.imshow(im, cmap="gray")
-
-    plt.show()
-
-    print(im) """
+""" imgs = []
+with open("data/processed_data/quickdraw_train.json") as f:
+    imgs = json.load(f)
+print(len(imgs[1]))
+im = np.array(imgs[3][1]).reshape(28,28)
+fig, ax = plt.subplots()
+ax.imshow(im, cmap="gray")
+plt.show()
+print(im) """
 
     

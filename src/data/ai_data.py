@@ -3,8 +3,9 @@ import json
 import numpy as np
 
 class AI_Data():
-    def __init__(self, dataset : str = "mnist_train"):
+    def __init__(self, dataset : str = "mnist_train", motive=0):
         self.dataset = dataset.split("_")[0]
+        self.motive = motive
 
         with open(f"src/data/processed_data/{dataset}.json", "r") as f:
             self.ref_data = json.load(f)
