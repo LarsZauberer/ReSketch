@@ -1,11 +1,7 @@
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Conv2D, MaxPool2D, Dropout
 from keras.optimizers import SGD, Adam
-
-
-import json
 import numpy as np
-
 
 class Predictor():
     def __init__(self, mnist=False, emnist=False, quickdraw=False):
@@ -22,7 +18,7 @@ class Predictor():
             self.quickdraw_model = Model(26)
             self.quickdraw_model.model.load_weights("src/models/quickdraw_model/model_hand.h5")
     
-
+    # Mnist Predictions
     def mnist(self, img, mode="hard"):
         if mode == "hard":
             return self.mnist_model.hard_predict(img)
@@ -31,7 +27,7 @@ class Predictor():
         else:
             return self.mnist_model.soft_predict(img)
 
-        
+    # Emnist Predictions
     def emnist(self, img, mode="hard"):
         if mode == "hard":
             return self.emnist_model.hard_predict(img)
@@ -40,7 +36,7 @@ class Predictor():
         else:
             return self.emnist_model.soft_predict(img)
 
-
+    # Quickdraw Predictions
     def quickdraw(self, img, mode="hard"):
         if mode == "hard":
             return self.quickdraw_model.hard_predict(img)
@@ -48,8 +44,6 @@ class Predictor():
             return self.quickdraw_model.test_predict(img)
         else:
             return self.quickdraw_model.soft_predict(img)
-
-
 
 
 class Model():
@@ -86,37 +80,17 @@ class Model():
             return np.argmax(softmax)
         
     def test_predict(self, img):
-        softmax = self.softmax_sample(self.model(np.array([img])))
+        softmax = self.softmax_sample(self.model(np.array([img]))) #No certainty check
         return np.argmax(softmax)
         
     def soft_predict(self, img):
-        return self.softmax_sample(self.model(np.array([img])))
+        return self.softmax_sample(self.model(np.array([img])))[0] #full prediction array
        
     
-
-    def softmax_sample(self, a, temperature=0.5):
+    def softmax_sample(self, a, temperature=3):
         # helper function to sample an index from a probability array
         a = np.log(a) / temperature
         a = np.exp(a) / np.sum(np.exp(a))   
         return a
 
 
-
-""" if __name__ == "__main__":
-    with open("src/models/mnist_model/mnist_test.json", "r") as f:
-        data = json.load(f)
-
-    
-    x = []
-    y = []
-    for i, letter in enumerate(data):
-        for image in letter[:10]:
-            x.append(np.reshape(image, (28, 28)))
-            y.append(i)
-    x = np.array(x)
-    y = np.array(y)
-
-    pred = Predictor(mnist=True)
-
-    for image in x:
-        print(pred.mnist(image)) """

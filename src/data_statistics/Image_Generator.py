@@ -41,7 +41,7 @@ def generate_image(images, columns=2):
         
         fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="horizontal", fraction=0.046, pad=0.04, label="Steps", location="bottom")
 
-        plt.savefig(f"results/reproduce/images/new_test.png", bbox_inches='tight')
+        plt.savefig(f"src/data_statistics/ai_images.png", bbox_inches='tight')
         plt.pause(10)
 
 
@@ -67,16 +67,8 @@ def generate_generative_image(images, columns=3):
     
     fig.colorbar(cm.ScalarMappable(norm=colors.Normalize(vmin=0, vmax=64), cmap="bone"), ax=grid, orientation="horizontal", fraction=0.046, pad=0.5, label="Steps", location="bottom")
 
-    plt.savefig(f"results/reproduce/images/new_test.png", bbox_inches='tight')
+    plt.savefig(f"src/data_statistics/ai_images.png", bbox_inches='tight')
     plt.pause(5)
-
-
-
-
-
-
-
-
 
 
 
