@@ -50,7 +50,7 @@ Random-Noise Variation:
 
 Testen auf MNIST Datenset | 1000 Tests
 
-|             | Sim $[\%]$ | Rec $[\%]$ | Speed | Drawtime $[\%]$ | Overdrawn |
+|             | Sim [%] | Rec [%] | Speed | Drawtime [%] | Overdrawn |
 |-------------|------------|------------|-------|-----------------|-----------|
 | Base        | 90.8       | 97.1       | 54.7  | 0.73            | 269       |
 | Rec         | 76.8       | 95.2       | 29.7  | 83.4            | 114       |
@@ -61,7 +61,7 @@ Testen auf MNIST Datenset | 1000 Tests
 
 Testen auf EMNIST Letters Datenset | 1000 Tests
 
-|             | Sim $[\%]$ | Rec $[\%]$ | Speed | Drawtime $[\%]$ | Overdrawn |
+|             | Sim [%] | Rec [%] | Speed | Drawtime [%] | Overdrawn |
 |-------------|------------|------------|-------|-----------------|-----------|
 | Base        | 89.6       | 85.0       | 60.5  | 81.9            | 315       |
 | Rec         | 76.6       | 76.6       | 45.2  | 86.4            | 201       |
@@ -72,7 +72,7 @@ Testen auf EMNIST Letters Datenset | 1000 Tests
 
 Testen auf QuickDraw Datenset | 1000 Tests
 
-| \hline ~    | Sim $[\%]$ | Rec $[\%]$ | Speed | Drawtime $[\%]$ | Overdrawn |
+| \hline ~    | Sim [%] | Rec [%] | Speed | Drawtime [%] | Overdrawn |
 |-------------|------------|------------|-------|-----------------|-----------|
 | Base        | 81.8       | 93.7       | 56.5  | 73.9            | 227       |
 | Rec         | 71.6       | 82.4       | 42.3  | 84.1            | 157.9     |
@@ -85,7 +85,7 @@ Testen auf QuickDraw Datenset | 1000 Tests
 
 Testen der Softmax Variation | 1000 Tests
 
-|       | Rec $[\%]$ | Speed | Drawtime $[\%]$ |
+|       | Rec [%] | Speed | Drawtime [%] |
 |-------|------------|-------|-----------------|
 | Null  | 90.0       | 20.9  | 85.7            |
 | Zwei  | 92.9       | 16.6  | 84.1            |
@@ -95,7 +95,7 @@ Testen der Softmax Variation | 1000 Tests
 
 Testen der Random-Noise Variation | 1000 Tests
 
-|       | Rec $[\%]$ | Speed | Drawtime $[\%]$ |
+|       | Rec [%] | Speed | Drawtime [%] |
 |-------|------------|-------|-----------------|
 | Null  | 99.4       | 15.7  | 91.0            |
 | Zwei  | 100        | 13.4  | 91.6            |
