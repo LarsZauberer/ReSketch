@@ -4,59 +4,104 @@
 
 ## Abstrakt
 ReSketch ist eine künstliche Intelligenz, die
-versucht, Strichbilder auf eine physische Weise nachzuzeichnen. Strichbilder
-sind in diesem Fall beispielsweise Ziffern oder Buchstaben. Um die Frage zu
-beantworten, inwiefern das möglich ist, sind definierende Kriterien des
-Nachzeichnens festgelegt. So soll die künstliche Intelligenz zum Beispiel nur
-Bewegungen ausführen können, die auch mit einem Stift möglich wären. Die
-künstliche Intelligenz erlernt das Nachzeichnen nach diesen Kriterien durch Deep
-Q-Learning, einem Reinforcement Learning Modell. Das Modell basiert auf der
-Arbeit hinter Doodle-SDQ \cite{zhou_learning_2018}, erfährt aber konzeptuelle
-Variationen, wie die Integration einer Physiksimulation. Die künstliche
-Intelligenz ist auf das Nachzeichnen von Ziffern trainiert. Ein Test dieser
-trainierten künstlichen Intelligenz auf Buchstaben und andere Arten von
-Strichbildern führt zu der Antwort auf die Frage, ob eine künstliche Intelligenz
-das Nachzeichnen im Allgemeinen erlernen kann.
+Strichbilder nachzeichnen kann. Strichbilder sind beispielsweise Ziffern oder
+Buchstaben. Die künstliche Intelligenz kann sich beim Zeichnen so bewegen, wie
+es mit einem echten Stift möglich wäre. ReSketch funktioniert mit Deep
+Q-Learning, einem Reinforcement Learning Modell. Das Modell basiert dabei auf
+der Arbeit hinter Doodle-SDQ \cite{zhou_learning_2018}, erfährt aber
+verschiedene Erweiterungen. Die Leistung von dem Modell wird durch vordefinierte
+Kriterien evaluiert, deren Werte das Resultat dieser Arbeit ausmachen. ReSketch
+erreicht eine Übereinstimmung von 90% zwischen der Vorlage und dem
+nachgezeichneten Bild. Ausserdem kann die KI nach dem Training beliebige Arten
+von Strichbildern nachzeichnen, obwohl diese lediglich auf das Zeichnen von
+Zahlen trainiert ist. Eine zweite künstliche Intelligenz, die auf der
+nachzeichnenden KI basiert, entfernt sich von der ursprünglichen Aufgabe. Diese
+zweite KI erlernt das selbstständige Zeichnen von einem ausgewählten Motiv, ohne
+eine Vorlage davon zu erhalten. Zu diesem Zweck werden die generierten
+Zeichnungen der KI mit einem Klassifizierungsmodell bewertet. Mit einem
+spezifischen Training dieser generativen KI können verschiedene Handschriften
+emuliert werden.
 
 [Vollständige Dokumentation](https://github.com/LarsZauberer/Nachzeichner-KI/releases/download/1.0/Maturarbeit_IanWasser_RobinSteiner.pdf)
 
 ## Resultate
 ### Bilder
-![AI Generated Images (Base-Base)](/Documentation/images/resultate/base-base.png)
+#### Nachzeichnende KI
+Base Variation:
+
+![AI Generated Images (Base)](/Documentation/images/resultate/base.png)
+
+Speed Variation:
+
+![AI Generated Images (Speed)](/Documentation/images/resultate/speed.png)
+
+#### Generative KI
+Softmax Variation:
+
+![AI Generated Images (Softmax)](/Documentation/images/resultate/generative-sm.png)
+
+Random-Noise Variation:
+
+![AI Generated Images (Random-Noise)](/Documentation/images/resultate/generative-np.png)
+
 
 ### Tabellen
-| ~                  | Übereinstimmung \% | Erkennbarkeit \% | Geschwindigkeit |
-|--------------------|--------------------|------------------|-----------------|
-| Grund-Basis        | 86.5               | 86.6             | 24.5            |
-| Grund-MNIST        | 66.8               | 64.3             | 51.2            |
-| Grund-Speed        | 85.7               | 82.3             | 23.3            |
-| Grund-MNIST-Speed  | 61.4               | 55.1             | 56.8            |
-| Physik-Basis       | 56.4               | 46.4             | 62.5            |
-| Physik-MNIST       | 38.4               | 35.7             | 63.9            |
-| Physik-Speed       | 63.0               | 58.2             | 61.2            |
-| Physik-MNIST-Speed | 29.2               | 27.3             | 63.7            |
+#### Nachzeichnende KI
 
-| ~                  | Übereinstimmung \% | Erkennbarkeit \% | Geschwindigkeit |
-|--------------------|--------------------|------------------|-----------------|
-| Grund-Basis        | 86.8               | 74.5             | 38.2            |
-| Grund-MNIST        | 65.2               | 45.0             | 57.4            |
-| Grund-Speed        | 88.1               | 73.5             | 36.1            |
-| Grund-MNIST-Speed  | 62.2               | 40.0             | 60.9            |
-| Physik-Basis       | 57.6               | 32.4             | 63.5            |
-| Physik-MNIST       | 43.3               | 23.6             | 63.9            |
-| Physik-Speed       | 56.3               | 35.0             | 63.6            |
-| Physik-MNIST-Speed | 30.2               | 13.9             | 64.0            |
+Testen auf MNIST Datenset | 1000 Tests
 
-| ~                  | Übereinstimmung \% | Erkennbarkeit \% | Geschwindigkeit |
-|--------------------|--------------------|------------------|-----------------|
-| Grund-Basis        | 79.1               | 80.5             | 39.1            |
-| Grund-MNIST        | 57.3               | 62.5             | 59.9            |
-| Grund-Speed        | 80.0               | 80.3             | 35.0            |
-| Grund-MNIST-Speed  | 54.9               | 58.9             | 62.5            |
-| Physik-Basis       | 48.1               | 55.7             | 63.8            |
-| Physik-MNIST       | 30.5               | 38.9             | 64.0            |
-| Physik-Speed       | 50.0               | 58.3             | 63.6            |
-| Physik-MNIST-Speed | 22.4               | 31.1             | 64.0            |
+|             | Sim $[\%]$ | Rec $[\%]$ | Speed | Drawtime $[\%]$ | Overdrawn |
+|-------------|------------|------------|-------|-----------------|-----------|
+| Base        | 90.8       | 97.1       | 54.7  | 0.73            | 269       |
+| Rec         | 76.8       | 95.2       | 29.7  | 83.4            | 114       |
+| Speed       | 80.2       | 96.7       | 20.5  | 90.5            | 78        |
+| No-Penlift  | 79.7       | 96.4       | 20.8  | 0.981           | 97        |
+| No-Overdraw | 83.3       | 97.3       | 36.3  | 54.5            | 40        |
+| Physics     | 69.9       | 88.9       | 59.3  | 61.8            | 161       |
+
+Testen auf EMNIST Letters Datenset | 1000 Tests
+
+|             | Sim $[\%]$ | Rec $[\%]$ | Speed | Drawtime $[\%]$ | Overdrawn |
+|-------------|------------|------------|-------|-----------------|-----------|
+| Base        | 89.6       | 85.0       | 60.5  | 81.9            | 315       |
+| Rec         | 76.6       | 76.6       | 45.2  | 86.4            | 201       |
+| Speed       | 78.0       | 77.0       | 32.6  | 92.2            | 130       |
+| No-Penlift  | 77.8       | 73.4       | 31.5  | 100             | 151       |
+| No-Overdraw | 80.2       | 77.6       | 50.8  | 56.4            | 60        |
+| Physics     | 67.9       | 57.2       | 61.0  | 74.7            | 190       |
+
+Testen auf QuickDraw Datenset | 1000 Tests
+
+| \hline ~    | Sim $[\%]$ | Rec $[\%]$ | Speed | Drawtime $[\%]$ | Overdrawn |
+|-------------|------------|------------|-------|-----------------|-----------|
+| Base        | 81.8       | 93.7       | 56.5  | 73.9            | 227       |
+| Rec         | 71.6       | 82.4       | 42.3  | 84.1            | 157.9     |
+| Speed       | 74.5       | 85.7       | 29.5  | 89.3            | 93        |
+| No-Penlift  | 72.7       | 84.4       | 28.1  | 99.0            | 114       |
+| No-Overdraw | 78.8       | 89.2       | 44.3  | 62.8            | 57        |
+| Physics     | 60.3       | 74.5       | 59.5  | 66.7            | 144       |
+
+#### Generative KI
+
+Testen der Softmax Variation | 1000 Tests
+
+|       | Rec $[\%]$ | Speed | Drawtime $[\%]$ |
+|-------|------------|-------|-----------------|
+| Null  | 90.0       | 20.9  | 85.7            |
+| Zwei  | 92.9       | 16.6  | 84.1            |
+| Acht  | 83.9       | 37.6  | 75.4            |
+| F     | 92.8       | 19.2  | 84.8            |
+| Blume | 94.8       | 50.9  | 75.7            |
+
+Testen der Random-Noise Variation | 1000 Tests
+
+|       | Rec $[\%]$ | Speed | Drawtime $[\%]$ |
+|-------|------------|-------|-----------------|
+| Null  | 99.4       | 15.7  | 91.0            |
+| Zwei  | 100        | 13.4  | 91.6            |
+| Acht  | 99.4       | 17.0  | 93.0            |
+| F     | 97.9       | 20.7  | 77.3            |
+| Blume | 99.1       | 61.8  | 73.6            |
 
 ## Benutzungsanleitung
 
@@ -73,13 +118,12 @@ um die Python Requirements zu installieren.
 
 
 ### Ausführen
-Die Basis-Version ist im Ordner `src` zu finden. Die Physik basierte Version ist
-im Ordner `src_physics` zu finden.
+Der Source Code ist im Ordner `src` zu finden.
 
-Zum **Trainieren** kann man die Datei `nn_train.py` ausführen. Der Parameter
+Zum **Trainieren** kann man die Datei `train.py` ausführen. Der Parameter
 `-h` zeigt noch weitere Konfigurationsmöglichkeiten an.
 
-Zum **Testen** kann man die Datei `nn_test.py` ausführen. Auch hier kann `-h`
+Zum **Testen** kann man die Datei `test.py` ausführen. Auch hier kann `-h`
 weitere Konfigurationsmöglichkeiten anzeigen.
 
 ## Zitierung
