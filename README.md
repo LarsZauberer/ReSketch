@@ -72,7 +72,7 @@ Testen auf EMNIST Letters Datenset | 1000 Tests
 
 Testen auf QuickDraw Datenset | 1000 Tests
 
-| \hline ~    | Sim [%] | Rec [%] | Speed | Drawtime [%] | Overdrawn |
+|             | Sim [%] | Rec [%] | Speed | Drawtime [%] | Overdrawn |
 |-------------|------------|------------|-------|-----------------|-----------|
 | Base        | 81.8       | 93.7       | 56.5  | 73.9            | 227       |
 | Rec         | 71.6       | 82.4       | 42.3  | 84.1            | 157.9     |
