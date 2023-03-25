@@ -11,7 +11,7 @@ Variationen und Ansätzen (siehe \ref{chap:m_var}). Die Variationen sind
 dabei Versuche, die Leistung der KI zu maximieren oder ihr Verhalten zu
 verändern. Ein spezielle Variation, die sich dabei von der ursprünglichen
 Absicht entfernt, ist die Umwandlung in eine generative KI, die nicht mehr
-Nachzeichnet und stattdessen eigene Zeichnungen ohne eine Vorlage kreiert (siehe
+nachzeichnet und stattdessen eigene Zeichnungen ohne eine Vorlage kreiert (siehe
 \ref{chap:m_gen}).
 
 
@@ -203,7 +203,7 @@ der Modelle stammt aus einem online Machine Learning Tutorial \cite{dataflair_ha
 \subsection{Geschwindigkeit}\label{sub:m_eval_speed} Dieses Kriterium
 beschreibt, wie schnell die Zeichnung der KI fertig ist. Der Wert des Kriteriums
 entspricht dabei der Anzahl Steps bis zur Fertigstellung. Der Punkt der
-Fertigstellung ist dabei, bei der letzten zeichnenden Action des Agents
+Fertigstellung ist bei der letzten zeichnenden Action des Agents
 definiert. Falls der Agent nach dem Zeichnen weiterhin nicht zeichnende Actions
 ausführt, so werden diese nicht zu der Zeichnung gezählt, weil diese nicht
 beeinflusst wird. Tiefere Werte in diesem Kriterium entsprechen einer höheren
@@ -419,7 +419,7 @@ Channel des neuronalen Netzes (siehe \ref{sub:t_ml_nn}), wo der
 nachzeichnenden KI das Bild der Vorlage gegeben wird, hat die generative KI ein
 vollkommen schwarzes Bild (Alle Werte der Bitmap sind $0$). Der Channel für die
 Vorlage wird nicht entfernt, weil während dem Training der generativen KI zu
-einem gewissen Anteil trotzdessen Aufgabe eine Vorlage des gewünschten Motivs
+einem gewissen Anteil trotz dessen Aufgabe eine Vorlage des gewünschten Motivs
 gegeben wird. Die Wahrscheinlichkeit, dass für eine Episode der KI eine Vorlage
 gezeigt wird, sinkt dabei linear über das Training hinweg von $1$ auf $0.25$. Zu
 Beginn des Trainings unterscheidet sich die generative KI somit nicht von der
