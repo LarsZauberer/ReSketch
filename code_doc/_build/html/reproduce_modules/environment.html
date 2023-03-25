@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>environment module &mdash; ReSketch AI 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> ReSketch AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">environment module</a><ul>
+<li><a class="reference internal" href="#environment.Environment"><code class="docutils literal notranslate"><span class="pre">Environment</span></code></a><ul>
+<li><a class="reference internal" href="#environment.Environment.agent_is_done"><code class="docutils literal notranslate"><span class="pre">Environment.agent_is_done()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.compare_render"><code class="docutils literal notranslate"><span class="pre">Environment.compare_render()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.gradient_render"><code class="docutils literal notranslate"><span class="pre">Environment.gradient_render()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.illegal_actions"><code class="docutils literal notranslate"><span class="pre">Environment.illegal_actions()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.move_isLegal"><code class="docutils literal notranslate"><span class="pre">Environment.move_isLegal()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.predict_mnist"><code class="docutils literal notranslate"><span class="pre">Environment.predict_mnist()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.render"><code class="docutils literal notranslate"><span class="pre">Environment.render()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.reset"><code class="docutils literal notranslate"><span class="pre">Environment.reset()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.reward"><code class="docutils literal notranslate"><span class="pre">Environment.reward()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.set_agentPos"><code class="docutils literal notranslate"><span class="pre">Environment.set_agentPos()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.speed_reward"><code class="docutils literal notranslate"><span class="pre">Environment.speed_reward()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.step"><code class="docutils literal notranslate"><span class="pre">Environment.step()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.translate_action"><code class="docutils literal notranslate"><span class="pre">Environment.translate_action()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.update_colmap"><code class="docutils literal notranslate"><span class="pre">Environment.update_colmap()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.update_distmap"><code class="docutils literal notranslate"><span class="pre">Environment.update_distmap()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.update_patch"><code class="docutils literal notranslate"><span class="pre">Environment.update_patch()</span></code></a></li>
+<li><a class="reference internal" href="#environment.Environment.update_stepmap"><code class="docutils literal notranslate"><span class="pre">Environment.update_stepmap()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment.drawline"><code class="docutils literal notranslate"><span class="pre">drawline()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ReSketch AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">environment module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reproduce_modules/environment.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-environment">
+<span id="environment-module"></span><h1>environment module<a class="headerlink" href="#module-environment" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="environment.Environment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">environment.</span></span><span class="sig-name descname"><span class="pre">Environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sidelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patchsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">referenceData</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_render</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.agent_is_done">
+<span class="sig-name descname"><span class="pre">agent_is_done</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">done_accuracy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recognition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.agent_is_done" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.compare_render">
+<span class="sig-name descname"><span class="pre">compare_render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.compare_render" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.gradient_render">
+<span class="sig-name descname"><span class="pre">gradient_render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.gradient_render" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.illegal_actions">
+<span class="sig-name descname"><span class="pre">illegal_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">illegal_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.illegal_actions" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.move_isLegal">
+<span class="sig-name descname"><span class="pre">move_isLegal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.move_isLegal" title="Permalink to this definition"></a></dt>
+<dd><p>move_isLegal Check if an action is legel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>action</strong> (<em>list</em>) – The action to validate</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Wether it is legal or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.predict_mnist">
+<span class="sig-name descname"><span class="pre">predict_mnist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.predict_mnist" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Gradient'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.render" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.reset" title="Permalink to this definition"></a></dt>
+<dd><p>reset Reset the canvas to the initial state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns an array with the inital state maps</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.reward">
+<span class="sig-name descname"><span class="pre">reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decrementor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rec_reward</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_decrement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">without_rec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.reward" title="Permalink to this definition"></a></dt>
+<dd><p>reward Calculate the reward based on gained similarity and length of step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The reward value</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.set_agentPos">
+<span class="sig-name descname"><span class="pre">set_agentPos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.set_agentPos" title="Permalink to this definition"></a></dt>
+<dd><p>set_agentPos Sets the agent to a new position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pos</strong> (<em>list</em>) – Koordinates of the new position</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.speed_reward">
+<span class="sig-name descname"><span class="pre">speed_reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.speed_reward" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decrementor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rec_reward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_decrement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">without_rec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.step" title="Permalink to this definition"></a></dt>
+<dd><p>step execute a timestep. Creates a new canvas state in account of the action
+index input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent_action</strong> (<em>int</em>) – the index of the action to be executed</p></li>
+<li><p><strong>n_step</strong> (<em>int</em>) – number of the current step</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the data of the environment after the timestep (observation for the agent). It is containing an np array with
+<cite>reference</cite>, <cite>canvas</cite>, <cite>distmap</cite> and <cite>colmap</cite> another np array with
+<cite>ref_patch</cite> and <cite>canvas_patch</cite> and an int with the <cite>reward</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.translate_action">
+<span class="sig-name descname"><span class="pre">translate_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.translate_action" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.update_colmap">
+<span class="sig-name descname"><span class="pre">update_colmap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.update_colmap" title="Permalink to this definition"></a></dt>
+<dd><p>update_colmap Calculate a new colmap
+The colmap tells the agent if he is drawing or not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.update_distmap">
+<span class="sig-name descname"><span class="pre">update_distmap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.update_distmap" title="Permalink to this definition"></a></dt>
+<dd><p>update_distmap Calculate a new distmap
+The distmap tells the agent as a heatmap where he is.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.update_patch">
+<span class="sig-name descname"><span class="pre">update_patch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.update_patch" title="Permalink to this definition"></a></dt>
+<dd><p>update_patch Calculate a local input patch of the agent
+The local patch is a concentrated smaller part of the canvas</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="environment.Environment.update_stepmap">
+<span class="sig-name descname"><span class="pre">update_stepmap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#environment.Environment.update_stepmap" title="Permalink to this definition"></a></dt>
+<dd><p>update_colmap Calculate a new colmap
+The colmap tells the agent if he is drawing or not</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="environment.drawline">
+<span class="sig-prename descclassname"><span class="pre">environment.</span></span><span class="sig-name descname"><span class="pre">drawline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setpos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#environment.drawline" title="Permalink to this definition"></a></dt>
+<dd><p>drawline Draw a line on a specified canvas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>setpos</strong> (<em>list</em>) – The starting position of the line</p></li>
+<li><p><strong>pos</strong> (<em>list</em>) – The ending position of the line</p></li>
+<li><p><strong>canvas</strong> (<em>np.array</em>) – The canvas on which the line should be drawn</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The canvas with the line drawn</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Ian Wasser, Robin Steiner.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
