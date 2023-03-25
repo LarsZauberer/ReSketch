@@ -85,6 +85,10 @@
 natbib=true]{biblatex}
 \usepackage{cleveref}
 \usepackage[babel, german=quotes]{csquotes}
+\usepackage{datetime}
+\newcommand{\code}[1]{\texttt{#1}}
+\lstset{extendedchars=\true}
+\lstset{inputencoding=utf8}
 \addbibresource{refs.bib}
 
 % Our configs
@@ -100,14 +104,15 @@ natbib=true]{biblatex}
 \renewcommand\cite{\citep}
 
 \selectlanguage{ngerman}
+\newdateformat{dateFormat}{\THEDAY{. }\monthnamengerman[\THEMONTH], \THEYEAR}
 %% Document information
 %% ====================
 
-\title{ReSketch AI}
+\title{ReSketch AI: Zeichnen mit Deep Reinforcement Learning}
 \author{Ian Wasser, Robin Steiner}
-\thesistype{Maturarbeit}
-\advisors{Betreut durch: Nicolas Ruh \\ Zweitbeurteilung: Dieter Koch}
-\date{11. Oktober 2022}
+\thesistype{Wettbewerbsarbeit für Schweizer Jugend forscht}
+\advisors{Betreut durch: Nicolas Ruh \\ Zweitbeurteilung: Dieter Koch \\ Externe Betreuung durch: Dr. Michael Tschannen}
+\date{\dateFormat\today}
 
 \begin{document}
 
