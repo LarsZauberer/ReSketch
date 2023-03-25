@@ -1,2 +1,0 @@
-model_checkpoint_path: "deepqnet.ckpt"
-all_model_checkpoint_paths: "deepqnet.ckpt"

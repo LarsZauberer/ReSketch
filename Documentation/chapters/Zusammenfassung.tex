@@ -1,50 +1,57 @@
 \chapter{Zusammenfassung}\label{zusammenfassung}
-Diese Untersuchung beantwortet die Frage, inwiefern eine künstliche Intelligenz
-Strichbilder auf eine physische Weise nachzeichnen kann, sodass diese durch ein
-automatisches System erkannt werden. Mit Strichbildern sind in diesem
-Fall Ziffern aus dem MNIST Datenset, Buchstaben aus dem EMNIST Letters Datenset und
-weitere Motive aus dem QuickDraw Datenset gemeint.
+
+Diese Arbeit untersucht, ob eine KI Vorlagen von Strichbildern wie Zahlen,
+Buchstaben und andere einfache Zeichnungen so nachzeichnen kann, dass ein
+zeichnender Roboter prinzipiell durch die KI bedienbar wäre. Eine weiterführende
+Frage untersucht die Möglichkeiten einer generativen künstliche Intelligenz, die
+selbstständig, ohne eine Vorlage, Strichbilder zeichnen kann.
  
-Zur Beantwortung der Fragestellung wird der Begriff des Nachzeichnens definiert.
-Zu der Definition gehören die Rahmenbedingungen, nach denen eine Tätigkeit als
-Nachzeichnen gilt, und die Kriterien, welche die Leistung im Nachzeichnen
-beurteilen. Zu den Rahmenbedingungen gehören unter anderem die physischen
-Einschränkungen und die ausführbaren Aktionen der KI. Um die Leistung der KI im
-Nachzeichnen zu bewerten, sind drei Kriterien definiert: Die Übereinstimmung der
-Pixel, die Erkennbarkeit der Zeichnung und die Geschwindigkeit des Zeichnens.
-Die Erkennbarkeit der Zeichnung wird durch eine zweite künstliche Intelligenz
-ermittelt.
+Um die Fragestellungen zu beantworten, werden die entsprechenden künstlichen
+Intelligenzen unter der Verwendung von Deep Q-Learning und einem Convolutional
+Neural Network (CNN) in Python mit der Keras API entwickelt. Die nachzeichnende
+KI lernt in einer Umgebung, wo sie sich wie ein virtueller Stift auf einer
+Zeichenfläche bewegt und dabei Bilder von handgeschriebenen Ziffern aus dem
+MNIST Datenset nachzeichnet. Die KI lernt aus Bewertungen ihrer Stiftbewegungen.
+Die Bewertungen basieren auf fünf quantitativen Kriterien. Beispiele für die
+Kriterien sind die prozentuale Übereinstimmung zwischen der Vorlage und dem
+nachgezeichneten Bild, die Geschwindigkeit und die Erkennbarkeit, die mit einer
+weiteren klassifizierenden künstlichen Intelligenz bestimmt wird. Die Werte in
+diesen Kriterien machen die Ergebnisse dieser Arbeit aus. Die generative KI
+erlernt zu Beginn des Trainings mit entsprechenden Vorlagen das Nachzeichnen des
+gewünschten Strichbildes. Erst im späteren Verlauf des Trainings wird der KI
+immer seltener eine Vorlage gezeigt, bis diese vollkommen selbstständig
+zeichnet. Wenn die KI ohne eine Vorlage zeichnet, erfährt diese durch die
+Einschätzung eines klassifizierenden Machine Learning Modells, ob die eigene
+Zeichnung erkennbar ist.
+
+Die nachzeichnende KI erreicht eine Übereinstimmung von $90\%$ zwischen der
+Vorlage und dem nachgezeichneten Bild und stellt die Zeichnungen mit
+durchschnittlich $20$ Bewegungen fertig. Die KI erzielt dabei eine vergleichbare
+Leistung für verschiedene Typen von Strichbildern, obwohl diese nur auf das
+Nachzeichnen von Zahlen trainiert ist. Die generative KI zeichnet das gewünschte
+Strichbild in $90$ bis $100$ Prozent der Fälle so nach, dass die Zeichnung für eine
+passende klassifizierende KI erkennbar ist.
+
+Die Ergebnisse sprechen dafür, dass die nachzeichnende KI erlernt, Strichbilder
+nach den vordefinierten Kriterien nachzuzeichnen. Die Strichbilder müssen
+allerdings von einem bestimmten Format sein und für andere Kriterien des
+Zeichnens erlaubt die KI keine Aussage. Die Bewegungen der KI sind ausserdem
+simuliert und somit nicht physisch. Trotzdem ist durch die beschränkte Freiheit
+der Bewegungen ein zeichnender Roboter durch sie bedienbar. Die Ergebnisse der
+generativen KI zeigen, dass eine künstliche Intelligenz auch selbstständig
+zeichnen kann, sofern diese im Training Beispiele des gewünschten Motivs gesehen
+hat und das Nachzeichnen von diesen Motiven bereits erlernt hat. Die Leistung
+der generativen KI ist allerdings direkt abhängig von der Zuverlässigkeit der
+klassifizierenden KI. Falsche Einschätzungen der Zeichnungen beeinflussen die
+generative KI negativ, selbst wenn diese selten vorkommen.
  
-Mit der Definition lautet das Ziel, eine künstliche Intelligenz zu entwickeln, welche die gesetzten
-Rahmenbedingungen erfüllt und eine möglichst gute Leistung nach den definierten
-Kriterien erzielt. Bei der grundsätzlichen Architektur der KI handelt es sich um
-ein Deep Q-Learning Modell, das auf der Arbeit hinter `Doodle-SDQ'
-\cite{zhou_learning_2018} basiert.
- 
-Für die Rahmenbedingungen gibt es zwei Ansätze: Eine Grundumgebung und eine
-physikalische Umgebung. In der Grundumgebung kann sich die KI schrittweise um
-eine begrenzte Anzahl Pixel auf einer simulierten Zeichenfläche fortbewegen.
-Ausserdem startet die KI in einer zufälligen Position auf der Zeichenfläche. Die
-physikalische Umgebung ist von simulierter Physik begleitet. So kann die KI
-durch Beschleunigungen ihre aktuelle Geschwindigkeit anpassen und sich dadurch
-fortbewegen. Dabei wird die KI durch simulierte Reibung kontinuierlich
-abgebremst.
- 
-Für die KI existieren weitere Variationen, die dessen Leistung nach einem
-bestimmten Kriterium verbessern sollen. So existiert ein spezifisches Training
-auf eine verbesserte Erkennbarkeit und Geschwindigkeit der KI. Durch
-Kombinationen der Variationen und der Rahmenbedingungen existieren
-schlussendlich acht Versionen der künstlichen Intelligenz.
- 
-Die acht Versionen der künstlichen Intelligenz sind alle auf das Nachzeichnen
-von Ziffern trainiert. Ein Experiment bestimmt, ob diese Versionen das
-Nachzeichnen allgemein erlernen. Die Leistung der Versionen wird auf das
-Nachzeichnen von Strichbildern aus dem Quickdraw und dem EMNIST Letters Datenset
-gemessen. Wenn die Leistung für diese Strichbilder vergleichbar bleibt mit der
-Leistung für die Trainingsdaten, ermöglicht das eine positive Antwort für
-die Fragestellung.
- 
-Einige Versionen der künstlichen Intelligenz zeigen hierbei vielversprechende
-Ergebnisse. Die Grundversion, ohne weitere Variationen, zeichnet in $87\%$ der
-Fälle eine erkennbare Ziffer, in $75\%$ der Fälle einen erkennbaren Buchstaben,
-und in $80\%$ der Fälle ein erkennbares Motiv aus dem QuickDraw Datenset.
+Die nachzeichnende KI kann beliebige Strichbilder nachzeichnen. Diese
+Strichbilder sind allerdings klein, schwarzweiss und begrenzt detailliert.
+Mit einem vielseitigeren Format könnte die KI für verschiedene Anwendungen, die
+einen Nachzeichenprozess benötigen, verwendet werden. Dazu gehört unter anderem
+die Umwandlung von Rastergrafiken in Vektorgrafiken. Die generative KI zeichnet
+aus eigenem Antrieb und entwickelt so gewissermassen eine eigene Handschrift.
+Mit dem Training auf Schriftstücke einer ausgewählten Person wäre diese KI
+durchaus dazu in der Lage, die Handschrift dieser Person nachzuahmen.
+Schlussendlich beschreibt diese Arbeit zwei künstliche Intelligenzen mit grossem
+Entwicklungspotenzial.

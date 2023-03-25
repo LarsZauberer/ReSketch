@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nn_agent module &mdash; ReSketch AI 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> ReSketch AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">nn_agent module</a><ul>
+<li><a class="reference internal" href="#nn_agent.Agent"><code class="docutils literal notranslate"><span class="pre">Agent</span></code></a><ul>
+<li><a class="reference internal" href="#nn_agent.Agent.choose_action"><code class="docutils literal notranslate"><span class="pre">Agent.choose_action()</span></code></a></li>
+<li><a class="reference internal" href="#nn_agent.Agent.learn"><code class="docutils literal notranslate"><span class="pre">Agent.learn()</span></code></a></li>
+<li><a class="reference internal" href="#nn_agent.Agent.load_models"><code class="docutils literal notranslate"><span class="pre">Agent.load_models()</span></code></a></li>
+<li><a class="reference internal" href="#nn_agent.Agent.save_models"><code class="docutils literal notranslate"><span class="pre">Agent.save_models()</span></code></a></li>
+<li><a class="reference internal" href="#nn_agent.Agent.store_transition"><code class="docutils literal notranslate"><span class="pre">Agent.store_transition()</span></code></a></li>
+<li><a class="reference internal" href="#nn_agent.Agent.update_graph"><code class="docutils literal notranslate"><span class="pre">Agent.update_graph()</span></code></a></li>
+<li><a class="reference internal" href="#nn_agent.Agent.update_speedreward"><code class="docutils literal notranslate"><span class="pre">Agent.update_speedreward()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nn_agent.DeepQNetwork"><code class="docutils literal notranslate"><span class="pre">DeepQNetwork</span></code></a><ul>
+<li><a class="reference internal" href="#nn_agent.DeepQNetwork.build_network"><code class="docutils literal notranslate"><span class="pre">DeepQNetwork.build_network()</span></code></a></li>
+<li><a class="reference internal" href="#nn_agent.DeepQNetwork.load_checkpoint"><code class="docutils literal notranslate"><span class="pre">DeepQNetwork.load_checkpoint()</span></code></a></li>
+<li><a class="reference internal" href="#nn_agent.DeepQNetwork.save_checkpoint"><code class="docutils literal notranslate"><span class="pre">DeepQNetwork.save_checkpoint()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ReSketch AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">nn_agent module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reproduce_modules/nn_agent.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-nn_agent">
+<span id="nn-agent-module"></span><h1>nn_agent module<a class="headerlink" href="#module-nn_agent" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="nn_agent.Agent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nn_agent.</span></span><span class="sig-name descname"><span class="pre">Agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_input_dims</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_input_dims</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.Agent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.Agent.choose_action">
+<span class="sig-name descname"><span class="pre">choose_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">global_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">illegal_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replay_fill</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.Agent.choose_action" title="Permalink to this definition"></a></dt>
+<dd><p>choose_action Agent should choose an action from the action_space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>global_state</strong> (<em>np.array</em>) – The whole canvas</p></li>
+<li><p><strong>local_state</strong> (<em>np.array</em>) – The small patch of the canvas</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Index of the action the agent wants to take</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.Agent.learn">
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.Agent.learn" title="Permalink to this definition"></a></dt>
+<dd><p>learn the Training of The agent/network. Based on deep Q-learning</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.Agent.load_models">
+<span class="sig-name descname"><span class="pre">load_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.Agent.load_models" title="Permalink to this definition"></a></dt>
+<dd><p>load_models Load the Networks</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.Agent.save_models">
+<span class="sig-name descname"><span class="pre">save_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.Agent.save_models" title="Permalink to this definition"></a></dt>
+<dd><p>save_models Save the Networks</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.Agent.store_transition">
+<span class="sig-name descname"><span class="pre">store_transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">global_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_gloabal_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_local_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">illegal_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.Agent.store_transition" title="Permalink to this definition"></a></dt>
+<dd><p>store_transition Save the next step to the replay buffer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>global_state</strong> (<em>np.array</em>) – The global state of the canvas</p></li>
+<li><p><strong>local_state</strong> (<em>np.array</em>) – The small patch of the canvas</p></li>
+<li><p><strong>next_gloabal_state</strong> (<em>np.array</em>) – The next state of the whole canvas</p></li>
+<li><p><strong>next_local_state</strong> (<em>np.array</em>) – The next state of the small patch of the canvas</p></li>
+<li><p><strong>action</strong> (<em>int</em>) – The number representing the action the Agent took</p></li>
+<li><p><strong>reward</strong> (<em>float</em>) – The reward the agent got</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.Agent.update_graph">
+<span class="sig-name descname"><span class="pre">update_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.Agent.update_graph" title="Permalink to this definition"></a></dt>
+<dd><p>update_graph Update the q_next Network. Set it to the weights of the q_eval network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.Agent.update_speedreward">
+<span class="sig-name descname"><span class="pre">update_speedreward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reward</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.Agent.update_speedreward" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nn_agent.DeepQNetwork">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nn_agent.</span></span><span class="sig-name descname"><span class="pre">DeepQNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_actions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_input_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_input_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fc1_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.DeepQNetwork" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.DeepQNetwork.build_network">
+<span class="sig-name descname"><span class="pre">build_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.DeepQNetwork.build_network" title="Permalink to this definition"></a></dt>
+<dd><p>build_network Generate a keras DeepQNetwork. The model will be saved in the self.dqn variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.DeepQNetwork.load_checkpoint">
+<span class="sig-name descname"><span class="pre">load_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.DeepQNetwork.load_checkpoint" title="Permalink to this definition"></a></dt>
+<dd><p>load_checkpoint Load a network checkpoint from the file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nn_agent.DeepQNetwork.save_checkpoint">
+<span class="sig-name descname"><span class="pre">save_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nn_agent.DeepQNetwork.save_checkpoint" title="Permalink to this definition"></a></dt>
+<dd><p>save_checkpoint Save a network checkpoint to the file</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Ian Wasser, Robin Steiner.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
