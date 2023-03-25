@@ -22,7 +22,7 @@ Zeichnungen der KI mit einem Klassifizierungsmodell bewertet. Mit einem
 spezifischen Training dieser generativen KI können verschiedene Handschriften
 emuliert werden.
 
-[Vollständige Dokumentation](https://github.com/LarsZauberer/Nachzeichner-KI/releases/download/1.0/Maturarbeit_IanWasser_RobinSteiner.pdf)
+[Vollständige Dokumentation](https://github.com/LarsZauberer/ReSketch/releases/download/2.0/ReSketchIanWasserRobinSteiner.pdf)
 
 ## Resultate
 ### Bilder
