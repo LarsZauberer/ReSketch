@@ -145,7 +145,8 @@ def generative_test(args):
     scores = generative_test_env(
         env=env,
         agent=agent,
-        n_episodes=args.test
+        n_episodes=args.test,
+        args=args
         )
 
     # process Results
@@ -170,6 +171,7 @@ if __name__ == "__main__":
     parser.add_argument("-sm", "--softmax", help="Run the NN with Softmax activation", action="store_true", default=False)
     parser.add_argument("-np", "--noisyPixel", help="Run the NoisyPixel version", action="store_true", default=False)
     parser.add_argument("-gm", "--genMotive", help="generative Motive", action="store", default=2)
+    parser.add_argument("-ndt", help="No draw image threashold. What is the step minimum to get added to the final image list.", action="store", type=int, default=12)
     parser.add_argument("--debug", help="Verbose for the logging", action="store_true", default=False)
     args = parser.parse_args()
     

@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import ImageGrid
 from matplotlib import cm, colors
+import logging
 
 def generate_image(images, columns=2):
         num = len(images)
@@ -46,7 +47,9 @@ def generate_image(images, columns=2):
 
 
 def generate_generative_image(images, columns=3):
+    log = logging.getLogger("Image_Generator")
     num = len(images)
+    log.debug(f"Number of images: {num}")
     rows = int(num/columns)
     
 

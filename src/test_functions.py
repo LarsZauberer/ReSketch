@@ -94,7 +94,7 @@ def test_env(env, agent, data, n_episodes, n_steps=64, t_vis: bool = True):
 
 
 @critical
-def generative_test_env(env, agent, n_episodes, n_steps=64):
+def generative_test_env(env, agent, n_episodes, n_steps=64, args=None):
     #initialize
     predict = Predictor(mnist=True, emnist=True, quickdraw=True)
 
@@ -163,7 +163,8 @@ def generative_test_env(env, agent, n_episodes, n_steps=64):
         if last_step == 0: drawratio_scores.append(0)
         else: drawratio_scores.append(drawratio/last_step)
         if episode == curInd:
-            if last_step > 12:
+            assert args is not None
+            if last_step > args.ndt:
                 images.append(env.gradient_render()[1])
             curInd = next(image_indexes)
                 
